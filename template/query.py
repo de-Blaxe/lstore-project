@@ -1,5 +1,6 @@
 from template.table import Table, Record
 from template.index import Index
+from template.config import *
 
 
 class Query:
@@ -25,6 +26,13 @@ class Query:
 
     def insert(self, *columns):
         schema_encoding = '0' * self.table.num_columns
+        # Error checking: does the key already exist
+        # Find spot before generating RID
+        # Generate RID for record
+        # Check if all base pages have enough space to fit new insert
+        # If not, create new base pages
+        # page_row should be the row/offset that the record is in
+        new_RID = bytearray(page_size*Table.total_num_pages) + bytearray(page_row)
         pass
 
     """

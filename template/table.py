@@ -15,7 +15,7 @@ class Record:
         self.columns = columns
 
 class Table:
-
+    total_num_pages = 0
     """
     :param name: string         #Table name
     :param num_columns: int     #Number of Columns: all columns are integer
