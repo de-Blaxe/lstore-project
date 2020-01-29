@@ -14,6 +14,7 @@ class Record:
         self.key = key
         self.columns = columns
 
+
 class Table:
     total_num_pages = 0
     """
@@ -25,9 +26,15 @@ class Table:
         self.name = name
         self.key = key
         self.num_columns = num_columns
-        self.page_directory = {}
+        self.page_collections = [{}]
+        # Valid RIDs start at 1
+        self.RID_counter = 0
+        self.last_RID_used = 0
         pass
 
     def __merge(self):
         pass
- 
+
+    def check_page_space(self, data_size = 8):
+        for page_collection in self.page_collections:
+            page_collection[self.last_RID_used]

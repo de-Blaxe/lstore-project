@@ -14,6 +14,6 @@ class Page:
     def write(self, value):
         self.num_records += 1
         # assuming the value is always 64 bits and all values are non-negative
-        self.data = self.data[:self.first_unused_byte] + value.to_bytes(8, 'little') + self.data[self.first_unused_byte + 8:]
-        self.first_unused_byte += 9
+        self.data = self.data[:self.first_unused_byte] + value.to_bytes(data_size, 'little') + self.data[self.first_unused_byte + data_size:]
+        self.first_unused_byte += data_size + 1
 

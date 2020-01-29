@@ -27,12 +27,16 @@ class Query:
     def insert(self, *columns):
         schema_encoding = '0' * self.table.num_columns
         # Error checking: does the key already exist
-        # Find spot before generating RID
+        # Find spot for data/ generate RID based on spot
+        #   case 1: There is space on the last page
+        #   case 2: Generate a new page
+        if len(self.table.page_directory) == 0 or  :
+
         # Generate RID for record
         # Check if all base pages have enough space to fit new insert
         # If not, create new base pages
         # page_row should be the row/offset that the record is in
-        new_RID = bytearray(page_size*Table.total_num_pages) + bytearray(page_row)
+
         pass
 
     """
