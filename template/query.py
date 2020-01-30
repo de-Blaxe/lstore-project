@@ -2,7 +2,6 @@ from template.table import Table, Record
 from template.index import Index
 from template.config import *
 
-
 class Query:
     """
     # Creates a Query object that can perform different queries on the specified table 
@@ -25,12 +24,17 @@ class Query:
     """
 
     def insert(self, *columns):
-        schema_encoding = '0' * self.table.num_columns
+        schema_encoding = 0 * self.table.num_columns
+        # write the record to a base page
+        self.table.RID_counter += 1
+        record = Record(rid=self.table.RID_counter, key=self.table.key, columns=columns)
+        self.table.write_to_basePage(record, schema_encoding)
+
         # Error checking: does the key already exist
         # Find spot for data/ generate RID based on spot
         #   case 1: There is space on the last page
         #   case 2: Generate a new page
-        if len(self.table.page_directory) == 0 or  :
+        #if len(self.table.page_directory) == 0 or  :
 
         # Generate RID for record
         # Check if all base pages have enough space to fit new insert
