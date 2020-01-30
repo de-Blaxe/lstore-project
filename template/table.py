@@ -37,4 +37,6 @@ class Table:
 
     def check_page_space(self, data_size = 8):
         for page_collection in self.page_collections:
-            page_collection[self.last_RID_used]
+            if page_collection[self.last_RID_used].has_capacity(data_size) is False:
+                return False
+        return True
