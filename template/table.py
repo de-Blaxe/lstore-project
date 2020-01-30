@@ -24,10 +24,11 @@ class Table:
     :param key: int             #Index of table key in columns
     """
     def __init__(self, name, num_columns, key):
+
         self.name = name
         self.key = key
         self.num_columns = num_columns
-        self.page_directory = {}
+        self.page_directory = [{}] * (num_columns + INIT_COLS)
 
         # IDEA: Let the key be a base page number and the values are lists of lists that define its corresponding pages
         # so 5 columns have 5 pages inside base page number 1
@@ -36,51 +37,37 @@ class Table:
         # Time for inserts = ~0.15 seconds
         self.page_collections = {}
         self.base_page_count = 1
-        # Valid RIDs start at 1
-        self.RID_counter = 0
+        # Valid RIDs start at 0
+        self.RID_counter = -1
+        self.last_RID_used = -1
 
     def __merge(self):
         pass
 
-    def check_page_space(self, data_size = 8):
-        for page_collection in self.page_collections:
-            if page_collection[self.last_RID_used].has_capacity(data_size) is False:
+    def check_page_space(self, rid = None, data_size = 8,):
+        '''
+        for column_pages in self.page_directory:
+            if column_pages[self.last_RID_used].has_capacity(data_size) is False:
                 return False
-        return True
-            page_collection[self.last_RID_used]
+        '''
+        return rid % PAGE_CAPACITY != 0
 
     def write_to_basePage(self, record, schema_encoding):
         # Check for initial case (creation of table) or for capacity of page
-        if len(self.page_collections) == 0 or record.rid % PAGE_CAPACITY == 0:
-            self.page_collections[self.base_page_count] = [[] for _ in range(self.num_columns + INIT_COLS)]
-            self.base_page_count += 1
-       
-        # Check if indirection column exists
-        # If the condition is true it indicates that none of the columns have values in them so we can initialize all metadata
-        if not self.page_collections[self.base_page_count-1][INDIRECTION_COLUMN]:
-            # indirection column is set to NULL for inserts
-            self.page_collections[self.base_page_count-1][INDIRECTION_COLUMN] = Page()
-            # RID column is initialized
-            self.page_collections[self.base_page_count-1][RID_COLUMN] = Page()
-            # Timestamp column is initialized
-            self.page_collections[self.base_page_count-1][TIMESTAMP_COLUMN] = Page()
-            # Schema encoding column is initialized
-            self.page_collections[self.base_page_count-1][SCHEMA_ENCODING_COLUMN] = Page() 
-        
+        #
+        if self.last_RID_used == -1 or not self.check_page_space(record.rid):
+            for RID_to_column_page in self.page_directory:
+                RID_to_column_page[record.rid] = Page()
+
         # write to RID column
-        self.page_collections[self.base_page_count-1][RID_COLUMN].write(record.rid)
+        self.page_directory[RID_COLUMN][record.rid].write(record.rid)
         # write to Timestamp column
-        self.page_collections[self.base_page_count-1][TIMESTAMP_COLUMN].write(int(time()))
+        self.page_directory[TIMESTAMP_COLUMN][record.rid].write(int(time()))
         # write to Schema encoding column
-        self.page_collections[self.base_page_count-1][SCHEMA_ENCODING_COLUMN].write(schema_encoding)
+        self.page_directory[SCHEMA_ENCODING_COLUMN][record.rid].write(schema_encoding)
        
         # Create an offset for columns that contain the actual data
         column_offset = INIT_COLS
         for column in record.columns:
-            # Check if the column exists, if it doesnt, create a page, else just insert
-            if not self.page_collections[self.base_page_count-1][column_offset]:
-                self.page_collections[self.base_page_count-1][column_offset] = Page()
-            
-            # write to page
-            self.page_collections[self.base_page_count-1][column_offset].write(column)
+            self.page_directory[column_offset][record.rid].write(column)
             column_offset += 1 
