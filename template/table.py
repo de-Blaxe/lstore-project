@@ -28,7 +28,7 @@ class Table:
         self.name = name
         self.key = key
         self.num_columns = num_columns
-        self.page_directory = [dict() for _ in range(self.num_columns + INIT_COLS)]
+        self.page_directory = dict()
 
         # IDEA: Let the key be a base page number and the values are lists of lists that define its corresponding pages
         # so 5 columns have 5 pages inside base page number 1
@@ -53,26 +53,22 @@ class Table:
         return rid % PAGE_CAPACITY != 0
 
     def write_to_basePage(self, record, schema_encoding):
+        if self.last_RID_used == -1 or not self.check_page_space(record.rid):
+            self.page_directory[record.rid] = [Page() for _ in range(self.num_columns + INIT_COLS)]
+        else:
+            self.page_directory[record.rid] = self.page_directory[self.last_RID_used]
 
-        for RID_to_column_page in self.page_directory:
-            # Check for initial case (creation of table) or for capacity of page
-            if self.last_RID_used == -1 or not self.check_page_space(record.rid):
-                RID_to_column_page[record.rid] = (Page(), 0)
-            else:
-                page = RID_to_column_page[self.last_RID_used][0]
-                RID_to_column_page[record.rid] = (page, page.first_unused_byte)
-
+        cur_record_pages = self.page_directory[record.rid]
         # write to RID column
-        self.page_directory[RID_COLUMN][record.rid][0].write(record.rid)
+        cur_record_pages[1].write(record.rid)
         # write to Timestamp column
-        self.page_directory[TIMESTAMP_COLUMN][record.rid][0].write(int(time()))
+        cur_record_pages[2].write(int(time()))
         # write to Schema encoding column
-        self.page_directory[SCHEMA_ENCODING_COLUMN][record.rid][0].write(schema_encoding)
-       
-        # Create an offset for columns that contain the actual data
-        column_offset = INIT_COLS
-        for column in record.columns:
-            self.page_directory[column_offset][record.rid][0].write(column)
-            column_offset += 1
+        cur_record_pages[3].write(schema_encoding)
+
+        i = INIT_COLS
+        while i < (INIT_COLS + self.num_columns):
+            cur_record_pages[i].write(record.columns[i-INIT_COLS])
+            i += 1
 
         self.last_RID_used = record.rid
