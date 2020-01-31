@@ -26,8 +26,10 @@ class Query:
     def insert(self, *columns):
         schema_encoding = 0 * self.table.num_columns
         # write the record to a base page
-        self.table.RID_counter += 1
-        record = Record(rid=self.table.RID_counter, key=self.table.key, columns=columns)
+        self.table.RID_counter += 1 
+        baseID = self.table.RID_counter
+        record = Record(rid=baseID, key=None, columns=columns)
+
         self.table.write_to_basePage(record, schema_encoding)
 
         # Error checking: does the key already exist
@@ -41,8 +43,6 @@ class Query:
         # If not, create new base pages
         # page_row should be the row/offset that the record is in
 
-        pass
-
     """
     # Read a record with specified key
     """
@@ -55,7 +55,14 @@ class Query:
     """
 
     def update(self, key, *columns):
-        pass
+        # Determine schema encoding
+        schema_encoding = list(map(lambda i: int(not(i is None)), columns))
+        # Make new tail record
+        record = Record(rid=self.table.TID_counter, key=self.table.key, columns=columns)
+        # Write record to tail page
+        self.table.write_to_tailPage(record, schema_encoding)
+        self.table.TID_counter -= 1
+
 
     """
     :param start_range: int         # Start of the key range to aggregate 

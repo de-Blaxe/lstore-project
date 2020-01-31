@@ -35,16 +35,18 @@ class Table:
         # a new base page with new pages are created after every 512 records
         # This way page dir only needs to map RID to page number and offset
         # Time for inserts = ~0.15 seconds
-        self.page_collections = {}
-        self.base_page_count = 1
+        
         # Valid RIDs start at 0
-        self.RID_counter = -1
+        self.RID_counter = -1 # TODO: Change name to BIDs (start from 0)
+        self.TID_counter = 2**64
+
         self.last_RID_used = -1
+        self.last_TID_used = -1
 
     def __merge(self):
         pass
 
-    def check_page_space(self, rid = None, data_size = 8,):
+    def check_page_space(self, rid = None, data_size = 8):
         '''
         for column_pages in self.page_directory:
             if column_pages[self.last_RID_used].has_capacity(data_size) is False:
@@ -58,13 +60,14 @@ class Table:
         else:
             self.page_directory[record.rid] = self.page_directory[self.last_RID_used]
 
+        # make alias
         cur_record_pages = self.page_directory[record.rid]
         # write to RID column
-        cur_record_pages[1].write(record.rid)
+        cur_record_pages[RID_COLUMN].write(record.rid)
         # write to Timestamp column
-        cur_record_pages[2].write(int(time()))
+        cur_record_pages[TIMESTAMP_COLUMN].write(int(time()))
         # write to Schema encoding column
-        cur_record_pages[3].write(schema_encoding)
+        cur_record_pages[SCHEMA_ENCODING_COLUMN].write(schema_encoding)
 
         i = INIT_COLS
         while i < (INIT_COLS + self.num_columns):
@@ -72,3 +75,51 @@ class Table:
             i += 1
 
         self.last_RID_used = record.rid
+
+    def write_to_tailPage(self, record, schema_encoding):
+        if self.last_TID_used == -1 or not self.check_page_space(record.rid):
+            self.page_directory[record.rid] = [Page() for _ in range(self.num_columns + INIT_COLS)]
+        else:
+            self.page_directory[record.rid] = self.page_directory[self.last_TID_used]
+
+        # make alias
+        cur_record_pages = self.page_directory[record.rid]
+        
+        # update specified columns
+        i = INIT_COLS
+        while i < (INIT_COLS + self.num_columns):
+            if record.columns[i-INIT_COLS] is not None:
+                cur_record_pages[i].write(record.columns[i-INIT_COLS])
+            else: # insert default values
+                cur_record_pages[i].write(0)
+            i += 1
+
+        # write to Indirection column
+        # linear search a subset of pages for matching basePage
+        base_indirection = 0
+        for baseID in range(self.RID_counter):
+            byte_pos = baseID % PAGE_CAPACITY * data_size
+            pages = self.page_directory[baseID]
+            page_data = pages[self.key].data         
+            target = int.from_bytes(page_data[byte_pos:byte_pos+data_size], byteorder="little")
+            if target == record.key:
+               # update indirection column for base record
+               prev_tid = pages[INDIRECTION_COLUMN].data[byte_pos:byte_pos+data_size]
+               # check if it's the first update to a record
+               # a) if true: tail record's indirection => base record's RID & 
+               page_data = pages[SCHEMA_ENCODING_COLUMN].data
+               
+               if not int.from_bytes(page_data[byte_pos:byte_pos+data_size], byteorder="little"):
+                   self.page_directory[record.rid][INDIRECTION_COLUMN].write(baseID)
+               # b) else: "" => previous tail record's TID (not the first time record has been updated)
+               else:
+                   cur_record_pages[INDIRECTION_COLUMN].write(prev_tid, byte_pos)
+
+        # write to RID column
+        cur_record_pages[RID_COLUMN].write(record.rid)
+        # write to Timestamp column
+        cur_record_pages[TIMESTAMP_COLUMN].write(int(time()))
+        # write to Schema encoding column
+        cur_record_pages[SCHEMA_ENCODING_COLUMN].write(schema_encoding)
+
+        self.last_TID_used = record.rid
