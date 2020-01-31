@@ -53,21 +53,26 @@ class Table:
         return rid % PAGE_CAPACITY != 0
 
     def write_to_basePage(self, record, schema_encoding):
-        # Check for initial case (creation of table) or for capacity of page
-        #
-        if self.last_RID_used == -1 or not self.check_page_space(record.rid):
-            for RID_to_column_page in self.page_directory:
-                RID_to_column_page[record.rid] = Page()
+
+        for RID_to_column_page in self.page_directory:
+            # Check for initial case (creation of table) or for capacity of page
+            if self.last_RID_used == -1 or not self.check_page_space(record.rid):
+                RID_to_column_page[record.rid] = (Page(), 0)
+            else:
+                page = RID_to_column_page[self.last_RID_used][0]
+                RID_to_column_page[record.rid] = (page, page.first_unused_byte)
 
         # write to RID column
-        self.page_directory[RID_COLUMN][record.rid].write(record.rid)
+        self.page_directory[RID_COLUMN][record.rid][0].write(record.rid)
         # write to Timestamp column
-        self.page_directory[TIMESTAMP_COLUMN][record.rid].write(int(time()))
+        self.page_directory[TIMESTAMP_COLUMN][record.rid][0].write(int(time()))
         # write to Schema encoding column
-        self.page_directory[SCHEMA_ENCODING_COLUMN][record.rid].write(schema_encoding)
+        self.page_directory[SCHEMA_ENCODING_COLUMN][record.rid][0].write(schema_encoding)
        
         # Create an offset for columns that contain the actual data
         column_offset = INIT_COLS
         for column in record.columns:
-            self.page_directory[column_offset][record.rid].write(column)
-            column_offset += 1 
+            self.page_directory[column_offset][record.rid][0].write(column)
+            column_offset += 1
+
+        self.last_RID_used = record.rid
