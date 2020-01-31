@@ -28,7 +28,7 @@ class Table:
         self.name = name
         self.key = key
         self.num_columns = num_columns
-        self.page_directory = [{}] * (num_columns + INIT_COLS)
+        self.page_directory = [dict() for _ in range(self.num_columns + INIT_COLS)]
 
         # IDEA: Let the key be a base page number and the values are lists of lists that define its corresponding pages
         # so 5 columns have 5 pages inside base page number 1
