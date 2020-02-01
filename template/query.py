@@ -24,14 +24,15 @@ class Query:
     """
 
     def insert(self, *columns):
+        # Create a new Record instance
         schema_encoding = 0 * self.table.num_columns
-        # write the record to a base page
-        self.table.RID_counter += 1 
-        baseID = self.table.RID_counter
+        self.table.LID_counter += 1 
+        baseID = self.table.LID_counter
         record = Record(rid=baseID, key=None, columns=columns)
-
+        # Write new record to a base page
         self.table.write_to_basePage(record, schema_encoding)
 
+        # IDEAS:
         # Error checking: does the key already exist
         # Find spot for data/ generate RID based on spot
         #   case 1: There is space on the last page
@@ -57,12 +58,11 @@ class Query:
     def update(self, key, *columns):
         # Determine schema encoding
         schema_encoding = list(map(lambda i: int(not(i is None)), columns))
-        # Make new tail record
+        # Create a new Record instance
         record = Record(rid=self.table.TID_counter, key=self.table.key, columns=columns)
-        # Write record to tail page
+        # Write tail record to tail page
         self.table.write_to_tailPage(record, schema_encoding)
         self.table.TID_counter -= 1
-
 
     """
     :param start_range: int         # Start of the key range to aggregate 

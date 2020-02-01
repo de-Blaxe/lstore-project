@@ -1,13 +1,10 @@
-# Global Setting for the Database
-# PageSize, StartRID, etc..
+# Global Settings for the Database
 
-page_size = 4096
+## Byte-based
+PAGE_SIZE = 4096
+DATA_SIZE = 8
 
-# declaring a constant so we know what to change once data size becomes variable
-data_size = 8
-
+## Previous Ideas:
 # new_RID = self.num_records + (page_size * num_pages)
-# or
 # row_location: str
-
 # new_RID = str(page_size*num_pages) + str(row_location)
