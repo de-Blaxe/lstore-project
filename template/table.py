@@ -1,6 +1,7 @@
 from template.page import *
 from time import time
 from template.config import *
+from template.index import *
 
 class Record:
 
@@ -22,6 +23,7 @@ class Table:
         self.key_index = key_index
         self.num_columns = num_columns
         self.page_directory = dict()
+        self.indexer = Index()
         
         # IDEA
         # self.indexer = Index(num_columns, key) # but change parameters of Index constructor
@@ -66,6 +68,7 @@ class Table:
             cur_record_pages[i].write(record.columns[i-INIT_COLS])
             i += 1
 
+        self.indexer.insert(record.key, record.rid)
         self.last_LID_used = record.rid
 
     def write_to_tailPage(self, record, schema_encoding):
@@ -118,6 +121,8 @@ class Table:
         cur_record_pages[TIMESTAMP_COLUMN].write(int(time()))
         # Write to Schema encoding column
         cur_record_pages[SCHEMA_ENCODING_COLUMN].write(schema_encoding)
+        self.page_directory[]
+        self.indexer.update()
 
         self.last_TID_used = record.rid
 
