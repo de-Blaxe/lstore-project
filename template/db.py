@@ -16,10 +16,10 @@ class Database():
     # Creates a new table
     :param name: string         #Table name
     :param num_columns: int     #Number of Columns: all columns are integer
-    :param key: int             #Index of table key in columns
+    :param key_index: int             #Index of table key in columns
     """
-    def create_table(self, name, key, num_columns):
-        table = Table(name, key, num_columns)
+    def create_table(self, name, key_index, num_columns):
+        table = Table(name, key_index, num_columns)
         return table
 
     """

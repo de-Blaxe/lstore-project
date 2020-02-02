@@ -28,7 +28,8 @@ class Query:
         schema_encoding = 0 * self.table.num_columns
         self.table.LID_counter += 1 
         baseID = self.table.LID_counter
-        record = Record(rid=baseID, key=None, columns=columns)
+        record = Record(rid=baseID, key=columns[self.table.key_index], columns=columns) 
+		# NOTE: Change from key=None to key=columns[self.table.key_index] (key value indirectly given)
         # Write new record to a base page
         self.table.write_to_basePage(record, schema_encoding)
 
@@ -49,6 +50,11 @@ class Query:
     """
 
     def select(self, key, query_columns):
+		## IDEAS:
+        # if sum(query_columns) != 0: ## At least one non-empty query
+        #     self.table.read_pages(key, query_columns)
+        # else: ## Do nothing
+        #     pass
         pass
 
     """
@@ -59,7 +65,8 @@ class Query:
         # Determine schema encoding
         schema_encoding = list(map(lambda i: int(not(i is None)), columns))
         # Create a new Record instance
-        record = Record(rid=self.table.TID_counter, key=self.table.key, columns=columns)
+        record = Record(rid=self.table.TID_counter, key=key, columns=columns) 
+		# NOTE: Change key=key (key value directly given as arg)
         # Write tail record to tail page
         self.table.write_to_tailPage(record, schema_encoding)
         self.table.TID_counter -= 1

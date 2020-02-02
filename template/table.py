@@ -21,13 +21,16 @@ class Table:
     """
     :param name: string         #Table name
     :param num_columns: int     #Number of Columns: all columns are integer
-    :param key: int             #Index of table key in columns
+    :param key_index: int       #Index of table.key_index in columns
     """
-    def __init__(self, name, num_columns, key):
+    def __init__(self, name, num_columns, key_index): # NOTE: Renamed key to key_index
         self.name = name
-        self.key = key
+        self.key_index = key_index
         self.num_columns = num_columns
         self.page_directory = dict()
+        
+        # IDEA
+        # self.indexer = Index(num_columns, key) # but change parameters of Index constructor
 
         self.LID_counter = -1 # Used to increment LIDs
         self.TID_counter = 2**64 - 1 # Used to decrement TIDs 
@@ -78,7 +81,7 @@ class Table:
         else: # Recycle recently used tail page
             self.page_directory[record.rid] = self.page_directory[self.last_TID_used]
 
-        #TODO: Check if rid exists already in page directory -> error
+        #TODO: Check if rid exists already in page directory
 
         # Make alias for the current record's set of pages
         cur_record_pages = self.page_directory[record.rid]
@@ -97,17 +100,17 @@ class Table:
             # Make aliases
             byte_pos = baseID % PAGE_CAPACITY * DATA_SIZE
             pages = self.page_directory[baseID]
-            page_data = pages[self.key].data         
-            target = int.from_bytes(page_data[byte_pos:byte_pos+DATA_SIZE], byteorder="little")
+            page_data = pages[INIT_COLS + self.key_index].data
+            base_key = int.from_bytes(page_data[byte_pos:byte_pos+DATA_SIZE], byteorder="little")
             # Matching basePage for record found
-            if target == record.key:
+            if base_key == record.key:
                page_data = pages[SCHEMA_ENCODING_COLUMN].data
                prev_tid = pages[INDIRECTION_COLUMN].data[byte_pos:byte_pos+DATA_SIZE]
                # Check if record is being updated for 1st time
                #     True:  tail record's indirection => base record's RID
                #     False: tail record's indirection => previous tail record's TID
                base_entry = int.from_bytes(page_data[byte_pos:byte_pos+DATA_SIZE], byteorder="little")
-               if not base_entry:
+               if not base_entry: # Empty/default entry
                    self.page_directory[record.rid][INDIRECTION_COLUMN].write(baseID, byte_pos)
                else:
                    cur_record_pages[INDIRECTION_COLUMN].write(prev_tid, byte_pos)
@@ -121,3 +124,6 @@ class Table:
         cur_record_pages[SCHEMA_ENCODING_COLUMN].write(schema_encoding)
 
         self.last_TID_used = record.rid
+
+    def read_pages(self, key, query_columns):
+        pass
