@@ -1,12 +1,6 @@
 from template.page import *
 from time import time
-
-INDIRECTION_COLUMN = 0
-RID_COLUMN = 1
-TIMESTAMP_COLUMN = 2
-SCHEMA_ENCODING_COLUMN = 3
-INIT_COLS = 4
-PAGE_CAPACITY = 512
+from template.config import *
 
 class Record:
 
@@ -96,6 +90,7 @@ class Table:
             i += 1
 
         # (Linear) Search thru a subset of basePages for correct basePage
+        '''
         for baseID in range(self.LID_counter):
             # Make aliases
             byte_pos = baseID % PAGE_CAPACITY * DATA_SIZE
@@ -115,6 +110,7 @@ class Table:
                else:
                    cur_record_pages[INDIRECTION_COLUMN].write(prev_tid, byte_pos)
                break
+        '''
 
         # Write to RID column
         cur_record_pages[RID_COLUMN].write(record.rid)
