@@ -42,7 +42,9 @@ for i in range(0, 10000):
     query.select(choice(keys), [1, 1, 1, 1, 1])
 select_time_1 = process_time()
 print("Selecting 10k records took:  \t\t\t", select_time_1 - select_time_0)
+"""
 
+"""
 # Measuring Aggregate Performance
 agg_time_0 = process_time()
 for i in range(0, 10000, 100):

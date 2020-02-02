@@ -30,7 +30,7 @@ update_cols = [123, 87, None, None, None]
 
 update_time_0 = process_time()
 for i in range(0, 2):
-    query.update(keys, *update_cols)
+    query.update(keys[i], *update_cols)
 update_time_1 = process_time()
 print("Updating two records took:  \t\t\t", update_time_1 - update_time_0)
 

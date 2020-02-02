@@ -4,6 +4,8 @@
 PAGE_SIZE = 4096
 DATA_SIZE = 8
 
+INVALID_RECORD = -1
+
 ## Previous Ideas:
 # new_RID = self.num_records + (page_size * num_pages)
 # row_location: str

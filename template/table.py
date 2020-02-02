@@ -23,15 +23,13 @@ class Table:
     :param num_columns: int     #Number of Columns: all columns are integer
     :param key_index: int       #Index of table.key_index in columns
     """
-    def __init__(self, name, num_columns, key_index): # NOTE: Renamed key to key_index
+    def __init__(self, name, num_columns, key_index):
         self.name = name
         self.key_index = key_index
         self.num_columns = num_columns
         self.page_directory = dict()
+        self.record_directory = dict()
         
-        # IDEA
-        # self.indexer = Index(num_columns, key) # but change parameters of Index constructor
-
         self.LID_counter = -1 # Used to increment LIDs
         self.TID_counter = 2**64 - 1 # Used to decrement TIDs 
 
@@ -49,6 +47,9 @@ class Table:
                 return False
         '''
         return rid % PAGE_CAPACITY != 0
+
+    def modify_record_dir(self, record):
+        self.record_directory[record.rid] = record
 
     def write_to_basePage(self, record, schema_encoding):
         if self.last_LID_used == -1 or not self.check_page_space(record.rid):
@@ -125,5 +126,17 @@ class Table:
 
         self.last_TID_used = record.rid
 
+# TODO get rid of record_directory and modify_record_dir
+# TODO store each record's byte_pos in page directory too
     def read_pages(self, key, query_columns):
+        # Base case: Check if a record exists with matching key
+        # NOTE: Index.locate() should return RIDs (invalid RIDs: -1)
+        # rid_found = self.indexer.locate(key)
+        # if rid_found != INVALID_RECORD: 
+        #     for itr in len(query_columns):
+        #         if query_columns[itr]: # Read current column
+        #             page = self.page_directory[rid_found][INIT_COLS + itr]
+        #             
+        # else:
+        # Return [] # empty list, no record exists with given key
         pass
