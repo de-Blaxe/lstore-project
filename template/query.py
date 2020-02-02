@@ -55,7 +55,8 @@ class Query:
         #     self.table.read_pages(key, query_columns)
         # else: ## Do nothing
         #     pass
-        pass
+        records = self.table.indexer
+
 
     """
     # Update a record with specified key and columns

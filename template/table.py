@@ -121,9 +121,9 @@ class Table:
         cur_record_pages[TIMESTAMP_COLUMN].write(int(time()))
         # Write to Schema encoding column
         cur_record_pages[SCHEMA_ENCODING_COLUMN].write(schema_encoding)
-        self.page_directory[]
-        self.indexer.update()
-
+        new_key = record.columns[self.key_index]
+        if new_key is not None:
+            self.indexer.unique_update(record.key, new_key)
         self.last_TID_used = record.rid
 
     def read_pages(self, key, query_columns):

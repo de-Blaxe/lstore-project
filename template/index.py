@@ -34,26 +34,26 @@ class Index:
     def get_positions(self, key_val):
         output = []
         tuple_first = lambda x: x[0]
-        key_index = map(tuple_first, self.index)
+        key_index = list(map(tuple_first, self.index))
         try:
-            found_index = bisect.bisect(key_index, key_val)
+            found_index = bisect.bisect_left(key_index, key_val)
         except ValueError:
             return []
         else:
             output.append(self.index[found_index][1])
             i = found_index - 1
-            while found_index >= 0 and self.index[found_index][0] == key_val:
+            while i >= 0 and self.index[i][0] == key_val:
                 output.append(self.index[found_index][1])
                 i -= 1
             i = found_index + 1
-            while found_index < len(key_index) and self.index[found_index][0] == key_val:
+            while i < len(key_index) and self.index[i][0] == key_val:
                 output.append(self.index[found_index][1])
                 i += 1
             return output
 
     def insert(self, key, val):
         tuple_first = lambda x: x[0]
-        key_index = map(tuple_first, self.index)
+        key_index = list(map(tuple_first, self.index))
         try:
             found_index = bisect.bisect(key_index, key)
         except ValueError:
@@ -62,16 +62,22 @@ class Index:
             self.index.insert(found_index, (key, val))
             return
 
+    '''
+    This doesn't make any sense
+    
     def update(self, key, val, new_key):
         candidates = self.get_positions(key)
         record_position = filter(lambda x: self.index[x][1] == val, candidates)[0]
         self.index[record_position] = (new_key, val)
+    '''
 
     def unique_update(self, key, new_key):
-        candidates = self.get_positions(key)
-        # candidates must be of length 1 if the key is unique
-        record_position = candidates[0]
-        self.index[record_position][0] = new_key
+        # list of matching keys must be of length 1 if the key is unique
+        record_position = self.get_positions(key)[0]
+        base_rid = self.index[record_position][1]
+        self.index = self.index[:record_position] + self.index[record_position + 1:]
+        self.insert(new_key, base_rid)
+
     """
     # optional: Create index on specific column
     """
