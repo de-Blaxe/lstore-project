@@ -27,8 +27,7 @@ class Table:
         
         # IDEA
         # self.indexer = Index(num_columns, key) # but change parameters of Index constructor
-
-        self.LID_counter = -1 # Used to increment LIDs
+        self.LID_counter = 0 # Used to increment LIDs
         self.TID_counter = 2**64 - 1 # Used to decrement TIDs 
 
         # Keep track of available base and tail pages
@@ -92,6 +91,7 @@ class Table:
                 cur_record_pages[i].write(0)
             i += 1
 
+
         # (Linear) Search thru a subset of basePages for correct basePage
         '''
         for baseID in range(self.LID_counter):
@@ -114,8 +114,21 @@ class Table:
                    cur_record_pages[INDIRECTION_COLUMN].write(prev_tid, byte_pos)
                break
         '''
+        try:
+            baseID = self.indexer.get_positions(record.key)[0]
+        except IndexError:
+            print("Key not found")
+            raise KeyError
+        except:
+            # Update indirection column
+            byte_pos = baseID % PAGE_CAPACITY * DATA_SIZE
+            base_pages = self.page_directory[baseID]
+            prev_tid = base_pages[INDIRECTION_COLUMN].data[byte_pos:byte_pos + DATA_SIZE]
+            schema_data = base_pages[SCHEMA_ENCODING_COLUMN].data
+            base_entry = int.from_bytes(schema_data[byte_pos:byte_pos + DATA_SIZE], byteorder="little")
+            cur_record_pages[INDIRECTION_COLUMN].write(prev_tid if base_entry else baseID)
+            base_pages[INDIRECTION_COLUMN].write(record.rid, byte_pos)
 
-        # Write to RID column
         cur_record_pages[RID_COLUMN].write(record.rid)
         # Write to Timestamp column
         cur_record_pages[TIMESTAMP_COLUMN].write(int(time()))
@@ -126,5 +139,44 @@ class Table:
             self.indexer.unique_update(record.key, new_key)
         self.last_TID_used = record.rid
 
-    def read_pages(self, key, query_columns):
-        pass
+    def get_latest(self, baseIDs):
+        if isinstance(baseIDs, int):
+            baseIDs = list(baseIDs)
+        return [int.from_bytes(self.page_directory[baseID][INDIRECTION_COLUMN].data
+                                [(baseID % PAGE_CAPACITY * DATA_SIZE):(baseID % PAGE_CAPACITY * DATA_SIZE)+DATA_SIZE],
+                               'little'
+                               )
+                if (int.from_bytes(self.page_directory[baseID][INDIRECTION_COLUMN].data
+                                    [(baseID % PAGE_CAPACITY * DATA_SIZE):(baseID % PAGE_CAPACITY * DATA_SIZE)+DATA_SIZE],
+                                    'little'
+                                    ) != 0) else baseID
+                for baseID in baseIDs]
+        '''
+        Translation:
+            for baseID in baseIDs:
+                # we want to get the value in the indirection column
+                byte_pos = baseID % PAGE_CAPACITY * DATA_SIZE
+                TID = int.from_bytes(self.page_directory[baseID][INDIRECTION_COLUMN][byte_pos:byte_pos+DATA_SIZE])
+        '''
+
+    def read_records(self, key, query_columns):
+        records = self.indexer.get_positions(key)
+        latest_records = self.get_latest(records)
+        return [Record(rid, key, [int.from_bytes(enumerated_page[1].data
+                                                 [rid % PAGE_CAPACITY * DATA_SIZE:rid % PAGE_CAPACITY * DATA_SIZE + 8],
+                                                 'little'
+                                                 )
+                                  if bool(query_columns[enumerated_page[0]]) else None
+                                  for enumerated_page in enumerate(self.page_directory[rid][INIT_COLS:])])
+                for rid in latest_records]
+        '''
+        for rid in latest_records:
+            data = []
+            for enumerated_page in enumerated(self.page_directory[rid][INIT_COLS:])
+                byte_pos = rid % PAGE_CAPACITY * DATA_SIZE
+                if bool(query_columns[enumerated_page[0]]):
+                    data.append(int.from_bytes(enumerated_page[1][byte_pos:byte_pos + 8], 'little'))
+                else:
+                    data.append(None)
+            output.append(Record(rid, key, data))   
+        '''

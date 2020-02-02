@@ -40,14 +40,14 @@ class Index:
         except ValueError:
             return []
         else:
-            output.append(self.index[found_index][1])
+            output.append(found_index)
             i = found_index - 1
             while i >= 0 and self.index[i][0] == key_val:
-                output.append(self.index[found_index][1])
+                output.append(i)
                 i -= 1
             i = found_index + 1
             while i < len(key_index) and self.index[i][0] == key_val:
-                output.append(self.index[found_index][1])
+                output.append(i)
                 i += 1
             return output
 

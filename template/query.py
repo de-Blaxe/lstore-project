@@ -50,12 +50,7 @@ class Query:
     """
 
     def select(self, key, query_columns):
-		## IDEAS:
-        # if sum(query_columns) != 0: ## At least one non-empty query
-        #     self.table.read_pages(key, query_columns)
-        # else: ## Do nothing
-        #     pass
-        records = self.table.indexer
+        return self.table.read_records(key, query_columns)
 
 
     """
@@ -66,6 +61,7 @@ class Query:
         # Determine schema encoding
         schema_encoding = list(map(lambda i: int(not(i is None)), columns))
         # Create a new Record instance
+        assert key is not None
         record = Record(rid=self.table.TID_counter, key=key, columns=columns) 
 		# NOTE: Change key=key (key value directly given as arg)
         # Write tail record to tail page
