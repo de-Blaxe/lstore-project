@@ -179,6 +179,12 @@ class Table:
         print("baseIDs in get latest = ", baseIDs)
         return rid_output
 
+    def get_previous(self, tailID):
+        rid_output = []
+        byte_pos = abs(tailID - (2 ** 64 - 1)) % PAGE_CAPACITY * DATA_SIZE
+        previous_RID = int.from_bytes(self.page_directory[tailID][INDIRECTION_COLUMN].data[byte_pos:byte_pos+DATA_SIZE], 'little')
+        return previous_RID
+
 
     def read_records(self, key, query_columns):
         records = [self.indexer.index[index_position][1] for index_position in self.indexer.get_positions(key)]
@@ -221,9 +227,8 @@ class Table:
                     if rid < self.TID_counter or bool(int(schema[i])):
                         data[i] = int.from_bytes(page.data[byte_pos:byte_pos + 8], 'little')
                         columns_not_retrieved.discard(i)
-
                 # get rid from indirection column (if rid is a tail?)
-                pass
+                rid = self.get_previous(rid)
             '''for i, page in enumerate(self.page_directory[rid][INIT_COLS:]):
                 # rid may be a base or a tail id
                 # Tail id counts backwards so a single byte_pos formula won't work
