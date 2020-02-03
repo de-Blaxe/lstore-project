@@ -121,11 +121,12 @@ class Table:
                break
         '''
         try:
-            baseID = self.indexer.get_positions(record.key)[0]
+            index_position = self.indexer.get_positions(record.key)[0]
+            baseID = self.indexer.index[index_position][1]
         except IndexError:
             print("Key not found")
             raise KeyError
-        except:
+        else:
             # Update indirection column
             byte_pos = (baseID-1) % PAGE_CAPACITY * DATA_SIZE
             base_pages = self.page_directory[baseID]
@@ -138,7 +139,12 @@ class Table:
 		# Write to rest of metadata columns
         cur_record_pages[RID_COLUMN].write(record.rid)
         cur_record_pages[TIMESTAMP_COLUMN].write(int(time()))
-        cur_record_pages[SCHEMA_ENCODING_COLUMN].write(schema_encoding)
+        # Wrote schema_encoding incorrectly
+        schema_encoding_string = ''
+        for bit in schema_encoding:
+            schema_encoding_string += str(bit)
+        schema_encoding_bytes = int(schema_encoding_string).to_bytes(8, 'little')
+        cur_record_pages[SCHEMA_ENCODING_COLUMN].write(schema_encoding_bytes)
         
         new_key = record.columns[self.key_index]
         if new_key is not None:
@@ -177,6 +183,8 @@ class Table:
     def read_records(self, key, query_columns):
         records = [self.indexer.index[index_position][1] for index_position in self.indexer.get_positions(key)]
         latest_records = self.get_latest(records)
+        output = []
+        '''
         return [Record(rid, key, [int.from_bytes(enumerated_page[1].data
                                                  [(rid- 1) % PAGE_CAPACITY * DATA_SIZE:(rid - 1) % PAGE_CAPACITY * DATA_SIZE + 8],
                                                  'little'
@@ -187,14 +195,26 @@ class Table:
         '''
         for rid in latest_records:
             data = []
-            for enumerated_page in enumerate(self.page_directory[rid][INIT_COLS:])
-                byte_pos = rid % PAGE_CAPACITY * DATA_SIZE
-                if bool(query_columns[enumerated_page[0]]):
-                    data.append(int.from_bytes(enumerated_page[1][byte_pos:byte_pos + 8], 'little'))
+            for i, page in enumerate(self.page_directory[rid][INIT_COLS:]):
+                # rid may be a base or a tail id
+                # Tail id counts backwards so a single byte_pos formula won't work
+                if rid > self.TID_counter:
+                    byte_pos = abs(rid-(2**64 - 1)) % PAGE_CAPACITY * DATA_SIZE
+                else:
+                    byte_pos = (rid-1) % PAGE_CAPACITY * DATA_SIZE
+                schema = self.page_directory[rid][SCHEMA_ENCODING_COLUMN].data[byte_pos:byte_pos + DATA_SIZE]
+                schema = str(int.from_bytes(schema,'little'))
+                # leading zeros are lost in integer conversion
+                # pad with zeros
+                if len(schema) < self.num_columns:
+                    schema = '0'*(self.num_columns - len(schema)) + schema
+                # TODO: retrieve values from older records if they aren't in the newest
+                if bool(query_columns[i]) and (rid < self.TID_counter or bool(int(schema[i]))):
+                    data.append(int.from_bytes(page.data[byte_pos:byte_pos + 8], 'little'))
                 else:
                     data.append(None)
-            output.append(Record(rid, key, data))   
-        '''
+            output.append(Record(rid, key, data))
+        return output
 
     def collect_values(self, start_range, end_range, col_index):
         total = 0
