@@ -146,8 +146,11 @@ class Table:
         self.last_TID_used = record.rid
 
     def get_latest(self, baseIDs):
+        rid_output = []
         if isinstance(baseIDs, int):
             baseIDs = list(baseIDs)
+
+        """
         return [int.from_bytes(self.page_directory[baseID][INDIRECTION_COLUMN].data
                                 [(baseID % PAGE_CAPACITY * DATA_SIZE):(baseID % PAGE_CAPACITY * DATA_SIZE)+DATA_SIZE],
                                'little'
@@ -157,13 +160,19 @@ class Table:
                                     'little'
                                     ) != 0) else baseID
                 for baseID in baseIDs]
-        '''
-        Translation:
-            for baseID in baseIDs:
-                # we want to get the value in the indirection column
-                byte_pos = baseID % PAGE_CAPACITY * DATA_SIZE
-                TID = int.from_bytes(self.page_directory[baseID][INDIRECTION_COLUMN][byte_pos:byte_pos+DATA_SIZE])
-        '''
+        """
+        for baseID in baseIDs:
+            # we want to get the value in the indirection column
+            byte_pos = baseID % PAGE_CAPACITY * DATA_SIZE
+            TID = int.from_bytes(self.page_directory[baseID][INDIRECTION_COLUMN].data[byte_pos:byte_pos+DATA_SIZE], 'little')
+            if TID == 0:
+                rid_output.append(baseID)
+            else:
+                rid_output.append(TID)
+        
+        print("baseIDs in get latest = ", baseIDs)
+        return rid_output
+
 
     def read_records(self, key, query_columns):
         records = self.indexer.get_positions(key)
