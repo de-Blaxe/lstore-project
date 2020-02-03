@@ -61,7 +61,11 @@ class Table:
 		# Write to metadata columns
         cur_record_pages[RID_COLUMN].write(record.rid)
         cur_record_pages[TIMESTAMP_COLUMN].write(int(time()))
-        cur_record_pages[SCHEMA_ENCODING_COLUMN].write(schema_encoding)
+        schema_encoding_string = ''
+        for bit in schema_encoding:
+            schema_encoding_string += str(bit)
+        schema_encoding_int = int(schema_encoding_string)
+        cur_record_pages[SCHEMA_ENCODING_COLUMN].write(schema_encoding_int)
 
         # Write to User Data column(s)
         i = INIT_COLS
@@ -127,14 +131,21 @@ class Table:
             print("Key not found")
             raise KeyError
         else:
-            # Update indirection column
+            # Update indirection column and scheme data
             byte_pos = (baseID-1) % PAGE_CAPACITY * DATA_SIZE
             base_pages = self.page_directory[baseID]
-            prev_tid = base_pages[INDIRECTION_COLUMN].data[byte_pos:byte_pos + DATA_SIZE]
+            prev_tid = int.from_bytes(base_pages[INDIRECTION_COLUMN].data[byte_pos:byte_pos + DATA_SIZE],'little')
             schema_data = base_pages[SCHEMA_ENCODING_COLUMN].data
             base_entry = int.from_bytes(schema_data[byte_pos:byte_pos + DATA_SIZE], byteorder="little")
             cur_record_pages[INDIRECTION_COLUMN].write(prev_tid if base_entry else baseID)
             base_pages[INDIRECTION_COLUMN].write(record.rid, byte_pos)
+            base_schema_string = str(base_entry)
+            if len(base_schema_string) < self.num_columns:
+                base_schema_string = '0' * (self.num_columns - len(base_schema_string)) + base_schema_string
+            updated_base_schema = ''
+            for i in range(len(base_schema_string)):
+                updated_base_schema += '1' if schema_encoding[i] == 1 else base_schema_string[i]
+            base_pages[SCHEMA_ENCODING_COLUMN].write(int(updated_base_schema), byte_pos)
 
 		# Write to rest of metadata columns
         cur_record_pages[RID_COLUMN].write(record.rid)
@@ -143,8 +154,8 @@ class Table:
         schema_encoding_string = ''
         for bit in schema_encoding:
             schema_encoding_string += str(bit)
-        schema_encoding_bytes = int(schema_encoding_string).to_bytes(8, 'little')
-        cur_record_pages[SCHEMA_ENCODING_COLUMN].write(schema_encoding_bytes)
+        schema_encoding_int = int(schema_encoding_string)
+        cur_record_pages[SCHEMA_ENCODING_COLUMN].write(schema_encoding_int)
         
         new_key = record.columns[self.key_index]
         if new_key is not None:

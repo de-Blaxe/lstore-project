@@ -25,7 +25,7 @@ class Query:
 
     def insert(self, *columns):
         # Create a new Record instance
-        schema_encoding = 0 * self.table.num_columns
+        schema_encoding = [0] * self.table.num_columns
         self.table.LID_counter += 1 
         baseID = self.table.LID_counter
         record = Record(rid=baseID, key=columns[self.table.key_index], columns=columns) 
