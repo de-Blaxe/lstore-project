@@ -127,7 +127,7 @@ class Table:
             raise KeyError
         except:
             # Update indirection column
-            byte_pos = baseID % PAGE_CAPACITY * DATA_SIZE
+            byte_pos = (baseID-1) % PAGE_CAPACITY * DATA_SIZE
             base_pages = self.page_directory[baseID]
             prev_tid = base_pages[INDIRECTION_COLUMN].data[byte_pos:byte_pos + DATA_SIZE]
             schema_data = base_pages[SCHEMA_ENCODING_COLUMN].data
@@ -163,7 +163,7 @@ class Table:
         """
         for baseID in baseIDs:
             # we want to get the value in the indirection column
-            byte_pos = baseID % PAGE_CAPACITY * DATA_SIZE
+            byte_pos = (baseID - 1) % PAGE_CAPACITY * DATA_SIZE
             TID = int.from_bytes(self.page_directory[baseID][INDIRECTION_COLUMN].data[byte_pos:byte_pos+DATA_SIZE], 'little')
             if TID == 0:
                 rid_output.append(baseID)
@@ -175,10 +175,10 @@ class Table:
 
 
     def read_records(self, key, query_columns):
-        records = self.indexer.get_positions(key)
+        records = [self.indexer.index[index_position][1] for index_position in self.indexer.get_positions(key)]
         latest_records = self.get_latest(records)
         return [Record(rid, key, [int.from_bytes(enumerated_page[1].data
-                                                 [rid % PAGE_CAPACITY * DATA_SIZE:rid % PAGE_CAPACITY * DATA_SIZE + 8],
+                                                 [(rid- 1) % PAGE_CAPACITY * DATA_SIZE:(rid - 1) % PAGE_CAPACITY * DATA_SIZE + 8],
                                                  'little'
                                                  )
                                   if bool(query_columns[enumerated_page[0]]) else None
@@ -211,7 +211,7 @@ class Table:
         latest_rids = self.get_latest(rid_list)
 
         for rid in latest_rids:
-            byte_pos = rid % PAGE_CAPACITY * DATA_SIZE
+            byte_pos = (rid-1) % PAGE_CAPACITY * DATA_SIZE
             page_data = self.page_directory[rid][INIT_COLS + col_index].data
             col_val = int.from_bytes(page_data[byte_pos:byte_pos + DATA_SIZE], 'little')
             total += col_val
