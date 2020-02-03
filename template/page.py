@@ -18,11 +18,6 @@ class Page:
             self.num_records += 1
             self.first_unused_byte += DATA_SIZE
         
-        # NOTES: 
-		# I don't think this if stmt is necessary/repetitive 
-        # bc we call Page.write() inside Table.write_to_base/tailPage()
-        # And inside those Table methods, we already check for the page's capacity
-        # Page capacity doesn't matter if we just need to replace/update record too
         # if self.has_capacity() or position is not None:
             ## Make alias
             ##data_slots = self.data[position:DATA_SIZE + self.first_unused_byte]

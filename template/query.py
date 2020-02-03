@@ -17,9 +17,6 @@ class Query:
     """
 
     def delete(self, key):
-    # Retreive record via its key
-	# Delete/mark an existing entry in record directory
-    # self.table.modify_record_dir(record)
         pass
 
     """
@@ -34,28 +31,14 @@ class Query:
         record = Record(rid=baseID, key=columns[self.table.key_index], columns=columns) 
         # Write new record to a base page
         self.table.write_to_basePage(record, schema_encoding)
-        # Insert new entry to record directory
-        self.table.modify_record_dir(record)
-
-        # IDEAS:
-        # Error checking: does the key already exist
-        # Find spot for data/ generate RID based on spot
-        #   case 1: There is space on the last page
-        #   case 2: Generate a new page
-        #if len(self.table.page_directory) == 0 or  :
-
-        # Generate RID for record
-        # Check if all base pages have enough space to fit new insert
-        # If not, create new base pages
-        # page_row should be the row/offset that the record is in
 
     """
     # Read a record with specified key
     """
 
     def select(self, key, query_columns):
-        self.table.read_pages(key, query_columns)
-        pass
+        return self.table.read_records(key, query_columns)
+
 
     """
     # Update a record with specified key and columns
@@ -65,19 +48,24 @@ class Query:
         # Determine schema encoding
         schema_encoding = list(map(lambda i: int(not(i is None)), columns))
         # Create a new Record instance
-        tailID = self.table.TID_counter
-        record = Record(rid=tailID, key=key, columns=columns) 
+        assert key is not None
+        record = Record(rid=self.table.TID_counter, key=key, columns=columns) 
         # Write tail record to tail page
         self.table.write_to_tailPage(record, schema_encoding)
         self.table.TID_counter -= 1
-        # Update existing entry in record directory
-        self.table.modify_record_dir(record)
 
     """
     :param start_range: int         # Start of the key range to aggregate 
-    :param end_range: int           # End of the key range to aggregate 
-    :param aggregate_columns: int  # Index of desired column to aggregate
+    :param end_range: int           # Increment start_range by 1 until end_range
+    :param col_index: int  			# Index of desired column to aggregate
     """
 
-    def sum(self, start_range, end_range, aggregate_column_index):
-        pass
+    def sum(self, start_range, end_range, col_index):
+        total = 0
+        for rid in range(start_range, end_range):
+            if rid in self.table.page_directory.keys():
+                page_data = self.table.page_directory[rid][INIT_COLS + col_index].data
+                byte_pos = rid % PAGE_CAPACITY * DATA_SIZE
+                int_data = int.from_bytes(page_data[byte_pos:byte_pos + DATA_SIZE], 'little')
+                total += int_data # Accumulate all int_data
+        return total
