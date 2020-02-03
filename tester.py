@@ -6,29 +6,52 @@ from random import choice, randint, sample
 from colorama import Fore, Back, Style
 
 # Student Id and 4 grades
-init()
+#init()
 db = Database()
 grades_table = db.create_table('Grades', 5, 0)
 query = Query(grades_table)
 
 records = {}
 
-for i in range(0, 1000):
+rand_keys = []
+for i in range(0, 5):
     key = 92106429 + randint(0, 9000)
+
+    # To avoid duplicate keys, generate another random key
     while key in records:
         key = 92106429 + randint(0, 9000)
-    records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)]
+    
+    # Most recent key
+    rand_keys.append(key)
+    records[key] = [key, 20, 30, 40, 50]
     query.insert(*records[key])
+
+    
+for key in records.keys():
+    print("keys = ", key, "record data = ", records[key])
+
 
 for key in records:
     record = query.select(key, [1, 1, 1, 1, 1])[0]
+    print("record key in select (ours) = ", record.key)
+    print("length = ", len(record.columns))
+    for column in record.columns:
+        print("columns in record = ", column)
+
+    """ 
     for i, column in enumerate(record.columns):
+        print(i)
+        print("column in record = ", column)
+    
+
         if column != records[key][i]:
             print(Fore.RED + 'Select error on key', key)
             exit()
-print(Fore.GREEN + 'Passed SELECT test.')
+    """     
+# print(Fore.GREEN + 'Passed SELECT test.')
 
 
+"""
 for key in records:
     updated_columns = [None, None, None, None, None]
     for i in range(1, grades_table.num_columns):
@@ -36,6 +59,7 @@ for key in records:
         updated_columns[i] = value
         records[key][i] = value
         record = query.select(key, [1, 1, 1, 1, 1])[0]
+
         query.update(key, *updated_columns)
         record = query.select(key, [1, 1, 1, 1, 1])[0]
         for j, column in enumerate(record.columns):
@@ -58,3 +82,4 @@ for c in range(0, grades_table.num_columns):
             print(Fore.RED + 'Should have been', column_sum, ' but returned ', result)
 
 print(Fore.GREEN + 'Passed SUM test.')
+"""
