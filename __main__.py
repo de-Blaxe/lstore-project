@@ -34,7 +34,6 @@ for i in range(0, 10000):
 update_time_1 = process_time()
 print("Updating 10k records took:  \t\t\t", update_time_1 - update_time_0)
 
-
 """
 # Measuring Select Performance
 select_time_0 = process_time()
@@ -44,7 +43,8 @@ select_time_1 = process_time()
 print("Selecting 10k records took:  \t\t\t", select_time_1 - select_time_0)
 """
 
-"""
+
+
 # Measuring Aggregate Performance
 agg_time_0 = process_time()
 for i in range(0, 10000, 100): # 0 , 100, .... 9900 
@@ -52,6 +52,7 @@ for i in range(0, 10000, 100): # 0 , 100, .... 9900
 agg_time_1 = process_time()
 print("Aggregate 10k of 100 record batch took:\t", agg_time_1 - agg_time_0)
 
+"""
 # Measuring Delete Performance
 delete_time_0 = process_time()
 for i in range(0, 10000):

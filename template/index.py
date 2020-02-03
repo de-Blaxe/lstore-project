@@ -9,7 +9,6 @@ import bisect
 class Index:
 
     def __init__(self):
-
         '''
         index = [(int.from_bytes(self.page_directory[baseID][INIT_COLS + self.key_index].data[baseID % PAGE_CAPACITY * DATA_SIZE:baseID % PAGE_CAPACITY * DATA_SIZE + DATA_SIZE], "little"), baseID) for baseID in range(table.LID_counter)]
         tuple_first = lambda x: x[0]
@@ -17,14 +16,12 @@ class Index:
         '''
 
         '''
-        # Above statement ('index = [...]') can be translated as follows:
         for baseID in range(table.LID_counter):
             byte_pos = baseID % PAGE_CAPACITY * DATA_SIZE
             pages = self.page_directory[baseID]
             page_data = pages[INIT_COLS + self.key_index].data
             base_key = int.from_bytes(self.page_directory[baseID][INIT_COLS + self.key_index].data[baseID % PAGE_CAPACITY * DATA_SIZE:baseID % PAGE_CAPACITY * DATA_SIZE + DATA_SIZE], "little")
         '''
-
         self.index = [] # A list containing pairs of (key_val, val)
 
     """
@@ -45,23 +42,20 @@ class Index:
         except ValueError:
             return []
         else:
-            output.append(self.index[found_index][1])
+            output.append(found_index)
             i = found_index - 1
-			# Retrieve all RIDs with matching key_val
             while i >= 0 and self.index[i][0] == key_val:
-                output.append(self.index[found_index][1])
+                output.append(i)
                 i -= 1
             i = found_index + 1
             while i < len(key_index) and self.index[i][0] == key_val:
-                output.append(self.index[found_index][1])
+                output.append(i)
                 i += 1
             return output
 
-    def insert(self, key, val): # NOTE I think we should rename this to add(). See Note below
-		# Copy all key_vals into a list
+    def insert(self, key, val):
         tuple_first = lambda x: x[0]
         key_index = list(map(tuple_first, self.index))
-		# Search for given key value in list of keys
         try:
             found_index = bisect.bisect(key_index, key)
         except ValueError:

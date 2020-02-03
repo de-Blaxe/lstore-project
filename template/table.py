@@ -97,6 +97,8 @@ class Table:
                 cur_record_pages[i].write(0)
             i += 1
 
+
+        # (Linear) Search thru a subset of basePages for correct basePage
         '''
         for baseID in range(self.LID_counter):
             # Make aliases
@@ -184,3 +186,43 @@ class Table:
                     data.append(None)
             output.append(Record(rid, key, data))   
         '''
+
+    def collect_values(self, start_range, end_range, col_index):
+        total = 0
+        byte_pos = 0
+        page_data = None
+
+        rid_list = []
+        latest_rids = []
+
+        for rid in range(start_range, end_range):
+            if rid in self.page_directory.keys():
+                rid_list.append(rid)
+
+        latest_rids = self.get_latest(rid_list)
+
+        for rid in latest_rids:
+            byte_pos = rid % PAGE_CAPACITY * DATA_SIZE
+            page_data = self.page_directory[rid][INIT_COLS + col_index].data
+            col_val = int.from_bytes(page_data[byte_pos:byte_pos + DATA_SIZE], 'little')
+            total += col_val
+
+        return total
+
+# previous idea for collect_values below
+"""
+                # Get latest RID
+                indirect_page_data = self.table.page_directory[rid][INDIRECTION_COLUMN].data
+                indirect_val = int.from_bytes(indirect_page_data[byte_pos:byte_pos + DATA_SIZE], 'little')
+                # Set default values
+                byte_pos = rid % PAGE_CAPACITY * DATA_SIZE
+                page_data = self.table.page_directory[rid][INIT_COLS + col_index].data
+                # Check if any updates were made
+                if indirect_val != 0:
+                    byte_pos = indirect_val % PAGE_CAPACITY * DATA_SIZE
+                    page_data = self.table.page_directory[indirect_val][INIT_COLS + col_index].data
+				# Accumulate specified column values
+                col_val = int.from_bytes(page_data[byte_pos:byte_pos + DATA_SIZE], 'little')
+                total += col_val
+"""
+

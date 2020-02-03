@@ -61,11 +61,4 @@ class Query:
     """
 
     def sum(self, start_range, end_range, col_index):
-        total = 0
-        for rid in range(start_range, end_range):
-            if rid in self.table.page_directory.keys():
-                page_data = self.table.page_directory[rid][INIT_COLS + col_index].data
-                byte_pos = rid % PAGE_CAPACITY * DATA_SIZE
-                int_data = int.from_bytes(page_data[byte_pos:byte_pos + DATA_SIZE], 'little')
-                total += int_data # Accumulate all int_data
-        return total
+        return self.table.collect_values(start_range, end_range, col_index)
