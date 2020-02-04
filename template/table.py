@@ -224,21 +224,21 @@ class Table:
             while len(columns_not_retrieved) > 0:
                 # retrieve whatever data you can from latest record
                 assert rid != 0
+                # rid may be a base or a tail id
+                # Tail id counts backwards so a single byte_pos formula won't work
+                if rid >= self.TID_counter:
+                    byte_pos = abs(rid - (2 ** 64 - 1)) % PAGE_CAPACITY * DATA_SIZE
+                else:
+                    byte_pos = (rid - 1) % PAGE_CAPACITY * DATA_SIZE
+                schema = self.page_directory[rid][SCHEMA_ENCODING_COLUMN].data[byte_pos:byte_pos + DATA_SIZE]
+                schema = str(int.from_bytes(schema, 'little'))
+                if len(schema) < self.num_columns:
+                    schema = '0' * (self.num_columns - len(schema)) + schema
+                # leading zeros are lost in integer conversion
+                # pad with zeros
                 for i, page in enumerate(self.page_directory[rid][INIT_COLS:]):
                     if i not in columns_not_retrieved:
                         continue
-                    # rid may be a base or a tail id
-                    # Tail id counts backwards so a single byte_pos formula won't work
-                    if rid >= self.TID_counter:
-                        byte_pos = abs(rid - (2 ** 64 - 1)) % PAGE_CAPACITY * DATA_SIZE
-                    else:
-                        byte_pos = (rid - 1) % PAGE_CAPACITY * DATA_SIZE
-                    schema = self.page_directory[rid][SCHEMA_ENCODING_COLUMN].data[byte_pos:byte_pos + DATA_SIZE]
-                    schema = str(int.from_bytes(schema, 'little'))
-                    # leading zeros are lost in integer conversion
-                    # pad with zeros
-                    if len(schema) < self.num_columns:
-                        schema = '0' * (self.num_columns - len(schema)) + schema
                     # NOTE: retrieve values from older records if they aren't in the newest
                     if rid < self.TID_counter or bool(int(schema[i])):
                         data[i] = int.from_bytes(page.data[byte_pos:byte_pos + 8], 'little')
@@ -288,10 +288,24 @@ class Table:
 
         for i in range(len(latest_rids)):
             rid = latest_rids[i]
-            if bools[i]: # No updates made to record
-                byte_pos = (rid - 1) % PAGE_CAPACITY * DATA_SIZE
-            else: # Current RID is a TID
-                byte_pos = (rid - (2 ** 64 - 1)) % PAGE_CAPACITY * DATA_SIZE
+
+
+
+            while True:
+                if rid < self.TID_counter:  # No updates made to record
+                    byte_pos = (rid - 1) % PAGE_CAPACITY * DATA_SIZE
+                else:  # Current RID is a TID
+                    byte_pos = (rid - (2 ** 64 - 1)) % PAGE_CAPACITY * DATA_SIZE
+                schema = self.page_directory[rid][SCHEMA_ENCODING_COLUMN].data[byte_pos:byte_pos + DATA_SIZE]
+                schema = str(int.from_bytes(schema, 'little'))
+                if len(schema) < self.num_columns:
+                    schema = '0' * (self.num_columns - len(schema)) + schema
+                # test
+                page_data = self.page_directory[rid][INIT_COLS + col_index].data
+                col_val = int.from_bytes(page_data[byte_pos:byte_pos + DATA_SIZE], 'little')
+                if rid < self.TID_counter or int(schema[col_index]) == 1:
+                    break
+                rid = self.get_previous(rid)
             page_data = self.page_directory[rid][INIT_COLS + col_index].data
             col_val = int.from_bytes(page_data[byte_pos:byte_pos + DATA_SIZE], 'little')
             total += col_val
