@@ -140,7 +140,7 @@ class Table:
             # Update indirection column and scheme data
             byte_pos = (baseID-1) % PAGE_CAPACITY * DATA_SIZE
             base_pages = self.page_directory[baseID]
-            prev_tid = int.from_bytes(base_pages[INDIRECTION_COLUMN].data[byte_pos:byte_pos + DATA_SIZE],'little')
+            prev_tid = int.from_bytes(base_pages[INDIRECTION_COLUMN].data[byte_pos:byte_pos + DATA_SIZE], 'little')
             schema_data = base_pages[SCHEMA_ENCODING_COLUMN].data
             base_entry = int.from_bytes(schema_data[byte_pos:byte_pos + DATA_SIZE], byteorder="little")
             cur_record_pages[INDIRECTION_COLUMN].write(prev_tid if base_entry else baseID)

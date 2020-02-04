@@ -23,7 +23,7 @@ class Index:
             base_key = int.from_bytes(self.page_directory[baseID][INIT_COLS + self.key_index].data[baseID % PAGE_CAPACITY * DATA_SIZE:baseID % PAGE_CAPACITY * DATA_SIZE + DATA_SIZE], "little")
         '''
         self.index = [] # A list containing pairs of (key_val, val)
-        #self.last_index_length = len(self.index)
+        self.last_index_length = len(self.index)
 
     """
     # returns the rid of all records with the given key value
@@ -33,7 +33,9 @@ class Index:
         return [self.index[i][1] for i in self.get_positions(key_val)]
 
     def get_positions(self, key_val, max_key_val = None):
-
+        if self.last_index_length != len(self.index):
+            self.index = sorted(self.index, key=lambda x: x[0])
+            self.last_index_length = len(self.index)
         if max_key_val == None:
             max_key_val = key_val
         output = []
@@ -46,8 +48,11 @@ class Index:
         except ValueError:
             return []
         else:
-            if key_val != self.index[found_index][0]:
-                return []
+            try:
+                if key_val != self.index[found_index][0]:
+                    return []
+            except:
+                pass
             output.append(found_index)
             """i = found_index - 1
             while i >= 0 and self.index[i][0] == key_val:
@@ -60,7 +65,9 @@ class Index:
             return output
 
     def insert(self, key, val):
-        tuple_first = lambda x: x[0]
+
+        self.index.append((key, val))
+        '''tuple_first = lambda x: x[0]
         key_index = list(map(tuple_first, self.index))
         try:
             found_index = bisect.bisect_left(key_index, key)
@@ -68,7 +75,7 @@ class Index:
             print("Insertion error")
         else:
             self.index.insert(found_index, (key, val)) # NOTE this is calling built-in LIST.insert()
-            return
+            return'''
 
     '''
     This doesn't make any sense
@@ -85,7 +92,16 @@ class Index:
         base_rid = self.index[record_position][1]
         # Replace old mapping
         self.index = self.index[:record_position] + self.index[record_position + 1:]
-        self.insert(new_key, base_rid)
+        # force re-sort
+        tuple_first = lambda x: x[0]
+        key_index = list(map(tuple_first, self.index))
+        try:
+            found_index = bisect.bisect_left(key_index, key)
+        except ValueError:
+            print("Insertion error")
+        else:
+            self.index.insert(found_index, (new_key, base_rid))  # NOTE this is calling built-in LIST.insert()
+            return
 
     """
     # optional: Create index on specific column
