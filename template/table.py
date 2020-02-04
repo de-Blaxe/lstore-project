@@ -219,6 +219,7 @@ class Table:
                     columns_not_retrieved.add(i)
             while len(columns_not_retrieved) > 0:
                 # retrieve whatever data you can from latest record
+                assert rid != 0
                 for i, page in enumerate(self.page_directory[rid][INIT_COLS:]):
                     if i not in columns_not_retrieved:
                         continue
@@ -240,6 +241,8 @@ class Table:
                         columns_not_retrieved.discard(i)
                 # get rid from indirection column (if rid is a tail?)
                 rid = self.get_previous(rid)
+                if rid == 0:
+                    break
             '''for i, page in enumerate(self.page_directory[rid][INIT_COLS:]):
                 # rid may be a base or a tail id
                 # Tail id counts backwards so a single byte_pos formula won't work
