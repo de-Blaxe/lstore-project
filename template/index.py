@@ -23,6 +23,7 @@ class Index:
             base_key = int.from_bytes(self.page_directory[baseID][INIT_COLS + self.key_index].data[baseID % PAGE_CAPACITY * DATA_SIZE:baseID % PAGE_CAPACITY * DATA_SIZE + DATA_SIZE], "little")
         '''
         self.index = [] # A list containing pairs of (key_val, val)
+        self.dictionary = {}
         self.last_index_length = len(self.index)
 
     """
@@ -30,11 +31,13 @@ class Index:
     """
 
     def locate(self, key_val):
-        return [self.index[i][1] for i in self.get_positions(key_val)]
+        if key_val not in self.dictionary:
+            raise KeyError
+        return self.dictionary[key_val]
 
     def get_positions(self, key_val, max_key_val = None):
         if self.last_index_length != len(self.index):
-            self.index = sorted(self.index, key=lambda x: x[0])
+            self.index = sorted(self.dictionary.items())
             self.last_index_length = len(self.index)
         if max_key_val == None:
             max_key_val = key_val
@@ -65,7 +68,7 @@ class Index:
             return output
 
     def insert(self, key, val):
-
+        self.dictionary[key] = val
         self.index.append((key, val))
         '''tuple_first = lambda x: x[0]
         key_index = list(map(tuple_first, self.index))
@@ -88,20 +91,11 @@ class Index:
 
     def unique_update(self, key, new_key):
         # List of matching keys must be of length 1 if the key is unique
-        record_position = self.get_positions(key)[0]
-        base_rid = self.index[record_position][1]
-        # Replace old mapping
-        self.index = self.index[:record_position] + self.index[record_position + 1:]
+        base_rid = self.locate(key)
         # force re-sort
-        tuple_first = lambda x: x[0]
-        key_index = list(map(tuple_first, self.index))
-        try:
-            found_index = bisect.bisect_left(key_index, key)
-        except ValueError:
-            print("Insertion error")
-        else:
-            self.index.insert(found_index, (new_key, base_rid))  # NOTE this is calling built-in LIST.insert()
-            return
+        self.dictionary[new_key] = base_rid
+        self.last_index_length = -1
+
 
     """
     # optional: Create index on specific column

@@ -129,9 +129,8 @@ class Table:
                break
         '''
         try:
-            index_position = self.indexer.get_positions(record.key)[0]
-            baseID = self.indexer.index[index_position][1]
-        except IndexError:
+            baseID = self.indexer.locate(record.key)
+        except KeyError:
             """print("Key not found")
             raise KeyError"""
             # modified to bypass logic error in main
@@ -205,8 +204,13 @@ class Table:
 
     def read_records(self, key, query_columns, max_key = None):
         if max_key == None:
-            max_key = key
-        records = [self.indexer.index[index_position][1] for index_position in self.indexer.get_positions(key, max_key)]
+            try:
+                records = [self.indexer.locate(key)]
+            except KeyError:
+                print("KeyError!")
+                return
+        else:
+            records = [self.indexer.index[index_position][1] for index_position in self.indexer.get_positions(key, max_key)]
         latest_records = self.get_latest(records)
         output = []
         '''
