@@ -1,6 +1,5 @@
 from template.config import *
 
-
 class Page:
 
     def __init__(self):
@@ -18,7 +17,8 @@ class Page:
             self.num_records += 1
             self.first_unused_byte += DATA_SIZE
         
-        # if self.has_capacity() or position is not None:
+        # print("Page.write() - Position of byte: ", position, " and Value is ", value, "\n")
+		# if self.has_capacity() or position is not None:
             ## Make alias
             ##data_slots = self.data[position:DATA_SIZE + self.first_unused_byte]
-        self.data[position:DATA_SIZE + self.first_unused_byte] = value.to_bytes(DATA_SIZE, 'little') if type(value) == int else value
+        self.data[position:DATA_SIZE + self.first_unused_byte] = value.to_bytes(DATA_SIZE, 'little') if type(value) == int else value 

@@ -1,0 +1,1000 @@
+select error on 92108800 : <template.table.Record object at 0x103392400> , correct: [92108800, 19, 3, 10, 3]
+select error on 92106755 : <template.table.Record object at 0x103392438> , correct: [92106755, 14, 12, 11, 8]
+select on 92114948 : <template.table.Record object at 0x103392400>
+select on 92112901 : <template.table.Record object at 0x103392438>
+select error on 92114950 : <template.table.Record object at 0x103392400> , correct: [92114950, 14, 3, 0, 20]
+select error on 92114289 : <template.table.Record object at 0x103392438> , correct: [92114289, 16, 17, 13, 3]
+select error on 92107436 : <template.table.Record object at 0x103392400> , correct: [92107436, 19, 18, 10, 19]
+select error on 92108810 : <template.table.Record object at 0x103392438> , correct: [92108810, 18, 3, 7, 7]
+select on 92110064 : <template.table.Record object at 0x103392400>
+select on 92112910 : <template.table.Record object at 0x103392438>
+select error on 92114959 : <template.table.Record object at 0x103392400> , correct: [92114959, 11, 16, 10, 8]
+select on 92108819 : <template.table.Record object at 0x103392438>
+select error on 92112916 : <template.table.Record object at 0x103392400> , correct: [92112916, 4, 6, 13, 4]
+select on 92112917 : <template.table.Record object at 0x1033924a8>
+select on 92108121 : <template.table.Record object at 0x103392400>
+select error on 92110873 : <template.table.Record object at 0x1033924a8> , correct: [92110873, 18, 12, 7, 6]
+select error on 92108463 : <template.table.Record object at 0x103392400> , correct: [92108463, 9, 20, 14, 12]
+select on 92110876 : <template.table.Record object at 0x1033924a8>
+select on 92114973 : <template.table.Record object at 0x103392400>
+select error on 92108831 : <template.table.Record object at 0x1033924a8> , correct: [92108831, 12, 5, 17, 4]
+select error on 92114977 : <template.table.Record object at 0x103392400> , correct: [92114977, 11, 4, 4, 3]
+select on 92114982 : <template.table.Record object at 0x103392470>
+select error on 92108839 : <template.table.Record object at 0x103392400> , correct: [92108839, 15, 17, 8, 18]
+select on 92108841 : <template.table.Record object at 0x103392470>
+select on 92114986 : <template.table.Record object at 0x103392400>
+select on 92112939 : <template.table.Record object at 0x103392470>
+select on 92110892 : <template.table.Record object at 0x103392400>
+select error on 92111538 : <template.table.Record object at 0x103392470> , correct: [92111538, 10, 0, 10, 8]
+select on 92106801 : <template.table.Record object at 0x103392400>
+select on 92106802 : <template.table.Record object at 0x103392470>
+select on 92112947 : <template.table.Record object at 0x103392400>
+select error on 92114996 : <template.table.Record object at 0x103392470> , correct: [92114996, 16, 19, 0, 10]
+select on 92108853 : <template.table.Record object at 0x103392400>
+select error on 92110902 : <template.table.Record object at 0x103392470> , correct: [92110902, 8, 1, 9, 20]
+select error on 92111881 : <template.table.Record object at 0x103392518> , correct: [92111881, 18, 4, 20, 20]
+select on 92112952 : <template.table.Record object at 0x103392470>
+select on 92112953 : <template.table.Record object at 0x103392518>
+select on 92115002 : <template.table.Record object at 0x103392470>
+select on 92108859 : <template.table.Record object at 0x103392518>
+select error on 92106762 : <template.table.Record object at 0x103392470> , correct: [92106762, 3, 1, 5, 10]
+select error on 92110912 : <template.table.Record object at 0x1033924e0> , correct: [92110912, 15, 6, 18, 17]
+select error on 92108307 : <template.table.Record object at 0x103392470> , correct: [92108307, 10, 5, 15, 2]
+select error on 92112962 : <template.table.Record object at 0x1033924e0> , correct: [92112962, 12, 10, 16, 12]
+select on 92115014 : <template.table.Record object at 0x103392470>
+select on 92114273 : <template.table.Record object at 0x1033924e0>
+select on 92110921 : <template.table.Record object at 0x103392470>
+select on 92112971 : <template.table.Record object at 0x1033924e0>
+select error on 92112976 : <template.table.Record object at 0x103392470> , correct: [92112976, 20, 12, 20, 4]
+select error on 92106834 : <template.table.Record object at 0x1033924e0> , correct: [92106834, 9, 16, 11, 4]
+select error on 92111203 : <template.table.Record object at 0x103392470> , correct: [92111203, 3, 4, 16, 20]
+select error on 92108884 : <template.table.Record object at 0x1033924e0> , correct: [92108884, 0, 6, 9, 19]
+select error on 92110933 : <template.table.Record object at 0x103392588> , correct: [92110933, 18, 17, 1, 7]
+select on 92110521 : <template.table.Record object at 0x1033924e0>
+select error on 92112984 : <template.table.Record object at 0x103392588> , correct: [92112984, 0, 18, 0, 1]
+select error on 92112570 : <template.table.Record object at 0x1033925c0> , correct: [92112570, 11, 4, 0, 10]
+select on 92106847 : <template.table.Record object at 0x103392588>
+select on 92106852 : <template.table.Record object at 0x1033925c0>
+select on 92112999 : <template.table.Record object at 0x103392588>
+select on 92113000 : <template.table.Record object at 0x1033925c0>
+select on 92108910 : <template.table.Record object at 0x103392588>
+select on 92110959 : <template.table.Record object at 0x1033925c0>
+select error on 92110960 : <template.table.Record object at 0x103392588> , correct: [92110960, 16, 11, 13, 5]
+select on 92113009 : <template.table.Record object at 0x1033925c0>
+select error on 92113011 : <template.table.Record object at 0x103392588> , correct: [92113011, 18, 18, 12, 6]
+select on 92108916 : <template.table.Record object at 0x1033925c0>
+select on 92113013 : <template.table.Record object at 0x103392588>
+select on 92111636 : <template.table.Record object at 0x1033925c0>
+select error on 92109161 : <template.table.Record object at 0x103392588> , correct: [92109161, 15, 17, 20, 5]
+select on 92108923 : <template.table.Record object at 0x1033925c0>
+select on 92106876 : <template.table.Record object at 0x103392588>
+select error on 92113273 : <template.table.Record object at 0x1033925c0> , correct: [92113273, 11, 10, 18, 16]
+select on 92115072 : <template.table.Record object at 0x103392588>
+select error on 92115073 : <template.table.Record object at 0x1033925c0> , correct: [92115073, 13, 8, 5, 13]
+select error on 92115078 : <template.table.Record object at 0x103392588> , correct: [92115078, 3, 6, 5, 10]
+select on 92110983 : <template.table.Record object at 0x103392550>
+select on 92107116 : <template.table.Record object at 0x103392588>
+select error on 92115085 : <template.table.Record object at 0x103392550> , correct: [92115085, 9, 13, 8, 4]
+select error on 92110994 : <template.table.Record object at 0x103392630> , correct: [92110994, 0, 16, 13, 3]
+select on 92106899 : <template.table.Record object at 0x103392550>
+select error on 92111637 : <template.table.Record object at 0x103392630> , correct: [92111637, 7, 7, 20, 3]
+select on 92110997 : <template.table.Record object at 0x103392668>
+select on 92115094 : <template.table.Record object at 0x103392630>
+select on 92108952 : <template.table.Record object at 0x103392668>
+select on 92113050 : <template.table.Record object at 0x103392630>
+select on 92106908 : <template.table.Record object at 0x103392668>
+select on 92106909 : <template.table.Record object at 0x103392630>
+select error on 92111886 : <template.table.Record object at 0x103392668> , correct: [92111886, 16, 6, 0, 3]
+select error on 92113057 : <template.table.Record object at 0x1033926a0> , correct: [92113057, 10, 19, 8, 16]
+select on 92106914 : <template.table.Record object at 0x103392668>
+select on 92111012 : <template.table.Record object at 0x1033926a0>
+select error on 92106917 : <template.table.Record object at 0x103392668> , correct: [92106917, 1, 13, 2, 1]
+select on 92113063 : <template.table.Record object at 0x1033925f8>
+select error on 92111016 : <template.table.Record object at 0x103392668> , correct: [92111016, 19, 9, 4, 8]
+select on 92106922 : <template.table.Record object at 0x1033926d8>
+select on 92113067 : <template.table.Record object at 0x103392668>
+select on 92106924 : <template.table.Record object at 0x1033926d8>
+select error on 92111021 : <template.table.Record object at 0x103392668> , correct: [92111021, 20, 20, 1, 2]
+select error on 92113073 : <template.table.Record object at 0x103392438> , correct: [92113073, 10, 10, 17, 4]
+select on 92108979 : <template.table.Record object at 0x103392668>
+select on 92106935 : <template.table.Record object at 0x103392438>
+select on 92111035 : <template.table.Record object at 0x103392668>
+select error on 92106940 : <template.table.Record object at 0x103392438> , correct: [92106940, 0, 13, 5, 16]
+select error on 92111037 : <template.table.Record object at 0x103392668> , correct: [92111037, 1, 13, 4, 14]
+select on 92111038 : <template.table.Record object at 0x103392438>
+select error on 92113269 : <template.table.Record object at 0x103392668> , correct: [92113269, 2, 15, 17, 6]
+select on 92115138 : <template.table.Record object at 0x103392438>
+select error on 92113091 : <template.table.Record object at 0x103392668> , correct: [92113091, 19, 14, 19, 10]
+select error on 92107570 : <template.table.Record object at 0x103392438> , correct: [92107570, 15, 19, 14, 4]
+select error on 92111689 : <template.table.Record object at 0x103392668> , correct: [92111689, 16, 4, 7, 4]
+select error on 92115144 : <template.table.Record object at 0x103392438> , correct: [92115144, 5, 13, 16, 10]
+select on 92113098 : <template.table.Record object at 0x103392668>
+select error on 92106955 : <template.table.Record object at 0x103392438> , correct: [92106955, 9, 15, 18, 0]
+select on 92106956 : <template.table.Record object at 0x103392668>
+select on 92115149 : <template.table.Record object at 0x103392438>
+select on 92106958 : <template.table.Record object at 0x103392668>
+select error on 92106963 : <template.table.Record object at 0x103392438> , correct: [92106963, 4, 20, 20, 5]
+select error on 92106446 : <template.table.Record object at 0x103392668> , correct: [92106446, 5, 16, 3, 2]
+select error on 92113111 : <template.table.Record object at 0x1033924a8> , correct: [92113111, 4, 7, 2, 12]
+select on 92109017 : <template.table.Record object at 0x103392518>
+select on 92109018 : <template.table.Record object at 0x1033924a8>
+select on 92111067 : <template.table.Record object at 0x103392518>
+select error on 92113119 : <template.table.Record object at 0x1033924a8> , correct: [92113119, 0, 16, 20, 16]
+select on 92113120 : <template.table.Record object at 0x103392518>
+select on 92111073 : <template.table.Record object at 0x1033924a8>
+select error on 92109027 : <template.table.Record object at 0x103392518> , correct: [92109027, 5, 2, 9, 18]
+select error on 92109029 : <template.table.Record object at 0x103392470> , correct: [92109029, 18, 18, 4, 20]
+select error on 92109030 : <template.table.Record object at 0x103392518> , correct: [92109030, 8, 11, 11, 3]
+select on 92111079 : <template.table.Record object at 0x103392470>
+select error on 92113128 : <template.table.Record object at 0x103392518> , correct: [92113128, 15, 19, 4, 5]
+select on 92106987 : <template.table.Record object at 0x103392470>
+select on 92111087 : <template.table.Record object at 0x103392518>
+select on 92109047 : <template.table.Record object at 0x103392470>
+select on 92113144 : <template.table.Record object at 0x103392518>
+select on 92115194 : <template.table.Record object at 0x103392470>
+select error on 92107003 : <template.table.Record object at 0x103392518> , correct: [92107003, 7, 8, 16, 7]
+select error on 92113148 : <template.table.Record object at 0x103392400> , correct: [92113148, 20, 7, 17, 17]
+select on 92113149 : <template.table.Record object at 0x103392518>
+select error on 92113151 : <template.table.Record object at 0x103392400> , correct: [92113151, 10, 3, 7, 15]
+select on 92115200 : <template.table.Record object at 0x103392518>
+select on 92115201 : <template.table.Record object at 0x103392400>
+select on 92114987 : <template.table.Record object at 0x103392518>
+select on 92112391 : <template.table.Record object at 0x103392400>
+select error on 92115209 : <template.table.Record object at 0x103392518> , correct: [92115209, 14, 2, 0, 4]
+select error on 92109066 : <template.table.Record object at 0x1033924e0> , correct: [92109066, 20, 15, 16, 11]
+select on 92109067 : <template.table.Record object at 0x103392518>
+select on 92107020 : <template.table.Record object at 0x1033924e0>
+select error on 92111117 : <template.table.Record object at 0x103392518> , correct: [92111117, 0, 4, 11, 20]
+select error on 92107022 : <template.table.Record object at 0x1033924e0> , correct: [92107022, 0, 16, 4, 5]
+select error on 92113168 : <template.table.Record object at 0x103392588> , correct: [92113168, 9, 18, 15, 4]
+select on 92115217 : <template.table.Record object at 0x1033924e0>
+select on 92111235 : <template.table.Record object at 0x103392588>
+select error on 92115221 : <template.table.Record object at 0x1033924e0> , correct: [92115221, 5, 0, 5, 6]
+select error on 92111126 : <template.table.Record object at 0x1033925c0> , correct: [92111126, 20, 12, 16, 8]
+select error on 92107481 : <template.table.Record object at 0x1033924e0> , correct: [92107481, 18, 18, 1, 0]
+select on 92109080 : <template.table.Record object at 0x1033925c0>
+select error on 92111846 : <template.table.Record object at 0x1033924e0> , correct: [92111846, 12, 6, 18, 2]
+select error on 92111130 : <template.table.Record object at 0x1033925c0> , correct: [92111130, 1, 20, 10, 12]
+select on 92107037 : <template.table.Record object at 0x1033924e0>
+select error on 92113182 : <template.table.Record object at 0x1033925c0> , correct: [92113182, 19, 19, 13, 3]
+select error on 92113184 : <template.table.Record object at 0x1033924e0> , correct: [92113184, 18, 3, 8, 14]
+select error on 92107042 : <template.table.Record object at 0x1033925c0> , correct: [92107042, 16, 7, 7, 9]
+select on 92113188 : <template.table.Record object at 0x103392630>
+select on 92111144 : <template.table.Record object at 0x1033925c0>
+select on 92115241 : <template.table.Record object at 0x103392630>
+select error on 92111147 : <template.table.Record object at 0x1033925c0> , correct: [92111147, 16, 3, 5, 10]
+select error on 92111148 : <template.table.Record object at 0x103392630> , correct: [92111148, 7, 20, 1, 18]
+select on 92109102 : <template.table.Record object at 0x1033925c0>
+select error on 92111151 : <template.table.Record object at 0x103392630> , correct: [92111151, 2, 19, 2, 6]
+select error on 92108851 : <template.table.Record object at 0x1033926a0> , correct: [92108851, 3, 19, 3, 18]
+select on 92107061 : <template.table.Record object at 0x103392630>
+select error on 92113206 : <template.table.Record object at 0x1033926a0> , correct: [92113206, 6, 10, 17, 1]
+select on 92109112 : <template.table.Record object at 0x103392630>
+select error on 92109116 : <template.table.Record object at 0x1033926a0> , correct: [92109116, 0, 15, 8, 13]
+select on 92111165 : <template.table.Record object at 0x103392630>
+select on 92115263 : <template.table.Record object at 0x1033926a0>
+select on 92109120 : <template.table.Record object at 0x103392630>
+select error on 92113218 : <template.table.Record object at 0x1033926a0> , correct: [92113218, 16, 16, 2, 4]
+select error on 92110219 : <template.table.Record object at 0x103392630> , correct: [92110219, 19, 20, 16, 11]
+select error on 92113222 : <template.table.Record object at 0x1033926a0> , correct: [92113222, 2, 14, 7, 17]
+select error on 92107189 : <template.table.Record object at 0x103392630> , correct: [92107189, 15, 2, 16, 17]
+select on 92111180 : <template.table.Record object at 0x1033926a0>
+select on 92113229 : <template.table.Record object at 0x103392630>
+select on 92107086 : <template.table.Record object at 0x1033926a0>
+select on 92113233 : <template.table.Record object at 0x103392630>
+select on 92115282 : <template.table.Record object at 0x1033926a0>
+select error on 92114985 : <template.table.Record object at 0x103392630> , correct: [92114985, 10, 14, 3, 12]
+select on 92115289 : <template.table.Record object at 0x1033926a0>
+select error on 92109147 : <template.table.Record object at 0x103392630> , correct: [92109147, 2, 19, 4, 6]
+select error on 92106810 : <template.table.Record object at 0x103392550> , correct: [92106810, 1, 16, 2, 17]
+select error on 92111198 : <template.table.Record object at 0x103392630> , correct: [92111198, 17, 15, 6, 17]
+select error on 92109152 : <template.table.Record object at 0x103392438> , correct: [92109152, 17, 6, 7, 18]
+select on 92106811 : <template.table.Record object at 0x103392630>
+select error on 92115301 : <template.table.Record object at 0x103392438> , correct: [92115301, 9, 5, 15, 7]
+select error on 92111209 : <template.table.Record object at 0x103392630> , correct: [92111209, 5, 6, 3, 13]
+select on 92113260 : <template.table.Record object at 0x1033924a8>
+select on 92107120 : <template.table.Record object at 0x103392630>
+select error on 92107689 : <template.table.Record object at 0x1033924a8> , correct: [92107689, 2, 12, 6, 12]
+select error on 92113268 : <template.table.Record object at 0x103392630> , correct: [92113268, 14, 8, 0, 1]
+select on 92109173 : <template.table.Record object at 0x103392668>
+select error on 92113270 : <template.table.Record object at 0x103392630> , correct: [92113270, 7, 10, 2, 14]
+select error on 92113641 : <template.table.Record object at 0x103392668> , correct: [92113641, 19, 6, 10, 12]
+select error on 92109177 : <template.table.Record object at 0x103392630> , correct: [92109177, 1, 4, 5, 20]
+select on 92113274 : <template.table.Record object at 0x103392470>
+select error on 92111228 : <template.table.Record object at 0x103392630> , correct: [92111228, 2, 11, 9, 12]
+select error on 92108522 : <template.table.Record object at 0x103392470> , correct: [92108522, 14, 3, 17, 10]
+select error on 92115191 : <template.table.Record object at 0x103392630> , correct: [92115191, 8, 14, 4, 12]
+select error on 92109184 : <template.table.Record object at 0x103392470> , correct: [92109184, 0, 5, 15, 14]
+select on 92109187 : <template.table.Record object at 0x103392630>
+select on 92111596 : <template.table.Record object at 0x103392470>
+select on 92113291 : <template.table.Record object at 0x103392630>
+select on 92109198 : <template.table.Record object at 0x103392470>
+select error on 92115343 : <template.table.Record object at 0x103392630> , correct: [92115343, 14, 5, 6, 19]
+select error on 92115350 : <template.table.Record object at 0x103392470> , correct: [92115350, 18, 18, 10, 19]
+select error on 92109208 : <template.table.Record object at 0x103392630> , correct: [92109208, 2, 16, 2, 9]
+select on 92109212 : <template.table.Record object at 0x103392400>
+select on 92114851 : <template.table.Record object at 0x103392630>
+select on 92112737 : <template.table.Record object at 0x103392400>
+select error on 92111266 : <template.table.Record object at 0x103392630> , correct: [92111266, 16, 8, 8, 14]
+select error on 92107171 : <template.table.Record object at 0x103392400> , correct: [92107171, 7, 1, 3, 19]
+select on 92113316 : <template.table.Record object at 0x103392588>
+select error on 92111269 : <template.table.Record object at 0x103392400> , correct: [92111269, 13, 17, 4, 18]
+select error on 92111270 : <template.table.Record object at 0x103392588> , correct: [92111270, 6, 2, 2, 16]
+select on 92109223 : <template.table.Record object at 0x1033924e0>
+select error on 92115356 : <template.table.Record object at 0x103392588> , correct: [92115356, 16, 13, 4, 4]
+select error on 92113322 : <template.table.Record object at 0x1033924e0> , correct: [92113322, 2, 3, 3, 15]
+select on 92111275 : <template.table.Record object at 0x1033925c0>
+select on 92115372 : <template.table.Record object at 0x1033924e0>
+select on 92107181 : <template.table.Record object at 0x1033925c0>
+select error on 92113326 : <template.table.Record object at 0x1033924e0> , correct: [92113326, 16, 0, 5, 20]
+select on 92107183 : <template.table.Record object at 0x1033925c0>
+select error on 92107185 : <template.table.Record object at 0x1033924e0> , correct: [92107185, 9, 18, 5, 1]
+select error on 92107964 : <template.table.Record object at 0x103392518> , correct: [92107964, 5, 7, 10, 15]
+select on 92113333 : <template.table.Record object at 0x1033924e0>
+select on 92109238 : <template.table.Record object at 0x103392518>
+select on 92109239 : <template.table.Record object at 0x1033924e0>
+select on 92107508 : <template.table.Record object at 0x103392518>
+select error on 92111263 : <template.table.Record object at 0x1033924e0> , correct: [92111263, 1, 5, 14, 12]
+select on 92111295 : <template.table.Record object at 0x103392518>
+select error on 92111296 : <template.table.Record object at 0x1033924e0> , correct: [92111296, 20, 20, 12, 19]
+select error on 92109249 : <template.table.Record object at 0x103392518> , correct: [92109249, 6, 15, 20, 20]
+select error on 92115399 : <template.table.Record object at 0x1033924e0> , correct: [92115399, 12, 2, 15, 0]
+select error on 92109257 : <template.table.Record object at 0x103392518> , correct: [92109257, 11, 16, 18, 15]
+select error on 92109259 : <template.table.Record object at 0x1033924e0> , correct: [92109259, 14, 5, 10, 0]
+select on 92113314 : <template.table.Record object at 0x103392518>
+select on 92113360 : <template.table.Record object at 0x1033924e0>
+select on 92109266 : <template.table.Record object at 0x103392518>
+select error on 92112291 : <template.table.Record object at 0x1033924e0> , correct: [92112291, 0, 16, 17, 5]
+select on 92113368 : <template.table.Record object at 0x103392518>
+select on 92107172 : <template.table.Record object at 0x1033924e0>
+select on 92115418 : <template.table.Record object at 0x103392518>
+select error on 92109903 : <template.table.Record object at 0x1033924e0> , correct: [92109903, 6, 16, 9, 9]
+select error on 92111324 : <template.table.Record object at 0x1033926a0> , correct: [92111324, 0, 16, 13, 20]
+select error on 92113373 : <template.table.Record object at 0x1033924e0> , correct: [92113373, 9, 10, 2, 5]
+select error on 92115422 : <template.table.Record object at 0x103392550> , correct: [92115422, 10, 20, 0, 19]
+select error on 92113375 : <template.table.Record object at 0x1033924e0> , correct: [92113375, 14, 4, 0, 9]
+select error on 92107232 : <template.table.Record object at 0x1033925f8> , correct: [92107232, 2, 7, 9, 18]
+select on 92107233 : <template.table.Record object at 0x103392710>
+select error on 92115426 : <template.table.Record object at 0x1033925f8> , correct: [92115426, 14, 8, 6, 0]
+select on 92113379 : <template.table.Record object at 0x1033926d8>
+select on 92113383 : <template.table.Record object at 0x1033925f8>
+select on 92107242 : <template.table.Record object at 0x1033926d8>
+select on 92113387 : <template.table.Record object at 0x1033925f8>
+select error on 92111344 : <template.table.Record object at 0x1033926d8> , correct: [92111344, 12, 13, 10, 15]
+select error on 92112673 : <template.table.Record object at 0x1033925f8> , correct: [92112673, 5, 19, 8, 7]
+select error on 92107253 : <template.table.Record object at 0x103392748> , correct: [92107253, 16, 7, 5, 18]
+select on 92107256 : <template.table.Record object at 0x1033925f8>
+select error on 92111956 : <template.table.Record object at 0x103392748> , correct: [92111956, 18, 14, 20, 1]
+select on 92111354 : <template.table.Record object at 0x1033925f8>
+select error on 92114786 : <template.table.Record object at 0x103392748> , correct: [92114786, 12, 8, 1, 20]
+select error on 92111358 : <template.table.Record object at 0x1033925f8> , correct: [92111358, 10, 1, 16, 11]
+select on 92109311 : <template.table.Record object at 0x103392748>
+select error on 92113084 : <template.table.Record object at 0x1033925f8> , correct: [92113084, 16, 9, 2, 8]
+select on 92109319 : <template.table.Record object at 0x103392780>
+select on 92109321 : <template.table.Record object at 0x1033925f8>
+select error on 92113419 : <template.table.Record object at 0x103392780> , correct: [92113419, 12, 4, 3, 6]
+select error on 92107276 : <template.table.Record object at 0x1033927f0> , correct: [92107276, 17, 15, 5, 10]
+select error on 92107626 : <template.table.Record object at 0x103392780> , correct: [92107626, 11, 7, 14, 4]
+select on 92107279 : <template.table.Record object at 0x1033927f0>
+select on 92107280 : <template.table.Record object at 0x103392780>
+select on 92109331 : <template.table.Record object at 0x1033927f0>
+select error on 92107182 : <template.table.Record object at 0x103392780> , correct: [92107182, 14, 16, 17, 6]
+select on 92106808 : <template.table.Record object at 0x103392438>
+select on 92113423 : <template.table.Record object at 0x103392780>
+select error on 92113435 : <template.table.Record object at 0x103392438> , correct: [92113435, 3, 2, 16, 6]
+select error on 92107054 : <template.table.Record object at 0x103392780> , correct: [92107054, 14, 1, 1, 4]
+select on 92111389 : <template.table.Record object at 0x103392668>
+select error on 92106904 : <template.table.Record object at 0x103392780> , correct: [92106904, 2, 15, 10, 3]
+select error on 92107296 : <template.table.Record object at 0x103392668> , correct: [92107296, 13, 8, 1, 0]
+select error on 92111394 : <template.table.Record object at 0x103392470> , correct: [92111394, 6, 14, 9, 12]
+select error on 92113443 : <template.table.Record object at 0x103392668> , correct: [92113443, 20, 0, 6, 3]
+select on 92109348 : <template.table.Record object at 0x1033924a8>
+select on 92109350 : <template.table.Record object at 0x103392668>
+select error on 92114695 : <template.table.Record object at 0x1033924a8> , correct: [92114695, 7, 11, 0, 9]
+select on 92113454 : <template.table.Record object at 0x103392400>
+select on 92110259 : <template.table.Record object at 0x1033924a8>
+select on 92107318 : <template.table.Record object at 0x103392400>
+select error on 92109370 : <template.table.Record object at 0x1033924a8> , correct: [92109370, 11, 17, 7, 2]
+select error on 92107871 : <template.table.Record object at 0x103392400> , correct: [92107871, 12, 11, 12, 5]
+select error on 92113468 : <template.table.Record object at 0x1033924a8> , correct: [92113468, 10, 19, 9, 17]
+select on 92109373 : <template.table.Record object at 0x103392400>
+select on 92111423 : <template.table.Record object at 0x1033924a8>
+select on 92109379 : <template.table.Record object at 0x103392400>
+select on 92107333 : <template.table.Record object at 0x1033924a8>
+select error on 92113479 : <template.table.Record object at 0x103392400> , correct: [92113479, 14, 3, 7, 6]
+select on 92109384 : <template.table.Record object at 0x103392588>
+select error on 92113484 : <template.table.Record object at 0x103392400> , correct: [92113484, 0, 12, 5, 9]
+select error on 92109391 : <template.table.Record object at 0x103392630> , correct: [92109391, 3, 12, 13, 11]
+select error on 92111440 : <template.table.Record object at 0x103392400> , correct: [92111440, 0, 17, 20, 3]
+select error on 92114857 : <template.table.Record object at 0x103392630> , correct: [92114857, 3, 8, 0, 3]
+select on 92113491 : <template.table.Record object at 0x103392518>
+select on 92107534 : <template.table.Record object at 0x103392630>
+select on 92109399 : <template.table.Record object at 0x103392518>
+select error on 92113501 : <template.table.Record object at 0x103392630> , correct: [92113501, 20, 4, 20, 19]
+select error on 92107358 : <template.table.Record object at 0x103392518> , correct: [92107358, 5, 7, 18, 8]
+select error on 92111456 : <template.table.Record object at 0x1033926a0> , correct: [92111456, 13, 20, 1, 6]
+select error on 92113505 : <template.table.Record object at 0x103392518> , correct: [92113505, 3, 7, 20, 1]
+select error on 92113506 : <template.table.Record object at 0x1033925c0> , correct: [92113506, 5, 9, 20, 6]
+select error on 92114022 : <template.table.Record object at 0x1033924e0> , correct: [92114022, 3, 20, 7, 8]
+select on 92109414 : <template.table.Record object at 0x103392710>
+select on 92111466 : <template.table.Record object at 0x1033924e0>
+select error on 92112514 : <template.table.Record object at 0x103392710> , correct: [92112514, 15, 0, 15, 3]
+select error on 92107373 : <template.table.Record object at 0x1033924e0> , correct: [92107373, 17, 5, 3, 8]
+select error on 92109423 : <template.table.Record object at 0x103392550> , correct: [92109423, 15, 19, 9, 19]
+select error on 92107378 : <template.table.Record object at 0x1033924e0> , correct: [92107378, 0, 19, 15, 9]
+select error on 92108222 : <template.table.Record object at 0x103392550> , correct: [92108222, 0, 17, 8, 20]
+select error on 92109431 : <template.table.Record object at 0x1033924e0> , correct: [92109431, 19, 3, 15, 19]
+select error on 92111480 : <template.table.Record object at 0x103392550> , correct: [92111480, 17, 2, 14, 6]
+select on 92113529 : <template.table.Record object at 0x1033924e0>
+select on 92113531 : <template.table.Record object at 0x103392550>
+select error on 92112949 : <template.table.Record object at 0x1033924e0> , correct: [92112949, 2, 8, 5, 8]
+select on 92107541 : <template.table.Record object at 0x1033926d8>
+select on 92109441 : <template.table.Record object at 0x1033924e0>
+select on 92113538 : <template.table.Record object at 0x1033926d8>
+select on 92113539 : <template.table.Record object at 0x1033924e0>
+select error on 92109444 : <template.table.Record object at 0x1033926d8> , correct: [92109444, 2, 6, 10, 6]
+select on 92111493 : <template.table.Record object at 0x1033925f8>
+select on 92111494 : <template.table.Record object at 0x1033926d8>
+select error on 92110273 : <template.table.Record object at 0x1033925f8> , correct: [92110273, 11, 13, 5, 0]
+select error on 92113550 : <template.table.Record object at 0x1033926d8> , correct: [92113550, 18, 14, 7, 18]
+select on 92111504 : <template.table.Record object at 0x1033925f8>
+select on 92107412 : <template.table.Record object at 0x1033926d8>
+select error on 92111510 : <template.table.Record object at 0x1033925f8> , correct: [92111510, 12, 0, 14, 1]
+select on 92113560 : <template.table.Record object at 0x1033926d8>
+select error on 92111514 : <template.table.Record object at 0x1033925f8> , correct: [92111514, 7, 2, 18, 11]
+select error on 92113563 : <template.table.Record object at 0x1033926d8> , correct: [92113563, 8, 4, 1, 19]
+select on 92107421 : <template.table.Record object at 0x103392748>
+select on 92113567 : <template.table.Record object at 0x1033926d8>
+select on 92111520 : <template.table.Record object at 0x103392748>
+select on 92111522 : <template.table.Record object at 0x1033926d8>
+select on 92109475 : <template.table.Record object at 0x103392748>
+select error on 92113574 : <template.table.Record object at 0x1033926d8> , correct: [92113574, 20, 2, 1, 11]
+select error on 92110961 : <template.table.Record object at 0x103392748> , correct: [92110961, 11, 2, 2, 20]
+select on 92107432 : <template.table.Record object at 0x1033926d8>
+select error on 92109483 : <template.table.Record object at 0x103392748> , correct: [92109483, 12, 15, 14, 15]
+select on 92109484 : <template.table.Record object at 0x1033926d8>
+select error on 92114451 : <template.table.Record object at 0x103392748> , correct: [92114451, 2, 10, 3, 3]
+select on 92110683 : <template.table.Record object at 0x1033927b8>
+select on 92107443 : <template.table.Record object at 0x103392748>
+select error on 92107550 : <template.table.Record object at 0x1033927b8> , correct: [92107550, 14, 0, 17, 7]
+select on 92111542 : <template.table.Record object at 0x103392748>
+select error on 92109132 : <template.table.Record object at 0x1033927b8> , correct: [92109132, 6, 5, 4, 5]
+select error on 92107449 : <template.table.Record object at 0x103392828> , correct: [92107449, 1, 9, 2, 6]
+select error on 92109498 : <template.table.Record object at 0x103392860> , correct: [92109498, 18, 7, 13, 6]
+select error on 92110623 : <template.table.Record object at 0x103392828> , correct: [92110623, 0, 11, 19, 12]
+select error on 92113596 : <template.table.Record object at 0x103392860> , correct: [92113596, 16, 15, 19, 10]
+select on 92107455 : <template.table.Record object at 0x103392828>
+select error on 92114247 : <template.table.Record object at 0x103392860> , correct: [92114247, 12, 20, 18, 18]
+select error on 92109509 : <template.table.Record object at 0x103392828> , correct: [92109509, 14, 11, 15, 19]
+select on 92111559 : <template.table.Record object at 0x103392860>
+select error on 92113608 : <template.table.Record object at 0x103392828> , correct: [92113608, 17, 16, 2, 16]
+select error on 92107465 : <template.table.Record object at 0x103392860> , correct: [92107465, 13, 5, 5, 2]
+select on 92111562 : <template.table.Record object at 0x103392898>
+select on 92107470 : <template.table.Record object at 0x103392860>
+select on 92109519 : <template.table.Record object at 0x103392438>
+select error on 92107473 : <template.table.Record object at 0x103392860> , correct: [92107473, 9, 1, 11, 19]
+select error on 92113625 : <template.table.Record object at 0x103392438> , correct: [92113625, 4, 3, 12, 8]
+select error on 92107486 : <template.table.Record object at 0x103392860> , correct: [92107486, 12, 2, 1, 18]
+select on 92111584 : <template.table.Record object at 0x103392438>
+select error on 92110288 : <template.table.Record object at 0x103392860> , correct: [92110288, 20, 13, 0, 19]
+select error on 92110201 : <template.table.Record object at 0x103392438> , correct: [92110201, 19, 3, 17, 0]
+select error on 92111587 : <template.table.Record object at 0x103392860> , correct: [92111587, 6, 18, 9, 11]
+select error on 92107495 : <template.table.Record object at 0x103392438> , correct: [92107495, 19, 11, 6, 15]
+select error on 92111593 : <template.table.Record object at 0x103392860> , correct: [92111593, 12, 1, 14, 1]
+select on 92107499 : <template.table.Record object at 0x103392438>
+select error on 92113644 : <template.table.Record object at 0x103392860> , correct: [92113644, 2, 16, 11, 14]
+select error on 92109550 : <template.table.Record object at 0x103392438> , correct: [92109550, 1, 8, 6, 20]
+select error on 92107901 : <template.table.Record object at 0x103392780> , correct: [92107901, 1, 2, 0, 0]
+select error on 92109554 : <template.table.Record object at 0x103392668> , correct: [92109554, 4, 19, 6, 6]
+select error on 92109555 : <template.table.Record object at 0x1033924a8> , correct: [92109555, 5, 0, 13, 12]
+select error on 92113652 : <template.table.Record object at 0x103392668> , correct: [92113652, 19, 2, 17, 20]
+select on 92111605 : <template.table.Record object at 0x1033924a8>
+select on 92113658 : <template.table.Record object at 0x103392668>
+select on 92111611 : <template.table.Record object at 0x1033924a8>
+select error on 92113662 : <template.table.Record object at 0x103392668> , correct: [92113662, 3, 6, 19, 13]
+select on 92109569 : <template.table.Record object at 0x1033924a8>
+select error on 92109570 : <template.table.Record object at 0x103392668> , correct: [92109570, 8, 12, 11, 12]
+select error on 92109572 : <template.table.Record object at 0x1033924a8> , correct: [92109572, 13, 0, 14, 10]
+select error on 92108246 : <template.table.Record object at 0x103392668> , correct: [92108246, 3, 10, 5, 7]
+select error on 92111623 : <template.table.Record object at 0x103392470> , correct: [92111623, 17, 16, 7, 15]
+select on 92110976 : <template.table.Record object at 0x103392668>
+select error on 92109580 : <template.table.Record object at 0x103392470> , correct: [92109580, 2, 20, 12, 15]
+select on 92111630 : <template.table.Record object at 0x103392668>
+select error on 92109613 : <template.table.Record object at 0x103392470> , correct: [92109613, 20, 18, 3, 10]
+select on 92111633 : <template.table.Record object at 0x103392668>
+select on 92109587 : <template.table.Record object at 0x103392470>
+select on 92113684 : <template.table.Record object at 0x103392668>
+select on 92110551 : <template.table.Record object at 0x103392470>
+select on 92109590 : <template.table.Record object at 0x103392668>
+select on 92113687 : <template.table.Record object at 0x103392470>
+select error on 92107544 : <template.table.Record object at 0x103392668> , correct: [92107544, 10, 17, 19, 2]
+select on 92113694 : <template.table.Record object at 0x103392470>
+select on 92113696 : <template.table.Record object at 0x103392668>
+select on 92109601 : <template.table.Record object at 0x103392470>
+select on 92107556 : <template.table.Record object at 0x103392668>
+select on 92109606 : <template.table.Record object at 0x103392470>
+select error on 92112689 : <template.table.Record object at 0x103392668> , correct: [92112689, 10, 17, 5, 11]
+select error on 92108252 : <template.table.Record object at 0x103392470> , correct: [92108252, 9, 19, 6, 7]
+select on 92110642 : <template.table.Record object at 0x103392400>
+select error on 92113711 : <template.table.Record object at 0x103392470> , correct: [92113711, 14, 18, 20, 3]
+select on 92107568 : <template.table.Record object at 0x103392400>
+select error on 92107569 : <template.table.Record object at 0x103392470> , correct: [92107569, 18, 20, 3, 14]
+select on 92109618 : <template.table.Record object at 0x103392400>
+select on 92114721 : <template.table.Record object at 0x103392470>
+select on 92111670 : <template.table.Record object at 0x103392400>
+select on 92113719 : <template.table.Record object at 0x103392470>
+select error on 92112266 : <template.table.Record object at 0x103392400> , correct: [92112266, 15, 14, 2, 6]
+select on 92107578 : <template.table.Record object at 0x103392470>
+select error on 92107579 : <template.table.Record object at 0x103392400> , correct: [92107579, 1, 13, 19, 1]
+select error on 92113725 : <template.table.Record object at 0x103392470> , correct: [92113725, 12, 5, 17, 14]
+select on 92111669 : <template.table.Record object at 0x103392400>
+select error on 92111680 : <template.table.Record object at 0x103392470> , correct: [92111680, 5, 19, 13, 14]
+select on 92107588 : <template.table.Record object at 0x103392400>
+select error on 92107590 : <template.table.Record object at 0x103392470> , correct: [92107590, 6, 1, 5, 5]
+select on 92107591 : <template.table.Record object at 0x103392588>
+select error on 92112001 : <template.table.Record object at 0x103392470> , correct: [92112001, 4, 10, 1, 17]
+select error on 92114060 : <template.table.Record object at 0x103392588> , correct: [92114060, 12, 0, 14, 12]
+select error on 92107595 : <template.table.Record object at 0x103392470> , correct: [92107595, 8, 0, 12, 11]
+select on 92111693 : <template.table.Record object at 0x103392588>
+select error on 92109624 : <template.table.Record object at 0x103392470> , correct: [92109624, 10, 19, 7, 3]
+select on 92113746 : <template.table.Record object at 0x103392588>
+select error on 92109651 : <template.table.Record object at 0x103392470> , correct: [92109651, 0, 0, 7, 1]
+select on 92113748 : <template.table.Record object at 0x103392630>
+select error on 92109653 : <template.table.Record object at 0x103392470> , correct: [92109653, 6, 12, 3, 9]
+select error on 92113752 : <template.table.Record object at 0x1033926a0> , correct: [92113752, 10, 4, 15, 1]
+select error on 92112880 : <template.table.Record object at 0x103392470> , correct: [92112880, 13, 17, 16, 1]
+select error on 92113502 : <template.table.Record object at 0x1033926a0> , correct: [92113502, 17, 17, 13, 17]
+select on 92109664 : <template.table.Record object at 0x103392470>
+select error on 92111713 : <template.table.Record object at 0x1033926a0> , correct: [92111713, 10, 4, 11, 11]
+select on 92111714 : <template.table.Record object at 0x103392470>
+select error on 92107620 : <template.table.Record object at 0x1033926a0> , correct: [92107620, 9, 12, 0, 8]
+select error on 92111717 : <template.table.Record object at 0x1033925c0> , correct: [92111717, 3, 17, 11, 19]
+select error on 92113767 : <template.table.Record object at 0x1033926a0> , correct: [92113767, 19, 10, 4, 19]
+select error on 92107625 : <template.table.Record object at 0x1033925c0> , correct: [92107625, 20, 20, 9, 8]
+select on 92113770 : <template.table.Record object at 0x1033926a0>
+select on 92107239 : <template.table.Record object at 0x1033925c0>
+select on 92107630 : <template.table.Record object at 0x1033926a0>
+select error on 92109680 : <template.table.Record object at 0x1033925c0> , correct: [92109680, 11, 2, 13, 20]
+select error on 92111866 : <template.table.Record object at 0x1033926a0> , correct: [92111866, 5, 6, 16, 4]
+select error on 92110995 : <template.table.Record object at 0x103392518> , correct: [92110995, 16, 13, 12, 2]
+select error on 92109684 : <template.table.Record object at 0x1033926a0> , correct: [92109684, 14, 6, 3, 14]
+select on 92109686 : <template.table.Record object at 0x103392518>
+select on 92107643 : <template.table.Record object at 0x1033926a0>
+select on 92111740 : <template.table.Record object at 0x103392518>
+select on 92108949 : <template.table.Record object at 0x1033926a0>
+select error on 92109291 : <template.table.Record object at 0x103392518> , correct: [92109291, 3, 17, 14, 11]
+select error on 92107652 : <template.table.Record object at 0x103392860> , correct: [92107652, 11, 3, 4, 12]
+select error on 92108950 : <template.table.Record object at 0x103392518> , correct: [92108950, 8, 15, 1, 1]
+select on 92109702 : <template.table.Record object at 0x103392860>
+select on 92112617 : <template.table.Record object at 0x103392518>
+select on 92113804 : <template.table.Record object at 0x103392860>
+select on 92111757 : <template.table.Record object at 0x103392518>
+select on 92111760 : <template.table.Record object at 0x103392860>
+select on 92111761 : <template.table.Record object at 0x103392518>
+select error on 92112366 : <template.table.Record object at 0x103392860> , correct: [92112366, 1, 10, 3, 13]
+select on 92107673 : <template.table.Record object at 0x103392518>
+select on 92107984 : <template.table.Record object at 0x103392860>
+select error on 92109723 : <template.table.Record object at 0x103392518> , correct: [92109723, 7, 0, 14, 0]
+select error on 92113822 : <template.table.Record object at 0x103392438> , correct: [92113822, 20, 13, 19, 17]
+select error on 92106565 : <template.table.Record object at 0x103392518> , correct: [92106565, 2, 7, 0, 1]
+select error on 92113824 : <template.table.Record object at 0x103392780> , correct: [92113824, 11, 20, 7, 5]
+select error on 92112368 : <template.table.Record object at 0x103392518> , correct: [92112368, 6, 13, 18, 12]
+select error on 92111783 : <template.table.Record object at 0x103392780> , correct: [92111783, 17, 2, 13, 5]
+select error on 92107932 : <template.table.Record object at 0x103392518> , correct: [92107932, 12, 10, 5, 19]
+select on 92109739 : <template.table.Record object at 0x103392780>
+select on 92113837 : <template.table.Record object at 0x103392518>
+select error on 92109749 : <template.table.Record object at 0x103392780> , correct: [92109749, 1, 3, 14, 16]
+select on 92113846 : <template.table.Record object at 0x103392518>
+select on 92108617 : <template.table.Record object at 0x103392780>
+select error on 92109752 : <template.table.Record object at 0x103392518> , correct: [92109752, 2, 12, 7, 18]
+select on 92113851 : <template.table.Record object at 0x103392780>
+select error on 92109756 : <template.table.Record object at 0x103392518> , correct: [92109756, 8, 20, 12, 14]
+select on 92109757 : <template.table.Record object at 0x103392780>
+select on 92109759 : <template.table.Record object at 0x103392518>
+select error on 92114080 : <template.table.Record object at 0x103392780> , correct: [92114080, 10, 8, 13, 2]
+select error on 92112619 : <template.table.Record object at 0x103392518> , correct: [92112619, 8, 17, 20, 5]
+select error on 92113864 : <template.table.Record object at 0x103392780> , correct: [92113864, 8, 17, 9, 13]
+select error on 92109772 : <template.table.Record object at 0x103392518> , correct: [92109772, 0, 13, 3, 7]
+select error on 92107727 : <template.table.Record object at 0x1033924a8> , correct: [92107727, 14, 1, 20, 19]
+select error on 92113873 : <template.table.Record object at 0x103392518> , correct: [92113873, 16, 10, 15, 11]
+select on 92109778 : <template.table.Record object at 0x1033924a8>
+select error on 92109779 : <template.table.Record object at 0x103392518> , correct: [92109779, 12, 15, 15, 16]
+select error on 92109781 : <template.table.Record object at 0x1033924a8> , correct: [92109781, 9, 10, 10, 20]
+select error on 92112074 : <template.table.Record object at 0x103392518> , correct: [92112074, 6, 3, 17, 10]
+select error on 92111835 : <template.table.Record object at 0x1033924a8> , correct: [92111835, 14, 7, 3, 6]
+select error on 92111837 : <template.table.Record object at 0x103392400> , correct: [92111837, 18, 10, 8, 14]
+select error on 92111843 : <template.table.Record object at 0x1033924a8> , correct: [92111843, 11, 11, 11, 19]
+select on 92109798 : <template.table.Record object at 0x103392400>
+select on 92108080 : <template.table.Record object at 0x1033924a8>
+select error on 92111851 : <template.table.Record object at 0x103392400> , correct: [92111851, 5, 12, 8, 5]
+select error on 92109650 : <template.table.Record object at 0x103392588> , correct: [92109650, 13, 17, 6, 20]
+select error on 92109807 : <template.table.Record object at 0x103392400> , correct: [92109807, 17, 9, 7, 6]
+select error on 92113906 : <template.table.Record object at 0x103392668> , correct: [92113906, 20, 11, 3, 15]
+select error on 92113848 : <template.table.Record object at 0x103392400> , correct: [92113848, 13, 5, 7, 3]
+select on 92111860 : <template.table.Record object at 0x103392630>
+select error on 92114530 : <template.table.Record object at 0x103392400> , correct: [92114530, 2, 5, 8, 12]
+select error on 92107766 : <template.table.Record object at 0x103392470> , correct: [92107766, 11, 16, 20, 8]
+select error on 92109816 : <template.table.Record object at 0x103392400> , correct: [92109816, 5, 16, 6, 15]
+select on 92107847 : <template.table.Record object at 0x103392470>
+select error on 92111872 : <template.table.Record object at 0x103392400> , correct: [92111872, 16, 9, 4, 7]
+select on 92115115 : <template.table.Record object at 0x1033925c0>
+select on 92111876 : <template.table.Record object at 0x103392400>
+select on 92111879 : <template.table.Record object at 0x1033925c0>
+select error on 92109833 : <template.table.Record object at 0x103392400> , correct: [92109833, 12, 3, 11, 10]
+select on 92111884 : <template.table.Record object at 0x1033925c0>
+select error on 92113934 : <template.table.Record object at 0x103392400> , correct: [92113934, 15, 4, 1, 5]
+select error on 92107795 : <template.table.Record object at 0x1033926a0> , correct: [92107795, 13, 7, 6, 19]
+select on 92111894 : <template.table.Record object at 0x103392400>
+select error on 92109847 : <template.table.Record object at 0x1033926a0> , correct: [92109847, 2, 3, 8, 4]
+select on 92109849 : <template.table.Record object at 0x103392710>
+select error on 92109854 : <template.table.Record object at 0x1033926a0> , correct: [92109854, 2, 20, 15, 12]
+select error on 92107807 : <template.table.Record object at 0x103392710> , correct: [92107807, 16, 2, 1, 5]
+select on 92111905 : <template.table.Record object at 0x1033924e0>
+select on 92111907 : <template.table.Record object at 0x103392710>
+select error on 92111908 : <template.table.Record object at 0x1033924e0> , correct: [92111908, 18, 19, 14, 20]
+select on 92107815 : <template.table.Record object at 0x103392710>
+select on 92107816 : <template.table.Record object at 0x1033924e0>
+select on 92112732 : <template.table.Record object at 0x103392710>
+select on 92107271 : <template.table.Record object at 0x1033924e0>
+select on 92113966 : <template.table.Record object at 0x103392710>
+select on 92111923 : <template.table.Record object at 0x1033924e0>
+select on 92113972 : <template.table.Record object at 0x103392710>
+select error on 92109878 : <template.table.Record object at 0x1033924e0> , correct: [92109878, 16, 1, 13, 8]
+select on 92113975 : <template.table.Record object at 0x103392710>
+select on 92109882 : <template.table.Record object at 0x1033924e0>
+select on 92111933 : <template.table.Record object at 0x103392710>
+select error on 92107838 : <template.table.Record object at 0x1033924e0> , correct: [92107838, 0, 10, 5, 17]
+select error on 92107841 : <template.table.Record object at 0x103392710> , correct: [92107841, 15, 19, 18, 10]
+select on 92107842 : <template.table.Record object at 0x1033924e0>
+select on 92109892 : <template.table.Record object at 0x103392710>
+select on 92109893 : <template.table.Record object at 0x1033924e0>
+select on 92106593 : <template.table.Record object at 0x103392710>
+select error on 92109896 : <template.table.Record object at 0x1033924e0> , correct: [92109896, 11, 16, 1, 6]
+select on 92113994 : <template.table.Record object at 0x103392710>
+select error on 92113995 : <template.table.Record object at 0x1033924e0> , correct: [92113995, 19, 16, 11, 19]
+select error on 92112738 : <template.table.Record object at 0x103392710> , correct: [92112738, 6, 11, 16, 4]
+select error on 92113999 : <template.table.Record object at 0x1033924e0> , correct: [92113999, 15, 15, 15, 7]
+select on 92109904 : <template.table.Record object at 0x103392860>
+select error on 92112872 : <template.table.Record object at 0x1033924e0> , correct: [92112872, 9, 15, 1, 1]
+select on 92107860 : <template.table.Record object at 0x103392860>
+select on 92111958 : <template.table.Record object at 0x1033924e0>
+select on 92111959 : <template.table.Record object at 0x103392860>
+select error on 92107865 : <template.table.Record object at 0x1033924e0> , correct: [92107865, 17, 10, 15, 9]
+select on 92109915 : <template.table.Record object at 0x103392860>
+select error on 92115420 : <template.table.Record object at 0x1033924e0> , correct: [92115420, 4, 6, 13, 8]
+select error on 92109917 : <template.table.Record object at 0x103392438> , correct: [92109917, 15, 4, 1, 17]
+select on 92109919 : <template.table.Record object at 0x1033924e0>
+select on 92111970 : <template.table.Record object at 0x103392438>
+select on 92111971 : <template.table.Record object at 0x1033924e0>
+select on 92111974 : <template.table.Record object at 0x103392438>
+select on 92114025 : <template.table.Record object at 0x1033924e0>
+select on 92109930 : <template.table.Record object at 0x103392438>
+select error on 92110695 : <template.table.Record object at 0x1033924e0> , correct: [92110695, 11, 17, 12, 15]
+select on 92114030 : <template.table.Record object at 0x103392438>
+select on 92114109 : <template.table.Record object at 0x1033924e0>
+select on 92110696 : <template.table.Record object at 0x103392438>
+select on 92111986 : <template.table.Record object at 0x1033924e0>
+select on 92111987 : <template.table.Record object at 0x103392438>
+select on 92109940 : <template.table.Record object at 0x1033924e0>
+select on 92114110 : <template.table.Record object at 0x103392438>
+select error on 92107895 : <template.table.Record object at 0x1033924e0> , correct: [92107895, 1, 17, 5, 5]
+select error on 92109946 : <template.table.Record object at 0x103392780> , correct: [92109946, 12, 15, 8, 14]
+select on 92111997 : <template.table.Record object at 0x1033924e0>
+select on 92111998 : <template.table.Record object at 0x103392780>
+select on 92107905 : <template.table.Record object at 0x1033924e0>
+select on 92107906 : <template.table.Record object at 0x103392780>
+select on 92110358 : <template.table.Record object at 0x1033924e0>
+select on 92107913 : <template.table.Record object at 0x103392780>
+select on 92107916 : <template.table.Record object at 0x1033924e0>
+select error on 92109965 : <template.table.Record object at 0x103392780> , correct: [92109965, 2, 2, 13, 18]
+select on 92114062 : <template.table.Record object at 0x1033924e0>
+select on 92107920 : <template.table.Record object at 0x103392780>
+select error on 92107924 : <template.table.Record object at 0x1033924e0> , correct: [92107924, 18, 14, 12, 18]
+select error on 92113774 : <template.table.Record object at 0x103392780> , correct: [92113774, 7, 19, 18, 3]
+select error on 92114070 : <template.table.Record object at 0x1033924e0> , correct: [92114070, 17, 19, 16, 18]
+select error on 92107927 : <template.table.Record object at 0x103392780> , correct: [92107927, 0, 1, 11, 6]
+select error on 92114072 : <template.table.Record object at 0x1033924a8> , correct: [92114072, 2, 7, 7, 18]
+select error on 92112026 : <template.table.Record object at 0x103392588> , correct: [92112026, 20, 7, 13, 19]
+select error on 92114076 : <template.table.Record object at 0x1033924a8> , correct: [92114076, 13, 11, 6, 18]
+select on 92107933 : <template.table.Record object at 0x103392588>
+select on 92107934 : <template.table.Record object at 0x1033924a8>
+select on 92112032 : <template.table.Record object at 0x103392588>
+select error on 92107937 : <template.table.Record object at 0x1033924a8> , correct: [92107937, 16, 7, 19, 19]
+select on 92114086 : <template.table.Record object at 0x103392588>
+select on 92114088 : <template.table.Record object at 0x1033924a8>
+select error on 92109994 : <template.table.Record object at 0x103392588> , correct: [92109994, 14, 18, 13, 17]
+select error on 92109995 : <template.table.Record object at 0x1033924a8> , correct: [92109995, 14, 16, 10, 16]
+select error on 92112044 : <template.table.Record object at 0x103392588> , correct: [92112044, 14, 1, 3, 4]
+select on 92109997 : <template.table.Record object at 0x103392668>
+select on 92110000 : <template.table.Record object at 0x103392588>
+select on 92110001 : <template.table.Record object at 0x103392668>
+select on 92112058 : <template.table.Record object at 0x103392588>
+select error on 92110012 : <template.table.Record object at 0x103392668> , correct: [92110012, 2, 2, 3, 11]
+select on 92112061 : <template.table.Record object at 0x103392630>
+select error on 92112900 : <template.table.Record object at 0x103392668> , correct: [92112900, 2, 5, 1, 10]
+select on 92108672 : <template.table.Record object at 0x103392518>
+select error on 92115147 : <template.table.Record object at 0x103392668> , correct: [92115147, 5, 10, 0, 20]
+select error on 92114122 : <template.table.Record object at 0x103392518> , correct: [92114122, 6, 16, 13, 3]
+select error on 92112759 : <template.table.Record object at 0x103392668> , correct: [92112759, 3, 13, 5, 0]
+select on 92110028 : <template.table.Record object at 0x103392470>
+select on 92114128 : <template.table.Record object at 0x103392668>
+select on 92110033 : <template.table.Record object at 0x103392470>
+select on 92112085 : <template.table.Record object at 0x103392668>
+select error on 92107992 : <template.table.Record object at 0x103392470> , correct: [92107992, 19, 7, 9, 10]
+select on 92112092 : <template.table.Record object at 0x103392668>
+select on 92114142 : <template.table.Record object at 0x103392470>
+select on 92110047 : <template.table.Record object at 0x103392668>
+select on 92110048 : <template.table.Record object at 0x103392470>
+select error on 92114145 : <template.table.Record object at 0x103392668> , correct: [92114145, 1, 18, 10, 11]
+select on 92109691 : <template.table.Record object at 0x103392470>
+select on 92114129 : <template.table.Record object at 0x103392668>
+select on 92114152 : <template.table.Record object at 0x103392470>
+select on 92108010 : <template.table.Record object at 0x103392668>
+select on 92114156 : <template.table.Record object at 0x103392470>
+select on 92112112 : <template.table.Record object at 0x103392668>
+select on 92112119 : <template.table.Record object at 0x103392470>
+select on 92110072 : <template.table.Record object at 0x103392668>
+select on 92112121 : <template.table.Record object at 0x103392470>
+select error on 92109695 : <template.table.Record object at 0x103392668> , correct: [92109695, 11, 9, 19, 4]
+select on 92112125 : <template.table.Record object at 0x103392470>
+select error on 92108030 : <template.table.Record object at 0x103392668> , correct: [92108030, 5, 12, 3, 10]
+select error on 92107989 : <template.table.Record object at 0x103392470> , correct: [92107989, 7, 11, 8, 3]
+select error on 92106901 : <template.table.Record object at 0x103392400> , correct: [92106901, 4, 15, 9, 16]
+select error on 92112768 : <template.table.Record object at 0x103392470> , correct: [92112768, 8, 16, 20, 19]
+select error on 92109247 : <template.table.Record object at 0x103392400> , correct: [92109247, 12, 8, 1, 8]
+select error on 92114181 : <template.table.Record object at 0x1033926a0> , correct: [92114181, 0, 17, 7, 13]
+select error on 92114184 : <template.table.Record object at 0x103392400> , correct: [92114184, 10, 16, 5, 0]
+select on 92114188 : <template.table.Record object at 0x1033926a0>
+select error on 92114189 : <template.table.Record object at 0x103392400> , correct: [92114189, 8, 0, 3, 17]
+select error on 92108046 : <template.table.Record object at 0x1033925c0> , correct: [92108046, 9, 15, 2, 8]
+select error on 92112146 : <template.table.Record object at 0x1033925f8> , correct: [92112146, 9, 4, 15, 0]
+select error on 92108051 : <template.table.Record object at 0x103392550> , correct: [92108051, 7, 1, 8, 0]
+select error on 92108052 : <template.table.Record object at 0x1033926d8> , correct: [92108052, 20, 12, 17, 19]
+select on 92108054 : <template.table.Record object at 0x103392550>
+select on 92112152 : <template.table.Record object at 0x1033926d8>
+select error on 92110724 : <template.table.Record object at 0x103392860> , correct: [92110724, 14, 0, 8, 11]
+select on 92114204 : <template.table.Record object at 0x1033926d8>
+select on 92112157 : <template.table.Record object at 0x103392860>
+select on 92108062 : <template.table.Record object at 0x1033926d8>
+select on 92113797 : <template.table.Record object at 0x103392860>
+select error on 92110114 : <template.table.Record object at 0x1033926d8> , correct: [92110114, 0, 16, 7, 16]
+select on 92110121 : <template.table.Record object at 0x103392860>
+select error on 92112174 : <template.table.Record object at 0x1033926d8> , correct: [92112174, 14, 13, 14, 3]
+select on 92114224 : <template.table.Record object at 0x103392860>
+select error on 92110129 : <template.table.Record object at 0x1033926d8> , correct: [92110129, 18, 3, 9, 4]
+select error on 92110046 : <template.table.Record object at 0x103392860> , correct: [92110046, 7, 18, 11, 9]
+select on 92110134 : <template.table.Record object at 0x1033926d8>
+select error on 92114232 : <template.table.Record object at 0x103392860> , correct: [92114232, 20, 5, 13, 3]
+select error on 92108089 : <template.table.Record object at 0x1033926d8> , correct: [92108089, 4, 0, 6, 17]
+select on 92108091 : <template.table.Record object at 0x103392438>
+select on 92108682 : <template.table.Record object at 0x1033926d8>
+select on 92112192 : <template.table.Record object at 0x103392438>
+select on 92112195 : <template.table.Record object at 0x1033926d8>
+select error on 92114244 : <template.table.Record object at 0x103392438> , correct: [92114244, 18, 18, 6, 2]
+select error on 92109366 : <template.table.Record object at 0x1033926d8> , correct: [92109366, 19, 2, 15, 4]
+select error on 92112198 : <template.table.Record object at 0x103392438> , correct: [92112198, 14, 8, 20, 16]
+select error on 92109025 : <template.table.Record object at 0x1033926d8> , correct: [92109025, 6, 10, 4, 3]
+select on 92112201 : <template.table.Record object at 0x1033924e0>
+select on 92110156 : <template.table.Record object at 0x1033926d8>
+select on 92112208 : <template.table.Record object at 0x1033924e0>
+select error on 92112210 : <template.table.Record object at 0x1033926d8> , correct: [92112210, 18, 17, 5, 20]
+select error on 92114260 : <template.table.Record object at 0x1033924e0> , correct: [92114260, 2, 18, 10, 12]
+select error on 92110166 : <template.table.Record object at 0x1033926d8> , correct: [92110166, 6, 15, 18, 6]
+select error on 92114951 : <template.table.Record object at 0x1033924e0> , correct: [92114951, 20, 15, 19, 3]
+select on 92114265 : <template.table.Record object at 0x1033926d8>
+select on 92108122 : <template.table.Record object at 0x1033924e0>
+select on 92112220 : <template.table.Record object at 0x1033926d8>
+select on 92108125 : <template.table.Record object at 0x1033924e0>
+select on 92114272 : <template.table.Record object at 0x1033926d8>
+select on 92110177 : <template.table.Record object at 0x1033924e0>
+select error on 92112227 : <template.table.Record object at 0x1033926d8> , correct: [92112227, 13, 0, 1, 19]
+select on 92107665 : <template.table.Record object at 0x1033924e0>
+select error on 92112232 : <template.table.Record object at 0x1033926d8> , correct: [92112232, 14, 11, 15, 10]
+select error on 92115175 : <template.table.Record object at 0x1033924e0> , correct: [92115175, 12, 14, 7, 14]
+select on 92114287 : <template.table.Record object at 0x1033926d8>
+select error on 92110056 : <template.table.Record object at 0x1033924e0> , correct: [92110056, 13, 8, 16, 11]
+select error on 92112242 : <template.table.Record object at 0x1033926d8> , correct: [92112242, 1, 20, 19, 16]
+select on 92112247 : <template.table.Record object at 0x1033924e0>
+select on 92114297 : <template.table.Record object at 0x1033926d8>
+select on 92110205 : <template.table.Record object at 0x1033924e0>
+select on 92114837 : <template.table.Record object at 0x1033926d8>
+select error on 92112257 : <template.table.Record object at 0x1033924e0> , correct: [92112257, 0, 19, 18, 9]
+select on 92114816 : <template.table.Record object at 0x1033926d8>
+select error on 92114838 : <template.table.Record object at 0x1033924e0> , correct: [92114838, 7, 19, 20, 7]
+select error on 92110214 : <template.table.Record object at 0x1033926d8> , correct: [92110214, 2, 8, 6, 5]
+select on 92112108 : <template.table.Record object at 0x103392780>
+select on 92110606 : <template.table.Record object at 0x1033926d8>
+select on 92112791 : <template.table.Record object at 0x103392780>
+select on 92114316 : <template.table.Record object at 0x1033926d8>
+select error on 92112269 : <template.table.Record object at 0x103392780> , correct: [92112269, 19, 19, 13, 12]
+select on 92108176 : <template.table.Record object at 0x1033926d8>
+select on 92114321 : <template.table.Record object at 0x103392780>
+select error on 92112274 : <template.table.Record object at 0x1033926d8> , correct: [92112274, 7, 0, 1, 2]
+select error on 92110228 : <template.table.Record object at 0x1033924a8> , correct: [92110228, 15, 17, 20, 8]
+select on 92108182 : <template.table.Record object at 0x1033926d8>
+select error on 92108697 : <template.table.Record object at 0x1033924a8> , correct: [92108697, 19, 2, 17, 6]
+select on 92108190 : <template.table.Record object at 0x1033926d8>
+select on 92111339 : <template.table.Record object at 0x1033924a8>
+select error on 92112021 : <template.table.Record object at 0x1033926d8> , correct: [92112021, 15, 12, 15, 3]
+select on 92108193 : <template.table.Record object at 0x1033924a8>
+select error on 92114843 : <template.table.Record object at 0x1033926d8> , correct: [92114843, 11, 20, 8, 11]
+select on 92110247 : <template.table.Record object at 0x1033924a8>
+select error on 92110254 : <template.table.Record object at 0x1033926d8> , correct: [92110254, 5, 16, 11, 1]
+select error on 92112303 : <template.table.Record object at 0x1033924a8> , correct: [92112303, 19, 0, 7, 20]
+select error on 92114352 : <template.table.Record object at 0x1033926d8> , correct: [92114352, 2, 12, 20, 6]
+select on 92108209 : <template.table.Record object at 0x1033924a8>
+select error on 92112307 : <template.table.Record object at 0x1033926d8> , correct: [92112307, 14, 14, 0, 13]
+select error on 92110260 : <template.table.Record object at 0x1033924a8> , correct: [92110260, 12, 1, 3, 10]
+select error on 92114357 : <template.table.Record object at 0x1033926d8> , correct: [92114357, 9, 3, 7, 1]
+select error on 92110263 : <template.table.Record object at 0x103392588> , correct: [92110263, 0, 9, 3, 19]
+select on 92114366 : <template.table.Record object at 0x103392518>
+select on 92112321 : <template.table.Record object at 0x103392588>
+select on 92114370 : <template.table.Record object at 0x103392518>
+select on 92112801 : <template.table.Record object at 0x103392588>
+select on 92110280 : <template.table.Record object at 0x103392518>
+select on 92112330 : <template.table.Record object at 0x103392588>
+select error on 92112331 : <template.table.Record object at 0x103392518> , correct: [92112331, 19, 7, 16, 15]
+select on 92112332 : <template.table.Record object at 0x103392588>
+select error on 92112333 : <template.table.Record object at 0x103392518> , correct: [92112333, 19, 19, 19, 8]
+select error on 92112461 : <template.table.Record object at 0x103392588> , correct: [92112461, 10, 5, 7, 14]
+select error on 92108240 : <template.table.Record object at 0x103392518> , correct: [92108240, 18, 19, 3, 8]
+select error on 92108024 : <template.table.Record object at 0x103392588> , correct: [92108024, 14, 17, 15, 6]
+select on 92110291 : <template.table.Record object at 0x103392518>
+select on 92110294 : <template.table.Record object at 0x103392588>
+select on 92110295 : <template.table.Record object at 0x103392518>
+select error on 92112345 : <template.table.Record object at 0x103392588> , correct: [92112345, 8, 12, 0, 12]
+select on 92114394 : <template.table.Record object at 0x103392518>
+select error on 92112348 : <template.table.Record object at 0x103392588> , correct: [92112348, 2, 3, 18, 13]
+select on 92108253 : <template.table.Record object at 0x103392518>
+select error on 92114399 : <template.table.Record object at 0x103392588> , correct: [92114399, 3, 20, 19, 7]
+select on 92114400 : <template.table.Record object at 0x103392860>
+select error on 92108477 : <template.table.Record object at 0x103392588> , correct: [92108477, 1, 14, 4, 0]
+select error on 92110306 : <template.table.Record object at 0x103392860> , correct: [92110306, 1, 18, 3, 5]
+select error on 92111099 : <template.table.Record object at 0x1033924e0> , correct: [92111099, 19, 20, 8, 2]
+select on 92110310 : <template.table.Record object at 0x103392860>
+select on 92110312 : <template.table.Record object at 0x1033924e0>
+select on 92114409 : <template.table.Record object at 0x103392860>
+select error on 92109735 : <template.table.Record object at 0x1033924e0> , correct: [92109735, 18, 19, 12, 5]
+select error on 92112364 : <template.table.Record object at 0x103392860> , correct: [92112364, 5, 6, 20, 9]
+select on 92110318 : <template.table.Record object at 0x103392438>
+select on 92115197 : <template.table.Record object at 0x103392860>
+select error on 92114416 : <template.table.Record object at 0x103392438> , correct: [92114416, 9, 4, 18, 3]
+select on 92110760 : <template.table.Record object at 0x1033924a8>
+select on 92110325 : <template.table.Record object at 0x103392438>
+select on 92110327 : <template.table.Record object at 0x1033924a8>
+select error on 92114427 : <template.table.Record object at 0x103392438> , correct: [92114427, 2, 18, 2, 19]
+select on 92110332 : <template.table.Record object at 0x1033924a8>
+select on 92114429 : <template.table.Record object at 0x103392438>
+select on 92114430 : <template.table.Record object at 0x1033924a8>
+select error on 92114431 : <template.table.Record object at 0x103392438> , correct: [92114431, 5, 0, 8, 18]
+select on 92114433 : <template.table.Record object at 0x103392780>
+select error on 92108290 : <template.table.Record object at 0x103392438> , correct: [92108290, 0, 6, 16, 9]
+select error on 92114436 : <template.table.Record object at 0x1033926d8> , correct: [92114436, 15, 7, 1, 19]
+select error on 92112390 : <template.table.Record object at 0x103392438> , correct: [92112390, 6, 9, 19, 5]
+select on 92109057 : <template.table.Record object at 0x103392518>
+select error on 92112339 : <template.table.Record object at 0x103392438> , correct: [92112339, 1, 19, 15, 7]
+select error on 92110345 : <template.table.Record object at 0x103392518> , correct: [92110345, 13, 2, 19, 11]
+select on 92110352 : <template.table.Record object at 0x103392438>
+select error on 92109059 : <template.table.Record object at 0x103392518> , correct: [92109059, 4, 2, 9, 20]
+select on 92108310 : <template.table.Record object at 0x103392668>
+select on 92110363 : <template.table.Record object at 0x103392518>
+select on 92112418 : <template.table.Record object at 0x103392668>
+select on 92108330 : <template.table.Record object at 0x103392518>
+select on 92114475 : <template.table.Record object at 0x103392668>
+select on 92108333 : <template.table.Record object at 0x103392518>
+select error on 92108337 : <template.table.Record object at 0x103392668> , correct: [92108337, 12, 6, 16, 18]
+select error on 92107525 : <template.table.Record object at 0x103392518> , correct: [92107525, 20, 2, 20, 14]
+select error on 92114485 : <template.table.Record object at 0x103392668> , correct: [92114485, 14, 18, 19, 7]
+select error on 92108344 : <template.table.Record object at 0x103392518> , correct: [92108344, 16, 11, 11, 6]
+select on 92114491 : <template.table.Record object at 0x103392668>
+select error on 92108348 : <template.table.Record object at 0x103392518> , correct: [92108348, 0, 0, 17, 1]
+select error on 92108350 : <template.table.Record object at 0x103392630> , correct: [92108350, 15, 6, 7, 17]
+select error on 92112450 : <template.table.Record object at 0x103392518> , correct: [92112450, 5, 4, 18, 14]
+select on 92110405 : <template.table.Record object at 0x103392630>
+select on 92112482 : <template.table.Record object at 0x103392518>
+select error on 92112462 : <template.table.Record object at 0x103392630> , correct: [92112462, 5, 5, 13, 20]
+select error on 92108367 : <template.table.Record object at 0x103392518> , correct: [92108367, 10, 4, 4, 4]
+select on 92114513 : <template.table.Record object at 0x103392470>
+select on 92107867 : <template.table.Record object at 0x103392518>
+select on 92112467 : <template.table.Record object at 0x103392470>
+select on 92112470 : <template.table.Record object at 0x103392518>
+select on 92112473 : <template.table.Record object at 0x103392470>
+select on 92108378 : <template.table.Record object at 0x103392518>
+select on 92112478 : <template.table.Record object at 0x103392470>
+select on 92110431 : <template.table.Record object at 0x103392518>
+select on 92110434 : <template.table.Record object at 0x103392470>
+select error on 92110437 : <template.table.Record object at 0x103392518> , correct: [92110437, 17, 11, 5, 2]
+select error on 92110441 : <template.table.Record object at 0x103392470> , correct: [92110441, 20, 3, 1, 4]
+select error on 92110443 : <template.table.Record object at 0x103392400> , correct: [92110443, 16, 6, 5, 18]
+select error on 92114540 : <template.table.Record object at 0x103392470> , correct: [92114540, 4, 7, 6, 13]
+select error on 92114541 : <template.table.Record object at 0x1033926a0> , correct: [92114541, 12, 5, 14, 7]
+select on 92114543 : <template.table.Record object at 0x103392470>
+select on 92108404 : <template.table.Record object at 0x1033926a0>
+select on 92110455 : <template.table.Record object at 0x103392470>
+select error on 92108410 : <template.table.Record object at 0x1033926a0> , correct: [92108410, 2, 19, 10, 7]
+select on 92113324 : <template.table.Record object at 0x103392470>
+select error on 92109418 : <template.table.Record object at 0x1033926a0> , correct: [92109418, 15, 1, 16, 13]
+select on 92108418 : <template.table.Record object at 0x103392470>
+select error on 92110467 : <template.table.Record object at 0x1033926a0> , correct: [92110467, 1, 14, 12, 0]
+select on 92112520 : <template.table.Record object at 0x103392470>
+select error on 92107372 : <template.table.Record object at 0x1033926a0> , correct: [92107372, 5, 20, 6, 15]
+select error on 92108426 : <template.table.Record object at 0x103392470> , correct: [92108426, 8, 0, 7, 13]
+select on 92110476 : <template.table.Record object at 0x1033925c0>
+select on 92110481 : <template.table.Record object at 0x103392470>
+select on 92110484 : <template.table.Record object at 0x1033925c0>
+select on 92110485 : <template.table.Record object at 0x103392470>
+select on 92114588 : <template.table.Record object at 0x1033925c0>
+select on 92112541 : <template.table.Record object at 0x103392470>
+select on 92108446 : <template.table.Record object at 0x1033925c0>
+select error on 92110496 : <template.table.Record object at 0x103392470> , correct: [92110496, 11, 19, 5, 9]
+select error on 92110503 : <template.table.Record object at 0x1033925c0> , correct: [92110503, 15, 20, 17, 6]
+select on 92114887 : <template.table.Record object at 0x103392470>
+select error on 92112556 : <template.table.Record object at 0x1033925c0> , correct: [92112556, 13, 1, 13, 7]
+select error on 92111989 : <template.table.Record object at 0x103392470> , correct: [92111989, 5, 18, 11, 14]
+select on 92110510 : <template.table.Record object at 0x1033925c0>
+select error on 92110511 : <template.table.Record object at 0x103392470> , correct: [92110511, 4, 15, 20, 7]
+select error on 92109926 : <template.table.Record object at 0x1033925c0> , correct: [92109926, 12, 11, 14, 8]
+select error on 92110515 : <template.table.Record object at 0x103392470> , correct: [92110515, 16, 9, 17, 20]
+select on 92110518 : <template.table.Record object at 0x1033925c0>
+select error on 92110793 : <template.table.Record object at 0x103392470> , correct: [92110793, 16, 9, 4, 3]
+select error on 92114617 : <template.table.Record object at 0x1033925f8> , correct: [92114617, 1, 1, 6, 19]
+select error on 92110522 : <template.table.Record object at 0x103392748> , correct: [92110522, 11, 19, 1, 20]
+select on 92114620 : <template.table.Record object at 0x1033925f8>
+select error on 92110525 : <template.table.Record object at 0x103392748> , correct: [92110525, 18, 17, 2, 8]
+select error on 92110533 : <template.table.Record object at 0x1033925f8> , correct: [92110533, 12, 1, 3, 0]
+select on 92112583 : <template.table.Record object at 0x103392588>
+select error on 92110537 : <template.table.Record object at 0x1033925f8> , correct: [92110537, 10, 16, 1, 4]
+select on 92112503 : <template.table.Record object at 0x103392588>
+select on 92110542 : <template.table.Record object at 0x1033925f8>
+select on 92106447 : <template.table.Record object at 0x103392588>
+select on 92110545 : <template.table.Record object at 0x1033925f8>
+select on 92108499 : <template.table.Record object at 0x103392588>
+select on 92110798 : <template.table.Record object at 0x1033925f8>
+select on 92108503 : <template.table.Record object at 0x103392588>
+select on 92106456 : <template.table.Record object at 0x1033925f8>
+select error on 92114651 : <template.table.Record object at 0x103392588> , correct: [92114651, 20, 3, 12, 8]
+select error on 92108511 : <template.table.Record object at 0x1033925f8> , correct: [92108511, 4, 15, 4, 0]
+select on 92112610 : <template.table.Record object at 0x1033924e0>
+select error on 92112611 : <template.table.Record object at 0x1033925f8> , correct: [92112611, 19, 1, 19, 10]
+select on 92114662 : <template.table.Record object at 0x1033924e0>
+select on 92106473 : <template.table.Record object at 0x1033925f8>
+select on 92106474 : <template.table.Record object at 0x1033924e0>
+select on 92108523 : <template.table.Record object at 0x1033925f8>
+select on 92110576 : <template.table.Record object at 0x1033924e0>
+select error on 92109168 : <template.table.Record object at 0x1033925f8> , correct: [92109168, 8, 4, 1, 1]
+select error on 92106482 : <template.table.Record object at 0x103392860> , correct: [92106482, 13, 10, 13, 10]
+select on 92107731 : <template.table.Record object at 0x1033925f8>
+select error on 92106484 : <template.table.Record object at 0x103392860> , correct: [92106484, 20, 4, 16, 5]
+select error on 92110581 : <template.table.Record object at 0x1033925f8> , correct: [92110581, 1, 17, 14, 12]
+select on 92114678 : <template.table.Record object at 0x103392860>
+select on 92114681 : <template.table.Record object at 0x1033925f8>
+select error on 92108539 : <template.table.Record object at 0x103392860> , correct: [92108539, 2, 4, 0, 14]
+select error on 92112645 : <template.table.Record object at 0x103392780> , correct: [92112645, 15, 19, 6, 10]
+select error on 92111489 : <template.table.Record object at 0x103392860> , correct: [92111489, 15, 16, 15, 17]
+select error on 92107394 : <template.table.Record object at 0x103392780> , correct: [92107394, 11, 16, 3, 1]
+select error on 92106510 : <template.table.Record object at 0x103392860> , correct: [92106510, 11, 4, 14, 13]
+select error on 92108559 : <template.table.Record object at 0x103392780> , correct: [92108559, 17, 10, 15, 16]
+select error on 92114705 : <template.table.Record object at 0x103392860> , correct: [92114705, 12, 8, 15, 8]
+select error on 92114706 : <template.table.Record object at 0x103392780> , correct: [92114706, 1, 8, 17, 3]
+select error on 92110611 : <template.table.Record object at 0x1033926d8> , correct: [92110611, 17, 1, 0, 6]
+select on 92110613 : <template.table.Record object at 0x103392438>
+select error on 92111560 : <template.table.Record object at 0x1033926d8> , correct: [92111560, 17, 17, 11, 15]
+select on 92108570 : <template.table.Record object at 0x103392438>
+select on 92114716 : <template.table.Record object at 0x1033926d8>
+select error on 92108972 : <template.table.Record object at 0x103392438> , correct: [92108972, 12, 9, 12, 3]
+select error on 92106527 : <template.table.Record object at 0x1033926d8> , correct: [92106527, 15, 20, 12, 10]
+select on 92110128 : <template.table.Record object at 0x103392438>
+select on 92113466 : <template.table.Record object at 0x1033926d8>
+select error on 92112677 : <template.table.Record object at 0x103392438> , correct: [92112677, 11, 0, 5, 17]
+select error on 92108588 : <template.table.Record object at 0x1033926d8> , correct: [92108588, 4, 9, 20, 16]
+select on 92106541 : <template.table.Record object at 0x103392438>
+select error on 92106544 : <template.table.Record object at 0x1033926d8> , correct: [92106544, 4, 3, 13, 6]
+select on 92108424 : <template.table.Record object at 0x1033924a8>
+select error on 92112690 : <template.table.Record object at 0x1033926d8> , correct: [92112690, 17, 17, 11, 0]
+select on 92106547 : <template.table.Record object at 0x1033924a8>
+select on 92106548 : <template.table.Record object at 0x1033926d8>
+select error on 92112694 : <template.table.Record object at 0x1033924a8> , correct: [92112694, 13, 15, 4, 0]
+select on 92114743 : <template.table.Record object at 0x1033926d8>
+select on 92108600 : <template.table.Record object at 0x1033924a8>
+select error on 92110650 : <template.table.Record object at 0x1033926d8> , correct: [92110650, 0, 2, 15, 2]
+select error on 92114747 : <template.table.Record object at 0x103392668> , correct: [92114747, 4, 15, 2, 15]
+select on 92114750 : <template.table.Record object at 0x1033926d8>
+select error on 92106559 : <template.table.Record object at 0x103392668> , correct: [92106559, 15, 0, 9, 16]
+select error on 92110658 : <template.table.Record object at 0x1033926d8> , correct: [92110658, 7, 12, 0, 14]
+select on 92110659 : <template.table.Record object at 0x103392668>
+select on 92110661 : <template.table.Record object at 0x1033926d8>
+select on 92114758 : <template.table.Record object at 0x103392668>
+select on 92108428 : <template.table.Record object at 0x1033926d8>
+select error on 92111626 : <template.table.Record object at 0x103392668> , correct: [92111626, 15, 18, 17, 12]
+select on 92114763 : <template.table.Record object at 0x1033926d8>
+select on 92114766 : <template.table.Record object at 0x103392668>
+select on 92108623 : <template.table.Record object at 0x1033926d8>
+select error on 92106576 : <template.table.Record object at 0x103392668> , correct: [92106576, 10, 10, 17, 11]
+select on 92110673 : <template.table.Record object at 0x1033926d8>
+select error on 92108627 : <template.table.Record object at 0x103392668> , correct: [92108627, 3, 2, 5, 12]
+select error on 92112725 : <template.table.Record object at 0x103392518> , correct: [92112725, 16, 13, 10, 2]
+select error on 92107603 : <template.table.Record object at 0x103392668> , correct: [92107603, 9, 10, 1, 4]
+select on 92108635 : <template.table.Record object at 0x103392630>
+select error on 92108636 : <template.table.Record object at 0x103392668> , correct: [92108636, 0, 15, 9, 4]
+select on 92106589 : <template.table.Record object at 0x103392400>
+select on 92114785 : <template.table.Record object at 0x103392668>
+select on 92110690 : <template.table.Record object at 0x103392400>
+select error on 92112739 : <template.table.Record object at 0x103392668> , correct: [92112739, 2, 6, 5, 4]
+select error on 92110692 : <template.table.Record object at 0x1033926a0> , correct: [92110692, 2, 12, 8, 2]
+select on 92108645 : <template.table.Record object at 0x103392470>
+select on 92112743 : <template.table.Record object at 0x1033926a0>
+select error on 92114792 : <template.table.Record object at 0x103392470> , correct: [92114792, 6, 11, 16, 1]
+select error on 92110699 : <template.table.Record object at 0x1033926a0> , correct: [92110699, 16, 0, 7, 16]
+select error on 92114796 : <template.table.Record object at 0x103392470> , correct: [92114796, 9, 15, 15, 15]
+select error on 92114237 : <template.table.Record object at 0x1033926a0> , correct: [92114237, 13, 7, 14, 6]
+select error on 92110705 : <template.table.Record object at 0x103392470> , correct: [92110705, 7, 10, 17, 9]
+select on 92106614 : <template.table.Record object at 0x1033926a0>
+select on 92108663 : <template.table.Record object at 0x103392470>
+select error on 92106618 : <template.table.Record object at 0x1033926a0> , correct: [92106618, 10, 1, 12, 4]
+select error on 92114812 : <template.table.Record object at 0x103392470> , correct: [92114812, 9, 11, 10, 8]
+select error on 92114151 : <template.table.Record object at 0x1033926a0> , correct: [92114151, 3, 14, 9, 16]
+select on 92110720 : <template.table.Record object at 0x103392470>
+select error on 92114817 : <template.table.Record object at 0x1033926a0> , correct: [92114817, 0, 19, 20, 3]
+select on 92114820 : <template.table.Record object at 0x103392588>
+select on 92112778 : <template.table.Record object at 0x1033926a0>
+select error on 92114827 : <template.table.Record object at 0x103392588> , correct: [92114827, 8, 6, 6, 17]
+select error on 92110732 : <template.table.Record object at 0x1033926a0> , correct: [92110732, 12, 6, 3, 5]
+select on 92114830 : <template.table.Record object at 0x1033925f8>
+select error on 92112783 : <template.table.Record object at 0x1033926a0> , correct: [92112783, 15, 13, 7, 20]
+select error on 92106642 : <template.table.Record object at 0x1033925f8> , correct: [92106642, 15, 17, 9, 2]
+select error on 92108692 : <template.table.Record object at 0x1033926a0> , correct: [92108692, 13, 2, 1, 7]
+select error on 92106645 : <template.table.Record object at 0x1033924e0> , correct: [92106645, 1, 2, 15, 2]
+select on 92106646 : <template.table.Record object at 0x103392780>
+select on 92108695 : <template.table.Record object at 0x1033924e0>
+select on 92106649 : <template.table.Record object at 0x103392780>
+select on 92106514 : <template.table.Record object at 0x1033924e0>
+select on 92113903 : <template.table.Record object at 0x103392780>
+select error on 92107759 : <template.table.Record object at 0x1033924e0> , correct: [92107759, 10, 6, 14, 16]
+select on 92106657 : <template.table.Record object at 0x103392780>
+select on 92106658 : <template.table.Record object at 0x1033924e0>
+select on 92107419 : <template.table.Record object at 0x103392780>
+select on 92114854 : <template.table.Record object at 0x1033924e0>
+select on 92106664 : <template.table.Record object at 0x103392780>
+select on 92112809 : <template.table.Record object at 0x1033924e0>
+select error on 92108715 : <template.table.Record object at 0x103392780> , correct: [92108715, 4, 3, 0, 6]
+select error on 92114860 : <template.table.Record object at 0x103392438> , correct: [92114860, 16, 3, 3, 15]
+select error on 92110493 : <template.table.Record object at 0x103392780> , correct: [92110493, 19, 20, 7, 2]
+select error on 92114864 : <template.table.Record object at 0x103392438> , correct: [92114864, 4, 19, 15, 10]
+select on 92110771 : <template.table.Record object at 0x103392780>
+select error on 92107947 : <template.table.Record object at 0x103392438> , correct: [92107947, 6, 2, 7, 4]
+select on 92108729 : <template.table.Record object at 0x1033924a8>
+select on 92106684 : <template.table.Record object at 0x103392438>
+select on 92108736 : <template.table.Record object at 0x1033924a8>
+select on 92114883 : <template.table.Record object at 0x103392438>
+select error on 92106694 : <template.table.Record object at 0x1033924a8> , correct: [92106694, 1, 3, 9, 7]
+select on 92110791 : <template.table.Record object at 0x1033926d8>
+select error on 92112841 : <template.table.Record object at 0x1033924a8> , correct: [92112841, 20, 20, 20, 15]
+select error on 92114890 : <template.table.Record object at 0x1033926d8> , correct: [92114890, 0, 15, 5, 17]
+select on 92106702 : <template.table.Record object at 0x1033924a8>
+select on 92114897 : <template.table.Record object at 0x1033926d8>
+select on 92112851 : <template.table.Record object at 0x1033924a8>
+select on 92106708 : <template.table.Record object at 0x1033926d8>
+select on 92108758 : <template.table.Record object at 0x1033924a8>
+select on 92112855 : <template.table.Record object at 0x1033926d8>
+select error on 92114154 : <template.table.Record object at 0x1033924a8> , correct: [92114154, 13, 3, 1, 9]
+select on 92110812 : <template.table.Record object at 0x103392860>
+select on 92114909 : <template.table.Record object at 0x1033924a8>
+select error on 92110814 : <template.table.Record object at 0x103392860> , correct: [92110814, 14, 6, 5, 20]
+select error on 92106719 : <template.table.Record object at 0x1033924a8> , correct: [92106719, 9, 15, 1, 17]
+select on 92114915 : <template.table.Record object at 0x103392860>
+select error on 92108774 : <template.table.Record object at 0x1033924a8> , correct: [92108774, 17, 4, 17, 6]
+select error on 92114920 : <template.table.Record object at 0x103392860> , correct: [92114920, 8, 15, 5, 19]
+select error on 92110472 : <template.table.Record object at 0x1033924a8> , correct: [92110472, 10, 8, 0, 13]
+select error on 92107431 : <template.table.Record object at 0x103392860> , correct: [92107431, 1, 14, 0, 1]
+select error on 92112876 : <template.table.Record object at 0x103392630> , correct: [92112876, 6, 11, 6, 6]
+select error on 92112879 : <template.table.Record object at 0x103392400> , correct: [92112879, 18, 18, 1, 3]
+select error on 92106736 : <template.table.Record object at 0x103392630> , correct: [92106736, 12, 15, 13, 16]
+select error on 92111528 : <template.table.Record object at 0x103392400> , correct: [92111528, 5, 18, 8, 14]
+select on 92112883 : <template.table.Record object at 0x103392630>
+select on 92106741 : <template.table.Record object at 0x103392400>
+select on 92110838 : <template.table.Record object at 0x103392630>
+select error on 92110840 : <template.table.Record object at 0x103392400> , correct: [92110840, 0, 17, 17, 14]
+select on 92114937 : <template.table.Record object at 0x103392630>
+select error on 92114938 : <template.table.Record object at 0x103392400> , correct: [92114938, 20, 20, 4, 6]
+select error on 92106747 : <template.table.Record object at 0x103392630> , correct: [92106747, 3, 14, 2, 7]
+select error on 92114943 : <template.table.Record object at 0x103392518> , correct: [92114943, 2, 10, 7, 10]
