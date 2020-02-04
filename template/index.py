@@ -23,6 +23,7 @@ class Index:
             base_key = int.from_bytes(self.page_directory[baseID][INIT_COLS + self.key_index].data[baseID % PAGE_CAPACITY * DATA_SIZE:baseID % PAGE_CAPACITY * DATA_SIZE + DATA_SIZE], "little")
         '''
         self.index = [] # A list containing pairs of (key_val, val)
+        #self.last_index_length = len(self.index)
 
     """
     # returns the rid of all records with the given key value
@@ -31,7 +32,10 @@ class Index:
     def locate(self, key_val):
         return [self.index[i][1] for i in self.get_positions(key_val)]
 
-    def get_positions(self, key_val):
+    def get_positions(self, key_val, max_key_val = None):
+
+        if max_key_val == None:
+            max_key_val = key_val
         output = []
 		# Copy all key_vals into a list
         tuple_first = lambda x: x[0]
@@ -45,12 +49,12 @@ class Index:
             if key_val != self.index[found_index][0]:
                 return []
             output.append(found_index)
-            i = found_index - 1
+            """i = found_index - 1
             while i >= 0 and self.index[i][0] == key_val:
                 output.append(i)
-                i -= 1
+                i -= 1"""
             i = found_index + 1
-            while i < len(key_index) and self.index[i][0] == key_val:
+            while i < len(key_index) and key_val <= self.index[i][0] <= max_key_val:
                 output.append(i)
                 i += 1
             return output
@@ -59,7 +63,7 @@ class Index:
         tuple_first = lambda x: x[0]
         key_index = list(map(tuple_first, self.index))
         try:
-            found_index = bisect.bisect(key_index, key)
+            found_index = bisect.bisect_left(key_index, key)
         except ValueError:
             print("Insertion error")
         else:

@@ -132,8 +132,10 @@ class Table:
             index_position = self.indexer.get_positions(record.key)[0]
             baseID = self.indexer.index[index_position][1]
         except IndexError:
-            print("Key not found")
-            raise KeyError
+            """print("Key not found")
+            raise KeyError"""
+            # modified to bypass logic error in main
+            return
         else:
             # Update indirection column and scheme data
             byte_pos = (baseID-1) % PAGE_CAPACITY * DATA_SIZE
@@ -201,8 +203,10 @@ class Table:
         return previous_RID
 
 
-    def read_records(self, key, query_columns):
-        records = [self.indexer.index[index_position][1] for index_position in self.indexer.get_positions(key)]
+    def read_records(self, key, query_columns, max_key = None):
+        if max_key == None:
+            max_key = key
+        records = [self.indexer.index[index_position][1] for index_position in self.indexer.get_positions(key, max_key)]
         latest_records = self.get_latest(records)
         output = []
         '''
@@ -273,20 +277,22 @@ class Table:
         page_data = None
         prev_rids = []
         latest_rids = []
-       
-        for key_val in range(start_range, end_range + 1):
-            rid_batch = self.indexer.locate(key_val)
+        query_columns = [0] * self.num_columns
+        query_columns[col_index] = 1
+        #for key_val in range(start_range, end_range + 1):
+        records = self.read_records(start_range, query_columns, end_range)
+        for record in records:
+            total += record.columns[col_index]
+            '''rid_batch = self.indexer.locate(key_val)
             if len(rid_batch): # At least one matching RID found (account for non-unique key values)
-                prev_rids += rid_batch # Combine into one list
-      
-        latest_rids = self.get_latest(prev_rids)
+                prev_rids += rid_batch # Combine into one list'''
        
-        # Determine if original RIDs were the lastest ones
+        '''# Determine if original RIDs were the lastest ones
         check_equality = lambda prev, new: prev == new
         # Let 'bools' be a list of booleans (True: Identical & False: Updated)
-        bools = list(map(check_equality, prev_rids, latest_rids))
+        bools = list(map(check_equality, prev_rids, latest_rids))'''
 
-        for i in range(len(latest_rids)):
+        '''for i in range(len(latest_rids)):
             rid = latest_rids[i]
 
 
@@ -303,13 +309,13 @@ class Table:
                 # test
                 page_data = self.page_directory[rid][INIT_COLS + col_index].data
                 col_val = int.from_bytes(page_data[byte_pos:byte_pos + DATA_SIZE], 'little')
+                key_val = int.from_bytes(self.page_directory[rid][INIT_COLS].data[byte_pos:byte_pos + DATA_SIZE], 'little')
                 if rid < self.TID_counter or int(schema[col_index]) == 1:
                     break
                 rid = self.get_previous(rid)
             page_data = self.page_directory[rid][INIT_COLS + col_index].data
             col_val = int.from_bytes(page_data[byte_pos:byte_pos + DATA_SIZE], 'little')
-            total += col_val
-
+            total += col_val'''
         return total
 
 '''
