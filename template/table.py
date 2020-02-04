@@ -45,7 +45,7 @@ class Table:
         if rid >= self.TID_counter: # Tail recordID
             return abs(rid - (2**64 - 1)) % PAGE_CAPACITY
         else: # Base recordID
-            return rid % PAGE_CAPACITY != 0
+            return (rid-1) % PAGE_CAPACITY != 0
 
     def write_to_basePage(self, record, schema_encoding):
 		# Base case: Check if record's RID is unique

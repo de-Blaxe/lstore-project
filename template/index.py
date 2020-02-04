@@ -42,6 +42,8 @@ class Index:
         except ValueError:
             return []
         else:
+            if key_val != self.index[found_index][0]:
+                return []
             output.append(found_index)
             i = found_index - 1
             while i >= 0 and self.index[i][0] == key_val:
