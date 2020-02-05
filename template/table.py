@@ -139,7 +139,7 @@ class Table:
             # Modified to bypass logic error in main
             return
         else:
-            # Update indirection column and scheme data
+            # Update indirection column and schema data
             byte_pos = (baseID-1) % PAGE_CAPACITY * DATA_SIZE
             base_pages = self.page_directory[baseID]
             prev_tid = int.from_bytes(base_pages[INDIRECTION_COLUMN].data[byte_pos:byte_pos + DATA_SIZE], 'little')
