@@ -7,8 +7,10 @@ class Page:
         self.data = bytearray(PAGE_SIZE)
         self.first_unused_byte = 0
 
+
     def has_capacity(self):
         return self.first_unused_byte <= PAGE_SIZE
+
 
     def write(self, value, position=None):
         # Determine if indirection byte replacement needed
@@ -16,9 +18,5 @@ class Page:
             position = self.first_unused_byte
             self.num_records += 1
             self.first_unused_byte += DATA_SIZE
-        
-        # print("Page.write() - Position of byte: ", position, " and Value is ", value, "\n")
-		# if self.has_capacity() or position is not None:
-            ## Make alias
-            ##data_slots = self.data[position:DATA_SIZE + self.first_unused_byte]
+        # Perform write
         self.data[position:DATA_SIZE + self.first_unused_byte] = value.to_bytes(DATA_SIZE, 'little') if type(value) == int else value 

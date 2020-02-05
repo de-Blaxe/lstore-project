@@ -20,6 +20,7 @@ class Database():
     """
     def create_table(self, name, key_index, num_columns):
         table = Table(name, key_index, num_columns)
+        # self.tables.apppend(table)
         return table
 
     """

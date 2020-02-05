@@ -26,14 +26,16 @@ class Table:
         self.indexer = Index()
         
         self.LID_counter = 0 # Used to increment LIDs
-        self.TID_counter = 2**64 - 1 # Used to decrement TIDs 
+        self.TID_counter = (2 ** 64) - 1 # Used to decrement TIDs 
 
         # Keep track of available base and tail pages
         self.last_LID_used = -1
         self.last_TID_used = -1
 
+
     def __merge(self):
         pass
+
 
     def check_page_space(self, rid = None, DATA_SIZE = 8):
         '''
@@ -43,9 +45,10 @@ class Table:
         '''
         # Determine capacity, based on type of RID given
         if rid >= self.TID_counter: # Tail recordID
-            return abs(rid - (2**64 - 1)) % PAGE_CAPACITY
+            return abs(rid - (2 ** 64 - 1)) % PAGE_CAPACITY
         else: # Base recordID
-            return (rid-1) % PAGE_CAPACITY != 0
+            return (rid - 1) % PAGE_CAPACITY != 0
+
 
     def write_to_basePage(self, record, schema_encoding):
 		# Base case: Check if record's RID is unique
@@ -81,6 +84,7 @@ class Table:
         self.indexer.insert(record.key, record.rid)
         self.last_LID_used = record.rid
 
+
     def write_to_tailPage(self, record, schema_encoding):
 		# Base case: Check if record's RID is unique
         if record.rid in self.page_directory.keys():
@@ -105,9 +109,8 @@ class Table:
                 cur_record_pages[i].write(0)
             i += 1
 
-
-        # (Linear) Search thru a subset of basePages for correct basePage
         '''
+        # (Linear) Search thru a subset of basePages for correct basePage
         for baseID in range(self.LID_counter):
             # Make aliases
             byte_pos = baseID % PAGE_CAPACITY * DATA_SIZE
@@ -133,7 +136,7 @@ class Table:
         except KeyError:
             """print("Key not found")
             raise KeyError"""
-            # modified to bypass logic error in main
+            # Modified to bypass logic error in main
             return
         else:
             # Update indirection column and scheme data
@@ -167,12 +170,13 @@ class Table:
             self.indexer.unique_update(record.key, new_key)
         self.last_TID_used = record.rid
 
+
     def get_latest(self, baseIDs):
         rid_output = []
         if isinstance(baseIDs, int):
             baseIDs = list(baseIDs)
 
-        """
+        '''
         return [int.from_bytes(self.page_directory[baseID][INDIRECTION_COLUMN].data
                                 [(baseID % PAGE_CAPACITY * DATA_SIZE):(baseID % PAGE_CAPACITY * DATA_SIZE)+DATA_SIZE],
                                'little'
@@ -182,9 +186,10 @@ class Table:
                                     'little'
                                     ) != 0) else baseID
                 for baseID in baseIDs]
-        """
+        '''
+
         for baseID in baseIDs:
-            # we want to get the value in the indirection column
+            # Retrieve value in the indirection column
             byte_pos = (baseID - 1) % PAGE_CAPACITY * DATA_SIZE
             TID = int.from_bytes(self.page_directory[baseID][INDIRECTION_COLUMN].data[byte_pos:byte_pos+DATA_SIZE], 'little')
             if TID == 0:
@@ -192,8 +197,8 @@ class Table:
             else:
                 rid_output.append(TID)
         
-        #print("baseIDs in get latest = ", baseIDs)
         return rid_output
+
 
     def get_previous(self, tailID):
         rid_output = []
@@ -230,10 +235,10 @@ class Table:
                 if query_columns[i] == 1:
                     columns_not_retrieved.add(i)
             while len(columns_not_retrieved) > 0:
-                # retrieve whatever data you can from latest record
+                # Retrieve whatever data you can from latest record
                 assert rid != 0
-                # rid may be a base or a tail id
-                # Tail id counts backwards so a single byte_pos formula won't work
+                # RID may be a base or a tail id
+                # Tail ID counts backwards so a single byte_pos formula won't work
                 if rid >= self.TID_counter:
                     byte_pos = abs(rid - (2 ** 64 - 1)) % PAGE_CAPACITY * DATA_SIZE
                 else:
@@ -242,23 +247,24 @@ class Table:
                 schema = str(int.from_bytes(schema, 'little'))
                 if len(schema) < self.num_columns:
                     schema = '0' * (self.num_columns - len(schema)) + schema
-                # leading zeros are lost in integer conversion
-                # pad with zeros
+                # Leading zeros are lost in integer conversion
+                # Pad with zeros
                 for i, page in enumerate(self.page_directory[rid][INIT_COLS:]):
                     if i not in columns_not_retrieved:
                         continue
-                    # NOTE: retrieve values from older records if they aren't in the newest
+                    # Retrieve values from older records, if they aren't in the newest
                     if rid < self.TID_counter or bool(int(schema[i])):
                         data[i] = int.from_bytes(page.data[byte_pos:byte_pos + 8], 'little')
                         columns_not_retrieved.discard(i)
-                # get rid from indirection column (if rid is a tail?)
+                # Get RID from indirection column (if RID is a tail?)
                 rid = self.get_previous(rid)
                 if rid == 0:
                     break
+
             '''for i, page in enumerate(self.page_directory[rid][INIT_COLS:]):
                 # rid may be a base or a tail id
                 # Tail id counts backwards so a single byte_pos formula won't work
-                if rid > self.TID_counter:
+                if rid >= self.TID_counter:
                     byte_pos = abs(rid-(2**64 - 1)) % PAGE_CAPACITY * DATA_SIZE
                 else:
                     byte_pos = (rid-1) % PAGE_CAPACITY * DATA_SIZE
@@ -268,38 +274,41 @@ class Table:
                 # pad with zeros
                 if len(schema) < self.num_columns:
                     schema = '0'*(self.num_columns - len(schema)) + schema
-                # TODO: retrieve values from older records if they aren't in the newest
+                # Retrieve values from older records if they aren't in the newest
                 if bool(query_columns[i]) and (rid < self.TID_counter or bool(int(schema[i]))):
                     data[i] = int.from_bytes(page.data[byte_pos:byte_pos + 8], 'little')
-                    '''
+            '''
+
             output.append(Record(rid, key, data))
         return output
+
 
     def collect_values(self, start_range, end_range, col_index):
         total = 0 # Accumulate column values
         byte_pos = 0
         page_data = None
+
         prev_rids = []
         latest_rids = []
+
         query_columns = [0] * self.num_columns
         query_columns[col_index] = 1
-        #for key_val in range(start_range, end_range + 1):
+
         records = self.read_records(start_range, query_columns, end_range)
         for record in records:
             total += record.columns[col_index]
-            '''rid_batch = self.indexer.locate(key_val)
+
+        return total
+
+        '''
+        # Previous Ideas:
+        for key_val in range(start_range, end_range + 1):
+            rid_batch = self.indexer.locate(key_val)
             if len(rid_batch): # At least one matching RID found (account for non-unique key values)
-                prev_rids += rid_batch # Combine into one list'''
+                prev_rids += rid_batch # Combine into one list
        
-        '''# Determine if original RIDs were the lastest ones
-        check_equality = lambda prev, new: prev == new
-        # Let 'bools' be a list of booleans (True: Identical & False: Updated)
-        bools = list(map(check_equality, prev_rids, latest_rids))'''
-
-        '''for i in range(len(latest_rids)):
+        for i in range(len(latest_rids)):
             rid = latest_rids[i]
-
-
 
             while True:
                 if rid < self.TID_counter:  # No updates made to record
@@ -319,30 +328,6 @@ class Table:
                 rid = self.get_previous(rid)
             page_data = self.page_directory[rid][INIT_COLS + col_index].data
             col_val = int.from_bytes(page_data[byte_pos:byte_pos + DATA_SIZE], 'little')
-            total += col_val'''
-        return total
-
-'''
-	# Previous code: (incorrectly) assumed that start/end_ranges were indices of records
-    def collect_values(self, start_range, end_range, col_index):
-        total = 0
-        byte_pos = 0
-        page_data = None
-
-        rid_list = []
-        latest_rids = []
-
-        for rid in range(start_range, end_range):
-            if rid in self.page_directory.keys():
-                rid_list.append(rid)
-
-        latest_rids = self.get_latest(rid_list)
-
-        for rid in latest_rids:
-            byte_pos = (rid-1) % PAGE_CAPACITY * DATA_SIZE
-            page_data = self.page_directory[rid][INIT_COLS + col_index].data
-            col_val = int.from_bytes(page_data[byte_pos:byte_pos + DATA_SIZE], 'little')
             total += col_val
-
         return total
-'''
+        '''
