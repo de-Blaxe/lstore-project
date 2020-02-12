@@ -11,7 +11,7 @@ Indices are usually B-Trees, but other data structures can be used as well.
 
 class Index:
 
-    def __init__(self, table): # Added parameter "table"
+    def __init__(self, table=None): # Added parameter "table"
         self.index = [] # A list containing pairs of (key_val, val)
         self.dictionary = {}
         self.last_index_length = len(self.index)
@@ -27,7 +27,7 @@ class Index:
     # Template Code
     # Returns the rid of all records with the given key value on column "column"
     """
-    def locate(self, key_val, column): # Added "column" parameter
+    def locate(self, key_val, column=None): # Added "column" parameter
         if key_val not in self.dictionary:
             raise KeyError
         return self.dictionary[key_val]
@@ -37,7 +37,7 @@ class Index:
     # Template Code
     # Returns the RIDs of all records with values in column "column" between "begin" and "end"
     """
-    def locate_range(self, begin, end, column): # Added function defintion
+    def locate_range(self, begin, end, column): # Added function definition
         pass
 
     def get_positions(self, key_val, max_key_val = None):
