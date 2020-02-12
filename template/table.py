@@ -24,7 +24,7 @@ class Table:
         self.key_index = key_index
         self.num_columns = num_columns
         self.page_directory = dict()
-        self.indexer = Index()
+        self.indexer = Index(self) # Passed self (Table instance) to Index constructor
         
         self.LID_counter = 0 # Used to increment LIDs
         self.TID_counter = (2 ** 64) - 1 # Used to decrement TIDs 
