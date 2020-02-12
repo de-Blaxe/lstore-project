@@ -11,7 +11,7 @@ Indices are usually B-Trees, but other data structures can be used as well.
 
 class Index:
 
-    def __init__(self):
+    def __init__(self, table): # Added parameter "table"
         self.index = [] # A list containing pairs of (key_val, val)
         self.dictionary = {}
         self.last_index_length = len(self.index)
