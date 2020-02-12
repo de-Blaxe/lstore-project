@@ -34,6 +34,8 @@ class Query:
 
     """
     # Read a record with specified key
+    # :param key: the key value to select records based on
+    # :param query_columns: what columns to return. array of 1 or 0 values.
     """
     def select(self, key, query_columns):
         return self.table.read_records(key, query_columns)
@@ -56,7 +58,7 @@ class Query:
     """
     :param start_range: int         # Start of the key range to aggregate 
     :param end_range: int           # Increment start_range by 1 until end_range
-    :param col_index: int  			# Index of desired column to aggregate
+    :param col_index: int  	    # Index of desired column to aggregate
     """
     def sum(self, start_range, end_range, col_index):
         return self.table.collect_values(start_range, end_range, col_index)

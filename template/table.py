@@ -13,6 +13,7 @@ class Record:
 
 class Table:
     total_num_pages = 0
+
     """
     :param name: string         #Table name
     :param num_columns: int     #Number of Columns: all columns are integer
@@ -51,11 +52,11 @@ class Table:
 
 
     def write_to_basePage(self, record, schema_encoding):
-		# Base case: Check if record's RID is unique
+        # Base case: Check if record's RID is unique
         if record.rid in self.page_directory.keys():
             print("Error: Record RID is not unique.\n")
             return
-		# Determine if new Pages needed, or recently used Pages are reusable
+        # Determine if new Pages needed, or recently used Pages are reusable
         if self.last_LID_used == -1 or not self.check_page_space(record.rid):
             self.page_directory[record.rid] = [Page() for _ in range(self.num_columns + INIT_COLS)]
             self.total_num_pages += 1
@@ -65,7 +66,7 @@ class Table:
         # Make alias for the current record's set of pages
         cur_record_pages = self.page_directory[record.rid]
         
-		# Write to metadata columns
+        # Write to metadata columns
         cur_record_pages[RID_COLUMN].write(record.rid)
         cur_record_pages[TIMESTAMP_COLUMN].write(int(time()))
         schema_encoding_string = ''
@@ -80,17 +81,17 @@ class Table:
             cur_record_pages[i].write(record.columns[i-INIT_COLS])
             i += 1
 
-		# Create & insert new entry into indexer
+        # Create & insert new entry into indexer
         self.indexer.insert(record.key, record.rid)
         self.last_LID_used = record.rid
 
 
     def write_to_tailPage(self, record, schema_encoding):
-		# Base case: Check if record's RID is unique
+        # Base case: Check if record's RID is unique
         if record.rid in self.page_directory.keys():
             print("Error: Record RID is not unique.\n")
             return
-		# Determine if new Pages needed, or recently used Pages are reusable
+        # Determine if new Pages needed, or recently used Pages are reusable
         if self.last_TID_used == -1 or not self.check_page_space(record.rid):
             self.page_directory[record.rid] = [Page() for _ in range(self.num_columns + INIT_COLS)]
             self.total_num_pages += 1
@@ -109,28 +110,6 @@ class Table:
                 cur_record_pages[i].write(0)
             i += 1
 
-        '''
-        # (Linear) Search thru a subset of basePages for correct basePage
-        for baseID in range(self.LID_counter):
-            # Make aliases
-            byte_pos = baseID % PAGE_CAPACITY * DATA_SIZE
-            pages = self.page_directory[baseID]
-            page_data = pages[INIT_COLS + self.key_index].data
-            base_key = int.from_bytes(page_data[byte_pos:byte_pos+DATA_SIZE], byteorder="little")
-            # Matching basePage for record found
-            if base_key == record.key:
-               page_data = pages[SCHEMA_ENCODING_COLUMN].data
-               prev_tid = pages[INDIRECTION_COLUMN].data[byte_pos:byte_pos+DATA_SIZE]
-               # Check if record is being updated for 1st time
-               #     True:  tail record's indirection => base record's RID
-               #     False: tail record's indirection => previous tail record's TID
-               base_entry = int.from_bytes(page_data[byte_pos:byte_pos+DATA_SIZE], byteorder="little")
-               if not base_entry: # Empty/default entry
-                   self.page_directory[record.rid][INDIRECTION_COLUMN].write(baseID, byte_pos)
-               else:
-                   cur_record_pages[INDIRECTION_COLUMN].write(prev_tid, byte_pos)
-               break
-        '''
         try:
             baseID = self.indexer.locate(record.key)
         except KeyError:
@@ -155,10 +134,10 @@ class Table:
                 updated_base_schema += '1' if schema_encoding[i] == 1 else base_schema_string[i]
             base_pages[SCHEMA_ENCODING_COLUMN].write(int(updated_base_schema), byte_pos)
 
-		# Write to rest of metadata columns
+        # Write to rest of metadata columns
         cur_record_pages[RID_COLUMN].write(record.rid)
         cur_record_pages[TIMESTAMP_COLUMN].write(int(time()))
-        # Wrote schema_encoding incorrectly
+        
         schema_encoding_string = ''
         for bit in schema_encoding:
             schema_encoding_string += str(bit)
@@ -175,18 +154,6 @@ class Table:
         rid_output = []
         if isinstance(baseIDs, int):
             baseIDs = list(baseIDs)
-
-        '''
-        return [int.from_bytes(self.page_directory[baseID][INDIRECTION_COLUMN].data
-                                [(baseID % PAGE_CAPACITY * DATA_SIZE):(baseID % PAGE_CAPACITY * DATA_SIZE)+DATA_SIZE],
-                               'little'
-                               )
-                if (int.from_bytes(self.page_directory[baseID][INDIRECTION_COLUMN].data
-                                    [(baseID % PAGE_CAPACITY * DATA_SIZE):(baseID % PAGE_CAPACITY * DATA_SIZE)+DATA_SIZE],
-                                    'little'
-                                    ) != 0) else baseID
-                for baseID in baseIDs]
-        '''
 
         for baseID in baseIDs:
             # Retrieve value in the indirection column
@@ -218,15 +185,7 @@ class Table:
             records = [self.indexer.index[index_position][1] for index_position in self.indexer.get_positions(key, max_key)]
         latest_records = self.get_latest(records)
         output = []
-        '''
-        return [Record(rid, key, [int.from_bytes(enumerated_page[1].data
-                                                 [(rid- 1) % PAGE_CAPACITY * DATA_SIZE:(rid - 1) % PAGE_CAPACITY * DATA_SIZE + 8],
-                                                 'little'
-                                                 )
-                                  if bool(query_columns[enumerated_page[0]]) else None
-                                  for enumerated_page in enumerate(self.page_directory[rid][INIT_COLS:])])
-                for rid in latest_records]
-        '''
+
         for rid in latest_records:
             data = [None] * self.num_columns
             columns_not_retrieved = set()
@@ -248,7 +207,7 @@ class Table:
                 if len(schema) < self.num_columns:
                     schema = '0' * (self.num_columns - len(schema)) + schema
                 # Leading zeros are lost in integer conversion
-                # Pad with zeros
+                # So, pad beginning of string with zeros
                 for i, page in enumerate(self.page_directory[rid][INIT_COLS:]):
                     if i not in columns_not_retrieved:
                         continue
@@ -259,32 +218,14 @@ class Table:
                 # Get RID from indirection column (if RID is a tail?)
                 rid = self.get_previous(rid)
                 if rid == 0:
-                    break
-
-            '''for i, page in enumerate(self.page_directory[rid][INIT_COLS:]):
-                # rid may be a base or a tail id
-                # Tail id counts backwards so a single byte_pos formula won't work
-                if rid >= self.TID_counter:
-                    byte_pos = abs(rid-(2**64 - 1)) % PAGE_CAPACITY * DATA_SIZE
-                else:
-                    byte_pos = (rid-1) % PAGE_CAPACITY * DATA_SIZE
-                schema = self.page_directory[rid][SCHEMA_ENCODING_COLUMN].data[byte_pos:byte_pos + DATA_SIZE]
-                schema = str(int.from_bytes(schema,'little'))
-                # leading zeros are lost in integer conversion
-                # pad with zeros
-                if len(schema) < self.num_columns:
-                    schema = '0'*(self.num_columns - len(schema)) + schema
-                # Retrieve values from older records if they aren't in the newest
-                if bool(query_columns[i]) and (rid < self.TID_counter or bool(int(schema[i]))):
-                    data[i] = int.from_bytes(page.data[byte_pos:byte_pos + 8], 'little')
-            '''
-
+                    #print("RID is 0!!!\n") # This gets printed in both main.py & testerEdit.py
+                    break # NOTE: Kept this code bc this condition actually happens (for both testers)
             output.append(Record(rid, key, data))
         return output
 
 
     def collect_values(self, start_range, end_range, col_index):
-        total = 0 # Accumulate column values
+        total = 0
         byte_pos = 0
         page_data = None
 
@@ -299,35 +240,3 @@ class Table:
             total += record.columns[col_index]
 
         return total
-
-        '''
-        # Previous Ideas:
-        for key_val in range(start_range, end_range + 1):
-            rid_batch = self.indexer.locate(key_val)
-            if len(rid_batch): # At least one matching RID found (account for non-unique key values)
-                prev_rids += rid_batch # Combine into one list
-       
-        for i in range(len(latest_rids)):
-            rid = latest_rids[i]
-
-            while True:
-                if rid < self.TID_counter:  # No updates made to record
-                    byte_pos = (rid - 1) % PAGE_CAPACITY * DATA_SIZE
-                else:  # Current RID is a TID
-                    byte_pos = (rid - (2 ** 64 - 1)) % PAGE_CAPACITY * DATA_SIZE
-                schema = self.page_directory[rid][SCHEMA_ENCODING_COLUMN].data[byte_pos:byte_pos + DATA_SIZE]
-                schema = str(int.from_bytes(schema, 'little'))
-                if len(schema) < self.num_columns:
-                    schema = '0' * (self.num_columns - len(schema)) + schema
-                # test
-                page_data = self.page_directory[rid][INIT_COLS + col_index].data
-                col_val = int.from_bytes(page_data[byte_pos:byte_pos + DATA_SIZE], 'little')
-                key_val = int.from_bytes(self.page_directory[rid][INIT_COLS].data[byte_pos:byte_pos + DATA_SIZE], 'little')
-                if rid < self.TID_counter or int(schema[col_index]) == 1:
-                    break
-                rid = self.get_previous(rid)
-            page_data = self.page_directory[rid][INIT_COLS + col_index].data
-            col_val = int.from_bytes(page_data[byte_pos:byte_pos + DATA_SIZE], 'little')
-            total += col_val
-        return total
-        '''

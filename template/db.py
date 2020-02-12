@@ -6,7 +6,7 @@ class Database():
         self.tables = []
         pass
 
-    def open(self):
+    def open(self, path): # Merged template code; added parameter "path"
         pass
 
     def close(self):
@@ -16,7 +16,7 @@ class Database():
     # Creates a new table
     :param name: string         #Table name
     :param num_columns: int     #Number of Columns: all columns are integer
-    :param key_index: int             #Index of table key in columns
+    :param key_index: int       #Index of table key in columns
     """
     def create_table(self, name, key_index, num_columns):
         table = Table(name, key_index, num_columns)
