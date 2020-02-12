@@ -10,7 +10,6 @@ class Query:
         self.table = table
         pass
 
-
     """
     # internal Method
     # Read a record with specified RID
