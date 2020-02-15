@@ -11,26 +11,23 @@ class Record:
         self.columns = columns
 
 class Page_Range:
-    def __init__(self, total_pages):
-       # Track a Page's capacity
-       self.last_base_row = 0
-       self.last_tail_row = 0
-       
-       self.base_set = [] # List of Base Pages
-       for _ in range(PAGE_RANGE_FACTOR):
-          self.base_set.append([Page() for _ in range(total_pages)])
 
-       self.tail_set = [] # List of Tail Pages
-       self.num_updates = 0
+    def __init__(self, total_pages):
+        # Track a Page's capacity
+        self.last_base_row = 0
+        self.last_tail_row = 0
+
+        self.base_set = [] # List of Base Pages
+        init_set = [Page() for _ in range(total_pages)]
+        for _ in range(PAGE_RANGE_FACTOR):
+            self.base_set.append(init_set)
+        self.tail_set = [] # List of Tail Pages
+        self.num_updates = 0
 
 class Table:
+
     total_num_pages = 0
 
-    """
-    :param name: string         #Table name
-    :param num_columns: int     #Number of Columns: all columns are integer
-    :param key_index: int       #Index of table.key_index in columns
-    """
     def __init__(self, name, num_columns, key_index):
         self.name = name
         self.key_index = key_index
@@ -47,27 +44,11 @@ class Table:
         #self.last_LID_used = -1
         #self.last_TID_used = -1
 
-"""
     def __merge(self):
         pass
-"""
 
-"""
-    def check_page_space(self, rid = None, DATA_SIZE = 8):
-        '''
-        for column_pages in self.page_directory:
-            if column_pages[self.last_LID_used].has_capacity(DATA_SIZE) is False:
-                return False
-        '''
-        # Determine capacity, based on type of RID given
-        if rid >= self.TID_counter: # Tail recordID
-            return abs(rid - (2 ** 64 - 1)) % PAGE_CAPACITY
-        else: # Base recordID
-            return (rid - 1) % PAGE_CAPACITY != 0
-"""
-
-    # Writes metadata and user input to set of Base Pages
-    def write_to_basePages(self, cur_base_pages):
+    # Writes metadata and user input to set of Base Pages 
+    def write_to_basePages(self, cur_base_pages, record, schema_encoding):
         # Write to metadata columns
         cur_base_pages[RID_COLUMN].write(record.rid)
         cur_base_pages[TIMESTAMP_COLUMN].write(int(time()))
@@ -76,190 +57,54 @@ class Table:
         for col in range(self.num_columns):
             cur_base_pages[INIT_COLS + col].write(record.columns[col])
 
-
     def insert_baseRecord(self, record, schema_encoding):
         # Base case: Check if record's RID is unique
         if record.rid in self.page_directory.keys():
             print("Error: Record RID is not unique.\n")
             return
+
+        # Init Values
+        page_range = None
+        total_pages = INIT_COLS + self.num_columns
+
         # Determine if corresponding Page Range exists
+        #page_range_index = (PAGE_RANGE_FACTOR * PAGE_CAPACITY) % record.rid
+        page_range_index = 0
+        breakpoint = PAGE_RANGE_FACTOR * PAGE_CAPACITY
+        while(1): 
+        # NOTE: THIS MAY HURT PERFORMANCE BC INSERTIONS ARE SEQUENTIAL IN MAIN() TESTER
+            if record.rid <= breakpoint:
+               break
+            print("while loop RID: ", record.rid, "HELLO ")
+            page_range_index += 1
+            breakpoint = breakpoint * (page_range_index + 1)
+        
+        print("RID: ", record.rid)
+        print("PAGE RANGE INDEX : ", page_range_index)
+
+        #####if not self.page_range_collection[page_range_index]:
+        ###if len(self.page_range_collection) == 0 or not self.page_range_collection[page_range_index]:
         try:
-            page_range_index = (PAGE_RANGE_FACTOR * PAGE_CAPACITY) % record.rid
             page_range = self.page_range_collection[page_range_index]
-        except: # No matching Page Range
-            total_pages = INIT_COLS + self.num_columns
-            self.page_range_collection.append(Page_Range(total_pages))
-        else: # Check if Base Pages within Range are full
-            base_set = page_range.base_set # [[BasePages], [BasePages], ..., [BasePages]]
-            cur_base_pages = base_set[page_range.last_base_row] # [BasePages]
-            # Determine capacity of a Base Page within Range
-            if not cur_base_pages[RID_COLUMN].has_capacity():
-               # Append new list of Base Pages
-               base_set.append([Page() for _ in range(total_pages)])
-               page_range.last_base_row += 1
-               cur_base_pages = base_set[page_range.last_base_row]
-            # Either case: write to Base Pages within matching Range
-            self.write_to_basePages()
+        except:
+            page_range = Page_Range(total_pages)
+            self.page_range_collection.append(page_range)
+        
+        # Make alias
+        page_range = self.page_range_collection[page_range_index]
+        base_set = page_range.base_set # [[BasePages], [BasePages], ..., [BasePages]]
+        cur_base_pages = base_set[page_range.last_base_row] # [BasePages]
+
+        # Determine capacity of a Base Page within Range
+        if not cur_base_pages[RID_COLUMN].has_capacity():
+            # Append new list of Base Pages
+            base_set.append([Page() for _ in range(total_pages)])
+            page_range.last_base_row += 1
+            cur_base_pages = base_set[page_range.last_base_row]
+
+        # Write to Base Pages within matching Range
+        self.write_to_basePages(cur_base_pages, record, schema_encoding)
          
         # Update indexing for Page Directory & Indexer
         self.page_directory[record.rid] = page_range.last_base_row
         self.indexer.insert(record.key, record.rid)
-
-"""
-    def write_to_tailPage(self, record, schema_encoding):
-        # Base case: Check if record's RID is unique
-        if record.rid in self.page_directory.keys():
-            print("Error: Record RID is not unique.\n")
-            return
-        # Determine if new Pages needed, or recently used Pages are reusable
-        if self.last_TID_used == -1 or not self.check_page_space(record.rid):
-            self.page_directory[record.rid] = [Page() for _ in range(self.num_columns + INIT_COLS)]
-            self.total_num_pages += 1
-        else: # Recycle recently used tail page
-            self.page_directory[record.rid] = self.page_directory[self.last_TID_used]
-
-        # Make alias for the current record's set of pages
-        cur_record_pages = self.page_directory[record.rid]
-        
-        # Update specified columns
-        i = INIT_COLS
-        while i < (INIT_COLS + self.num_columns):
-            if record.columns[i-INIT_COLS] is not None:
-                cur_record_pages[i].write(record.columns[i-INIT_COLS])
-            else: # Write default values
-                cur_record_pages[i].write(0)
-            i += 1
-
-        try:
-            baseID = self.indexer.locate(record.key)
-        except KeyError:
-            """print("Key not found")
-            raise KeyError"""
-            # Modified to bypass logic error in main
-            return
-        else:
-            # Update indirection column and schema data
-            byte_pos = (baseID-1) % PAGE_CAPACITY * DATA_SIZE
-            base_pages = self.page_directory[baseID]
-            prev_tid = int.from_bytes(base_pages[INDIRECTION_COLUMN].data[byte_pos:byte_pos + DATA_SIZE], 'little')
-            schema_data = base_pages[SCHEMA_ENCODING_COLUMN].data
-            base_entry = int.from_bytes(schema_data[byte_pos:byte_pos + DATA_SIZE], byteorder="little")
-            cur_record_pages[INDIRECTION_COLUMN].write(prev_tid if base_entry else baseID)
-            base_pages[INDIRECTION_COLUMN].write(record.rid, byte_pos)
-            base_schema_string = str(base_entry)
-            if len(base_schema_string) < self.num_columns:
-                base_schema_string = '0' * (self.num_columns - len(base_schema_string)) + base_schema_string
-            updated_base_schema = ''
-            for i in range(len(base_schema_string)):
-                updated_base_schema += '1' if schema_encoding[i] == 1 else base_schema_string[i]
-            base_pages[SCHEMA_ENCODING_COLUMN].write(int(updated_base_schema), byte_pos)
-
-        # Write to rest of metadata columns
-        cur_record_pages[RID_COLUMN].write(record.rid)
-        cur_record_pages[TIMESTAMP_COLUMN].write(int(time()))
-        
-        schema_encoding_string = ''
-        for bit in schema_encoding:
-            schema_encoding_string += str(bit)
-        schema_encoding_int = int(schema_encoding_string)
-        cur_record_pages[SCHEMA_ENCODING_COLUMN].write(schema_encoding_int)
-        
-        new_key = record.columns[self.key_index]
-        if new_key is not None:
-            self.indexer.unique_update(record.key, new_key)
-        self.last_TID_used = record.rid
-"""
-"""
-    def get_latest(self, baseIDs):
-        rid_output = []
-        if isinstance(baseIDs, int):
-            baseIDs = list(baseIDs)
-
-        for baseID in baseIDs:
-            # Retrieve value in the indirection column
-            byte_pos = (baseID - 1) % PAGE_CAPACITY * DATA_SIZE
-            TID = int.from_bytes(self.page_directory[baseID][INDIRECTION_COLUMN].data[byte_pos:byte_pos+DATA_SIZE], 'little')
-            if TID == 0:
-                rid_output.append(baseID)
-            else:
-                rid_output.append(TID)
-        
-        return rid_output
-"""
-
-"""
-    def get_previous(self, tailID):
-        rid_output = []
-        byte_pos = abs(tailID - (2 ** 64 - 1)) % PAGE_CAPACITY * DATA_SIZE
-        previous_RID = int.from_bytes(self.page_directory[tailID][INDIRECTION_COLUMN].data[byte_pos:byte_pos+DATA_SIZE], 'little')
-        return previous_RID
-
-
-    def read_records(self, key, query_columns, max_key = None):
-        if max_key == None:
-            try:
-                records = [self.indexer.locate(key)]
-            except KeyError:
-                print("KeyError!")
-                return
-        else:
-            records = [self.indexer.index[index_position][1] for index_position in self.indexer.get_positions(key, max_key)]
-        latest_records = self.get_latest(records)
-        output = []
-
-        for rid in latest_records:
-            data = [None] * self.num_columns
-            columns_not_retrieved = set()
-
-            for i in range(len(query_columns)):
-                if query_columns[i] == 1:
-                    columns_not_retrieved.add(i)
-            while len(columns_not_retrieved) > 0:
-                # Retrieve whatever data you can from latest record
-                assert rid != 0
-                # RID may be a base or a tail id
-                # Tail ID counts backwards so a single byte_pos formula won't work
-                if rid >= self.TID_counter:
-                    byte_pos = abs(rid - (2 ** 64 - 1)) % PAGE_CAPACITY * DATA_SIZE
-                else:
-                    byte_pos = (rid - 1) % PAGE_CAPACITY * DATA_SIZE
-                schema = self.page_directory[rid][SCHEMA_ENCODING_COLUMN].data[byte_pos:byte_pos + DATA_SIZE]
-                schema = str(int.from_bytes(schema, 'little'))
-                if len(schema) < self.num_columns:
-                    schema = '0' * (self.num_columns - len(schema)) + schema
-                # Leading zeros are lost in integer conversion
-                # So, pad beginning of string with zeros
-                for i, page in enumerate(self.page_directory[rid][INIT_COLS:]):
-                    if i not in columns_not_retrieved:
-                        continue
-                    # Retrieve values from older records, if they aren't in the newest
-                    if rid < self.TID_counter or bool(int(schema[i])):
-                        data[i] = int.from_bytes(page.data[byte_pos:byte_pos + 8], 'little')
-                        columns_not_retrieved.discard(i)
-                # Get RID from indirection column (if RID is a tail?)
-                rid = self.get_previous(rid)
-                if rid == 0:
-                    #print("RID is 0!!!\n") # This gets printed in both main.py & testerEdit.py
-                    break # NOTE: Kept this code bc this condition actually happens (for both testers)
-            output.append(Record(rid, key, data))
-        return output
-"""
-
-"""
-    def collect_values(self, start_range, end_range, col_index):
-        total = 0
-        byte_pos = 0
-        page_data = None
-
-        prev_rids = []
-        latest_rids = []
-
-        query_columns = [0] * self.num_columns
-        query_columns[col_index] = 1
-
-        records = self.read_records(start_range, query_columns, end_range)
-        for record in records:
-            total += record.columns[col_index]
-
-        return total
-"""
