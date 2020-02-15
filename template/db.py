@@ -7,7 +7,10 @@ class Database():
         pass
 
     def open(self, path): # Merged template code; added parameter "path"
-        # Path to file (disk)?
+        """
+        # Store one file per table?
+        # Assuming path to file is the same as table name?
+        """
         pass
 
     def close(self):

@@ -10,18 +10,6 @@ class Record:
         self.key = key
         self.columns = columns
 
-class Page_Range:
-    def __init__(self, total_pages):
-       # Track a Page's capacity
-       self.last_base_row = 0
-       self.last_tail_row = 0
-       
-       self.base_set = [] # List of Base Pages
-       for _ in range(PAGE_RANGE_FACTOR):
-          self.base_set.append([Page() for _ in range(total_pages)])
-
-       self.tail_set = [] # List of Tail Pages
-       self.num_updates = 0
 
 class Table:
     total_num_pages = 0
@@ -36,23 +24,20 @@ class Table:
         self.key_index = key_index
         self.num_columns = num_columns
         self.page_directory = dict()
-        self.page_range_collection = []
         self.indexer = Index(self) # Passed self (Table instance) to Index constructor
         
         self.LID_counter = 0 # Used to increment LIDs
         self.TID_counter = (2 ** 64) - 1 # Used to decrement TIDs 
 
         # Keep track of available base and tail pages
-        #NOTE: REPLACED THESE WITH PAGE_RANGE.LAST_BASE/TAIL_ROW
-        #self.last_LID_used = -1
-        #self.last_TID_used = -1
+        self.last_LID_used = -1
+        self.last_TID_used = -1
 
-"""
+
     def __merge(self):
         pass
-"""
 
-"""
+
     def check_page_space(self, rid = None, DATA_SIZE = 8):
         '''
         for column_pages in self.page_directory:
@@ -64,48 +49,43 @@ class Table:
             return abs(rid - (2 ** 64 - 1)) % PAGE_CAPACITY
         else: # Base recordID
             return (rid - 1) % PAGE_CAPACITY != 0
-"""
-
-    # Writes metadata and user input to set of Base Pages
-    def write_to_basePages(self, cur_base_pages):
-        # Write to metadata columns
-        cur_base_pages[RID_COLUMN].write(record.rid)
-        cur_base_pages[TIMESTAMP_COLUMN].write(int(time()))
-        cur_base_pages[SCHEMA_ENCODING_COLUMN].write(int(schema_encoding))
-        # Write to userdata columns
-        for col in range(self.num_columns):
-            cur_base_pages[INIT_COLS + col].write(record.columns[col])
 
 
-    def insert_baseRecord(self, record, schema_encoding):
+    def write_to_basePage(self, record, schema_encoding):
         # Base case: Check if record's RID is unique
         if record.rid in self.page_directory.keys():
             print("Error: Record RID is not unique.\n")
             return
-        # Determine if corresponding Page Range exists
-        try:
-            page_range_index = (PAGE_RANGE_FACTOR * PAGE_CAPACITY) % record.rid
-            page_range = self.page_range_collection[page_range_index]
-        except: # No matching Page Range
-            total_pages = INIT_COLS + self.num_columns
-            self.page_range_collection.append(Page_Range(total_pages))
-        else: # Check if Base Pages within Range are full
-            base_set = page_range.base_set # [[BasePages], [BasePages], ..., [BasePages]]
-            cur_base_pages = base_set[page_range.last_base_row] # [BasePages]
-            # Determine capacity of a Base Page within Range
-            if not cur_base_pages[RID_COLUMN].has_capacity():
-               # Append new list of Base Pages
-               base_set.append([Page() for _ in range(total_pages)])
-               page_range.last_base_row += 1
-               cur_base_pages = base_set[page_range.last_base_row]
-            # Either case: write to Base Pages within matching Range
-            self.write_to_basePages()
-         
-        # Update indexing for Page Directory & Indexer
-        self.page_directory[record.rid] = page_range.last_base_row
-        self.indexer.insert(record.key, record.rid)
+        # Determine if new Pages needed, or recently used Pages are reusable
+        if self.last_LID_used == -1 or not self.check_page_space(record.rid):
+            self.page_directory[record.rid] = [Page() for _ in range(self.num_columns + INIT_COLS)]
+            self.total_num_pages += 1
+        else:
+            self.page_directory[record.rid] = self.page_directory[self.last_LID_used]
 
-"""
+        # Make alias for the current record's set of pages
+        cur_record_pages = self.page_directory[record.rid]
+        
+        # Write to metadata columns
+        cur_record_pages[RID_COLUMN].write(record.rid)
+        cur_record_pages[TIMESTAMP_COLUMN].write(int(time()))
+        schema_encoding_string = ''
+        for bit in schema_encoding:
+            schema_encoding_string += str(bit)
+        schema_encoding_int = int(schema_encoding_string)
+        cur_record_pages[SCHEMA_ENCODING_COLUMN].write(schema_encoding_int)
+
+        # Write to User Data column(s)
+        i = INIT_COLS
+        while i < (INIT_COLS + self.num_columns):
+            cur_record_pages[i].write(record.columns[i-INIT_COLS])
+            i += 1
+
+        # Create & insert new entry into indexer
+        self.indexer.insert(record.key, record.rid)
+        self.last_LID_used = record.rid
+
+
     def write_to_tailPage(self, record, schema_encoding):
         # Base case: Check if record's RID is unique
         if record.rid in self.page_directory.keys():
@@ -168,8 +148,8 @@ class Table:
         if new_key is not None:
             self.indexer.unique_update(record.key, new_key)
         self.last_TID_used = record.rid
-"""
-"""
+
+
     def get_latest(self, baseIDs):
         rid_output = []
         if isinstance(baseIDs, int):
@@ -185,9 +165,8 @@ class Table:
                 rid_output.append(TID)
         
         return rid_output
-"""
 
-"""
+
     def get_previous(self, tailID):
         rid_output = []
         byte_pos = abs(tailID - (2 ** 64 - 1)) % PAGE_CAPACITY * DATA_SIZE
@@ -243,9 +222,8 @@ class Table:
                     break # NOTE: Kept this code bc this condition actually happens (for both testers)
             output.append(Record(rid, key, data))
         return output
-"""
 
-"""
+
     def collect_values(self, start_range, end_range, col_index):
         total = 0
         byte_pos = 0
@@ -262,4 +240,3 @@ class Table:
             total += record.columns[col_index]
 
         return total
-"""
