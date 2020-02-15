@@ -2,6 +2,7 @@ from template.page import *
 from time import time
 from template.config import *
 from template.index import *
+import math
 
 class Record:
 
@@ -17,10 +18,11 @@ class Page_Range:
         self.last_base_row = 0
         self.last_tail_row = 0
 
-        self.base_set = [] # List of Base Pages
-        init_set = [Page() for _ in range(total_pages)]
-        for _ in range(PAGE_RANGE_FACTOR):
-            self.base_set.append(init_set)
+        #self.base_set = [] # List of Base Pages
+        #init_set = [Page() for _ in range(total_pages)]
+        #for _ in range(PAGE_RANGE_FACTOR):
+        #    self.base_set.append(init_set)
+        self.base_set = [[Page() for i in range(total_pages)] for j in range(PAGE_RANGE_FACTOR)]
         self.tail_set = [] # List of Tail Pages
         self.num_updates = 0
 
@@ -70,32 +72,41 @@ class Table:
         # Determine if corresponding Page Range exists
         #page_range_index = (PAGE_RANGE_FACTOR * PAGE_CAPACITY) % record.rid
         page_range_index = 0
-        breakpoint = PAGE_RANGE_FACTOR * PAGE_CAPACITY
-        while(1): 
+        #breakpoint = PAGE_RANGE_FACTOR * PAGE_CAPACITY
+        #while(1): 
         # NOTE: THIS MAY HURT PERFORMANCE BC INSERTIONS ARE SEQUENTIAL IN MAIN() TESTER
-            if record.rid <= breakpoint:
-               break
-            print("while loop RID: ", record.rid, "HELLO ")
-            page_range_index += 1
-            breakpoint = breakpoint * (page_range_index + 1)
-        
-        print("RID: ", record.rid)
-        print("PAGE RANGE INDEX : ", page_range_index)
+        #    if record.rid <= breakpoint:
+        #       break
+        #    print("while loop RID: ", record.rid, "HELLO ")
+        #    page_range_index += 1
+        #    breakpoint = breakpoint * (page_range_index + 1)
+        index = record.rid/(PAGE_RANGE_FACTOR * PAGE_CAPACITY)
+        page_range_index = index if isinstance(index, int) else math.floor(index)
+       # if isinstance(index, int):
+       #     page_range_index = index
+       # else:
+       #     page_range_index = math.floor(index)
+
+        #print("RID: ", record.rid)
+        #print("PAGE RANGE INDEX : ", page_range_index)
 
         #####if not self.page_range_collection[page_range_index]:
         ###if len(self.page_range_collection) == 0 or not self.page_range_collection[page_range_index]:
+        # Check if we need to create a new page range object
         try:
             page_range = self.page_range_collection[page_range_index]
         except:
-            page_range = Page_Range(total_pages)
-            self.page_range_collection.append(page_range)
+            #page_range = Page_Range(total_pages)
+            self.page_range_collection.append(Page_Range(total_pages))
         
         # Make alias
         page_range = self.page_range_collection[page_range_index]
+        # collection of base pages
         base_set = page_range.base_set # [[BasePages], [BasePages], ..., [BasePages]]
+        # Accessing one base page
         cur_base_pages = base_set[page_range.last_base_row] # [BasePages]
 
-        # Determine capacity of a Base Page within Range
+        # Determine capacity of a Page in a base page
         if not cur_base_pages[RID_COLUMN].has_capacity():
             # Append new list of Base Pages
             base_set.append([Page() for _ in range(total_pages)])
