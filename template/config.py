@@ -18,4 +18,4 @@ BASE_RID_COLUMN = 4
 INIT_COLS = 5 # = 6
 
 PAGE_CAPACITY = 512 # Max Records per Page
-PAGE_RANGE_FACTOR = 4 # Max Base Pages per Page Range
+PAGE_RANGE_FACTOR = 4 # Max Base Rows per Page Range

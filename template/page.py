@@ -8,8 +8,8 @@ class Page:
         self.first_unused_byte = 0
 
     
-    def has_capacity(self):
-        return self.first_unused_byte <= PAGE_SIZE
+    def has_space(self):
+        return self.first_unused_byte < PAGE_SIZE
    
 
     def write(self, value, position=None):

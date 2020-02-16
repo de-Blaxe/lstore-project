@@ -41,6 +41,7 @@ for key in records:
 select_time_1 = process_time()
 print("Selecting 10k records took:  \t\t\t", select_time_1 - select_time_0)
 
+"""
 # Measure Update Time
 update_time_0 = process_time()
 for key in records:
@@ -62,8 +63,11 @@ for key in records:
         #    print('update on', original, 'and', updated_columns, ':', record) 
         updated_columns[i] = None
 update_time_1 = process_time()
-print("Updating 4k records took:  \t\t\t", update_time_1 - update_time_0) # 4k total updated, based on output.txt
+print("Updating 4k records took:  #TODO: Edit back tabs
+#ttt", update_time_1 - update_time_0) # 4k total updated, based on output.txt
+"""
 
+"""
 # Measure Sum/Column Aggregation Time
 sum_time_0 = process_time()
 keys = sorted(list(records.keys()))
@@ -77,4 +81,5 @@ for c in range(0, grades_table.num_columns):
         #else: # Reduce latency of sum performance
         #    print('sum on [', keys[r[0]], ',', keys[r[1]], ']: ', column_sum)
 sum_time_1 = process_time()
-print("Aggregating 100 times took:  \t\t\t", sum_time_1 - sum_time_0) # 100 calls to querySum, based on output.txt
+print("Aggregating 100 times took:  #TODO: Edit back tabs
+#ttt", sum_time_1 - sum_time_0) # 100 calls to querySum, based on output.txt"""

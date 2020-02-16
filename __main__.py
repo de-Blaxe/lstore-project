@@ -3,9 +3,6 @@ from template.query import Query
 from time import process_time
 from random import choice, randrange
 
-# TODO REMOVE BELOW CODE
-from template.config import *
-
 # Student Id and 4 grades
 db = Database()
 grades_table = db.create_table('Grades', 5, 0)
