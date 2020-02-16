@@ -22,6 +22,7 @@ print(mapping)
 """
 # Testing again
 
+"""
 md = dict()
 md[1] = [2,3]
 md[2] = [4,5]
@@ -31,3 +32,8 @@ print("dictionary entries:", md)
 [first, second] = md[1]
 print(first)
 print(second)
+"""
+
+s = "hello"
+s[0] = 'y'
+print(s)
