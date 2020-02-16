@@ -36,7 +36,7 @@ class Table:
         self.key_index = key_index
         self.num_columns = num_columns
 
-        self.page_directory = dict() # Maps RIDS : [page_range_index, page_row]
+        self.page_directory = dict() # Maps RIDS : [page_range_index, page_row, byte_pos]
         self.page_range_collection = []
         self.indexer = Index(self) # Passed self (Table instance) to Index constructor
         
