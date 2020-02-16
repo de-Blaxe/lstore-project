@@ -284,10 +284,14 @@ class Table:
             final_base_schema = ('0' * diff) + init_base_schema
             #print("INIT BASE SCHEMA As String: ", init_base_schema) # 0
             #print("FINAL BASE SCHEMA As String: ", final_base_schema) # 00000
-        
+        else: # Set final_base_schema to init_base_schema
+            final_base_schema = init_base_schema
+ 
         latest_schema = ''
+        print("Length of final base schema: ", len(final_base_schema), " vs length of tail schema: ", len(tail_schema))
+
         for itr in range(len(tail_schema)): # length of 5 always
-            if int(tail_schema[itr]) == 1: # '1': Updated column
+            if int(tail_schema[itr]): # '1': Updated column
                 latest_schema += '1'
             else:
                 latest_schema += final_base_schema[itr]
