@@ -45,7 +45,7 @@ class Table:
 
 
     """
-    # Conditionally writes to meta and user data columns
+    write_to_pages(): Conditionally writes to meta and user data columns
     """
     def write_to_pages(self, cur_pages, record, schema_encoding, isUpdate=None):
         # Write to metadata columns, if inserting base record
@@ -63,7 +63,7 @@ class Table:
 
 
     """
-    # Creates & inserts new base record into Table
+    insert_baseRecord(): Creates & inserts new base record into Table
     """
     def insert_baseRecord(self, record, schema_encoding):
         # Base case: Check if record's RID is unique
@@ -112,7 +112,7 @@ class Table:
 
 
     """
-    # Creates & appends a tailRow to current Page Range
+    extend_tailSet(): Creates & appends a tailRow to current Page Range
     """
     def extend_tailSet(self, tail_set, total_pages):
         sublist = []
@@ -123,7 +123,7 @@ class Table:
 
     
     """
-    # Creates & inserts new tail record into Table
+    insert_tailRecord(): Creates & inserts new tail record into Table
     """
     def insert_tailRecord(self, record, schema_encoding):
         # Retrieve base record with matching key
@@ -221,24 +221,78 @@ class Table:
 
 
     """
-    # Reads record(s) with matching key value and indexing column
+    read_record(): Reads record(s) with matching key value and indexing column
     """
-    def read_records(self, key, query_columns, max_key=None): 
-        # NOTES: 
-        # Add third param "column"
-        # Assumes that primary key is being indexed
-        # Still need to update querySelect() parameters
+    def read_records(self, key, query_columns, max_key=None):
+        # NOTE: Assumes that primary key is being indexed
+        # NOTE: Still need to update querySelect() parameters
         if max_key == None:
             try:
                 records = [self.indexer.locate(key)]
             except KeyError:
                 print("KeyError!\n")
                 return
-        pass
+        else:
+            #records = [self.indexer.index[index_position][1] for index_position in self.indexer.get_positions(key, max_key)]
+            print("shouldn't print. Not working with querySum() yet, so skip this step for now..\n")
+         #latest_records = self.get_latest(records) FOR NOW JUST TESTING BASE RECORDS INSERTIONS SO NO TAIL RECORDS YET
+
+        output = []
          
+        for rid in records:
+            data = [None] * self.num_columns
+            columns_not_retrieved = set()
+             
+            for i in range(len(query_columns)):
+                if query_columns[i] == 1:
+                    columns_not_retrieved.add(i)
+
+            while len(columns_not_retrieved) > 0:
+                # Retrieve whatever data you can from latest record
+                assert rid != 0
+                # RID may be a base or a tail ID
+                # Tail ID counts backwards so a single byte_pos formula won't work
+                
+                """
+                if rid >= self.TID_counter:
+                    byte_pos = abs(rid - (2 ** 64 - 1)) % PAGE_CAPACITY * DATA_SIZE
+                else:
+                    byte_pos = (rid - 1) % PAGE_CAPACITY * DATA_SIZE
+                """
+
+                # assuming that we're just working with rid = base IDs ONLY
+                [page_range_index, page_row, byte_pos] = self.page_directory[rid] # RIDs -> [page_range_index, page_row, byte_pos]
+                page_range = self.page_range_collection[page_range_index]
+                page_set = page_range.base_set[page_row] # NOTE: SHOULD BE IN IF ELSE STMT (determine if use base/tail_set)
+                schema = page_set[SCHEMA_ENCODING_COLUMN].data[byte_pos:byte_pos + DATA_SIZE]
+                # Leading zeros are lost in integer conversion, so padding needed
+                schema = str(int.from_bytes(schema, 'little'))
+                if len(schema) < self.num_columns:
+                    schema = '0' * (self.num_columns - len(schema)) + schema
+                for i, page in enumerate(page_set[INIT_COLS:]):
+                    if i not in columns_not_retrieved:
+                        continue
+                    # Retrieve values from older records, if they are not in the newest
+                    if rid < self.TID_counter or bool(int(schema[i])):
+                        data[i] = int.from_bytes(page.data[byte_pos:byte_pos + DATA_SIZE], 'little')
+                        columns_not_retrieved.discard(i)
+                # Get RID from indirection column (if RID is tail?)
+                # TODO: for now just working with base records
+                """
+                rid = self.get_previous(rid)
+                if rid == 0: # Base Record reached
+                    break
+                """
+            # End of while loop
+            output.append(Record(rid, key, data))
+
+        # End of outer for loop
+        return output
+
 
     """
-    # Merges base & tail records within a Page Range
+    merge(): Merges base & tail records within a Page Range
     """
     def __merge(self):
         pass
+

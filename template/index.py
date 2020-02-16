@@ -7,8 +7,6 @@ Key column should be indexd by default, other columns can be indexed through thi
 Indices are usually B-Trees, but other data structures can be used as well.
 """
 
-#NOTE: Merged Milestone 2 Template Code for index.py
-
 class Index:
 
     def __init__(self, table=None): # Added parameter "table"
@@ -40,6 +38,9 @@ class Index:
     def locate_range(self, begin, end, column): # Added function definition
         pass
 
+    """
+    # Get indexed positions of records with matching key value
+    """
     def get_positions(self, key_val, max_key_val = None):
         if self.last_index_length != len(self.index):
             self.index = sorted(self.dictionary.items())
@@ -73,10 +74,16 @@ class Index:
             return output
 
 
+    """
+    # Inserts new entry (key, val) into dictionary
+    """
     def insert(self, key, val):
         self.dictionary[key] = val
         self.index.append((key, val)) # NOTE: Kept this code, otherwise "IndexError: list index out of range" 
 
+    """
+    # Updates dictionary for key replacement
+    """
     def unique_update(self, key, new_key):
         # List of matching keys must be of length 1 if the key is unique
         base_rid = self.locate(key)

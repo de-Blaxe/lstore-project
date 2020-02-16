@@ -7,11 +7,16 @@ class Page:
         self.data = bytearray(PAGE_SIZE)
         self.first_unused_byte = 0
 
-    
+    """
+    # Checks if Page has space
+    """ 
     def has_space(self):
         return self.first_unused_byte < PAGE_SIZE
    
-
+    
+    """
+    # Modifies record data within Page
+    """
     def write(self, value, position=None):
         # Determine if indirection byte replacement needed
         if position == None:

@@ -6,7 +6,7 @@ class Database():
         self.tables = dict() # Index tables by their unique names
         pass
 
-    def open(self, path): # Merged template code; added parameter "path"
+    def open(self, path):
         """
         # Store one file per table?
         # Assuming path to file is the same as table name?

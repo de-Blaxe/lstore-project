@@ -14,7 +14,6 @@ class Query:
     # internal Method
     # Read a record with specified RID
     """
-
     def delete(self, key):
         pass
 
@@ -36,13 +35,16 @@ class Query:
     # :param key: the key value to select records based on
     # :param query_columns: what columns to return. array of 1 or 0 values.
     """
-
+    """
     def select(self, key, query_columns): 
         # Milestone 2 Template: def select(self, key, column, query_columns)
         # TODO: Add third parameter "column"
         return self.table.read_records(key, query_columns)
+    """
 
+    """
     # Update a record with specified key and columns
+    """
     def update(self, key, *columns):
         # Determine schema encoding
         schema_encoding = list(map(lambda i: int(not(i is None)), columns))
@@ -53,10 +55,12 @@ class Query:
         self.table.insert_tailRecord(record, schema_encoding)
         self.table.TID_counter -= 1
 
-"""
+    """
     :param start_range: int         # Start of the key range to aggregate 
     :param end_range: int           # Increment start_range by 1 until end_range
     :param col_index: int  	        # Index of desired column to aggregate
+    """
+    """
     def sum(self, start_range, end_range, col_index):
         return self.table.collect_values(start_range, end_range, col_index)
-"""
+    """
