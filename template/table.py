@@ -47,15 +47,16 @@ class Table:
         pass
 
     # Writes metadata and user input to set of Base Pages 
-    def write_to_basePages(self, cur_base_pages, record, schema_encoding):
-        # Write to metadata columns
-        cur_base_pages[RID_COLUMN].write(record.rid)
-        cur_base_pages[TIMESTAMP_COLUMN].write(int(time()))
-        cur_base_pages[SCHEMA_ENCODING_COLUMN].write(int(schema_encoding))
+    def write_to_pages(self, cur_pages, record, schema_encoding, isUpdate=None):
+        # Write to metadata columns, if inserting base record
+        if isUpdate is None:
+            cur_pages[RID_COLUMN].write(record.rid)
+            cur_pages[TIMESTAMP_COLUMN].write(int(time()))
+            cur_pages[SCHEMA_ENCODING_COLUMN].write(int(schema_encoding))
 
         # Write to userdata columns
         for col in range(self.num_columns):
-            cur_base_pages[INIT_COLS + col].write(record.columns[col])
+            cur_pages[INIT_COLS + col].write(record.columns[col])
 
         """
         # DEBUGGING
@@ -104,7 +105,7 @@ class Table:
         cur_base_pages = base_set[page_range.last_base_row]
 
         # Write to Base Pages within matching Range
-        self.write_to_basePages(cur_base_pages, record, schema_encoding)
+        self.write_to_pages(cur_base_pages, record, schema_encoding)
          
         # Update indexing for Page Directory & Indexer
         # print("UPDATING PAGE DIRECTORY: { RID=", record.rid, " : index=", page_range_index, " & row=", page_range.last_base_row, "}\n")
@@ -175,3 +176,74 @@ class Table:
 
         # End of outer for loop
         return output
+
+    def extend_tailSet(self, tail_set):
+        sublist = []
+        for _ in range(total_pages):
+            # Create a single Tail Row
+            sublist.append(Page())
+        tail_set.append(sublist)
+
+
+    def insert_tailRecord(self, record, schema_encoding):
+        # Base case: Check if record's RID is unique & Page Range exists
+        if record.rid in self.page_directory.keys():
+            print("Error: Record RID is not unique.\n")
+            return
+
+        # Init Values
+        page_range = None
+        total_pages = INIT_COLS + self.num_columns
+
+        # Retrieve base record with matching key
+        baseID = self.indexer.locate(key)
+
+        # Locate position of base/tail record
+        [page_range_index, base_page_row] = self.page_directory[baseID]
+ 
+        # Page Range must exist prior to an update
+        page_range = self.page_range_collection[page_range_index]
+
+        tail_set = page_range.tail_set # Could be empty if Init State
+        total_pages = INIT_COLS + self.num_columns
+        if len(tail_set) == 0: # is empty, []
+            extend_tailSet(tail_set)
+        elif not tail_set[INIT_COLS].has_space(): 
+            # Check if current Tail Page has space
+            # Can't combine conditions into one, otherwise indexing error
+            extend_tailSet(tail_set)
+            page_range.last_tail_row += 1
+
+        # Make alias
+        cur_tail_pages = tail_set[page_range.last_tail_row] 
+
+        # print("RID: ", record.rid, " Row has Num TailPages: ", len(cur_tail_pages), "\n")
+
+        # Write to userdata columns
+        isUpdate = True
+        self.write_to_pages(cur_tail_pages, record, schema_encoding, isUpdate)
+
+        # Write to metadata columns:
+        # Read from base_set's indirection column
+        base_indir_page = base_set[base_page_row][INDIRECTION_COLUMN]
+        base_byte_pos = (baseID - 1) % (PAGE_CAPACITY * DATA_SIZE)
+        base_indir_data = int.from_bytes(base_indr_page.data[base_byte_pos:base_byte_pos + DATA_SIZE], 'little')
+        if base_indir_data: # Point to previous TID
+            cur_tail_pages[INDIRECTION_COLUMN].write(base_indir_data)
+        else: # Point to baseID
+            cur_tail_pages[INDIRECTION_COLUMN].write(baseID)
+        # Base Indirection now points to current TID (replacement)
+        base_indir_page.write(record.rid, base_byte_pos)
+        
+        # Update schema for both base and tail records
+        base_schema_page = base_set[base_page_row][SCHEMA_ENCODING_COLUMN]
+        tail_schema_page = cur_tail_pages[SCHEMA_ENCODING_COLUMN]
+        
+        #NOTES: 
+        # write to baseRID column, timeStamp, RID, schema (convert)
+        # update page_range.num_updates += 1 # help with merge selection
+        # update page_directory for tail record ID
+        # update indexer iff key value was changed
+        
+        # Account for THIRD param in query Select -> may need to change Index() class
+

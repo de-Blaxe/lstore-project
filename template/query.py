@@ -41,7 +41,7 @@ class Query:
         # Milestone 2 Template: def select(self, key, column, query_columns)
         # TODO: Add third parameter "column"
         return self.table.read_records(key, query_columns)
-"""
+
     # Update a record with specified key and columns
     def update(self, key, *columns):
         # Determine schema encoding
@@ -50,12 +50,13 @@ class Query:
         assert key is not None
         record = Record(rid=self.table.TID_counter, key=key, columns=columns) 
         # Write tail record to tail page
-        self.table.write_to_tailPage(record, schema_encoding)
+        self.table.insert_tailRecord(record, schema_encoding)
         self.table.TID_counter -= 1
 
+"""
     :param start_range: int         # Start of the key range to aggregate 
     :param end_range: int           # Increment start_range by 1 until end_range
-    :param col_index: int  	    # Index of desired column to aggregate
+    :param col_index: int  	        # Index of desired column to aggregate
     def sum(self, start_range, end_range, col_index):
         return self.table.collect_values(start_range, end_range, col_index)
 """
