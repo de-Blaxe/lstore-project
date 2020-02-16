@@ -16,7 +16,7 @@ seed(3562901)
 
 # Measure Insertion Time
 insert_time_0 = process_time()
-for i in range(0, 1000):
+for i in range(0, 10): # change back to 1k
     key = 92106429 + randint(0, 9000)
     while key in records:
         key = 92106429 + randint(0, 9000)
@@ -24,7 +24,7 @@ for i in range(0, 1000):
     query.insert(*records[key])
     #print('inserted', records[key]) # Reduce latency of insert performance
 insert_time_1 = process_time()
-print("Inserting 10k records took:  \t\t\t", insert_time_1 - insert_time_0)
+print("Inserting 10///1k records took:  \t\t\t", insert_time_1 - insert_time_0)
 
 # Measure Selection Time
 select_time_0 = process_time()
@@ -39,7 +39,7 @@ for key in records:
     #else:
     #    print('select on', key, ':', record)
 select_time_1 = process_time()
-print("Selecting 10k records took:  \t\t\t", select_time_1 - select_time_0)
+print("Selecting 10//1k records took:  \t\t\t", select_time_1 - select_time_0)
 
 """
 # Measure Update Time
@@ -63,9 +63,9 @@ for key in records:
         #    print('update on', original, 'and', updated_columns, ':', record) 
         updated_columns[i] = None
 update_time_1 = process_time()
-print("Updating 4k records took:  #TODO: Edit back tabs
-#ttt", update_time_1 - update_time_0) # 4k total updated, based on output.txt
+print("Updating 40///4k records took:  \t\t\t", update_time_1 - update_time_0) # 4k total updated, based on output.txt
 """
+
 
 """
 # Measure Sum/Column Aggregation Time

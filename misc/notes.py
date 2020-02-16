@@ -49,10 +49,17 @@ TableInsertBaseRecord():
 		- Access its base_set
 		- Access most recently used baseRow within base_set
 		- Determine if basePage within baseRow is FULL
-			 + if full: increment last_base_row ++ (no need allocate bc PageRange init() did it already)
+			 + if full: 
+                * increment last_base_row
+                * allocate new set of Base Pages, one per col
 			 + else: Write to the current baseRow
 	4. Write meta data
 	5. Write user input data
 	6. Update Page Directory for given RID
 		- page_directory[rid] = [page_range_index, page_row]
 	7. Create new entry for Indexer --> Indexer.insert()
+
+"""
+TableInsertTailRecord():
+    1.
+"""
