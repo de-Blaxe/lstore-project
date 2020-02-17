@@ -134,7 +134,7 @@ class Table:
         cur_keys = self.page_directory.keys()
         # Base case: Check if record's RID is unique & Page Range exists
         if record.rid in cur_keys or not baseID in cur_keys:
-            print("Error: Tail Record RID is not unique or Page Range DNE.\n")
+            #print("Error: Tail Record RID is not unique or Page Range DNE.\n")
             return
 
         # Init Values
@@ -213,7 +213,7 @@ class Table:
         page_range.num_updates += 1
         byte_pos = cur_tail_pages[INIT_COLS].first_unused_byte - DATA_SIZE 
         self.page_directory[record.rid] = [page_range_index, page_range.last_tail_row, byte_pos]
-        print("Page Directory: RID=", record.rid, " pageRangeIndex=", page_range_index, " pageRow=", page_range.last_tail_row, " and bytePos=", byte_pos)
+        #print("Page Directory: RID=", record.rid, " pageRangeIndex=", page_range_index, " pageRow=", page_range.last_tail_row, " and bytePos=", byte_pos)
  
         # Update Indexer iff key value was changed
         new_key = record.columns[self.key_index]
@@ -280,11 +280,11 @@ class Table:
             baseIDs = [self.indexer.index[index_pos][1] for index_pos in self.indexer.get_positions(key, max_key)]
  
         latest_records = self.get_latest(baseIDs) # [TID = 2 ** 64 - 2] # most recent
-        print("LATEST RECORDS: ", latest_records, "\n") # [2**64-2] single val in list
+        #print("LATEST RECORDS: ", latest_records, "\n") # [2**64-2] single val in list
         output = [] # A list of Record objects to return
         
         for rid in latest_records:
-            print("This should happen once only, starting with RID=", rid, "\n")
+            #print("This should happen once only, starting with RID=", rid, "\n")
             data = [None] * self.num_columns # [SID:None, G1:None, G2:None]
             columns_not_retrieved = set()
 
@@ -293,9 +293,9 @@ class Table:
                 if query_columns[i] == 1:
                     columns_not_retrieved.add(i)
 
-            print("COLS NOT RETRIEVED: ", columns_not_retrieved) # [0,1,2]
+            #print("COLS NOT RETRIEVED: ", columns_not_retrieved) # [0,1,2]
             while len(columns_not_retrieved) > 0: # len = 3, len = 2 & rid=2**64 - 1, len = 1 & rid = 1
-                print("While loop current RID=", rid)
+                #print("While loop current RID=", rid)
 
                 # Retrieve whatever data you can from latest record
                 assert rid != 0
@@ -314,12 +314,12 @@ class Table:
                 schema_data = schema_page.data[byte_pos:byte_pos + DATA_SIZE]
                 schema_str = str(int.from_bytes(schema_data, 'little')) # schema=011 (cumulative)
 
-                print("Before padding: ", schema_str)
+                #print("Before padding: ", schema_str)
                 # Leading zeros are lost after integer conversion, so padding needed
                 if len(schema_str) < self.num_columns:
                     diff = self.num_columns - len(schema_str)
                     schema_str = '0' * diff + schema_str # schema='011'
-                print("After padding: ", schema_str)
+                #print("After padding: ", schema_str)
 
                 for col, page in enumerate(page_set[page_row][INIT_COLS:]):
                     if col not in columns_not_retrieved:
@@ -328,7 +328,7 @@ class Table:
                     if rid < self.TID_counter or bool(int(schema_str[col])): # rid=2 ** 64 -1
                         data[col] = int.from_bytes(page.data[byte_pos:byte_pos + DATA_SIZE], 'little')
                         columns_not_retrieved.discard(col) # data = [91678, 100, 99] , set = [0]
-                        print("Data is now: ", data)
+                        #print("Data is now: ", data)
                         # break # bugging? don't put break early?
 
                 # Get RID from indirection column
@@ -340,7 +340,7 @@ class Table:
 
             # End of while loop
             record = Record(rid, key, data)
-            print("SELECTED RECORD's RID: ", record.rid, " KEY VAL:", record.key, "DATA", record.columns)
+            #print("SELECTED RECORD's RID: ", record.rid, " KEY VAL:", record.key, "DATA", record.columns)
             output.append(record)
 
         # End of outer for loop
