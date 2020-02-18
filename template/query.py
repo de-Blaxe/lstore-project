@@ -15,7 +15,8 @@ class Query:
     # Read a record with specified RID
     """
     def delete(self, key):
-        pass
+        self.table.delete_record(key)
+
 
     """
     # Insert a record with specified columns
@@ -57,8 +58,7 @@ class Query:
     :param start_range: int         # Start of the key range to aggregate 
     :param end_range: int           # Increment start_range by 1 until end_range
     :param col_index: int  	        # Index of desired column to aggregate
-    """
+    # This function is only called on the primary key
     """
     def sum(self, start_range, end_range, col_index):
         return self.table.collect_values(start_range, end_range, col_index)
-    """

@@ -7,7 +7,7 @@ from random import choice, randint, sample, seed
 
 # Student Id and 4 grades
 db = Database()
-grades_table = db.create_table('Grades', 3, 0) # CHANGED TO THREE COLS (SID, G1, G2)
+grades_table = db.create_table('Grades', 5, 0)
 query = Query(grades_table)
 
 records = {}
@@ -16,56 +16,55 @@ seed(3562901)
 
 # Measure Insertion Time
 insert_time_0 = process_time()
-for i in range(0, 5): # INSERT two
+for i in range(0, 1000):
     key = 92106429 + randint(0, 9000)
     while key in records:
         key = 92106429 + randint(0, 9000)
-    records[key] = [key, randint(0, 20), randint(0, 20)]
+    records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)]
     query.insert(*records[key])
-    print('inserted', records[key]) # Reduce latency of insert performance
+    #print('inserted', records[key]) # Reduce latency of insert performance
 insert_time_1 = process_time()
-print("Inserting 1 records took:  \t\t\t", insert_time_1 - insert_time_0)
+print("Inserting 1k records took:  \t\t\t", insert_time_1 - insert_time_0)
 
 # Measure Selection Time
 select_time_0 = process_time()
 for key in records:
-    record = query.select(key, [1, 1, 1])[0] # changed to three cols
+    record = query.select(key, [1, 1, 1, 1, 1])[0]
     error = False
     for i, column in enumerate(record.columns):
         if column != records[key][i]:
             error = True
     if error:
         print('select error on', key , ':', record, ', correct:', records[key])
-    else:
-        print('select on', key, ':', record)
+    #else:
+    #    print('select on', key, ':', record)
 select_time_1 = process_time()
-print("Selecting 1 records took:  \t\t\t", select_time_1 - select_time_0)
+print("Selecting 1k records took:  \t\t\t", select_time_1 - select_time_0)
 
 # Measure Update Time
 update_time_0 = process_time()
 for key in records:
-    updated_columns = [None, None, None] # changed to three
+    updated_columns = [None, None, None, None, None]
     for i in range(1, grades_table.num_columns):
         value = randint(0, 20)
         updated_columns[i] = value
         original = records[key].copy()
         records[key][i] = value
         query.update(key, *updated_columns)
-        record = query.select(key, [1, 1, 1])[0] # changed to three
-        print("updated col value: ", updated_columns[i], "\n") #debug
+        record = query.select(key, [1, 1, 1, 1, 1])[0]
+        #print("\nUpdated col value: ", updated_columns[i]) # debug
         error = False
         for j, column in enumerate(record.columns):
             if column != records[key][j]:
                 error = True
         if error:
             print('update error on', original, 'and', updated_columns, ':', record.columns, ', correct:', records[key])
-        else: # Reduce latency of update performance
-            print('update on', original, 'and', updated_columns, ':', record.columns) 
+        #else: # Reduce latency of update performance
+        #    print('update on', original, 'and', updated_columns, ':', record.columns) 
         updated_columns[i] = None
 update_time_1 = process_time()
-print("Updating 1 records took:  \t\t\t", update_time_1 - update_time_0) # 4k total updated, based on output.txt
+print("Updating 4k records took:  \t\t\t", update_time_1 - update_time_0) # 4k total updated, based on output.txt
 
-"""
 # Measure Sum/Column Aggregation Time
 sum_time_0 = process_time()
 keys = sorted(list(records.keys()))
@@ -79,5 +78,4 @@ for c in range(0, grades_table.num_columns):
         #else: # Reduce latency of sum performance
         #    print('sum on [', keys[r[0]], ',', keys[r[1]], ']: ', column_sum)
 sum_time_1 = process_time()
-print("Aggregating 100 times took:  #TODO: Edit back tabs
-#ttt", sum_time_1 - sum_time_0) # 100 calls to querySum, based on output.txt"""
+print("Aggregating 100 times took: \t\t\t", sum_time_1 - sum_time_0) # 100 calls to querySum, based on output.txt
