@@ -356,10 +356,7 @@ class Table:
             print("Error: Specified column index out of range.\n")
             return
         
-        total = 0
-        prev_rids = []
-        latest_rids = []
-        
+        total = 0 
         query_columns = [0] * self.num_columns
         query_columns[col_index] = 1
 
