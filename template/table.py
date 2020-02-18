@@ -385,7 +385,9 @@ class Table:
         next_rid = self.get_latest(baseID)
         num_deleted = 0
 
-        # NOTE: Is invalidating all its tail records necessary/beneficial later on? 
+        # NOTE: Is invalidating all its tail records necessary/beneficial later on?
+        # Would it be relevant to merging a Page Range? Copying over valid (base/tail) Records?
+        
         # Start from MRU tail record to LRU ones      
         while (next_rid != 0): # At least one tail record exists
             [_, page_row, byte_pos] = self.page_directory[next_rid]
