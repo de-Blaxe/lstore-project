@@ -38,7 +38,6 @@ class Query:
     """
     def select(self, key, query_columns): 
         # Milestone 2 Template: def select(self, key, column, query_columns)
-        # TODO: Add third parameter "column"
         return self.table.read_records(key, query_columns)
 
     """

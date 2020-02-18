@@ -1,5 +1,5 @@
-from lstore.db import Database
-from lstore.query import Query
+from template.db import Database # changed from lstore.db
+from template.query import Query # changed from lstore.query
 
 from random import choice, randint, sample, seed
 

@@ -49,12 +49,6 @@ class Database():
             page_dir = table_match.page_directory
             rids = page_dir.keys()
             for rid in rids:
-                page_set = page_dir[rid]                
-                if rid >= table_match.TID_counter: # Tail recordID
-                   byte_pos = abs(rid - (2 ** 64 - 1)) % PAGE_CAPACITY
-                else:
-                   byte_pos = (rid - 1) % PAGE_CAPACITY
-                # Note: INVALID_RECORD defined as -1 in config
-                page_set[RID_COLUMN].write(INVALID_RECORD, byte_pos)
+                # account for page ranges
             """
             pass
