@@ -110,12 +110,9 @@ class Table:
         self.page_directory[record.rid] = [page_range_index, page_range.last_base_row, byte_pos]
         # print("UPDATING PAGE DIRECTORY: { RID=", record.rid, " : index=", page_range_index, " & row=", page_range.last_base_row, "}\n")
         
-        # TODO: Account for THIRD param in query Select -> may need to change Index() class
         # Insert key, vals for each column
-        #self.indexer.insert(record.key, record.rid, self.key_index)
         for col_num, val in enumerate(record.columns):
             self.indexer.create_index(val, record.rid, col_num)
-
 
     """
     # Creates & appends a tailRow to current Page Range
@@ -226,7 +223,7 @@ class Table:
         # locate previous record 
         [_, prev_row, prev_byte_pos] = self.page_directory[prev_rid]
 
-        print("Prev RID = ", prev_rid, "Prev row = ", prev_row, "Prev byte pos = ", prev_byte_pos)
+        #print("Prev RID = ", prev_rid, "Prev row = ", prev_row, "Prev byte pos = ", prev_byte_pos)
 
         # Check if RID is base or tail
         prev_set = page_range.base_set if prev_rid < self.TID_counter else page_range.tail_set
@@ -236,11 +233,11 @@ class Table:
         for col_num, value in enumerate(record.columns):
             if value is not None:
                 # Find old value
-                print("Column number = ", col_num)
+                #print("Column number = ", col_num)
                 prev_data = prev_set[prev_row][col_num].data
                 #print("Prev byte array = ", prev_data)
                 prev_key = int.from_bytes(prev_data[prev_byte_pos: prev_byte_pos+DATA_SIZE], 'little')
-                print("Prev key = ", prev_key)
+                #print("Prev key = ", prev_key)
 
                 # New key value = record.columns[bit]
                 new_key = record.columns[bit]
@@ -290,39 +287,31 @@ class Table:
     """
     # Reads record(s) with matching key value and indexing column
     """
-    # NOTES:
-    # Add third param "column"
-    # Assumes that primary key is being indexed
-    # Still need to update querySelect() parameters
     def read_records(self, key, column, query_columns, max_key=None): 
          if max_key == None:
              try:
-                 baseIDs = [self.indexer.locate(key, column)] # should get back baseID = 1
+                 baseIDs = [self.indexer.locate(key, column)]
              except KeyError:
                  print("KeyError!\n")
                  return
-         #else: # Reading multiple records
+         # else: # Reading multiple records 
+         # TODO Put code back in
          #    baseIDs = [self.indexer.index[index_pos][1] for index_pos in self.indexer.get_positions(key, max_key)]
    
    
-         latest_records = self.get_latest(baseIDs) # [TID = 2 ** 64 - 2] # most recent
-#         #print("LATEST RECORDS: ", latest_records, "\n") # [2**64-2] single val in list
+         latest_records = self.get_latest(baseIDs)
          output = [] # A list of Record objects to return
          
          for rid in latest_records:
-            #print("This should happen once only, starting with RID=", rid, "\n")
-            data = [None] * self.num_columns # [SID:None, G1:None, G2:None]
+            data = [None] * self.num_columns 
             columns_not_retrieved = set()
  
             # Determine columns not retrieved yet
-            for i in range(len(query_columns)): # query cols = 1 1 1 
+            for i in range(len(query_columns)):  
                 if query_columns[i] == 1:
                     columns_not_retrieved.add(i)
  
-            #print("COLS NOT RETRIEVED: ", columns_not_retrieved) # [0,1,2]
-            while len(columns_not_retrieved) > 0: # len = 3, len = 2 & rid=2**64 - 1, len = 1 & rid = 1
-                #print("While loop current RID=", rid)
- 
+            while len(columns_not_retrieved) > 0: 
                 # Retrieve whatever data you can from latest record
                 assert rid != 0
                 # Locate record within Page Range
@@ -338,14 +327,12 @@ class Table:
                 # Read schema data
                 schema_page = page_set[page_row][SCHEMA_ENCODING_COLUMN]
                 schema_data = schema_page.data[byte_pos:byte_pos + DATA_SIZE]
-                schema_str = str(int.from_bytes(schema_data, 'little')) # schema=011 (cumulative)
+                schema_str = str(int.from_bytes(schema_data, 'little'))
  
-                #print("Before padding: ", schema_str)
                 # Leading zeros are lost after integer conversion, so padding needed
                 if len(schema_str) < self.num_columns:
                     diff = self.num_columns - len(schema_str)
-                    schema_str = '0' * diff + schema_str # schema='011'
-                #print("After padding: ", schema_str)
+                    schema_str = '0' * diff + schema_str
  
                 for col, page in enumerate(page_set[page_row][INIT_COLS:]):
                     if col not in columns_not_retrieved:
@@ -354,11 +341,9 @@ class Table:
                     if rid < self.TID_counter or bool(int(schema_str[col])): # rid=2 ** 64 -1
                         data[col] = int.from_bytes(page.data[byte_pos:byte_pos + DATA_SIZE], 'little')
                         columns_not_retrieved.discard(col) # data = [91678, 100, 99] , set = [0]
-                        #print("Data is now: ", data)
-                        # break # bugging? don't put break early?
  
                 # Get RID from indirection column
-                prev_rid = self.get_previous(rid) # prev_rid = 0
+                prev_rid = self.get_previous(rid)
                 if prev_rid == 0:  
                     break # Base record encountered
                 else:
@@ -366,7 +351,6 @@ class Table:
  
             # End of while loop
             record = Record(rid, key, data)
-            #print("SELECTED RECORD's RID: ", record.rid, " KEY VAL:", record.key, "DATA", record.columns)
             output.append(record)
  
         # End of outer for loop

@@ -1,3 +1,6 @@
+"""
+# NOTE: THIS TESTER WAS BASED ON IMPLEMENTATION WITHOUT MULTI DICTIONARY INDEXING
+"""
 from template.db import Database
 from template.query import Query
 from template.config import *
