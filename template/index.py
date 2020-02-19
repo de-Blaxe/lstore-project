@@ -26,7 +26,7 @@ class Index:
     # Returns the rid of all records with the given key value on column "column"
     """
     def locate(self, key_val, column): # Added "column" parameter
-        if key_val not in self.indices[column].keys():
+        if key_val not in list(self.indices[column].keys()):
             raise KeyError
         # return value associated with key_val based on column_number
         return self.indices[column][key_val]

@@ -36,9 +36,8 @@ class Query:
     # :param key: the key value to select records based on
     # :param query_columns: what columns to return. array of 1 or 0 values.
     """
-    def select(self, key, query_columns): 
-        # Milestone 2 Template: def select(self, key, column, query_columns)
-        return self.table.read_records(key, query_columns)
+    def select(self, key, column, query_columns): 
+        return self.table.read_records(key, column, query_columns)
 
     """
     # Update a record with specified key and columns
