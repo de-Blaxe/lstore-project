@@ -1,0 +1,245 @@
+inserted [92111466, 1, 14, 1, 19] 
+
+inserted [92109919, 13, 2, 10, 10] 
+
+inserted [92110921, 2, 4, 1, 18] 
+
+inserted [92106924, 14, 15, 10, 20] 
+
+inserted [92110295, 10, 6, 10, 19] 
+
+inserted [92110028, 15, 4, 5, 5] 
+
+inserted [92108010, 19, 8, 15, 6] 
+
+inserted [92111611, 3, 8, 1, 6] 
+
+inserted [92115241, 17, 18, 19, 1] 
+
+inserted [92109057, 9, 7, 16, 12] 
+
+CORRECT - select on 92111466 : <template.table.Record object at 0x107baea50>
+CORRECT - select on 92109919 : <template.table.Record object at 0x107baead0>
+CORRECT - select on 92110921 : <template.table.Record object at 0x107baeb10>
+CORRECT - select on 92106924 : <template.table.Record object at 0x107baeb50>
+CORRECT - select on 92110295 : <template.table.Record object at 0x107baeb90>
+CORRECT - select on 92110028 : <template.table.Record object at 0x107baebd0>
+CORRECT - select on 92108010 : <template.table.Record object at 0x107baec10>
+CORRECT - select on 92111611 : <template.table.Record object at 0x107baec50>
+CORRECT - select on 92115241 : <template.table.Record object at 0x107baec90>
+CORRECT - select on 92109057 : <template.table.Record object at 0x107baecd0>
+update on [92111466, 1, 14, 1, 19] and [None, 9, None, None, None] : <template.table.Record object at 0x107baea90>
+update on [92111466, 9, 14, 1, 19] and [None, None, 6, None, None] : <template.table.Record object at 0x107bb7310>
+update on [92111466, 9, 6, 1, 19] and [None, None, None, 16, None] : <template.table.Record object at 0x107bb7250>
+update on [92111466, 9, 6, 16, 19] and [None, None, None, None, 20] : <template.table.Record object at 0x107bb7410>
+update on [92109919, 13, 2, 10, 10] and [None, 5, None, None, None] : <template.table.Record object at 0x107bb7350>
+update on [92109919, 5, 2, 10, 10] and [None, None, 15, None, None] : <template.table.Record object at 0x107bb7510>
+update on [92109919, 5, 15, 10, 10] and [None, None, None, 13, None] : <template.table.Record object at 0x107bb7450>
+update on [92109919, 5, 15, 13, 10] and [None, None, None, None, 10] : <template.table.Record object at 0x107bb7610>
+update on [92110921, 2, 4, 1, 18] and [None, 1, None, None, None] : <template.table.Record object at 0x107bb7550>
+update on [92110921, 1, 4, 1, 18] and [None, None, 19, None, None] : <template.table.Record object at 0x107bb7710>
+update on [92110921, 1, 19, 1, 18] and [None, None, None, 15, None] : <template.table.Record object at 0x107bb7650>
+update on [92110921, 1, 19, 15, 18] and [None, None, None, None, 10] : <template.table.Record object at 0x107bb7810>
+update on [92106924, 14, 15, 10, 20] and [None, 2, None, None, None] : <template.table.Record object at 0x107bb7750>
+update on [92106924, 2, 15, 10, 20] and [None, None, 9, None, None] : <template.table.Record object at 0x107bb7910>
+update on [92106924, 2, 9, 10, 20] and [None, None, None, 19, None] : <template.table.Record object at 0x107bb7850>
+update on [92106924, 2, 9, 19, 20] and [None, None, None, None, 0] : <template.table.Record object at 0x107bb7a10>
+update on [92110295, 10, 6, 10, 19] and [None, 13, None, None, None] : <template.table.Record object at 0x107bb7950>
+update on [92110295, 13, 6, 10, 19] and [None, None, 19, None, None] : <template.table.Record object at 0x107bb7b10>
+update on [92110295, 13, 19, 10, 19] and [None, None, None, 3, None] : <template.table.Record object at 0x107bb7a50>
+update on [92110295, 13, 19, 3, 19] and [None, None, None, None, 3] : <template.table.Record object at 0x107bb7c10>
+update on [92110028, 15, 4, 5, 5] and [None, 13, None, None, None] : <template.table.Record object at 0x107bb7b50>
+update on [92110028, 13, 4, 5, 5] and [None, None, 14, None, None] : <template.table.Record object at 0x107bb7d10>
+update on [92110028, 13, 14, 5, 5] and [None, None, None, 2, None] : <template.table.Record object at 0x107bb7c50>
+update on [92110028, 13, 14, 2, 5] and [None, None, None, None, 5] : <template.table.Record object at 0x107bb7e10>
+update on [92108010, 19, 8, 15, 6] and [None, 15, None, None, None] : <template.table.Record object at 0x107bb7d50>
+update on [92108010, 15, 8, 15, 6] and [None, None, 12, None, None] : <template.table.Record object at 0x107bb7f10>
+update on [92108010, 15, 12, 15, 6] and [None, None, None, 18, None] : <template.table.Record object at 0x107bb7e50>
+update on [92108010, 15, 12, 18, 6] and [None, None, None, None, 13] : <template.table.Record object at 0x107bb7f50>
+update on [92111611, 3, 8, 1, 6] and [None, 6, None, None, None] : <template.table.Record object at 0x107bb7290>
+update on [92111611, 6, 8, 1, 6] and [None, None, 8, None, None] : <template.table.Record object at 0x107bbc150>
+update on [92111611, 6, 8, 1, 6] and [None, None, None, 11, None] : <template.table.Record object at 0x107bbc090>
+update on [92111611, 6, 8, 11, 6] and [None, None, None, None, 1] : <template.table.Record object at 0x107bbc250>
+update on [92115241, 17, 18, 19, 1] and [None, 2, None, None, None] : <template.table.Record object at 0x107bbc190>
+update on [92115241, 2, 18, 19, 1] and [None, None, 1, None, None] : <template.table.Record object at 0x107bbc350>
+update on [92115241, 2, 1, 19, 1] and [None, None, None, 13, None] : <template.table.Record object at 0x107bbc290>
+update on [92115241, 2, 1, 13, 1] and [None, None, None, None, 20] : <template.table.Record object at 0x107bbc450>
+update on [92109057, 9, 7, 16, 12] and [None, 15, None, None, None] : <template.table.Record object at 0x107bbc390>
+update on [92109057, 15, 7, 16, 12] and [None, None, 13, None, None] : <template.table.Record object at 0x107bbc550>
+update on [92109057, 15, 13, 16, 12] and [None, None, None, 20, None] : <template.table.Record object at 0x107bbc490>
+update on [92109057, 15, 13, 20, 12] and [None, None, None, None, 20] : <template.table.Record object at 0x107bbc650>
+keys =  [92106924, 92108010, 92109057, 92109919, 92110028, 92110295, 92110921, 92111466, 92111611, 92115241]
+92106924
+total_sum so far =  92106924
+92108010
+total_sum so far =  184214934
+92109057
+total_sum so far =  276323991
+92109919
+total_sum so far =  368433910
+92110028
+total_sum so far =  460543938
+adding col_val =  92106924
+total for me =  92106924
+adding col_val =  92108010
+total for me =  184214934
+adding col_val =  92109057
+total for me =  276323991
+adding col_val =  92109919
+total for me =  368433910
+adding col_val =  92110028
+total for me =  460543938
+sum on [ 92106924 , 92110028 ]:  460543938
+92108010
+total_sum so far =  92108010
+92109057
+total_sum so far =  184217067
+92109919
+total_sum so far =  276326986
+92110028
+total_sum so far =  368437014
+92110295
+total_sum so far =  460547309
+92110921
+total_sum so far =  552658230
+92111466
+total_sum so far =  644769696
+92111611
+total_sum so far =  736881307
+adding col_val =  92108010
+total for me =  92108010
+adding col_val =  92109057
+total for me =  184217067
+adding col_val =  92109919
+total for me =  276326986
+adding col_val =  92110028
+total for me =  368437014
+adding col_val =  92110295
+total for me =  460547309
+adding col_val =  92110921
+total for me =  552658230
+adding col_val =  92111466
+total for me =  644769696
+adding col_val =  92111611
+total for me =  736881307
+sum on [ 92108010 , 92111611 ]:  736881307
+92106924
+total_sum so far =  92106924
+92108010
+total_sum so far =  184214934
+92109057
+total_sum so far =  276323991
+adding col_val =  92106924
+total for me =  92106924
+adding col_val =  92108010
+total for me =  184214934
+adding col_val =  92109057
+total for me =  276323991
+sum on [ 92106924 , 92109057 ]:  276323991
+92109919
+total_sum so far =  92109919
+92110028
+total_sum so far =  184219947
+adding col_val =  92109919
+total for me =  92109919
+adding col_val =  92110028
+total for me =  184219947
+sum on [ 92109919 , 92110028 ]:  184219947
+92111611
+total_sum so far =  92111611
+92115241
+total_sum so far =  184226852
+adding col_val =  92111611
+total for me =  92111611
+adding col_val =  92115241
+total for me =  184226852
+sum on [ 92111611 , 92115241 ]:  184226852
+13
+total_sum so far =  13
+13
+total_sum so far =  26
+1
+total_sum so far =  27
+adding col_val =  15
+total for me =  15
+adding col_val =  10
+total for me =  25
+adding col_val =  2
+total for me =  27
+sum on [ 92110028 , 92110921 ]:  27
+2
+total_sum so far =  2
+15
+total_sum so far =  17
+15
+total_sum so far =  32
+5
+total_sum so far =  37
+13
+total_sum so far =  50
+13
+total_sum so far =  63
+adding col_val =  14
+total for me =  14
+adding col_val =  19
+total for me =  33
+adding col_val =  9
+total for me =  42
+adding col_val =  13
+total for me =  55
+adding col_val =  15
+total for me =  70
+adding col_val =  10
+total for me =  80
+sum error on [ 92106924 , 92110295 ]:  80 , correct:  63
+1
+total_sum so far =  1
+9
+total_sum so far =  10
+adding col_val =  2
+total for me =  2
+adding col_val =  9
+total for me =  11
+sum error on [ 92110921 , 92111466 ]:  11 , correct:  10
+5
+total_sum so far =  5
+13
+total_sum so far =  18
+adding col_val =  13
+total for me =  13
+adding col_val =  15
+total for me =  28
+sum error on [ 92109919 , 92110028 ]:  28 , correct:  18
+15
+total_sum so far =  15
+15
+total_sum so far =  30
+5
+total_sum so far =  35
+13
+total_sum so far =  48
+13
+total_sum so far =  61
+1
+total_sum so far =  62
+9
+total_sum so far =  71
+6
+total_sum so far =  77
+adding col_val =  19
+total for me =  19
+adding col_val =  9
+total for me =  28
+adding col_val =  13
+total for me =  41
+adding col_val =  15
+total for me =  56
+adding col_val =  10
+total for me =  66
+adding col_val =  2
+total for me =  68
+adding col_val =  9
+total for me =  77
+adding col_val =  3
+total for me =  80
+sum error on [ 92108010 , 92111611 ]:  80 , correct:  77

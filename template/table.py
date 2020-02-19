@@ -167,10 +167,15 @@ class Table:
         base_indir_page = page_range.base_set[base_page_row][INDIRECTION_COLUMN]
         base_indir_data = int.from_bytes(base_indir_page.data[base_byte_pos:base_byte_pos + DATA_SIZE], 'little')
 
+        # Store prev data --> Prev RID -> read the data for record = RID
+        prev_rid = baseID
         if base_indir_data: # Point to previous TID
             cur_tail_pages[INDIRECTION_COLUMN].write(base_indir_data)
+            prev_rid = base_indir_data
+
         else: # Point to baseID
             cur_tail_pages[INDIRECTION_COLUMN].write(baseID)
+
         # Base Indirection now points to current TID (replacement)
         base_indir_page.write(record.rid, base_byte_pos)
         
@@ -216,13 +221,31 @@ class Table:
         page_range.num_updates += 1
         byte_pos = cur_tail_pages[INIT_COLS].first_unused_byte - DATA_SIZE 
         self.page_directory[record.rid] = [page_range_index, page_range.last_tail_row, byte_pos]
-        #print("Page Directory: RID=", record.rid, " pageRangeIndex=", page_range_index, " pageRow=", page_range.last_tail_row, " and bytePos=", byte_pos)
-                
-#         new_key = record.columns[self.key_index]
-#         if new_key is not None:
-#             self.indexer.unique_update(record.key, new_key)
-        # TODO: Account for THIRD param in query Select -> may need to change Index() class
+        
+        
+        # locate previous record 
+        [_, prev_row, prev_byte_pos] = self.page_directory[prev_rid]
 
+        print("Prev RID = ", prev_rid, "Prev row = ", prev_row, "Prev byte pos = ", prev_byte_pos)
+
+        # Check if RID is base or tail
+        prev_set = page_range.base_set if prev_rid < self.TID_counter else page_range.tail_set
+        
+        # TODO: Account for THIRD param in query Select -> may need to change Index() class
+        # Update indexer entries if needed
+        for col_num, value in enumerate(record.columns):
+            if value is not None:
+                # Find old value
+                print("Column number = ", col_num)
+                prev_data = prev_set[prev_row][col_num].data
+                #print("Prev byte array = ", prev_data)
+                prev_key = int.from_bytes(prev_data[prev_byte_pos: prev_byte_pos+DATA_SIZE], 'little')
+                print("Prev key = ", prev_key)
+
+                # New key value = record.columns[bit]
+                new_key = record.columns[bit]
+                # Call the update index function
+                self.indexer.update_index(prev_key, new_key, col_num)
 
     """
     # Given list of baseIDs, retrieves corresponding latest RIDs
