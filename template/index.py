@@ -5,6 +5,7 @@ A data structure holding indices for various columns of a table.
 Key column should be indexd by default, other columns can be indexed through this object. 
 Indices are usually B-Trees, but other data structures can be used as well.
 """
+
 #TODO: Dealing with non unique key values for the same indexed column
 #Example
 # indexcol = 4, keyVal = 2 for both baseRIDs=2 and 3
