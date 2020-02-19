@@ -66,25 +66,30 @@ print("Updating records took:  \t\t\t", update_time_1 - update_time_0)
 keys = sorted(list(records.keys()))
 expected = []
 
+# Sums over all column for key values [9000, 9005]
 for c in range(0, grades_table.num_columns):
     expected.append(sum(records[key][c] for key in range(9000,9005)))
     print("Expected sum for column=", c, "is ", expected[c])
 
+# Simple tester for aggregation
 for c in range(0, grades_table.num_columns):
     result = query.sum(9000, 9005, c)
     if expected[c] != result:
         print("Sum error. Expected: ", expected[c], "but Got: ", result)
 
-# TODO: Check deletion
-# Delete one record: Say, the first Record (with RID=9000)
+# Delete one record: 
+# Say, the first Record (with RID=9000)
 query.delete(9000)
 first_sum = [0,0,0,0,0]
+
+# Get the first Record's columns
 for c in range(0, grades_table.num_columns):
     first_sum[c] = records[9000][c]
 
-print("\nInitial Sum: ", expected)
+print("\n\nInitial Sum: ", expected)
 print("Sum to ignore: ", first_sum)
 
+# Simple tester for one record deletion and subsequent summation of remaining Records
 for c in range(0, grades_table.num_columns):
     result = query.sum(9000, 9005, c)
     if expected[c] - first_sum[c] != result:

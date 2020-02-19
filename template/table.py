@@ -108,11 +108,13 @@ class Table:
         # print("UPDATING PAGE DIRECTORY: { RID=", record.rid) 
         # print(" : index=", page_range_index, " & row=", page_range.last_base_row, "}\n")
         
+        """ 
+        # Idea for multi dictionary indexing
         # Insert key, vals for each column
         for col_num, val in enumerate(record.columns):
             self.indexer.create_index(val, record.rid, col_num)
-
-        #self.indexer.insert(record.key, record.rid)
+        """
+        self.indexer.insert(record.key, record.rid)
 
 
     """
@@ -213,12 +215,12 @@ class Table:
         #print("Page Directory: RID=", record.rid) 
         #print(" pageRangeIndex=", page_range_index, " pageRow=", page_range.last_tail_row, " and bytePos=", byte_pos)
 
-        """
         # Update Indexer iff key value was changed
         new_key = record.columns[self.key_index]
         if new_key is not None:
             self.indexer.unique_update(record.key, new_key)
-        """ # TODO Update for every column
+        
+        # TODO Update for every column
 
 
     """
@@ -226,11 +228,7 @@ class Table:
     """
     def get_latest(self, baseIDs):
         rid_output = [] # List of RIDs
-        """
-        if isinstance(baseIDs, int):
-            baseIDs = list(baseIDs) 
-        # NOTE: Doesn't compile; 'worked' before bc baseIDs already defined as a list in read_records
-        """
+
         for baseID in baseIDs:
             # Retrieve value in base record's indirection column
             [page_range_index, base_page_row, base_byte_pos] = self.page_directory[baseID]
@@ -266,18 +264,17 @@ class Table:
     """
     # Reads record(s) with matching key value and indexing column
     """
-    # NOTES:
-    # Add third param "column"
-    # Still need to update querySelect() parameters
+    # TODO: def read_records(self, key, column, query_columns, max_key=None)
     def read_records(self, key, query_columns, max_key=None): 
         if max_key == None:
             try:
-                baseIDs = [self.indexer.locate(key, column)]
+                baseIDs = [self.indexer.locate(key)]
             except KeyError:
                 print("KeyError!\n")
                 return
-        #else: # Reading multiple records #TODO account for multi indexing
-        #    baseIDs = [self.indexer.index[index_pos][1] for index_pos in self.indexer.get_positions(key, max_key)]
+        else: # Reading multiple records 
+            #TODO account for multi indexing
+            baseIDs = [self.indexer.index[index_pos][1] for index_pos in self.indexer.get_positions(key, max_key)]
  
         latest_records = self.get_latest(baseIDs)
         output = [] # A list of Record objects to return
