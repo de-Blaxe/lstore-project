@@ -36,7 +36,7 @@ for key in records:
     #else:
     #    print('select on', key, ':', record)
 select_time_1 = process_time()
-print("Selecting 3 records took:  \t\t\t", select_time_1 - select_time_0)
+print("Selecting records took:  \t\t\t", select_time_1 - select_time_0)
 
 
 # Measure Update Time
@@ -61,24 +61,7 @@ for key in records:
             print('Latest record: ', record.columns, "\n") 
         updated_columns[i] = None
 update_time_1 = process_time()
-print("Updating records took:  \t\t\t", update_time_1 - update_time_0) # 4k total updated, based on output.txt
-
-"""
-# Measure Sum/Column Aggregation Time
-sum_time_0 = process_time()
-keys = sorted(list(records.keys()))
-for c in range(0, grades_table.num_columns):
-    for i in range(0, 5): # total times = 5 * 5 = 25 times
-        r = sorted(sample(range(0, len(keys)), 2))
-        column_sum = sum(map(lambda key: records[key][c], keys[r[0]: r[1] + 1]))
-        result = query.sum(keys[r[0]], keys[r[1]], c)
-        if column_sum != result:
-            print('sum error on [', keys[r[0]], ',', keys[r[1]], ']: ', result, ', correct: ', column_sum)
-        else: # Reduce latency of sum performance
-            print('sum on [', keys[r[0]], ',', keys[r[1]], ']: ', column_sum)
-sum_time_1 = process_time()
-print("Aggregating columns took: """
-#\t\t\t", sum_time_1 - sum_time_0)
+print("Updating records took:  \t\t\t", update_time_1 - update_time_0) 
 
 keys = sorted(list(records.keys()))
 expected = []
@@ -99,8 +82,8 @@ first_sum = [0,0,0,0,0]
 for c in range(0, grades_table.num_columns):
     first_sum[c] = records[9000][c]
 
-print("\n Initial Sum: ", expected)
-print("\nSum to ignore: ", first_sum)
+print("\nInitial Sum: ", expected)
+print("Sum to ignore: ", first_sum)
 
 for c in range(0, grades_table.num_columns):
     result = query.sum(9000, 9005, c)
