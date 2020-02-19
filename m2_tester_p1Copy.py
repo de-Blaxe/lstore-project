@@ -46,6 +46,28 @@ for i in range(0,5):
     print("Dictionary[", i, "] maps ", prompts[i], " to baseIDs and contains: ", grades_table.indexer.indices[i], "\n")
 
 """
+# little test for updates
+
+for i in range(0,1): # make single update per column
+    for key in keys: # per record
+        updated_cols = [None, None, None, None, None]
+        for i in range(1, grades_table.num_columns): 
+            # This loop does not update primary key value (SIDs)
+            value = randint(0, 20)
+            updated_cols[i] = value
+            print("Col i=", i , " will be updated with value=", value)
+            original = records[key].copy()
+            records[key][i] = value
+            query.update(key, *updated_cols)
+            # this does not check for correctness yet (ie call select after update)
+
+print("\n After updates: Check Status of Table Indexer.")
+prompts = ["SIDs", "Grade1", "Grade2", "Grade3", "Grade4"]
+for i in range(0,5):
+    print("Dictionary[", i, "] maps ", prompts[i], " to baseIDs and contains: ", grades_table.indexer.indices[i], "\n")
+"""
+
+"""
 for _ in range(0,1):
     for key in keys:
         updated_columns = [None, None, None, None, None]

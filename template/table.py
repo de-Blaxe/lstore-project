@@ -112,6 +112,7 @@ class Table:
         
         # Insert key, vals for each column
         for col_num, val in enumerate(record.columns):
+            print("Indexing colnum=", col_num, " with val=", val, " for RID=", record.rid)
             self.indexer.create_index(val, record.rid, col_num)
 
     """
@@ -135,6 +136,7 @@ class Table:
         cur_keys = self.page_directory.keys()
         # Base case: Check if record's RID is unique & Page Range exists
         if record.rid in cur_keys or not baseID in cur_keys:
+            print("Error: Record RID is not unique.\n")
             return
 
         # Init Values
@@ -164,12 +166,11 @@ class Table:
         base_indir_page = page_range.base_set[base_page_row][INDIRECTION_COLUMN]
         base_indir_data = int.from_bytes(base_indir_page.data[base_byte_pos:base_byte_pos + DATA_SIZE], 'little')
 
-        # Store prev data --> Prev RID -> read the data for record = RID
-        prev_rid = baseID
+        # Store previous RID to later read data for record
+        prev_rid = baseID # Init value
         if base_indir_data: # Point to previous TID
             cur_tail_pages[INDIRECTION_COLUMN].write(base_indir_data)
             prev_rid = base_indir_data
-
         else: # Point to baseID
             cur_tail_pages[INDIRECTION_COLUMN].write(baseID)
 
@@ -218,11 +219,9 @@ class Table:
         page_range.num_updates += 1
         byte_pos = cur_tail_pages[INIT_COLS].first_unused_byte - DATA_SIZE 
         self.page_directory[record.rid] = [page_range_index, page_range.last_tail_row, byte_pos]
-        
-        
-        # locate previous record 
+               
+        # Locate previous record with RID=prev_rid
         [_, prev_row, prev_byte_pos] = self.page_directory[prev_rid]
-
         #print("Prev RID = ", prev_rid, "Prev row = ", prev_row, "Prev byte pos = ", prev_byte_pos)
 
         # Check if RID is base or tail
