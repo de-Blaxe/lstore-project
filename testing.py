@@ -1,7 +1,0 @@
-inserted [92111466, 1, 14]
-
-COLS NOT RETRIEVED:  {0, 1, 2}
-
- starting with RID= 18446744073709551615
-
-
