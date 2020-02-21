@@ -193,12 +193,16 @@ class Table:
         
         # Leading zeros lost after integer conversion, so padding needed
         init_base_schema = str(schema_int)
+        diff = self.num_columns - len(init_base_schema)
+        final_base_schema = init_base_schema if not diff else ('0' * diff) + init_base_schema  
+        """
         final_base_schema = ''
         diff = self.num_columns - len(init_base_schema) 
         if diff:
             final_base_schema = ('0' * diff) + init_base_schema
         else:
             final_base_schema = init_base_schema
+        """
  
         # Merge tail & base schema
         latest_schema = ''
@@ -229,19 +233,17 @@ class Table:
         
         # TODO: Account for THIRD param in query Select -> may need to change Index() class
         # Update indexer entries if needed
-        for col_num, value in enumerate(record.columns):
+        for col_num, new_key in enumerate(record.columns):
             if value is not None:
                 # Find old value
-                #print("Column number = ", col_num)
-                prev_data = prev_set[prev_row][col_num].data
-                #print("Prev byte array = ", prev_data)
+                #prev_data = prev_set[prev_row][col_num].data # BUG THIS WILL NOT GIVE YOU USER DATA NEED OFFSET
+                prev_data = prev_set[prev_row][INIT_COLS + col_num].data
                 prev_key = int.from_bytes(prev_data[prev_byte_pos: prev_byte_pos+DATA_SIZE], 'little')
                 #print("Prev key = ", prev_key)
-
-                # New key value = record.columns[bit]
-                new_key = record.columns[bit]
+                #new_key = record.columns[bit] # BUG WE NEVER DECLARED BIT IN THIS LOOP, typo!
+                #new_key is already enumerated in for loop!
                 # Call the update index function
-                self.indexer.update_index(prev_key, new_key, col_num)
+                self.indexer.update_index(prev_key, new_key, col_num) # We should pass prev_rid too
 
     """
     # Given list of baseIDs, retrieves corresponding latest RIDs

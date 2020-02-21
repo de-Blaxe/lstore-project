@@ -6,18 +6,12 @@ Key column should be indexd by default, other columns can be indexed through thi
 Indices are usually B-Trees, but other data structures can be used as well.
 """
 
-#### Example ###
-# indexcol = 4, keyVal = 2 for both baseRIDs=2 and 3
-# need to avoid overwriting dictionary entry with latest insert
-# dict[col=4] = {2 : 2} -> overwritten with {2 : 3}
-# maybe make list of possible baseIDs
-# so, dict[col=4] = {2: [2,3]} 
 
 class Index:
 
     def __init__(self, table):
         # One index for each table. All are empty initially.
-        #self.indices = [dict()] * table.num_columns # BUG! WRONG
+        #self.indices = [dict()] * table.num_columns # BUG!
         self.primary_index = table.key_index
         self.indices = [dict() for _ in range(table.num_columns)] # corrected        
 
@@ -25,11 +19,14 @@ class Index:
     # Returns the rid of all records with the given key value on column "column"
     """
     def locate(self, key_val, column):
+        print("Locate(): key val=", key_val, " and column=", column)
+        print("Locate(): all keys inside dictionary[column]: ", self.indices[column].keys())        
+
         if key_val not in self.indices[column].keys():
             raise KeyError
         # Return baseID(s) associated with key_val based on column_number
         # Dictionaries for primary keys have a 1:1 mapping with their baseIDs
-        return self.indices[column][key_val] # Returns a list of baseIDs if non-primary key else single baseID
+        return self.indices[column][key_val]
 
 
     """
@@ -43,40 +40,29 @@ class Index:
     """
     # Updates dictionary for key replacement
     """
-    def update_index(self, key, new_key, column_number): # IDEA: Add parameter: mapped_rid
+    def update_index(self, key, new_key, cur_rid, column_number): # added cur_rid (the current value stored for record)
+        """
         # Search and replace dictionary entry
         base_rids = self.locate(key, column_number)
-        self.indices[column_number][new_key] = base_rids # buggy because this will copy over all base_rids list
+        self.indices[column_number][new_key] = base_rids # BUG This will map new_key to ALL base_rids, not just one
         # Delete old key in dictionary
-        self.indices[column_number].pop(key) # buggy because this will delete entire base_rids list
-        
-        #### Example ####
-        # Grade1 Dictionary has {90: [1,3,5]}
-        # Want to only update Record with baseID=1 with Grade1 = 100
-
-        # Expected output
-        # Grade1 Dictionary has {90: [3,5], 100: [1]} # need to split them up!
-        
+        self.indices[column_number].pop(key)
         """
-        ##### IDEA ####
-        ##### Assuming that we passed prev_rid (aka mapped_rid) as argument to update_index() ####
- 
         # Check if new_key is unique
         try:
             self.indices[column_number][new_key]
         except KeyError:
             self.indices[column_number][new_key] = []
-        self.indices[column_number][new_key].append(mapped_rid)
+        self.indices[column_number][new_key].append(cur_rid)
 
         # Delete cur_rid from previous mapping
         cur_values = self.indices[column_number].values()
         if len(cur_values) > 1:
             # There are other baseIDs mapped to old key
-            self.indices[column_number][key].remove(mapped_rid)
+            self.indices[column_number][key].remove(cur_rid)
         else: # Safe to remove old key completely
             self.indices[column_number].pop(key)
 
-        """
 
     """
     Create index on specific column
@@ -86,6 +72,11 @@ class Index:
         ## Previous Idea##
         # Alternative: self.indices[column_number].update({key:val})
         #self.indices[column_number][key] = val
+
+        ## New Idea ##
+        # Dictionary Entry: {col val : list of all matching baseIDs}
+        # But then you need to access stuff differently in table.py
+        # Note: Sum queries only called on primary key
     
         if column_number == self.primary_index:
             self.indices[column_number][key] = val
@@ -102,6 +93,11 @@ class Index:
     Drop index of specific column
     """
     def drop_index(self, table, column_number):
+        # Base case: Check if column_number in range
+        if column_number < 0 or column_number > len(self.indices):
+            print("Drop Index Error: column_number is out of range.\n")
+            return
         # Remove index on specific column
-        #self.indices = self.indices[column_number + 1:]
-        self.indices[column_number] = {} # So column_number does not get messed up
+        # self.indices = self.indices[column_number + 1:] # before, this shortens indices length
+        # I think you need to have empty placeholder so column_number/indexing doesn't get messed up
+        self.indices[column_number] = {} # Empty dictionary placeholder
