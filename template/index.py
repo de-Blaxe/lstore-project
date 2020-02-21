@@ -69,8 +69,8 @@ class Index:
         self.indices[column_number][new_key].append(mapped_rid)
 
         # Delete cur_rid from previous mapping
-        cur_values = self.indices[column_number].values()
-        if len(cur_values) > 1:
+        base_rids = self.locate(key, column_number) # aka retrieve: self.indices[column_number][key]
+        if len(base_rids) > 1:
             # There are other baseIDs mapped to old key
             self.indices[column_number][key].remove(mapped_rid)
         else: # Safe to remove old key completely
