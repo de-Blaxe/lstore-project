@@ -58,12 +58,16 @@ class Index:
         # Expected output
         # Grade1 Dictionary has {90: [3,5], 100: [1]} # need to split them up!
         
-        # Check if new_key is unique 
+        # Check if new_key is unique via create_index()
+        self.create_index(key, mapped_rid, column_number)
+        """
+        # Same logic executed anyways
         try:
             self.indices[column_number][new_key]
         except KeyError:
             self.indices[column_number][new_key] = []
-        self.indices[column_number][new_key].append(mapped_rid) 
+        self.indices[column_number][new_key].append(mapped_rid)
+        """
 
         # Delete mapped_rid from previous mapping
         cur_vals = self.indices[column_number][key]
