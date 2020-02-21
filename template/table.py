@@ -112,7 +112,7 @@ class Table:
         
         # Insert key, vals for each column
         for col_num, val in enumerate(record.columns):
-            print("Indexing colnum=", col_num, " with val=", val, " for RID=", record.rid)
+            #print("Indexing colnum=", col_num, " with val=", val, " for RID=", record.rid)
             self.indexer.create_index(val, record.rid, col_num)
 
     """
@@ -195,14 +195,6 @@ class Table:
         init_base_schema = str(schema_int)
         diff = self.num_columns - len(init_base_schema)
         final_base_schema = init_base_schema if not diff else ('0' * diff) + init_base_schema  
-        """
-        final_base_schema = ''
-        diff = self.num_columns - len(init_base_schema) 
-        if diff:
-            final_base_schema = ('0' * diff) + init_base_schema
-        else:
-            final_base_schema = init_base_schema
-        """
  
         # Merge tail & base schema
         latest_schema = ''
@@ -225,33 +217,35 @@ class Table:
         self.page_directory[record.rid] = [page_range_index, page_range.last_tail_row, byte_pos]
                
         # Locate previous record with RID=prev_rid
+
+        print("Prev RID = ", prev_rid)
+
         [_, prev_row, prev_byte_pos] = self.page_directory[prev_rid]
         #print("Prev RID = ", prev_rid, "Prev row = ", prev_row, "Prev byte pos = ", prev_byte_pos)
 
         # Check if RID is base or tail
         prev_set = page_range.base_set if prev_rid < self.TID_counter else page_range.tail_set
         
-        # TODO: Account for THIRD param in query Select -> may need to change Index() class
         # Update indexer entries if needed
         for col_num, new_key in enumerate(record.columns):
-            if value is not None:
-                # Find old value
-                #prev_data = prev_set[prev_row][col_num].data # BUG THIS WILL NOT GIVE YOU USER DATA NEED OFFSET
+            if new_key is not None:
+                # Find old key
                 prev_data = prev_set[prev_row][INIT_COLS + col_num].data
-                prev_key = int.from_bytes(prev_data[prev_byte_pos: prev_byte_pos+DATA_SIZE], 'little')
+                prev_key = int.from_bytes(prev_data[prev_byte_pos:prev_byte_pos + DATA_SIZE], 'little')
                 #print("Prev key = ", prev_key)
-                #new_key = record.columns[bit] # BUG WE NEVER DECLARED BIT IN THIS LOOP, typo!
-                #new_key is already enumerated in for loop!
+                print("BaseID to pass to updateindex: ", baseID)
                 # Call the update index function
-                self.indexer.update_index(prev_key, new_key, col_num) # We should pass prev_rid too
-
+                self.indexer.update_index(prev_key, new_key, baseID, col_num)
+    
+            
     """
     # Given list of baseIDs, retrieves corresponding latest RIDs
     """
     def get_latest(self, baseIDs):
         rid_output = [] # List of RIDs
-        if isinstance(baseIDs, int):
-            baseIDs = list(baseIDs)
+        if type(baseIDs) is not list:
+            # Account for unique primary keys
+            baseIDs = [baseIDs]
         
         for baseID in baseIDs:
             # Retrieve value in base record's indirection column
@@ -288,22 +282,37 @@ class Table:
     """
     # Reads record(s) with matching key value and indexing column
     """
-    def read_records(self, key, column, query_columns, max_key=None): 
-         if max_key == None:
-             try:
-                 baseIDs = [self.indexer.locate(key, column)]
-             except KeyError:
-                 print("KeyError!\n")
-                 return
-         # else: # Reading multiple records 
-         # TODO Put code back in
-         #    baseIDs = [self.indexer.index[index_pos][1] for index_pos in self.indexer.get_positions(key, max_key)]
+    def read_records(self, key, column, query_columns, max_key=None):
+        # Determine if column aggregation needed
+        if max_key is not None:
+            baseIDs = self.indexer.locate_range(key, max_key, column)
+        else: # Perform regular selection
+            try:
+                baseIDs = self.indexer.locate(key, column) # dictionary[col] = {key: [....]}
+            except KeyError:
+                print("KeyError!\n")
+                return
+
+        latest_records = self.get_latest(baseIDs)
+        output = []
+
+        """
+        # Previous idea with page ranges:
+        # Determine if column aggregation needed
+        if max_key is not None:
+            latest_records += self.indexer.locate_range(max_key, column)
+            # Find matching Page Range
+            # NOTE: Guaranteed that 'column' is self.key_index
+            cur_rid = latest_records[0] # Single RID (could be tail/baseID)
+            [page_range_index, page_row, byte_pos] = self.page_directory[cur_rid]
+            page_range = self.page_range_collection[page_range_index]
+            page_set = page_range.tail_set if cur_rid > self.TID_counter else page_range.base_set
+            
+            # starts at key .... max key->RIDend
+            # key -> RIDstart .... RIDmax = limit of a Page Range check if equal to RIDend
+            """      
    
-   
-         latest_records = self.get_latest(baseIDs)
-         output = [] # A list of Record objects to return
-         
-         for rid in latest_records:
+        for rid in latest_records:
             data = [None] * self.num_columns 
             columns_not_retrieved = set()
  
@@ -353,9 +362,9 @@ class Table:
             # End of while loop
             record = Record(rid, key, data)
             output.append(record)
- 
+
         # End of outer for loop
-         return output
+        return output
 
 
     """
