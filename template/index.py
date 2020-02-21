@@ -69,16 +69,11 @@ class Index:
         cur_vals = self.indices[column_number][key]
         if column_number == self.primary_index or len(cur_vals) == 1:
             #print("Dictionary[", column_number,"] to remove: key=", key, " : mapped_baseID=", mapped_rid, "\n")
-            self.indices[column_number].pop(key)
-            #self.indices[column_number][key].remove(mapped_rid)
-        #elif len(cur_vals) == 1: # [single baseID]
-            # Safe to remove old key completely   
-        #    self.indices[column_number].pop(key)
+            self.indices[column_number][new_key].append(mapped_rid)
         else:
             # There are other baseIDs mapped to key
             cur_vals.remove(mapped_rid)
 
-        
 
     """
     Create index on specific column
