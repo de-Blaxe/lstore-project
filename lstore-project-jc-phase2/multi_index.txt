@@ -1,0 +1,19 @@
+Insert finished
+Insert took  0.0002957930000000025
+select on 92106429 : Record RID= 1  columns [92106429, 9, 1, 14, 1]
+select on 92106430 : Record RID= 2  columns [92106430, 19, 6, 13, 2]
+select on 92106431 : Record RID= 3  columns [92106431, 10, 10, 8, 2]
+Select finished
+Select took:  9.031600000000001e-05
+
+ After selection: Check Status of Table Indexer.
+Dictionary[ 0 ] maps  SIDs  to baseIDs and contains:  {92106429: 1, 92106430: 2, 92106431: 3} 
+
+Dictionary[ 1 ] maps  Grade1  to baseIDs and contains:  {9: [1], 19: [2], 10: [3]} 
+
+Dictionary[ 2 ] maps  Grade2  to baseIDs and contains:  {1: [1], 6: [2], 10: [3]} 
+
+Dictionary[ 3 ] maps  Grade3  to baseIDs and contains:  {14: [1], 13: [2], 8: [3]} 
+
+Dictionary[ 4 ] maps  Grade4  to baseIDs and contains:  {1: [1], 2: [2, 3]} 
+
