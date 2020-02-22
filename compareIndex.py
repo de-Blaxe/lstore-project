@@ -24,8 +24,8 @@ for i in range(0, num_cols):
 
 
 # Display comparison
-print("new_indices: Edited version & prev_indices: Current version")
-print("Primary index is set to ", primary_index)
+#print("new_indices: Edited version & cur_indices: Current version")
+#print("Primary index is set to ", primary_index)
 for i in range(0, num_cols):
     if i == primary_index:
         alert = "THIS ENTRY IS FOR THE PRIMARY INDEX"
