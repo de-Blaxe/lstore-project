@@ -20,16 +20,17 @@ class Index:
 
     def __init__(self, table):
         # One index for each table. All are empty initially.
-        #self.indices = [dict()] * table.num_columns # BUG! WRONG
         self.primary_index = table.key_index
         self.table = table
-        #self.indices = [dict() for _ in range(table.num_columns)] # corrected  
-        #self.indices = [OOBTree() for _ in range(table.num_columns)]
         self.indices = []
-        self.check_prev_update = dict()
+        
+        # Only have a dictionary of key:val for the primary key column
+        # For the rest of the columns create a defauldict(list) type
+        # This just creates a list as value for each key -- key: [val1, val2, ...] when the value is appended to the list
+        for col in range(table.num_columns):
+            if col != self.primary_index:
+                self.indices.append(defaultdict(list))
         self.indices.insert(self.primary_index, dict())
-        for _ in range(1, table.num_columns):
-            self.indices.append(defaultdict(list))
              
 
     """
@@ -44,9 +45,12 @@ class Index:
     # Returns the RIDs of all records with values in column "column" between "begin" and "end"
     """
     def locate_range(self, begin, end, column): 
-        # TODO
-        pass
-
+        
+        baseIDs = []
+        for cur_key in range(begin, end + 1):
+            baseIDs.append(self.locate(cur_key, column)) # Locate() may return a list
+            
+        return baseIDs # Return a single list
 
     """
     # Updates dictionary for key replacement
@@ -65,7 +69,7 @@ class Index:
     
     #Create index on specific column
     def create_index(self, column_number):
-        
+        # build_columnIndex only builds an index on the given column if select needs it
         self.table.build_columnIndex(column_number, self.indices[column_number])
         
    

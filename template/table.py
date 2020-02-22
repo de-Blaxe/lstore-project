@@ -133,6 +133,7 @@ class Table:
     # Creates & inserts new tail record into Table
     """
     def insert_tailRecord(self, record, schema_encoding):
+        
         # Retrieve base record with matching key
         try:
             baseID = self.indexer.locate(record.key, self.key_index)
@@ -140,7 +141,6 @@ class Table:
             # Modified to bypass logic error in main
             return 
         else:
-    
             cur_keys = self.page_directory.keys()
             # Base case: Check if record's RID is unique & Page Range exists
             if record.rid in cur_keys or not baseID in cur_keys:
@@ -225,31 +225,15 @@ class Table:
             cur_tail_pages[BASE_RID_COLUMN].write(baseID)
             cur_tail_pages[TIMESTAMP_COLUMN].write(int(time()))
        
+            # Increment number of updates and update page directory
             page_range.num_updates += 1
             byte_pos = cur_tail_pages[INIT_COLS].first_unused_byte - DATA_SIZE 
             self.page_directory[record.rid] = [page_range_index, page_range.last_tail_row, byte_pos]
                    
-            # Check if primary key is updated
-            needed_rid = 0
+            # Check if primary key is updated -- if it is then replace old key with new key 
+            # (I initially forgot that record.key = old_key)
             if record.columns[self.key_index] is not None:
-                # Check if key was previously updated using a dictionary defined in indexer
-                if prev_rid not in self.indexer.check_prev_update or len(self.indexer.check_prev_update) == 0:
-                    needed_rid = prev_rid
-                
-                else:
-                    needed_rid = self.indexer.check_prev_update[prev_rid]
-            
-                self.indexer.check_prev_update.update({baseID: record.rid}) 
-                
-                [_, prev_row, prev_byte_pos] = self.page_directory[prev_rid]
-                prev_set = page_range.base_set if prev_rid < self.TID_counter else page_range.tail_set
-                # Need to update primary key
-                prev_page = prev_set[prev_row][INIT_COLS + self.key_index]
-                
-                old_key = int.from_bytes(prev_page.data[prev_byte_pos:prev_byte_pos+DATA_SIZE], 'little')
-                
-                #print("old key = ", old_key, "new key = ", record.columns[self.key_index])
-                self.indexer.update_primaryKey(old_key, record.columns[self.key_index], self.key_index)
+                self.indexer.update_primaryKey(record.key, record.columns[self.key_index], self.key_index)
                 
 
     """
@@ -302,9 +286,9 @@ class Table:
              except KeyError:
                  print("KeyError!\n")
                  return
-         # else: # Reading multiple records 
-         # TODO Put code back in
-         #    baseIDs = [self.indexer.index[index_pos][1] for index_pos in self.indexer.get_positions(key, max_key)]
+         else: # Reading multiple records 
+#          # TODO Put code back in
+            baseIDs = self.indexer.locate_range(key, max_key, column)
    
    
          latest_records = self.get_latest(baseIDs)
@@ -365,6 +349,7 @@ class Table:
          return output
      
     def build_columnIndex(self, column_number, dictionary):
+        
         # Take all records present in indexer for primary key and map 
         # it to required column
         baseIDs = []
@@ -379,23 +364,27 @@ class Table:
             # Check the indirection column of the base record
             base_indir_page = page_range.base_set[base_page_row][INDIRECTION_COLUMN]
             base_indir_data = int.from_bytes(base_indir_page.data[base_byte_pos:base_byte_pos+DATA_SIZE], "little")
+            
+            # Check if base_indir_data is base or tail
             if base_indir_data:
                 # Find the tail record
                 [_, tail_page_row, tail_byte_pos] = self.page_directory[base_indir_data]
+                # Read the data corresponding to the tail page and convert to int
                 tail_page = page_range.tail_set[tail_page_row][INIT_COLS + column_number]
-                # Read the value and store in BTree
                 tail_data = int.from_bytes(tail_page.data[tail_byte_pos:tail_byte_pos+DATA_SIZE], 'little')
                 
-                # Check if base id was previously used elsewhere and remove it from the key:value pair
+                # Check if base id was previously used elsewhere and remove it from the key:[value] pair
                 # From: https://stackoverflow.com/questions/8023306/get-key-by-value-in-dictionary
                 match_key = list(self.indexer[column_number].keys())[list(mydict.values()).index(baseID)]
                 if match_key:
                     self.indexer[column_number][match_key].remove(baseID)
+                    
+                # If the key does not have any values left, remove it as well
+                if len(self.indexer[column_number][match_key]) == 0:
+                    self.indexer[column_number].pop(match_key)
                 
-                # Add to dictionary  
+                # Add the updated key:[value] to dictionary  
                 self.indexer[column_number][tail_data].append(baseID)
-                
-            
             else:
                 # Insert the data from the the base record itself
                 base_page = page_range.base_set[base_page_row][INIT_COLS + column_number]
@@ -403,6 +392,23 @@ class Table:
                 # Add to dictionary
                 self.indexer[column_number][base_data].append(baseID)
                 
+    # Called only on primary key column            
+    def collect_values(self, start_range, end_range, col_index):
+        # Base case: Check if col_index in range
+        if col_index < 0 or col_index >= self.num_columns:
+            print("Error: Specified column index out of range.\n")
+            return
+        
+        total = 0
+        
+        query_columns = [0] * self.num_columns
+        query_columns[col_index] = 1
+
+        records = self.read_records(start_range, col_index, query_columns, end_range)
+        for record in records:
+            total += record.columns[col_index]        
+
+        return total
 
     """
     # Merges base & tail records within a Page Range
