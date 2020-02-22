@@ -1,0 +1,6 @@
+# Initializing indices 1st then insert primary_index        # Initializing primary_index 1st then all others
+indices[ 0 ]  defaultdict(<class 'list'>, {}) 			 vs. mylist[ 0 ]  {}  non primary
+indices[ 1 ]  defaultdict(<class 'list'>, {}) 			 vs. mylist[ 1 ]  defaultdict(<class 'list'>, {})  non primary
+indices[ 2 ]  defaultdict(<class 'list'>, {}) 			 vs. mylist[ 2 ]  defaultdict(<class 'list'>, {})  non primary
+indices[ 3 ]  {} 			                             vs. mylist[ 3 ]  defaultdict(<class 'list'>, {}) THIS ENTRY IS FOR THE PRIMARY INDEX
+indices[ 4 ]  defaultdict(<class 'list'>, {}) 			 vs. mylist[ 4 ]  defaultdict(<class 'list'>, {})  non primary

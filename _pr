@@ -245,7 +245,7 @@ class Table:
                 old_key = int.from_bytes(prev_page.data[prev_byte_pos:prev_byte_pos+DATA_SIZE], 'little')
                 
                 #print("old key = ", old_key, "new key = ", record.columns[self.key_index])
-                self.indexer.update_primaryKey(old_key, record.columns[self.key_index])
+                self.indexer.update_primaryKey(old_key, record.columns[self.key_index], self.key_index)
                 
 
     """
@@ -380,7 +380,7 @@ class Table:
     """
     # Build index on specified column_number
     """     
-    def build_columnIndex(self, column_number, dictionary): # dictionary argument never used here?
+    def build_columnIndex(self, column_number, dictionary):
         # Take all records present in indexer for primary key and map 
         # it to required column
         baseIDs = []
@@ -399,7 +399,7 @@ class Table:
                 # Find the tail record
                 [_, tail_page_row, tail_byte_pos] = self.page_directory[base_indir_data]
                 tail_page = page_range.tail_set[tail_page_row][INIT_COLS + column_number]
-                # Read the value and store in Indexer 
+                # Read the value and store in BTree
                 tail_data = int.from_bytes(tail_page.data[tail_byte_pos:tail_byte_pos+DATA_SIZE], 'little')
                 
                 # Check if base id was previously used elsewhere and remove it from the key:value pair
