@@ -25,6 +25,7 @@ insert_time1 = process_time()
 print("Insert took ", insert_time1-insert_time0)
 
 select_time0 = process_time()
+
 for key in keys:
     record = query.select(key, 0, [1, 1, 1, 1, 1])[0]
     error = False
@@ -33,12 +34,14 @@ for key in keys:
             error = True
     if error:
         print('select error on', key, ':', record, ', correct:', records[key])
-    else:
-         print('select on', key, ':', record)
+    #else:
+     #    print('select on', key, ':', record)
+
 print("Select finished")
 select_time1 = process_time()
 print("Select took: ", select_time1-select_time0)
 
+update_time0 = process_time()
 for _ in range(10):
     for key in keys:
         updated_columns = [None, None, None, None, None]
@@ -59,6 +62,9 @@ for _ in range(10):
             #     print('update on', original, 'and', updated_columns, ':', record)
             updated_columns[i] = None
 print("Update finished")
+update_time1 = process_time()
+print("Update took: ", update_time1-update_time0)
+
 
 
 """

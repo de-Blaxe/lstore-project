@@ -24,7 +24,7 @@ print("Insert finished")
 insert_time1 = process_time()
 print("Insert took ", insert_time1-insert_time0)
 
-
+"""
 select_time0 = process_time()
 for key in keys:
     record = query.select(key, 0, [1, 1, 1, 1, 1])[0]
@@ -39,16 +39,21 @@ for key in keys:
 print("Select finished")
 select_time1 = process_time()
 print("Select took: ", select_time1-select_time0)
+"""
 
+"""
 print("\n After selection: Check Status of Table Indexer.")
 prompts = ["SIDs", "Grade1", "Grade2", "Grade3", "Grade4"]
 for i in range(0,5):
     print("Dictionary[", i, "] maps ", prompts[i], " to baseIDs and contains: ", grades_table.indexer.indices[i], "\n")
-
 """
+
+#for i in range(grades_table.num_columns):
+#    print(grades_table.indexer.indices[i])
+
 # little test for updates
 
-for i in range(0,1): # make single update per column
+for i in range(0,2): # make single update per column
     for key in keys: # per record
         updated_cols = [None, None, None, None, None]
         for i in range(1, grades_table.num_columns): 
@@ -60,9 +65,22 @@ for i in range(0,1): # make single update per column
             records[key][i] = value
             query.update(key, *updated_cols)
             # this does not check for correctness yet (ie call select after update)
+            record = query.select(key, 0, [1, 1, 1, 1, 1])[0]
+            error = False
+            for j, column in enumerate(record.columns):
+                if column != records[key][j]:
+                    error = True
+            if error:
+                print('update error on', original, 'and', updated_cols, ':', record, ', correct:', records[key])
+            prompts = ["SIDs", "Grade1", "Grade2", "Grade3", "Grade4"]
+#             for i in range(0,5):
+#                 print("Dictionary[", i, "] maps ", prompts[i], " to baseIDs and contains: ", grades_table.indexer.indices[i], "\n")
 
+
+"""
 print("\n After updates: Check Status of Table Indexer.")
 prompts = ["SIDs", "Grade1", "Grade2", "Grade3", "Grade4"]
+
 for i in range(0,5):
     print("Dictionary[", i, "] maps ", prompts[i], " to baseIDs and contains: ", grades_table.indexer.indices[i], "\n")
 """

@@ -38,7 +38,12 @@ class Query:
     # :param key: the key value to select records based on
     # :param query_columns: what columns to return. array of 1 or 0 values.
     """
-    def select(self, key, column, query_columns): 
+    def select(self, key, column, query_columns):
+        # Create index for other columns only if needed
+        if column is not self.table.key_index:
+            index = Index(self.table)
+            index.create_index(column)
+            
         return self.table.read_records(key, column, query_columns)
 
     """
