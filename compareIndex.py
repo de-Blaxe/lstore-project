@@ -13,8 +13,10 @@ for col in range(0, num_cols):
         new_indices.append(defaultdict(list))
 new_indices.insert(primary_index, dict())
 
+# testing ...
+print("len of dictionary:", len(new_indices[1]))
 
-
+"""
 ### CURRENT VERSION ###
 cur_indices = []
 cur_indices.insert(primary_index, dict())
@@ -32,3 +34,4 @@ for i in range(0, num_cols):
     else:
         alert = " non primary"
     print("new_indices[", i, "] ", new_indices[i], "\t\t\t vs. cur_indices[", i, "] ", cur_indices[i], alert)
+"""

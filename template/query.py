@@ -41,10 +41,9 @@ class Query:
     def select(self, key, column, query_columns):
         # Create index for other columns only if needed
         if column is not self.table.key_index:
-            index = Index(self.table)
-            index.create_index(column)
-            
+            self.table.indexer.create_index(column)
         return self.table.read_records(key, column, query_columns)
+
 
     """
     # Update a record with specified key and columns
