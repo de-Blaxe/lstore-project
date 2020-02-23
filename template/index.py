@@ -8,13 +8,6 @@ Key column should be indexd by default, other columns can be indexed through thi
 Indices are usually B-Trees, but other data structures can be used as well.
 """
 
-#Dealing with non unique key values for the same indexed column
-#Example
-# indexcol = 4, keyVal = 2 for both baseRIDs=2 and 3
-# need to avoid overwriting dictionary entry with latest insert
-# dict[col=4] = {2 : 2} -> overwritten with {2 : 3}
-# maybe make list of possible baseIDs
-# so, dict[col=4] = {2: [2,3]} 
 
 class Index:
 
@@ -29,14 +22,9 @@ class Index:
         # For the rest of the columns create a defauldict(list) type
         # This just creates a list as value for each key -- key: [val1, val2, ...] when the value is appended to the list
         for col in range(table.num_columns):
-            #if col != self.primary_index:
             self.indices.append(defaultdict(list))
-        #self.indices.insert(self.primary_index, dict())
         self.indices[self.primary_index] = dict()
 
-        #print("init indices : ", self.indices)
-        #print("len of indices should be 5 => ", len(self.indices))
-             
 
     """
     # Returns the rid of all records with the given key value on column "column"
@@ -44,8 +32,9 @@ class Index:
     def locate(self, key_val, column):
         try:
             matches = self.indices[column][key_val] # List of baseIDs if non-primary key else single baseID
-        except:
-            matches = -1 # Indicate no entry for key_val, column pair
+        except: # Indicate no entry for key_val, column pair
+            matches = INVALID_RECORD # Defined as -1
+        print("matches for key_val =", key_val, " and col=", column, " --> ", matches, "\n")
         return matches
 
 
@@ -53,11 +42,20 @@ class Index:
     # Returns the RIDs of all records with values in column "column" between "begin" and "end"
     """
     def locate_range(self, begin, end, column): 
-        
         baseIDs = []
         for cur_key in range(begin, end + 1):
-            baseIDs.append(self.locate(cur_key, column)) # Locate() may return a list
-            
+            #baseIDs.append(self.locate(cur_key, column)) 
+            #Locate() may return a list, a single baseID, or -1 so buggy
+
+            # NOTE: Modified Logic below
+            result = self.locate(cur_key, column)
+            if isinstance(result, int):
+                if result == INVALID_RECORD:
+                    continue # No match found
+                result = [result] # Single match found, convert to list
+            # Add result to list of baseIDs
+            baseIDs += result
+
         return baseIDs # Return a single list
 
     """
@@ -78,11 +76,6 @@ class Index:
     """
     # Build a Index on given column_number
     """
-
-# select col3 -> build for first time, len > 0 now
-# update col3
-# select col3 -> already built, does nothing // need to update!
-
     def create_index(self, column_number):
         """
         # Might have old values still...
@@ -95,13 +88,8 @@ class Index:
         # or inefficient if rebuild everytime we select -> slow select? // less penalty since already fast??
 
         # Collect latest RIDs for each baseID
-        baseIDs = list(self.indices[self.primary_index].values()) # 1 thru 1000
-
-        #print("baseIDs in create index(): ", baseIDs)
-
-        if baseIDs == []:
-            return
-
+        baseIDs = list(self.indices[self.primary_index].values())
+        
         # Then get their latest keys for column_number via read_records()
         for rid in baseIDs:
             [page_range_index, page_row, byte_pos] = self.table.page_directory[rid]
@@ -116,20 +104,19 @@ class Index:
             for _ in range(self.num_columns):
                 query_cols.append(0)
             query_cols[column_number] = 1
-
-            #print("query cols: ", query_cols, " and column to select is:", column_number)
-
-            #print("passing to read records base_key = ", base_key)
+            
+            #print("CREATE INDEX rid: ", rid, "query cols: ", query_cols, " and column to select is:", column_number)
 
             record = self.table.read_records(base_key, self.primary_index, query_cols)[0]
             latest_key = record.columns[column_number]
             self.indices[column_number][latest_key].append(rid)
+            
 
-   
     """
     Drop index of specific column
     """
     def drop_index(self, table, column_number):
         # Remove index on specific column
-        self.indices[column_number] = {} # Empty placeholder
+        #self.indices[column_number] = {} # Empty placeholder
+        self.indices[column_number].clear() # Empty entries
         #self.indices = self.indices[column_number + 1:]

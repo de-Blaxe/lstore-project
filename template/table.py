@@ -110,12 +110,14 @@ class Table:
         self.page_directory[record.rid] = [page_range_index, page_range.last_base_row, byte_pos]
         # print("UPDATING PAGE DIRECTORY: { RID=", record.rid, " : index=", page_range_index, " & row=", page_range.last_base_row, "}\n")
         
+        """
         # Insert key, vals for each column
-        #for col_num, val in enumerate(record.columns):
-        #    print("Indexing colnum=", col_num, " with val=", val, " for RID=", record.rid)
-        #    self.indexer.create_index(val, record.rid, col_num)
+        for col_num, val in enumerate(record.columns):
+            print("Indexing colnum=", col_num, " with val=", val, " for RID=", record.rid)
+            self.indexer.create_index(val, record.rid, col_num)
         if record.key == 906661139:
             print("inserted key = ", record.key)
+        """
         self.indexer.insert_primaryKey(record.key, record.rid)
 
     """
@@ -135,11 +137,17 @@ class Table:
     def insert_tailRecord(self, record, schema_encoding):
         
         # Retrieve base record with matching key
+        """
         try:
-            baseID = self.indexer.locate(record.key, self.key_index)
+            baseID = self.indexer.locate(record.key, self.key_index) # TODO: account for -1
         except KeyError:
             # Modified to bypass logic error in main
             return 
+        else:
+        """
+        baseID = self.indexer.locate(record.key, self.key_index)
+        if baseID == INVALID_RECORD:
+            return # Bypass logic error in main()
         else:
             cur_keys = self.page_directory.keys()
             # Base case: Check if record's RID is unique & Page Range exists
@@ -245,7 +253,7 @@ class Table:
         if isinstance(baseIDs, int):
             baseIDs = [baseIDs]
         
-        print("baseIDs in get latest(): ", baseIDs)
+        #print("GET LATEST - baseIDs: ", baseIDs)
 
         for baseID in baseIDs:
             # Retrieve value in base record's indirection column
@@ -283,30 +291,22 @@ class Table:
     # Reads record(s) with matching key value and indexing column
     """
     def read_records(self, key, column, query_columns, max_key=None):
-
-         #print("key val in read_record():", key)
-         if key == 92106429:
-            print("length of indices ", len(self.indexer.indices))
-            #print("INDEXER contains : ", self.indexer.indices, "\n")
-
-         if max_key == None:
-             try:
-                 baseIDs = self.indexer.locate(key, column)
-                 if column == self.key_index:
-                    baseIDs = [baseIDs]
-             except KeyError:
-                 print("KeyError!\n")
-                 return
-         else: # Reading multiple records 
+        if max_key == None:
+            baseIDs = self.indexer.locate(key, column)
+            if isinstance(baseIDs, int):
+                if baseIDs == INVALID_RECORD:
+                    print("Read Error: Invalid Record\n")
+                    return
+        else: # Reading multiple records
             baseIDs = self.indexer.locate_range(key, max_key, column)
-   
-         latest_records = self.get_latest(baseIDs)
-
-         print("latest records list contains:", latest_records)
-         output = [] # A list of Record objects to return
-         
-         for rid in latest_records:
-            #print("inside first loop")
+  
+        #print("READ RECORDS - current records list contains: ", baseIDs)
+        latest_records = self.get_latest(baseIDs)
+        #print("READ RECORDS - latest records list contains: ", latest_records)
+        output = [] # A list of Record objects to return
+        mappings = dict() # Maps key to Record object
+ 
+        for rid in latest_records:
             data = [None] * self.num_columns 
             columns_not_retrieved = set()
  
@@ -354,11 +354,24 @@ class Table:
                     rid = prev_rid # Follow lineage
  
             # End of while loop
-            record = Record(rid, key, data)
-            output.append(record)
+            #record = Record(rid, key, data)
+            primary_key = data[self.key_index]
+            record = Record(rid, primary_key, data) # NOTE: Now we can pass in any 'key' (not just primary)
+            mappings[primary_key] = record
  
+        # NOTE: Tester always selects FIRST Record from list
+        # Sort from smallest SID to largest SID
+        # We need to rotate Records somehow...
+        for sorted_index in sorted(mappings.keys()):
+            output.append(mappings[sorted_index])
+            
         # End of outer for loop
-         return output
+        # debugging printing
+        if column != 0: 
+            for i in range(len(mappings)):
+                print("Matching Record: ", output[i].columns)
+
+        return output
 
 
     """
