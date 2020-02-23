@@ -15,25 +15,29 @@ records = {}
 seed(3562901)
 
 insert_time0 = process_time()
-for i in range(0, 1000):
+for i in range(0, 10): # changed from 1k -> happens 10 times for now... 
     key = 92106429 + i
-    records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)] # changed primary index to 1
+    records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)] 
     query.insert(*records[key])
+    #print("inserted: ", records[key])
 keys = sorted(list(records.keys()))
 print("Insert finished")
 insert_time1 = process_time()
 print("Insert took ", insert_time1-insert_time0)
 
+
 select_time0 = process_time()
 
+select_index = 1
 for key in keys:
-    record = query.select(key, 1, [1, 1, 1, 1, 1])[0] # changed primary index to 1
+    key_val = records[key][select_index]
+    record = query.select(key_val, select_index, [1, 1, 1, 1, 1])[0] #NOTE: Modified tester
     error = False
     for i, column in enumerate(record.columns):
         if column != records[key][i]:
             error = True
     if error:
-        print('select error on', key, ':', record, ', correct:', records[key])
+        print('select error on', key, ': our result:', record.columns, ', correct:', records[key])
     #else:
      #    print('select on', key, ':', record)
 
