@@ -34,7 +34,7 @@ class Table:
         self.name = name
         self.key_index = key_index
         self.num_columns = num_columns
-        self.update_map = [0 for _ in range(self.num_columns)] # NOTE added this
+        #self.update_map = [0 for _ in range(self.num_columns)] # NOTE added this
 
         # Page Directory        - Maps RIDs to [page_range_index, page_row, byte_pos]
         # Page Range Collection - Stores all Page Ranges for Table
@@ -62,8 +62,8 @@ class Table:
             entry = record.columns[col]
             if entry is not None:
                 cur_pages[INIT_COLS + col].write(entry)
-                if isUpdate: # NOTE added this
-                    self.update_map[col] += 1 
+                #if isUpdate: # NOTE added this
+                #    self.update_map[col] += 1 
                 # Create index on the column
             else: # Write dummy value
                 cur_pages[INIT_COLS + col].write(0)
