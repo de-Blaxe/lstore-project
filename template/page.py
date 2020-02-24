@@ -2,10 +2,13 @@ from template.config import *
 
 class Page:
 
-    def __init__(self):
-        self.num_records = 0
-        self.data = bytearray(PAGE_SIZE)
-        self.first_unused_byte = 0
+    def __init__(self, data = None):
+        if data == None:
+            self.num_records = 0
+            self.first_unused_byte = 0
+            self.data = bytearray(PAGE_SIZE)
+        else:
+            
 
     """
     # Checks if Page has space

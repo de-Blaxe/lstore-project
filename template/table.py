@@ -35,7 +35,7 @@ class Table:
         self.key_index = key_index
         self.num_columns = num_columns
 
-        # Page Directory        - Maps RIDs to [page_range_index, page_row, byte_pos]
+        # Page Directory        - Maps RIDs to [page_range_index, page_row, byte_pos, page_name]
         # Page Range Collection - Stores all Page Ranges for Table
         # Indexer               - Maps key values to baseIDs
         self.page_directory = dict()
@@ -43,7 +43,8 @@ class Table:
         self.indexer = Index(self)
         
         self.LID_counter = 0             # Used to increment LIDs
-        self.TID_counter = (2 ** 64) - 1 # Used to decrement TIDs 
+        self.TID_counter = (2 ** 64) - 1 # Used to decrement TIDs
+
 
 
     """

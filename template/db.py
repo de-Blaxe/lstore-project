@@ -1,8 +1,12 @@
 from template.table import Table
-class BufferPool():
-    def __init__(self):
+import os
+from template.config import *
+
+class MemoryManager():
+    def __init__(self, dbPath):
+        self.dbPath = dbPath
         # map rid to associated pages
-        self.pages = dict()
+        self.bufferPool = dict()
         # map rid to dirty bit
         self.isDirty = dict()
         # map rid to eviction score
@@ -10,21 +14,51 @@ class BufferPool():
         # leastUsedRecord is some rid
         self.leastUsedRecord = 0
 
-    def get_page(self, rid):
+    def get_records(self, rid, table):
         if rid not in self.pages:
-            self.replace_pages(rid)
+            self.replace_pages(rid, table)
+        self.incrementScores(rid)
         return self.pages[rid]
 
-    def replace_pages(self, rid):
+    def replace_pages(self, rid, table):
         # assuming eviction policy is LRU
-        
+        if self.isDirty[self.leastUsedRecord] == True:
+            self.write_page_disk(self, rid)
+        self.pages.pop(self.leastUsedRecord, None)
+        # find page
+        try:
+            os.chdir(self.dbPath + table.name)
+        except:
+            os.mkdir(self.dbPath + table.name)
+            os.chdir(self.dbPath + table.name)
+        # write file
+        page_name = table.page_directory[rid][3]
+        with open(page_name, 'r') as file:
+            # overhead is 16 bytes
+            # page size is defined
+            page_set = []
+            for i in range(table.num_columns + INIT_COLS):
+                page =
+
+
+
+
+
+    def incrementScores(self, recent_rid):
+        max_score = self.evictionScore[recent_rid]
+        for rid, score in self.evictionScore.items:
+            if score <= max_score:
+                self.evictionScore[rid] += 1
+            if score >= self.evictionScore[self.leastUsedRecord]:
+                self.leastUsedRecord = rid
+        self.evictionScore[recent_rid] = 0
 
 
 class Database():
 
     def __init__(self):
         self.tables = dict() # Index tables by their unique names
-        self.bufferpool = BufferPool()
+
         pass
 
     def open(self, path):
@@ -32,6 +66,7 @@ class Database():
         # Store one file per table?
         # Assuming path to file is the same as table name?
         """
+        self.bufferpool = MemoryManager(path)
         pass
 
     def close(self):
