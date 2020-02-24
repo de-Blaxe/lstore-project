@@ -3,7 +3,29 @@ from time import time
 from template.config import *
 from template.index import *
 
+import threading
 import math
+import operator
+
+# Reference Used
+# http://sebastiandahlgren.se/2014/06/27/running-a-method-as-a-background-thread-in-python/
+class MergeThread:
+    
+    def __init__(self, interval=1): # Not sure about interval
+        self.interval = interval
+        
+        thread = threading.Thread(target=self.run, args=())
+        thread.daemon = False
+        thread.start()
+
+    def run(self):
+        while True: # Not sure what condition should be
+            self.merge()
+            time.sleep(self.interval)
+
+# Initiate Background Merging Thread
+merge_thread = MergeThread()
+
 
 class Record:
 
@@ -46,7 +68,8 @@ class Table:
         self.LID_counter = 0             # Used to increment LIDs
         self.TID_counter = (2 ** 64) - 1 # Used to decrement TIDs 
 
-        self.invalid_rids = [] # NOTE added this
+        self.invalid_rids = []
+        self.update_to_pg_range = dict() # TODO need to reset back to 0 after merging 
 
     """
     # Conditionally writes to meta and user data columns
@@ -112,7 +135,9 @@ class Table:
         # Update Page Directory & Indexer
         byte_pos = cur_base_pages[INIT_COLS].first_unused_byte - DATA_SIZE
         self.page_directory[record.rid] = [page_range_index, page_range.last_base_row, byte_pos]
-        # print("UPDATING PAGE DIRECTORY: { RID=", record.rid, " : index=", page_range_index, " & row=", page_range.last_base_row, "}\n")
+        # print("UPDATING PAGE DIRECTORY: ")
+        # print("{ RID=", record.rid, " : index=", page_range_index")
+        # print(" & row=", page_range.last_base_row, "}\n")
         
         # Insert primary key: RID for key_index column
         self.indexer.insert_primaryKey(record.key, record.rid)
@@ -224,6 +249,8 @@ class Table:
        
             # Increment number of updates and update page directory
             page_range.num_updates += 1
+            self.update_to_pg_range[page_range_index] = page_range.num_updates
+
             byte_pos = cur_tail_pages[INIT_COLS].first_unused_byte - DATA_SIZE 
             self.page_directory[record.rid] = [page_range_index, page_range.last_tail_row, byte_pos]
                    
@@ -279,7 +306,8 @@ class Table:
          baseIDs = []
          if max_key == None:
              try:
-                 # If column is not primary key then we get a list of keys for a column (multiple values) and a list of base RIDs
+                 # If column is not primary key then 
+                 # we get a list of keys for a column (multiple values) and a list of base RIDs
                  # Indexer.locate() may return 0 (INVALID_RECORD) if no match found for (key, col) pair
                  if column != self.key_index:
                      for key in keys:
@@ -429,4 +457,67 @@ class Table:
     # Merges base & tail records within a Page Range
     """
     def __merge(self):
-        pass
+        merge_queue = []
+        # Check if all Page Ranges have already been merged
+        if (sum(self.update_to_pg_range.values()) != 0:
+            # Select Page Range with most number of updates
+            page_range_index = max(self.update_to_pg_range.iteritems(), key=operator.itemgetter(1))[0]
+            # Collect Tail Pages within Page Range
+            page_range = self.page_range_collection[page_range_index]
+            tail_set = page_range.tail_set # [[],[]..]
+            base_set_copy = page_range.base_set.copy() # [[],[]]
+            # Enqueue each Tail Row
+            merge_queue = tail_set
+
+            # Determine min and max baseIDs stored in Page Range
+            # Valid baseIDs start at 1
+            minRID = (page_range_index) * (PAGE_RANGE_FACTOR * PAGE_CAPACITY) + 1
+            maxRID = minRID + (PAGE_RANGE_FACTOR * PAGE_CAPACITY) - 1
+
+            # For each Base Page, merge each Record
+            """
+            for _, base_page in enumerate(base_set_copy):
+                for baseID in range(minRID, maxRID + 1):
+            """
+
+            last_TID_merged = 0 # Acts as TPS value
+
+            for tail_row, tail_pages in enumerate(merge_queue):
+                # TODO: Check TPS value of Base Page -> avoid re-merging???
+
+                # Read Tail Page schema & TID
+                tail_schema = tail_pages[SCHEMA_ENCODING_COLUMN]
+                last_byte_pos = tail_schema.first_unused_byte - DATA_SIZE
+
+                tail_schema = str(int.from_bytes(tail_schema.data[last_byte_pos:last_byte_pos + DATA_SIZE], 'little'))
+                diff = self.num_columns - len(tail_schema)
+
+                mapped_base_page = tail_pages[BASE_RID_COLUMN]
+                mapped_base_data = mapped_base_page.data[last_byte_pos:last_byte_pos + DATA_SIZE]
+                mapped_baseID = int.from_bytes(mapped_base_data, 'little')
+                [_, base_row, base_byte_pos] = self.page_directory[mapped_baseID]
+
+                # Keep overwriting TPS column for each Base Record
+                TID_data = tail_pages[RID_COLUMN].data[last_byte_pos:last_byte_pos + DATA_SIZE]
+                last_TID_merged = int.from_bytes(TID_data, 'little')
+                base_set_copy[base_row][TPS_COLUMN].write(last_TID_merged, base_byte_pos) # IDK if right
+
+                for offset in range(diff, len(tail_schema) + 1):
+                    if tail_schema[offset] == '1':
+                        base_page = base_set_copy[base_row][INIT_COLS + offset]
+                        tail_data = tail_pages[INIT_COLS + offset].data
+                        base_page.write(tail_data, base_byte_pos)
+
+            ### After merge... ###
+            # Flush out merge_queue
+            merge_queue = []
+
+            # Set selected Page Range's num_updates = 0
+            page_range.num_updates = 0
+
+            # Two copies coexisting: original -> bufferpool and merged -> page range
+            for base_row, base_pages in enumerate(base_set_copy): # [[],[]]
+                page_range.base_set[base_row] = base_pages
+
+        else: # Busy wait
+            pass
