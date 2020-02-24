@@ -474,12 +474,6 @@ class Table:
             minRID = (page_range_index) * (PAGE_RANGE_FACTOR * PAGE_CAPACITY) + 1
             maxRID = minRID + (PAGE_RANGE_FACTOR * PAGE_CAPACITY) - 1
 
-            # For each Base Page, merge each Record
-            """
-            for _, base_page in enumerate(base_set_copy):
-                for baseID in range(minRID, maxRID + 1):
-            """
-
             last_TID_merged = 0 # Acts as TPS value
 
             for tail_row, tail_pages in enumerate(merge_queue):
