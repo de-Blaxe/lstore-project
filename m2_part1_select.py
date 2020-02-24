@@ -52,14 +52,13 @@ for key in keys:
     if error:
         print('select error on', key, 'correct:', records[key])
     else:
-        our_result = record.columns # Since we break out of loop once correct Record found
-        print('select on', key, ':', our_result)
+        # Since we break out of loop once correct Record found
+        print('select on', key, ':', records[key])
 
 print("Select finished")
 select_time1 = process_time()
 print("Select took: ", select_time1-select_time0)
 
-"""
 update_time0 = process_time()
 for _ in range(10):
     for key in keys:
@@ -69,26 +68,22 @@ for _ in range(10):
             updated_columns[i] = value
             original = records[key].copy()
             records[key][i] = value
-            print("about to udpate records: ", *updated_columns)
             query.update(key, *updated_columns)
-            print("about to select after update")
-            record = query.select(key, 0, [1, 1, 1, 1, 1])[0] # TODO: Test with diff key and col 
+            record = query.select(key, 0, [1, 1, 1, 1, 1])[0] 
             error = False
             for j, column in enumerate(record.columns):
                 if column != records[key][j]:
                     error = True
             if error:
                 print('update error on', original, 'and', updated_columns, ':', record, ', correct:', records[key])
-            # else:
-            #     print('update on', original, 'and', updated_columns, ':', record)
+            else:
+                print('update on', original, 'and', updated_columns, ':', record.columns)
             updated_columns[i] = None
 print("Update finished")
 update_time1 = process_time()
 print("Update took: ", update_time1-update_time0)
-"""
 
 
-"""
 sum_time0 = process_time()
 for i in range(0, 100):
     r = sorted(sample(range(0, len(keys)), 2))
@@ -102,4 +97,3 @@ print("Aggregate finished")
 sum_time1 = process_time()
 print("Sum took: ", sum_time1-sum_time0)
 db.close()
-"""

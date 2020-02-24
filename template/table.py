@@ -34,6 +34,7 @@ class Table:
         self.name = name
         self.key_index = key_index
         self.num_columns = num_columns
+        self.update_map = [0 for _ in range(self.num_columns)] # NOTE added this
 
         # Page Directory        - Maps RIDs to [page_range_index, page_row, byte_pos]
         # Page Range Collection - Stores all Page Ranges for Table
@@ -45,6 +46,7 @@ class Table:
         self.LID_counter = 0             # Used to increment LIDs
         self.TID_counter = (2 ** 64) - 1 # Used to decrement TIDs 
 
+        self.invalid_rids = [] # NOTE added this
 
     """
     # Conditionally writes to meta and user data columns
@@ -60,6 +62,8 @@ class Table:
             entry = record.columns[col]
             if entry is not None:
                 cur_pages[INIT_COLS + col].write(entry)
+                if isUpdate: # NOTE added this
+                    self.update_map[col] += 1 
                 # Create index on the column
             else: # Write dummy value
                 cur_pages[INIT_COLS + col].write(0)
@@ -128,13 +132,19 @@ class Table:
     # Creates & inserts new tail record into Table
     """
     def insert_tailRecord(self, record, schema_encoding):
-        
         # Retrieve base record with matching key
+        """
         try:
             baseID = self.indexer.locate(record.key, self.key_index)
         except KeyError:
             # Modified to bypass logic error in main
             return 
+        else:
+        """
+
+        baseID = self.indexer.locate(record.key, self.key_index)
+        if baseID == INVALID_RECORD:
+            return
         else:
             cur_keys = self.page_directory.keys()
             # Base case: Check if record's RID is unique & Page Range exists
@@ -169,12 +179,8 @@ class Table:
             base_indir_page = page_range.base_set[base_page_row][INDIRECTION_COLUMN]
             base_indir_data = int.from_bytes(base_indir_page.data[base_byte_pos:base_byte_pos + DATA_SIZE], 'little')
     
-            # Store previous RID to later read data for record
-            prev_rid = baseID # Init value
-            
             if base_indir_data: # Point to previous TID
                 cur_tail_pages[INDIRECTION_COLUMN].write(base_indir_data)
-                #prev_rid = base_indir_data
             else: # Point to baseID
                 cur_tail_pages[INDIRECTION_COLUMN].write(baseID)
     
@@ -197,12 +203,8 @@ class Table:
             
             # Leading zeros lost after integer conversion, so padding needed
             init_base_schema = str(schema_int)
-            final_base_schema = ''
-            diff = self.num_columns - len(init_base_schema) 
-            if diff:
-                final_base_schema = ('0' * diff) + init_base_schema
-            else:
-                final_base_schema = init_base_schema
+            diff = self.num_columns - len(init_base_schema)
+            final_base_schema = ('0' * diff) + init_base_schema if diff else init_base_schema 
      
             # Merge tail & base schema
             latest_schema = ''
@@ -226,11 +228,9 @@ class Table:
             self.page_directory[record.rid] = [page_range_index, page_range.last_tail_row, byte_pos]
                    
             # Check if primary key is updated -- if it is then replace old key with new key 
-            # (I initially forgot that record.key = old_key)
-            
             if record.columns[self.key_index] is not None:
                 self.indexer.update_primaryKey(record.key, record.columns[self.key_index], self.key_index)
-                
+            
 
     """
     # Given list of baseIDs, retrieves corresponding latest RIDs
@@ -276,33 +276,39 @@ class Table:
     # Reads record(s) with matching key value and indexing column
     """
     def read_records(self, keys, column, query_columns, max_key=None):
-        
          baseIDs = []
          if max_key == None:
              try:
                  # If column is not primary key then we get a list of keys for a column (multiple values) and a list of base RIDs
+                 # Indexer.locate() may return 0 (INVALID_RECORD) if no match found for (key, col) pair
                  if column != self.key_index:
                      for key in keys:
-                         baseIDs += self.indexer.locate(key, column)
-                         
+                         result = self.indexer.locate(key, column)
+                         if isinstance(result, int):
+                            if result == INVALID_RECORD:
+                                continue # Don't append invalid RID
+                         baseIDs += result
                      # Do the sorting for duplicate keys here
                      baseIDs = sorted(baseIDs)
-                         
                  else:
                      # If column is primary key, we get a single key with single base RID
-                     baseIDs.append(self.indexer.locate(keys, column))
-                    
+                     result = self.indexer.locate(keys, column)
+                     if result != INVALID_RECORD:
+                        baseIDs.append(result)
              except KeyError:
                  print("KeyError!\n")
                  return
-         else: # Reading multiple records 
+         else: # Performing multi reads for summation 
             baseIDs = self.indexer.locate_range(keys, max_key, column)
             
          latest_records = self.get_latest(baseIDs)
-
          output = [] # A list of Record objects to return
          
          for rid in latest_records:
+            # Validation Stage: Check if rid has been invalidated/deleted
+            if rid in self.invalid_rids:
+                continue # Go to next rid in latest_records
+
             data = [None] * self.num_columns 
             columns_not_retrieved = set()
  
@@ -322,7 +328,7 @@ class Table:
                 if rid >= self.TID_counter:
                     page_set = page_range.tail_set
                 else:
-                    page_set = page_range.base_set # go here instead
+                    page_set = page_range.base_set
  
                 # Read schema data
                 schema_page = page_set[page_row][SCHEMA_ENCODING_COLUMN]
@@ -336,11 +342,11 @@ class Table:
  
                 for col, page in enumerate(page_set[page_row][INIT_COLS:]):
                     if col not in columns_not_retrieved:
-                        continue # shouldnt happend bc all col in columns_not_retrieved
+                        continue
                     # Retrieve values from older records, if they are not in the newest ones
-                    if rid < self.TID_counter or bool(int(schema_str[col])): # rid=2 ** 64 -1
+                    if rid < self.TID_counter or bool(int(schema_str[col])):
                         data[col] = int.from_bytes(page.data[byte_pos:byte_pos + DATA_SIZE], 'little')
-                        columns_not_retrieved.discard(col) # data = [91678, 100, 99] , set = [0]
+                        columns_not_retrieved.discard(col)
  
                 # Get RID from indirection column
                 prev_rid = self.get_previous(rid)
@@ -360,52 +366,8 @@ class Table:
 
 
     """
-    def build_columnIndex(self, column_number):
-        
-        # Take all records present in indexer for primary key and map 
-        # it to required column
-        baseIDs = self.indexer.indices[self.key_index].items()
-        
-        # loop over each base record and get the keys
-        for baseID in baseIDs:
-            # Locate Page Range of base/tail record
-            [page_range_index, base_page_row, base_byte_pos] = self.page_directory[baseID]
-            page_range = self.page_range_collection[page_range_index]
-            
-            # Check the indirection column of the base record
-            base_indir_page = page_range.base_set[base_page_row][INDIRECTION_COLUMN]
-            base_indir_data = int.from_bytes(base_indir_page.data[base_byte_pos:base_byte_pos + DATA_SIZE], "little")
-            
-            # Check if base_indir_data is base or tail
-            if base_indir_data:
-                # Find the tail record
-                [_, tail_page_row, tail_byte_pos] = self.page_directory[base_indir_data]
-                # Read the data corresponding to the tail page and convert to int
-                tail_page = page_range.tail_set[tail_page_row][INIT_COLS + column_number]
-                tail_data = int.from_bytes(tail_page.data[tail_byte_pos:tail_byte_pos + DATA_SIZE], 'little')
-                
-                # Check if base id was previously used elsewhere and remove it from the key:[value] pair
-                # From: https://stackoverflow.com/questions/8023306/get-key-by-value-in-dictionary
-                mydict = self.indexer.indices[column_number]
-                match_key = list(mydict.keys())[list(mydict.values()).index(baseID)]
-                if match_key:
-                    self.indexer.indices[column_number][match_key].remove(baseID)
-                    
-                # If the key does not have any values left, remove it as well
-                if len(self.indexer.indices[column_number][match_key]) == 0:
-                    self.indexer.indices[column_number].pop(match_key)
-                
-                # Add the updated key:[value] to dictionary  
-                self.indexer.indices[column_number][tail_data].append(baseID)
-            else:
-                # Insert the data from the the base record itself
-                base_page = page_range.base_set[base_page_row][INIT_COLS + column_number]
-                base_data = int.from_bytes(base_page.data[base_byte_pos:base_byte_pos + DATA_SIZE], 'little')
-                # Add to dictionary
-                self.indexer.indices[column_number][base_data].append(baseID)
-    """         
-
-    # Called only on primary key column            
+    # Called only on primary key column
+    """          
     def collect_values(self, start_range, end_range, col_index):
         # Base case: Check if col_index in range
         if col_index < 0 or col_index >= self.num_columns:
@@ -422,6 +384,46 @@ class Table:
             total += record.columns[col_index]        
 
         return total
+
+
+    """
+    # Delete Record with matching key. Assumes primary key is given.
+    """
+    def delete_record(self, key):
+        # Retrieve matching baseID for given key
+        baseID = self.indexer.locate(key, self.key_index)
+        [page_range_index, page_row, byte_pos] = self.page_directory[baseID]        
+
+        # Invalidate base record
+        page_range = self.page_range_collection[page_range_index]
+        cur_base_pages = page_range.base_set[page_row] # Single []
+        base_rid_page = cur_base_pages[RID_COLUMN]
+        base_rid_page.write(INVALID_RECORD, byte_pos)
+
+        # Invalidate all tail records, if any
+        next_rid = self.get_latest([baseID])[0] # get_latest() returns a list
+        num_deleted = 0
+
+        # Add either baseID or latest tailID
+        representative = next_rid if next_rid != 0 else baseID
+        self.invalid_rids.append(representative)
+
+        # NOTES 
+        # Is invalidating ALL its tail records necessary/beneficial later on?
+        # Would it be relevant to merging a Page Range? Copying over valid (base/tail) Records?
+        
+        # Start from MRU tail record to LRU ones      
+        while (next_rid != 0): # At least one tail record exists
+            [_, page_row, byte_pos] = self.page_directory[next_rid]
+            cur_tail_pages = page_range.tail_set[page_row]
+            tail_rid_page = cur_tail_pages[RID_COLUMN]
+            tail_rid_page.write(INVALID_RECORD, byte_pos)
+            num_deleted += 1
+            next_rid = self.get_previous(next_rid)
+
+        self.indexer.dictionary.pop(key)
+        page_range.num_updates -= num_deleted
+
 
     """
     # Merges base & tail records within a Page Range

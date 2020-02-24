@@ -1,0 +1,12 @@
+-maybe have update counter for Table and Indexer, independent values
+-avoid dropping indices and rebuilding everything?
+
+example of set of queries
+1) insert 3 records
+2) update first record & select it -> need to build
+3) update third record & select it -> need to build
+4) no update & select first record -> no need to rebuild
+
+...but in current tester
+it's updating one col at a time per record ... and does so for X times
+

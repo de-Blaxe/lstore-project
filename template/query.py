@@ -15,8 +15,7 @@ class Query:
     # Read a record with specified RID
     """
     def delete(self, key):
-        #self.table.delete_record(key)
-        #TODO: Merge with 'before_indexing' branch
+        self.table.delete_record(key)
         pass
 
 

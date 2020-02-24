@@ -1,7 +1,7 @@
 from template.db import Database
 from template.query import Query
 from time import process_time
-from random import choice, randrange
+from random import choice, randrange, randint
 
 # Student Id and 4 grades
 db = Database()
@@ -11,7 +11,7 @@ keys = []
 
 # Measuring Insert Performance
 insert_time_0 = process_time()
-for i in range(0, 32):
+for i in range(0, 10000):
     query.insert(906659671 + i, 93, 0, 0, 0)
     keys.append(906659671 + i)
 insert_time_1 = process_time()
@@ -21,16 +21,16 @@ print("Inserting 10k records took:  \t\t\t", insert_time_1 - insert_time_0)
 
 # Measuring update Performance
 update_cols = [
-    [10, None, None, None, None],
-    [None, 2, None, None, None],
-    [None, None, 30, None, None],
-    [None, None, None, 40, None],
-    [None, None, None, None, 50],
+    [randint(0,20), None, None, None, None],
+    [None, randint(0,20), None, None, None],
+    [None, None, randint(0,20), None, None],
+    [None, None, None, randint(0,20), None],
+    [None, None, None, None, randint(0,20)],
 ]
 
 
 update_time_0 = process_time()
-for i in range(0, 32):
+for i in range(0, 10000):
     query.update(choice(keys), *(choice(update_cols)))
 update_time_1 = process_time()
 print("Updating 10k records took:  \t\t\t", update_time_1 - update_time_0)

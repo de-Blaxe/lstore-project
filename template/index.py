@@ -24,7 +24,11 @@ class Index:
         self.num_columns = table.num_columns
         self.table = table
         self.indices = []
-        
+
+        self.update_map_copy = [0 for _ in range(table.num_columns)] #NOTE added this
+        # Each entry is contains the number of updates per column
+        # If update_map_copy[col] != Table's update_map[col] && selection needed -> need to rebuild indexer on col
+
         # Only have a dictionary of key:val for the primary key column
         # For the rest of the columns create a defauldict(list) type
         # This just creates a list as value for each key -- key: [val1, val2, ...] when the value is appended to the list
@@ -42,7 +46,7 @@ class Index:
         try:
             matches = self.indices[column][key_val] # List of baseIDs if non-primary key else single baseID
         except:
-            matches = -1 # Indicate no entry for key_val, column pair
+            matches = INVALID_RECORD # Indicate no entry for key_val, column pair
         return matches
 
 
@@ -50,7 +54,6 @@ class Index:
     # Returns the RIDs of all records with values in column "column" between "begin" and "end"
     """
     def locate_range(self, begin, end, column): 
-        
         baseIDs = []
         for cur_key in range(begin, end + 1):
             result = self.locate(cur_key, column)
@@ -85,18 +88,13 @@ class Index:
 # update col3
 # select col3 -> already built, does nothing // need to update!
 
-    def create_index(self, column_number):
-       # NOTE: thinking about having a Table update counter and independent Indexer update counter
-            # Avoid rebuilding whole column everytime selecting if we don't need to...
-
-        # NOTE:
-        # either complex if build once and update everytime insert tail record -> slower insert_tailRecord
-        # or inefficient if rebuild everytime we select -> slow select? // less penalty since already fast??
-
+    def create_index(self, column_number):        
         # Collect latest RIDs for each baseID
-        baseIDs = list(self.indices[self.primary_index].values()) # 1 thru 1000
-
+        baseIDs = list(self.indices[self.primary_index].values()) 
         
+        if self.update_map_copy[column_number] == self.table.update_map[column_number]:
+            return # Avoiding rebuilding whole column everytime if select (entries already up to date)
+
         # Then get their latest keys for column_number via read_records()
         for rid in baseIDs:
             [page_range_index, page_row, byte_pos] = self.table.page_directory[rid]
@@ -118,10 +116,10 @@ class Index:
             
             self.indices[column_number][latest_key].append(rid)
             
-            # Call read records again on this new key to obtain the record in select query
-            
+        # Since we've rebuilt entire index, update 'update_map_copy'
+        self.update_map_copy[column_number] = self.table.update_map[column_number]       
+    
 
-   
     """
     Drop index of specific column
     """
