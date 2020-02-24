@@ -1,5 +1,4 @@
 from template.table import Table
-
 class BufferPool():
     def __init__(self):
         # map rid to associated pages
@@ -23,16 +22,13 @@ class BufferPool():
 
 
 class Database():
+
     def __init__(self):
         self.tables = dict() # Index tables by their unique names
         self.bufferpool = BufferPool()
         pass
 
     def open(self, path):
-        """
-        # Store one file per table?
-        # Assuming path to file is the same as table name?
-        """
         pass
 
     def close(self):

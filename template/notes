@@ -1,0 +1,5 @@
+Notes for Milestone 02:
+* Delete(key):
+    - Do we need to go through lineage of base Record with given key &
+        invalidate their RID's?
+    - Do we need to check if Record within Tail Page/Base Page is valid/deleted?

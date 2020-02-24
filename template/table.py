@@ -7,7 +7,7 @@ import threading
 import math
 import operator
 
-# Reference Used
+### Reference Used ###
 # http://sebastiandahlgren.se/2014/06/27/running-a-method-as-a-background-thread-in-python/
 class MergeThread:
     
@@ -24,7 +24,7 @@ class MergeThread:
             time.sleep(self.interval)
 
 # Initiate Background Merging Thread
-merge_thread = MergeThread()
+#merge_thread = MergeThread() #TODO: Execute this Thread
 
 
 class Record:
@@ -56,7 +56,6 @@ class Table:
         self.name = name
         self.key_index = key_index
         self.num_columns = num_columns
-        #self.update_map = [0 for _ in range(self.num_columns)] # NOTE added this
 
         # Page Directory        - Maps RIDs to [page_range_index, page_row, byte_pos]
         # Page Range Collection - Stores all Page Ranges for Table
@@ -85,9 +84,6 @@ class Table:
             entry = record.columns[col]
             if entry is not None:
                 cur_pages[INIT_COLS + col].write(entry)
-                #if isUpdate: # NOTE added this
-                #    self.update_map[col] += 1 
-                # Create index on the column
             else: # Write dummy value
                 cur_pages[INIT_COLS + col].write(0)
 
@@ -159,6 +155,8 @@ class Table:
     def insert_tailRecord(self, record, schema_encoding):
         # Retrieve base record with matching key
         """
+        # Try-except not needed since indexer.locate() takes care of it
+        # (returns INVALID_RECORD if no match)
         try:
             baseID = self.indexer.locate(record.key, self.key_index)
         except KeyError:
@@ -190,7 +188,6 @@ class Table:
                 self.extend_tailSet(tail_set, total_pages)
             elif not tail_set[page_range.last_tail_row][INIT_COLS].has_space():
                 # Check if current Tail Page has space
-                # (Can't combine conditions into one, otherwise indexing error)
                 self.extend_tailSet(tail_set, total_pages)
                 page_range.last_tail_row += 1
     
@@ -305,35 +302,29 @@ class Table:
     def read_records(self, keys, column, query_columns, max_key=None):
          baseIDs = []
          if max_key == None:
-             try:
-                 # If column is not primary key then 
-                 # we get a list of keys for a column (multiple values) and a list of base RIDs
-                 # Indexer.locate() may return 0 (INVALID_RECORD) if no match found for (key, col) pair
-                 if column != self.key_index:
-                     for key in keys:
-                         result = self.indexer.locate(key, column)
-                         if isinstance(result, int):
-                            if result == INVALID_RECORD:
-                                continue # Don't append invalid RID
-                         baseIDs += result
-                     # Do the sorting for duplicate keys here
-                     baseIDs = sorted(baseIDs)
-                 else:
-                     # If column is primary key, we get a single key with single base RID
-                     result = self.indexer.locate(keys, column)
-                     if result != INVALID_RECORD:
-                        baseIDs.append(result)
-             except KeyError:
-                 print("KeyError!\n")
-                 return
+            if column != self.key_index:
+                for key in keys:
+                    result = self.indexer.locate(key, column)
+                    # indexer.locate() returns flag if no match found
+                    if isinstance(result, int):
+                        if result == INVALID_RECORD:
+                            continue # Don't append invalid RID
+                    baseIDs += result
+                # Sort duplicate keys
+                baseIDs = sorted(baseIDs)
+            else:
+                # If column is primary key, we get a single key with single base RID
+                result = self.indexer.locate(keys, column)
+                if result != INVALID_RECORD:
+                    baseIDs.append(result)
          else: # Performing multi reads for summation 
             baseIDs = self.indexer.locate_range(keys, max_key, column)
-            
+         
          latest_records = self.get_latest(baseIDs)
          output = [] # A list of Record objects to return
          
          for rid in latest_records:
-            # Validation Stage: Check if rid has been invalidated/deleted
+            # Validation Stage: Check if rid is invalid
             if rid in self.invalid_rids:
                 continue # Go to next rid in latest_records
 
@@ -383,13 +374,14 @@ class Table:
                 else:
                     rid = prev_rid # Follow lineage
  
-            # End of while loop
+            ### End of while loop ###
+            # Given key might not be a primary key
             primary_key = data[self.key_index]
             # Append each RID's record into a list
             record = Record(rid, primary_key, data)
             output.append(record)
  
-        # End of outer for loop
+         ### End of outer for loop ###
          return output
 
 
@@ -401,16 +393,14 @@ class Table:
         if col_index < 0 or col_index >= self.num_columns:
             print("Error: Specified column index out of range.\n")
             return
-        
-        total = 0
-        
+        # Init values
+        total = 0      
         query_columns = [0] * self.num_columns
         query_columns[col_index] = 1
 
         records = self.read_records(start_range, col_index, query_columns, end_range)
         for record in records:
-            total += record.columns[col_index]        
-
+            total += record.columns[col_index]
         return total
 
 
@@ -436,20 +426,21 @@ class Table:
         representative = next_rid if next_rid != 0 else baseID
         self.invalid_rids.append(representative)
 
-        # NOTES 
-        # Is invalidating ALL its tail records necessary/beneficial later on?
-        # Would it be relevant to merging a Page Range? Copying over valid (base/tail) Records?
-        
-        # Start from MRU tail record to LRU ones      
+        # Start from most recent tail records to older ones      
         while (next_rid != 0): # At least one tail record exists
+            """
+            # I don't think it's beneficial to mark their RIDs as invalid
+            # But still need to get num_deleted/invalidated
             [_, page_row, byte_pos] = self.page_directory[next_rid]
             cur_tail_pages = page_range.tail_set[page_row]
             tail_rid_page = cur_tail_pages[RID_COLUMN]
             tail_rid_page.write(INVALID_RECORD, byte_pos)
+            """
             num_deleted += 1
             next_rid = self.get_previous(next_rid)
 
-        self.indexer.dictionary.pop(key)
+        # Update Indexer & Page Range Collection
+        self.indexer.indices[self.key_index].remove(key)
         page_range.num_updates -= num_deleted
 
 
@@ -459,14 +450,16 @@ class Table:
     def __merge(self):
         merge_queue = []
         # Check if all Page Ranges have already been merged
-        if (sum(self.update_to_pg_range.values()) != 0:
+        if sum(list(self.update_to_pg_range.values())) != 0:
             # Select Page Range with most number of updates
             page_range_index = max(self.update_to_pg_range.iteritems(), key=operator.itemgetter(1))[0]
+
             # Collect Tail Pages within Page Range
             page_range = self.page_range_collection[page_range_index]
             tail_set = page_range.tail_set # [[],[]..]
             base_set_copy = page_range.base_set.copy() # [[],[]]
-            # Enqueue each Tail Row
+
+            # Enqueue all Tail Rows
             merge_queue = tail_set
 
             # Determine min and max baseIDs stored in Page Range
@@ -478,6 +471,7 @@ class Table:
 
             for tail_row, tail_pages in enumerate(merge_queue):
                 # TODO: Check TPS value of Base Page -> avoid re-merging???
+                # TODO: Need to make sure we write back latest column per Record ONCE
 
                 # Read Tail Page schema & TID
                 tail_schema = tail_pages[SCHEMA_ENCODING_COLUMN]
