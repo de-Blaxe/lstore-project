@@ -462,11 +462,14 @@ class Table:
             # Enqueue all Tail Rows
             merge_queue = tail_set
 
+            """ 
+            # We don't even use these RIDs values (not inside a loop)
             # Determine min and max baseIDs stored in Page Range
             # Valid baseIDs start at 1
             minRID = (page_range_index) * (PAGE_RANGE_FACTOR * PAGE_CAPACITY) + 1
             maxRID = minRID + (PAGE_RANGE_FACTOR * PAGE_CAPACITY) - 1
-
+            """
+            
             last_TID_merged = 0 # Acts as TPS value
 
             for tail_row, tail_pages in enumerate(merge_queue):
