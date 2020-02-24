@@ -25,7 +25,7 @@ class Query:
     """
     def insert(self, *columns):
         # Create a new Record instance
-        schema_encoding = '0' * self.table.num_columns
+        schema_encoding = '0' * self.table.num_columns # Changed template code (array -> string)
         self.table.LID_counter += 1 
         baseID = self.table.LID_counter
         record = Record(rid=baseID, key=columns[self.table.key_index], columns=columns) 
@@ -42,10 +42,14 @@ class Query:
         # Create index for other columns only if needed
         if column is not self.table.key_index:
             self.table.indexer.create_index(column)
-        records = self.table.read_records(key, column, query_columns)
-        # Flush out newly created index
-        self.table.indexer.drop_index(self.table, column)
-        return records
+            # We need to now possibly read records from multiple keys -- so we need to use these keys as the parameter for read_records
+            record = self.table.read_records(self.table.indexer.indices[column], column, query_columns)
+            # Drop index only for non-primary column indexes
+            self.table.indexer.drop_index(self.table, column)
+        else:
+            record = self.table.read_records(key, column, query_columns)
+        
+        return record
 
 
     """
