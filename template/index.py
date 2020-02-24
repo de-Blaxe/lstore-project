@@ -30,11 +30,12 @@ class Index:
     # Returns the rid of all records with the given key value on column "column"
     """
     def locate(self, key_val, column):
+        # If existing match, returns list of baseIDs (non-prim. key) or single baseID (prim. key)
         try:
-            matches = self.indices[column][key_val] # List of baseIDs if non-primary key else single baseID
-        except: # Indicate no entry for key_val, column pair
-            matches = INVALID_RECORD # Defined as -1
-        print("matches for key_val =", key_val, " and col=", column, " --> ", matches, "\n")
+            matches = self.indices[column][key_val] 
+        except: # Indicate no entry for (key_val, column) pair
+            matches = INVALID_RECORD
+        print("matches for key_val =", key_val, " and col=", column, " --> ", matches)
         return matches
 
 
@@ -44,10 +45,6 @@ class Index:
     def locate_range(self, begin, end, column): 
         baseIDs = []
         for cur_key in range(begin, end + 1):
-            #baseIDs.append(self.locate(cur_key, column)) 
-            #Locate() may return a list, a single baseID, or -1 so buggy
-
-            # NOTE: Modified Logic below
             result = self.locate(cur_key, column)
             if isinstance(result, int):
                 if result == INVALID_RECORD:
@@ -55,8 +52,8 @@ class Index:
                 result = [result] # Single match found, convert to list
             # Add result to list of baseIDs
             baseIDs += result
-
         return baseIDs # Return a single list
+
 
     """
     # Updates dictionary for key replacement
@@ -68,6 +65,9 @@ class Index:
         # Don't pop because of select in main
         #self.indices[self.primary_index].pop(key)
     
+    """
+    # Insert (primary key, val) pair into Indexer
+    """
     def insert_primaryKey(self, key, val):
         # Insert key-value pair into primary key
         self.indices[self.primary_index].update({key:val})
@@ -77,15 +77,12 @@ class Index:
     # Build a Index on given column_number
     """
     def create_index(self, column_number):
-        """
-        # Might have old values still...
-        # Base case: Check if Indexer has already indexed on column_number
-        if len(self.indices[column_number]) != 0 or column_number != self.primary_index:
-            return # No need to create an index
-        """
+        # NOTE: thinking about having a Table update counter and independent Indexer update counter
+            # Avoid rebuilding whole column everytime selecting if we don't need to...
+
         # NOTE:
-        # either complex if build once and update everytime insert tail record -> slower insert_tailRecord
-        # or inefficient if rebuild everytime we select -> slow select? // less penalty since already fast??
+            # either complex if build once and update everytime insert tail record -> slower insert_tailRecord
+            # or inefficient if rebuild everytime we select -> slow select? // less penalty since already fast??
 
         # Collect latest RIDs for each baseID
         baseIDs = list(self.indices[self.primary_index].values())
@@ -116,7 +113,5 @@ class Index:
     Drop index of specific column
     """
     def drop_index(self, table, column_number):
-        # Remove index on specific column
-        #self.indices[column_number] = {} # Empty placeholder
-        self.indices[column_number].clear() # Empty entries
-        #self.indices = self.indices[column_number + 1:]
+        # Flush out current entries for given column_number
+        self.indices[column_number].clear()

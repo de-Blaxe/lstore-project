@@ -25,7 +25,7 @@ class Query:
     """
     def insert(self, *columns):
         # Create a new Record instance
-        schema_encoding = '0' * self.table.num_columns # Changed template code (array -> string)
+        schema_encoding = '0' * self.table.num_columns
         self.table.LID_counter += 1 
         baseID = self.table.LID_counter
         record = Record(rid=baseID, key=columns[self.table.key_index], columns=columns) 
@@ -41,18 +41,10 @@ class Query:
     def select(self, key, column, query_columns):
         # Create index for other columns only if needed
         if column is not self.table.key_index:
-            #print("Before creating index on column")
             self.table.indexer.create_index(column)
-            #print("After indexing on column, indices: ", self.table.indexer.indices)
-            #print("indices[1] contains ", (self.table.indexer.indices[1].values()))
-
-        #print("About to read records\n")
         records = self.table.read_records(key, column, query_columns)
-        #print("Created Index[1]: ", self.table.indexer.indices[1])
         # Flush out newly created index
-        #print("Flusing created index")
         self.table.indexer.drop_index(self.table, column)
-        #print("indexer contains:", self.table.indexer.indices)
         return records
 
 

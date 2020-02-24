@@ -1,9 +1,31 @@
 from template.table import Table
 
-class Database():
+class BufferPool():
+    def __init__(self):
+        # map rid to associated pages
+        self.pages = dict()
+        # map rid to dirty bit
+        self.isDirty = dict()
+        # map rid to eviction score
+        self.evictionScore = dict()
+        # leastUsedRecord is some rid
+        self.leastUsedRecord = 0
 
+    def get_page(self, rid):
+        if rid not in self.pages:
+            self.replace_pages(rid)
+        return self.pages[rid]
+
+    def replace_pages(self, rid):
+        # assuming eviction policy is LRU
+        pass
+        
+
+
+class Database():
     def __init__(self):
         self.tables = dict() # Index tables by their unique names
+        self.bufferpool = BufferPool()
         pass
 
     def open(self, path):

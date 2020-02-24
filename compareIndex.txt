@@ -1,6 +1,0 @@
-# Initializing indices 1st then insert primary_index        # Initializing primary_index 1st then all others
-new_indices[ 0 ]  defaultdict(<class 'list'>, {}) 			 vs. cur_indices[ 0 ]  {}  non primary
-new_indices[ 1 ]  defaultdict(<class 'list'>, {}) 			 vs. cur_indices[ 1 ]  defaultdict(<class 'list'>, {})  non primary
-new_indices[ 2 ]  defaultdict(<class 'list'>, {}) 			 vs. cur_indices[ 2 ]  defaultdict(<class 'list'>, {})  non primary
-new_indices[ 3 ]  {} 			                             vs. cur_indices[ 3 ]  defaultdict(<class 'list'>, {}) THIS ENTRY IS FOR THE PRIMARY INDEX
-new_indices[ 4 ]  defaultdict(<class 'list'>, {}) 			 vs. cur_indices[ 4 ]  defaultdict(<class 'list'>, {})  non primary
