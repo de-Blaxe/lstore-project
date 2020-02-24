@@ -25,7 +25,7 @@ class Index:
         self.table = table
         self.indices = []
 
-        self.update_map_copy = [0 for _ in range(table.num_columns)] #NOTE added this
+        #self.update_map_copy = [0 for _ in range(table.num_columns)] #NOTE added this
         # Each entry is contains the number of updates per column
         # If update_map_copy[col] != Table's update_map[col] && selection needed -> need to rebuild indexer on col
 
@@ -92,8 +92,9 @@ class Index:
         # Collect latest RIDs for each baseID
         baseIDs = list(self.indices[self.primary_index].values()) 
         
-        if self.update_map_copy[column_number] == self.table.update_map[column_number]:
-            return # Avoiding rebuilding whole column everytime if select (entries already up to date)
+        #if self.update_map_copy[column_number] == self.table.update_map[column_number]:
+        #    return # Avoiding rebuilding whole column everytime if select (entries already up to date)
+        # I realized that this rarely happens for given testers. It's always updating columns for X times...
 
         # Then get their latest keys for column_number via read_records()
         for rid in baseIDs:
@@ -116,8 +117,8 @@ class Index:
             
             self.indices[column_number][latest_key].append(rid)
             
-        # Since we've rebuilt entire index, update 'update_map_copy'
-        self.update_map_copy[column_number] = self.table.update_map[column_number]       
+        # Since we've rebuilt entire index, update 'update_map_copy' 
+        #self.update_map_copy[column_number] = self.table.update_map[column_number]       
     
 
     """
