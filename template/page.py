@@ -2,10 +2,10 @@ from template.config import *
 
 class Page:
 
-    def __init__(self, num_records = 0, first_unused_byte = 0, data = bytearray(PAGE_SIZE)):
+    def __init__(self, num_records=0, first_unused_byte=0, data=None):
         self.num_records = num_records
         self.first_unused_byte = first_unused_byte
-        self.data = data
+        self.data = bytearray(PAGE_SIZE) if data is None else data
 
 
     """
