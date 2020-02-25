@@ -3,7 +3,6 @@ from time import time
 from template.config import *
 from template.index import *
 
-#import threading #NOTE: Moved MergeThread Class to db.py file
 import math
 import operator
 
@@ -14,6 +13,7 @@ class Record:
         self.rid = rid
         self.key = key
         self.columns = columns
+
 
 class Page_Range:
 
@@ -28,6 +28,7 @@ class Page_Range:
         
         self.tail_set = []   # List of Tail Pages
         self.num_updates = 0 # Number of Tail Records within Page Range
+
 
 class Table:
 
@@ -67,6 +68,26 @@ class Table:
                 cur_pages[INIT_COLS + col].write(entry)
             else: # Write dummy value
                 cur_pages[INIT_COLS + col].write(0)
+
+
+    """
+    # Fetch & convert binary data into integer form
+    """
+    def convert_data(self, page, byte_pos):
+        converted_data = int.from_bytes(page.data[byte_pos:byte_pos + DATA_SIZE], 'little')
+        return converted_data # Single integer
+
+
+    """
+    # Returns finalized schema encoding, given Record's position in Page Range
+    """
+    def finalize_schema(self, schema_page, byte_pos):
+        schema_data = self.convert_data(schema_page, byte_pos)
+        init_schema = str(schema_data)
+        # Determine amount of padding needed (diff), if any
+        diff = self.num_columns - len(init_schema)
+        final_schema = ('0' * diff) + init_schema if diff else init_schema
+        return [final_schema, diff] # diff result used in merge()
 
 
     """
@@ -135,17 +156,6 @@ class Table:
     """
     def insert_tailRecord(self, record, schema_encoding):
         # Retrieve base record with matching key
-        """
-        # Try-except not needed since indexer.locate() takes care of it
-        # (returns INVALID_RECORD if no match)
-        try:
-            baseID = self.indexer.locate(record.key, self.key_index)
-        except KeyError:
-            # Modified to bypass logic error in main
-            return 
-        else:
-        """
-
         baseID = self.indexer.locate(record.key, self.key_index)
         if baseID == INVALID_RECORD:
             return
@@ -180,8 +190,8 @@ class Table:
     
             # Read from base_set's indirection column
             base_indir_page = page_range.base_set[base_page_row][INDIRECTION_COLUMN]
-            base_indir_data = int.from_bytes(base_indir_page.data[base_byte_pos:base_byte_pos + DATA_SIZE], 'little')
-    
+            base_indir_data = self.convert_data(base_indir_page, base_byte_pos)
+            
             if base_indir_data: # Point to previous TID
                 cur_tail_pages[INDIRECTION_COLUMN].write(base_indir_data)
             else: # Point to baseID
@@ -201,13 +211,7 @@ class Table:
             schema_int = int(tail_schema)
             tail_schema_page.write(schema_int)
     
-            # Read from base schema
-            schema_int = int.from_bytes(base_schema_page.data[base_byte_pos:base_byte_pos + DATA_SIZE], 'little')
-            
-            # Leading zeros lost after integer conversion, so padding needed
-            init_base_schema = str(schema_int)
-            diff = self.num_columns - len(init_base_schema)
-            final_base_schema = ('0' * diff) + init_base_schema if diff else init_base_schema 
+            [final_base_schema, _] = self.finalize_schema(base_schema_page, base_byte_pos)
      
             # Merge tail & base schema
             latest_schema = ''
@@ -250,7 +254,7 @@ class Table:
             [page_range_index, base_page_row, base_byte_pos, _] = self.page_directory[baseID]
             base_set = self.page_range_collection[page_range_index].base_set
             base_indir_page = base_set[base_page_row][INDIRECTION_COLUMN]
-            latest_RID = int.from_bytes(base_indir_page.data[base_byte_pos:base_byte_pos + DATA_SIZE], 'little') 
+            latest_RID = self.convert_data(base_indir_page, base_byte_pos) 
             if latest_RID == 0: # No updates made
                 rid_output.append(baseID)
             else: # Base record has been updated
@@ -273,7 +277,7 @@ class Table:
             return 0 # Indicate that current rid is latest (base)RID
         else:
             tail_indir_page = tail_set[page_row][INDIRECTION_COLUMN]
-            prev_RID = int.from_bytes(tail_indir_page.data[byte_pos:byte_pos + DATA_SIZE], 'little')
+            prev_RID = self.convert_data(tail_indir_page, byte_pos)
             return prev_RID # Single RID
 
 
@@ -332,20 +336,14 @@ class Table:
  
                 # Read schema data
                 schema_page = page_set[page_row][SCHEMA_ENCODING_COLUMN]
-                schema_data = schema_page.data[byte_pos:byte_pos + DATA_SIZE]
-                schema_str = str(int.from_bytes(schema_data, 'little'))
- 
-                # Leading zeros are lost after integer conversion, so padding needed
-                if len(schema_str) < self.num_columns:
-                    diff = self.num_columns - len(schema_str)
-                    schema_str = '0' * diff + schema_str
+                [schema_str, _] = self.finalize_schema(schema_page, byte_pos)
  
                 for col, page in enumerate(page_set[page_row][INIT_COLS:]):
                     if col not in columns_not_retrieved:
                         continue
                     # Retrieve values from older records, if they are not in the newest ones
                     if rid < self.TID_counter or bool(int(schema_str[col])):
-                        data[col] = int.from_bytes(page.data[byte_pos:byte_pos + DATA_SIZE], 'little')
+                        data[col] = self.convert_data(page, byte_pos)
                         columns_not_retrieved.discard(col)
  
                 # Get RID from indirection column
@@ -475,8 +473,7 @@ class Table:
                 while(last_byte_pos >= 0):
                     # Find mapped baseID for tail record
                     mapped_base_page = tail_row[BASE_RID_COLUMN]
-                    mapped_base_data = mapped_base_page.data[last_byte_pos:last_byte_pos + DATA_SIZE]
-                    mapped_baseID = int.from_bytes(mapped_base_data, 'little')
+                    mapped_baseID = self.convert_data(mapped_base_page, last_byte_pos)
 
                     # Locate Base Record within selected Page Range
                     [_, base_row, base_byte_pos, _] = self.page_directory[mapped_baseID]
@@ -484,11 +481,7 @@ class Table:
                     # if time, make a string to padded schema converter/subfxn
                     if remaining_work[mapped_baseID][visited_index] == False:
                         base_schema_page = base_set_copy[base_row][SCHEMA_ENCODING_COLUMN]
-                        base_schema_data = base_schema_page.data[base_byte_pos:base_byte_pos + DATA_SIZE]
-                        init_base_schema = str(int.from_bytes(base_schema_data, 'little'))                    
-                        diff = self.num_columns - len(init_base_schema)
-                        final_base_schema = ('0' * diff) + init_base_schema if diff else init_base_schema
-                    
+                        [final_base_schema, diff] = self.finalize_schema(base_schema_data, base_byte_pos)
                         # Remove non-updated columns from remaining work dictionary
                         for column, char in enumerate(final_base_schema):
                             if char == '0':
@@ -499,8 +492,8 @@ class Table:
                     # Check remaining work and TPS for encountered baseID
                     base_tps = remaining_work[mapped_baseID][tps_index]
                     # Fetch current TID                    
-                    tail_rid_data = tail_row[RID_COLUMN].data[last_byte_pos:last_byte_pos + DATA_SIZE]
-                    curr_TID = int.from_bytes(tail_rid_data, 'little')
+                    tail_rid_page = tail_row[RID_COLUMN]
+                    curr_TID = self.convert_data(tail_rid_page, last_byte_pos)
                     
                     non_user_cols = 2 # TPS + visited Flag
                     if len(remaining_work[mapped_baseID]) == non_user_cols or base_tps == curr_TID:
@@ -512,7 +505,7 @@ class Table:
                         last_TID_merged = curr_TID
                         base_set_copy[base_row][TPS_COLUMN].write(last_TID_merged, base_byte_pos)
                 
-                        tail_schema = str(int.from_bytes(tail_schema.data[last_byte_pos:last_byte_pos + DATA_SIZE], 'little'))
+                        tail_schema = self.convert_data(tail_schema, last_byte_pos)
                         diff = self.num_columns - len(tail_schema)
 
                         # Because of padding, we know that columns < diff were not updated
