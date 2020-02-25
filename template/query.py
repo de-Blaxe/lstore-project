@@ -15,8 +15,7 @@ class Query:
     # Read a record with specified RID
     """
     def delete(self, key):
-        #self.table.delete_record(key)
-        #TODO: Merge with 'before_indexing' branch
+        self.table.delete_record(key)
         pass
 
 
@@ -41,10 +40,16 @@ class Query:
     def select(self, key, column, query_columns):
         # Create index for other columns only if needed
         if column is not self.table.key_index:
-            index = Index(self.table)
-            index.create_index(column)
-            
-        return self.table.read_records(key, column, query_columns)
+            self.table.indexer.create_index(column)
+            # We need to now possibly read records from multiple keys -- so we need to use these keys as the parameter for read_records
+            record = self.table.read_records(self.table.indexer.indices[column], column, query_columns)
+            # Drop index only for non-primary column indexes
+            self.table.indexer.drop_index(self.table, column)
+        else:
+            record = self.table.read_records(key, column, query_columns)
+        
+        return record
+
 
     """
     # Update a record with specified key and columns

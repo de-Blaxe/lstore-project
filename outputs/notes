@@ -1,0 +1,12 @@
+# NOTES: Milestone 2
+
+- our tester for m2_part1 might be wrong, passing in wrong value for 'key' (argument to querySelect)
+
+- i think we have to flush/clear our indices[selected_col] after creating it?
+    - otherwise, we keep adding on same baseIDs?
+    - say, {Grade1 : [baseIDs]}
+    - if we don't drop index...
+        - {100 : [1]} -> {100 : [1,1]} -> {100: [1,1,1]} ... 
+    - we decided to rebuild our index everytime right? so we need to clear out existing dictionary entries...
+
+- minor fix in locate range, to account for invalid key,col pairs

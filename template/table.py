@@ -3,7 +3,29 @@ from time import time
 from template.config import *
 from template.index import *
 
+import threading
 import math
+import operator
+
+### Reference Used ###
+# http://sebastiandahlgren.se/2014/06/27/running-a-method-as-a-background-thread-in-python/
+class MergeThread:
+    
+    def __init__(self, interval=1): # Not sure about interval
+        self.interval = interval
+        
+        thread = threading.Thread(target=self.run, args=())
+        thread.daemon = False
+        thread.start()
+
+    def run(self):
+        while True: # Not sure what condition should be
+            self.merge()
+            time.sleep(self.interval)
+
+# Initiate Background Merging Thread
+#merge_thread = MergeThread() #TODO: Execute this Thread
+
 
 class Record:
 
@@ -46,6 +68,8 @@ class Table:
         self.TID_counter = (2 ** 64) - 1 # Used to decrement TIDs
 
 
+        self.invalid_rids = []
+        self.update_to_pg_range = dict() # TODO need to reset back to 0 after merging 
 
     """
     # Conditionally writes to meta and user data columns
@@ -61,7 +85,6 @@ class Table:
             entry = record.columns[col]
             if entry is not None:
                 cur_pages[INIT_COLS + col].write(entry)
-                # Create index on the column
             else: # Write dummy value
                 cur_pages[INIT_COLS + col].write(0)
 
@@ -109,14 +132,11 @@ class Table:
         # Update Page Directory & Indexer
         byte_pos = cur_base_pages[INIT_COLS].first_unused_byte - DATA_SIZE
         self.page_directory[record.rid] = [page_range_index, page_range.last_base_row, byte_pos]
-        # print("UPDATING PAGE DIRECTORY: { RID=", record.rid, " : index=", page_range_index, " & row=", page_range.last_base_row, "}\n")
+        # print("UPDATING PAGE DIRECTORY: ")
+        # print("{ RID=", record.rid, " : index=", page_range_index")
+        # print(" & row=", page_range.last_base_row, "}\n")
         
-        # Insert key, vals for each column
-        #for col_num, val in enumerate(record.columns):
-        #    print("Indexing colnum=", col_num, " with val=", val, " for RID=", record.rid)
-        #    self.indexer.create_index(val, record.rid, col_num)
-        if record.key == 906661139:
-            print("inserted key = ", record.key)
+        # Insert primary key: RID for key_index column
         self.indexer.insert_primaryKey(record.key, record.rid)
 
     """
@@ -134,13 +154,21 @@ class Table:
     # Creates & inserts new tail record into Table
     """
     def insert_tailRecord(self, record, schema_encoding):
-        
         # Retrieve base record with matching key
+        """
+        # Try-except not needed since indexer.locate() takes care of it
+        # (returns INVALID_RECORD if no match)
         try:
             baseID = self.indexer.locate(record.key, self.key_index)
         except KeyError:
             # Modified to bypass logic error in main
             return 
+        else:
+        """
+
+        baseID = self.indexer.locate(record.key, self.key_index)
+        if baseID == INVALID_RECORD:
+            return
         else:
             cur_keys = self.page_directory.keys()
             # Base case: Check if record's RID is unique & Page Range exists
@@ -161,7 +189,6 @@ class Table:
                 self.extend_tailSet(tail_set, total_pages)
             elif not tail_set[page_range.last_tail_row][INIT_COLS].has_space():
                 # Check if current Tail Page has space
-                # (Can't combine conditions into one, otherwise indexing error)
                 self.extend_tailSet(tail_set, total_pages)
                 page_range.last_tail_row += 1
     
@@ -175,12 +202,8 @@ class Table:
             base_indir_page = page_range.base_set[base_page_row][INDIRECTION_COLUMN]
             base_indir_data = int.from_bytes(base_indir_page.data[base_byte_pos:base_byte_pos + DATA_SIZE], 'little')
     
-            # Store previous RID to later read data for record
-            prev_rid = baseID # Init value
-            
             if base_indir_data: # Point to previous TID
                 cur_tail_pages[INDIRECTION_COLUMN].write(base_indir_data)
-                #prev_rid = base_indir_data
             else: # Point to baseID
                 cur_tail_pages[INDIRECTION_COLUMN].write(baseID)
     
@@ -203,12 +226,8 @@ class Table:
             
             # Leading zeros lost after integer conversion, so padding needed
             init_base_schema = str(schema_int)
-            final_base_schema = ''
-            diff = self.num_columns - len(init_base_schema) 
-            if diff:
-                final_base_schema = ('0' * diff) + init_base_schema
-            else:
-                final_base_schema = init_base_schema
+            diff = self.num_columns - len(init_base_schema)
+            final_base_schema = ('0' * diff) + init_base_schema if diff else init_base_schema 
      
             # Merge tail & base schema
             latest_schema = ''
@@ -228,14 +247,15 @@ class Table:
        
             # Increment number of updates and update page directory
             page_range.num_updates += 1
+            self.update_to_pg_range[page_range_index] = page_range.num_updates
+
             byte_pos = cur_tail_pages[INIT_COLS].first_unused_byte - DATA_SIZE 
             self.page_directory[record.rid] = [page_range_index, page_range.last_tail_row, byte_pos]
                    
             # Check if primary key is updated -- if it is then replace old key with new key 
-            # (I initially forgot that record.key = old_key)
             if record.columns[self.key_index] is not None:
                 self.indexer.update_primaryKey(record.key, record.columns[self.key_index], self.key_index)
-                
+            
 
     """
     # Given list of baseIDs, retrieves corresponding latest RIDs
@@ -243,8 +263,8 @@ class Table:
     def get_latest(self, baseIDs):
         rid_output = [] # List of RIDs
         if isinstance(baseIDs, int):
-            baseIDs = list(baseIDs)
-        
+            baseIDs = [baseIDs]
+
         for baseID in baseIDs:
             # Retrieve value in base record's indirection column
             [page_range_index, base_page_row, base_byte_pos] = self.page_directory[baseID]
@@ -280,27 +300,40 @@ class Table:
     """
     # Reads record(s) with matching key value and indexing column
     """
-    def read_records(self, key, column, query_columns, max_key=None): 
+    def read_records(self, keys, column, query_columns, max_key=None):
+         baseIDs = []
          if max_key == None:
-             try:
-                 baseIDs = [self.indexer.locate(key, column)]
-             except KeyError:
-                 print("KeyError!\n")
-                 return
-         else: # Reading multiple records 
-#          # TODO Put code back in
-            baseIDs = self.indexer.locate_range(key, max_key, column)
-   
-   
+            if column != self.key_index:
+                for key in keys:
+                    result = self.indexer.locate(key, column)
+                    # indexer.locate() returns flag if no match found
+                    if isinstance(result, int):
+                        if result == INVALID_RECORD:
+                            continue # Don't append invalid RID
+                    baseIDs += result
+                # Sort duplicate keys
+                baseIDs = sorted(baseIDs)
+            else:
+                # If column is primary key, we get a single key with single base RID
+                result = self.indexer.locate(keys, column)
+                if result != INVALID_RECORD:
+                    baseIDs.append(result)
+         else: # Performing multi reads for summation 
+            baseIDs = self.indexer.locate_range(keys, max_key, column)
+         
          latest_records = self.get_latest(baseIDs)
          output = [] # A list of Record objects to return
          
          for rid in latest_records:
+            # Validation Stage: Check if rid is invalid
+            if rid in self.invalid_rids:
+                continue # Go to next rid in latest_records
+
             data = [None] * self.num_columns 
             columns_not_retrieved = set()
  
             # Determine columns not retrieved yet
-            for i in range(len(query_columns)):  
+            for i in range(len(query_columns)):
                 if query_columns[i] == 1:
                     columns_not_retrieved.add(i)
  
@@ -315,7 +348,7 @@ class Table:
                 if rid >= self.TID_counter:
                     page_set = page_range.tail_set
                 else:
-                    page_set = page_range.base_set # go here instead
+                    page_set = page_range.base_set
  
                 # Read schema data
                 schema_page = page_set[page_row][SCHEMA_ENCODING_COLUMN]
@@ -329,11 +362,11 @@ class Table:
  
                 for col, page in enumerate(page_set[page_row][INIT_COLS:]):
                     if col not in columns_not_retrieved:
-                        continue # shouldnt happend bc all col in columns_not_retrieved
+                        continue
                     # Retrieve values from older records, if they are not in the newest ones
-                    if rid < self.TID_counter or bool(int(schema_str[col])): # rid=2 ** 64 -1
+                    if rid < self.TID_counter or bool(int(schema_str[col])):
                         data[col] = int.from_bytes(page.data[byte_pos:byte_pos + DATA_SIZE], 'little')
-                        columns_not_retrieved.discard(col) # data = [91678, 100, 99] , set = [0]
+                        columns_not_retrieved.discard(col)
  
                 # Get RID from indirection column
                 prev_rid = self.get_previous(rid)
@@ -342,77 +375,141 @@ class Table:
                 else:
                     rid = prev_rid # Follow lineage
  
-            # End of while loop
-            record = Record(rid, key, data)
+            ### End of while loop ###
+            # Given key might not be a primary key
+            primary_key = data[self.key_index]
+            # Append each RID's record into a list
+            record = Record(rid, primary_key, data)
             output.append(record)
  
-        # End of outer for loop
+         ### End of outer for loop ###
          return output
-     
-    def build_columnIndex(self, column_number, dictionary):
-        
-        # Take all records present in indexer for primary key and map 
-        # it to required column
-        baseIDs = []
-        baseIDs = self.indexer.indices[self.key_index]
-        
-        # loop over each base record and get the keys
-        for baseID in baseIDs:
-            # Locate Page Range of base/tail record
-            [page_range_index, base_page_row, base_byte_pos] = self.page_directory[baseID]
-            page_range = self.page_range_collection[page_range_index]
-            
-            # Check the indirection column of the base record
-            base_indir_page = page_range.base_set[base_page_row][INDIRECTION_COLUMN]
-            base_indir_data = int.from_bytes(base_indir_page.data[base_byte_pos:base_byte_pos+DATA_SIZE], "little")
-            
-            # Check if base_indir_data is base or tail
-            if base_indir_data:
-                # Find the tail record
-                [_, tail_page_row, tail_byte_pos] = self.page_directory[base_indir_data]
-                # Read the data corresponding to the tail page and convert to int
-                tail_page = page_range.tail_set[tail_page_row][INIT_COLS + column_number]
-                tail_data = int.from_bytes(tail_page.data[tail_byte_pos:tail_byte_pos+DATA_SIZE], 'little')
-                
-                # Check if base id was previously used elsewhere and remove it from the key:[value] pair
-                # From: https://stackoverflow.com/questions/8023306/get-key-by-value-in-dictionary
-                match_key = list(self.indexer[column_number].keys())[list(mydict.values()).index(baseID)]
-                if match_key:
-                    self.indexer[column_number][match_key].remove(baseID)
-                    
-                # If the key does not have any values left, remove it as well
-                if len(self.indexer[column_number][match_key]) == 0:
-                    self.indexer[column_number].pop(match_key)
-                
-                # Add the updated key:[value] to dictionary  
-                self.indexer[column_number][tail_data].append(baseID)
-            else:
-                # Insert the data from the the base record itself
-                base_page = page_range.base_set[base_page_row][INIT_COLS + column_number]
-                base_data = int.from_bytes(base_page.data[base_byte_pos:base_byte_pos+DATA_SIZE], 'little')
-                # Add to dictionary
-                self.indexer[column_number][base_data].append(baseID)
-                
-    # Called only on primary key column            
+
+
+    """
+    # Called only on primary key column
+    """          
     def collect_values(self, start_range, end_range, col_index):
         # Base case: Check if col_index in range
         if col_index < 0 or col_index >= self.num_columns:
             print("Error: Specified column index out of range.\n")
             return
-        
-        total = 0
-        
+        # Init values
+        total = 0      
         query_columns = [0] * self.num_columns
         query_columns[col_index] = 1
 
         records = self.read_records(start_range, col_index, query_columns, end_range)
         for record in records:
-            total += record.columns[col_index]        
-
+            total += record.columns[col_index]
         return total
+
+
+    """
+    # Delete Record with matching key. Assumes primary key is given.
+    """
+    def delete_record(self, key):
+        # Retrieve matching baseID for given key
+        baseID = self.indexer.locate(key, self.key_index)
+        [page_range_index, page_row, byte_pos] = self.page_directory[baseID]        
+
+        # Invalidate base record
+        page_range = self.page_range_collection[page_range_index]
+        cur_base_pages = page_range.base_set[page_row] # Single []
+        base_rid_page = cur_base_pages[RID_COLUMN]
+        base_rid_page.write(INVALID_RECORD, byte_pos)
+
+        # Invalidate all tail records, if any
+        next_rid = self.get_latest([baseID])[0] # get_latest() returns a list
+        num_deleted = 0
+
+        # Add either baseID or latest tailID
+        representative = next_rid if next_rid != 0 else baseID
+        self.invalid_rids.append(representative)
+
+        # Start from most recent tail records to older ones      
+        while (next_rid != 0): # At least one tail record exists
+            """
+            # I don't think it's beneficial to mark their RIDs as invalid
+            # But still need to get num_deleted/invalidated
+            [_, page_row, byte_pos] = self.page_directory[next_rid]
+            cur_tail_pages = page_range.tail_set[page_row]
+            tail_rid_page = cur_tail_pages[RID_COLUMN]
+            tail_rid_page.write(INVALID_RECORD, byte_pos)
+            """
+            num_deleted += 1
+            next_rid = self.get_previous(next_rid)
+
+        # Update Indexer & Page Range Collection
+        self.indexer.indices[self.key_index].remove(key)
+        page_range.num_updates -= num_deleted
+
 
     """
     # Merges base & tail records within a Page Range
     """
     def __merge(self):
-        pass
+        merge_queue = []
+        # Check if all Page Ranges have already been merged
+        if sum(list(self.update_to_pg_range.values())) != 0:
+            # Select Page Range with most number of updates
+            page_range_index = max(self.update_to_pg_range.iteritems(), key=operator.itemgetter(1))[0]
+
+            # Collect Tail Pages within Page Range
+            page_range = self.page_range_collection[page_range_index]
+            tail_set = page_range.tail_set # [[],[]..]
+            base_set_copy = page_range.base_set.copy() # [[],[]]
+
+            # Enqueue all Tail Rows
+            merge_queue = tail_set
+
+            """ 
+            # We don't even use these RIDs values (not inside a loop)
+            # Determine min and max baseIDs stored in Page Range
+            # Valid baseIDs start at 1
+            minRID = (page_range_index) * (PAGE_RANGE_FACTOR * PAGE_CAPACITY) + 1
+            maxRID = minRID + (PAGE_RANGE_FACTOR * PAGE_CAPACITY) - 1
+            """
+            
+            last_TID_merged = 0 # Acts as TPS value
+
+            for tail_row, tail_pages in enumerate(merge_queue):
+                # TODO: Check TPS value of Base Page -> avoid re-merging???
+                # TODO: Need to make sure we write back latest column per Record ONCE
+
+                # Read Tail Page schema & TID
+                tail_schema = tail_pages[SCHEMA_ENCODING_COLUMN]
+                last_byte_pos = tail_schema.first_unused_byte - DATA_SIZE
+
+                tail_schema = str(int.from_bytes(tail_schema.data[last_byte_pos:last_byte_pos + DATA_SIZE], 'little'))
+                diff = self.num_columns - len(tail_schema)
+
+                mapped_base_page = tail_pages[BASE_RID_COLUMN]
+                mapped_base_data = mapped_base_page.data[last_byte_pos:last_byte_pos + DATA_SIZE]
+                mapped_baseID = int.from_bytes(mapped_base_data, 'little')
+                [_, base_row, base_byte_pos] = self.page_directory[mapped_baseID]
+
+                # Keep overwriting TPS column for each Base Record
+                TID_data = tail_pages[RID_COLUMN].data[last_byte_pos:last_byte_pos + DATA_SIZE]
+                last_TID_merged = int.from_bytes(TID_data, 'little')
+                base_set_copy[base_row][TPS_COLUMN].write(last_TID_merged, base_byte_pos) # IDK if right
+
+                for offset in range(diff, len(tail_schema) + 1):
+                    if tail_schema[offset] == '1':
+                        base_page = base_set_copy[base_row][INIT_COLS + offset]
+                        tail_data = tail_pages[INIT_COLS + offset].data
+                        base_page.write(tail_data, base_byte_pos)
+
+            ### After merge... ###
+            # Flush out merge_queue
+            merge_queue = []
+
+            # Set selected Page Range's num_updates = 0
+            page_range.num_updates = 0
+
+            # Two copies coexisting: original -> bufferpool and merged -> page range
+            for base_row, base_pages in enumerate(base_set_copy): # [[],[]]
+                page_range.base_set[base_row] = base_pages
+
+        else: # Busy wait
+            pass

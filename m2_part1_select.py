@@ -15,58 +15,52 @@ records = {}
 seed(3562901)
 
 insert_time0 = process_time()
-for i in range(0, 100):
+for i in range(0, 10): # changed from 1k -> happens 10 times for now... 
     key = 92106429 + i
-    records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)] # changed primary index to 1
+    records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)] 
     query.insert(*records[key])
+    print("inserted: ", records[key])
 keys = sorted(list(records.keys()))
 print("Insert finished")
 insert_time1 = process_time()
 print("Insert took ", insert_time1-insert_time0)
 
+
+"""
+# NOTE: SELECT TESTER MODIFIED
+# CHECKS IF ONE OF RECORD OBJ RETURNED IS CORRECT
+# No longer compares expected Record against 0th Record in List of Records
+"""
 select_time0 = process_time()
 
-# 
-"""
+select_index = 1
 for key in keys:
-    record = query.select(key, 1, [1, 1, 1, 1, 1])[0] # changed primary index to 1
+    key_val = records[key][select_index]
+    list_records = query.select(key_val, select_index, [1, 1, 1, 1, 1]) 
     error = False
+    """
     for i, column in enumerate(record.columns):
         if column != records[key][i]:
             error = True
+    """
+    # Checks if one of Record obj returned is correct
+    for record in list_records:
+        if record.columns == records[key]:
+            error = False
+            break
+    # Checks if error flag has been updated
     if error:
-        print('select error on', key, ':', record, ', correct:', records[key])
-    #else:
-     #    print('select on', key, ':', record)
-"""
-# Testing for select on column other than primary key
-# Doesn't make sense to loop over all the keys since we're not selecting based on this key anymore
-# Need to modify this to test on other columns because now we can return multiple records (more than one row)
-records_list = []
-records_list = query.select(key, 1, [1, 1, 1, 1, 1])
-error = False
-# Now we check for correctness of each record
-key_counter = 0
-for record in records_list:
-    for i, column in enumerate(record.columns):
-        #print("records = ", records)
-        if column != records[keys[key_counter]][i]:
-            error = True
-            
-    key_counter += 1
-    
-    if error:
-        for col in record.columns:
-            print("my columns = ", col)
-        print('select error on', key, ':', record, ', correct:', records[key])
-    
+        print('select error on', key, 'correct:', records[key])
+    else:
+        # Since we break out of loop once correct Record found
+        print('select on', key, ':', records[key])
+
 print("Select finished")
 select_time1 = process_time()
 print("Select took: ", select_time1-select_time0)
 
-
 update_time0 = process_time()
-for _ in range(2):
+for _ in range(10):
     for key in keys:
         updated_columns = [None, None, None, None, None]
         for i in range(1, grades_table.num_columns):
@@ -75,32 +69,21 @@ for _ in range(2):
             original = records[key].copy()
             records[key][i] = value
             query.update(key, *updated_columns)
-            #record = query.select(key, 1, [1, 1, 1, 1, 1])[0] # change back to 0 later
-            # Change this to test select on other columns
-            record_list = query.select(key, 1, [1, 1, 1, 1, 1])
-            key_counter = 0
+            record = query.select(key, 0, [1, 1, 1, 1, 1])[0] 
             error = False
-            for record in record_list:
-                for j, column in enumerate(record.columns):
-                    if column != records[keys[key_counter]][j]:
-                        error = True
-                        
-                key_counter += 1
-            """
             for j, column in enumerate(record.columns):
                 if column != records[key][j]:
                     error = True
-            """
             if error:
                 print('update error on', original, 'and', updated_columns, ':', record, ', correct:', records[key])
-            # else:
-            #     print('update on', original, 'and', updated_columns, ':', record)
+            #else:
+                #print('update on', original, 'and', updated_columns, ':', record.columns)
             updated_columns[i] = None
 print("Update finished")
 update_time1 = process_time()
 print("Update took: ", update_time1-update_time0)
 
-"""
+
 sum_time0 = process_time()
 for i in range(0, 100):
     r = sorted(sample(range(0, len(keys)), 2))
@@ -114,4 +97,3 @@ print("Aggregate finished")
 sum_time1 = process_time()
 print("Sum took: ", sum_time1-sum_time0)
 db.close()
-"""

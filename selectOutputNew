@@ -1,0 +1,828 @@
+inserted:  [92106429, 9, 1, 14, 1]
+inserted:  [92106430, 19, 6, 13, 2]
+inserted:  [92106431, 10, 10, 8, 2]
+inserted:  [92106432, 4, 1, 18, 20]
+inserted:  [92106433, 0, 14, 15, 10]
+inserted:  [92106434, 20, 7, 10, 6]
+inserted:  [92106435, 10, 19, 7, 15]
+inserted:  [92106436, 4, 5, 5, 3]
+inserted:  [92106437, 19, 8, 15, 6]
+inserted:  [92106438, 10, 3, 8, 1]
+Insert finished
+Insert took  0.0005740480000000006
+select on 92106429 : [92106429, 9, 1, 14, 1]
+select on 92106430 : [92106430, 19, 6, 13, 2]
+select on 92106431 : [92106431, 10, 10, 8, 2]
+select on 92106432 : [92106432, 4, 1, 18, 20]
+select on 92106433 : [92106433, 0, 14, 15, 10]
+select on 92106434 : [92106434, 20, 7, 10, 6]
+select on 92106435 : [92106435, 10, 19, 7, 15]
+select on 92106436 : [92106436, 4, 5, 5, 3]
+select on 92106437 : [92106437, 19, 8, 15, 6]
+select on 92106438 : [92106438, 10, 3, 8, 1]
+Select finished
+Select took:  0.00011417899999999898
+about to udpate records:  None 6 None None None
+about to select after update
+about to udpate records:  None None 17 None None
+about to select after update
+about to udpate records:  None None None 17 None
+about to select after update
+about to udpate records:  None None None None 18
+about to select after update
+about to udpate records:  None 19 None None None
+about to select after update
+about to udpate records:  None None 1 None None
+about to select after update
+about to udpate records:  None None None 5 None
+about to select after update
+about to udpate records:  None None None None 9
+about to select after update
+about to udpate records:  None 7 None None None
+about to select after update
+about to udpate records:  None None 16 None None
+about to select after update
+about to udpate records:  None None None 12 None
+about to select after update
+about to udpate records:  None None None None 9
+about to select after update
+about to udpate records:  None 6 None None None
+about to select after update
+about to udpate records:  None None 16 None None
+about to select after update
+about to udpate records:  None None None 20 None
+about to select after update
+about to udpate records:  None None None None 5
+about to select after update
+about to udpate records:  None 15 None None None
+about to select after update
+about to udpate records:  None None 13 None None
+about to select after update
+about to udpate records:  None None None 10 None
+about to select after update
+about to udpate records:  None None None None 1
+about to select after update
+about to udpate records:  None 19 None None None
+about to select after update
+about to udpate records:  None None 15 None None
+about to select after update
+about to udpate records:  None None None 10 None
+about to select after update
+about to udpate records:  None None None None 2
+about to select after update
+about to udpate records:  None 9 None None None
+about to select after update
+about to udpate records:  None None 19 None None
+about to select after update
+about to udpate records:  None None None 0 None
+about to select after update
+about to udpate records:  None None None None 13
+about to select after update
+about to udpate records:  None 19 None None None
+about to select after update
+about to udpate records:  None None 3 None None
+about to select after update
+about to udpate records:  None None None 3 None
+about to select after update
+about to udpate records:  None None None None 13
+about to select after update
+about to udpate records:  None 14 None None None
+about to select after update
+about to udpate records:  None None 2 None None
+about to select after update
+about to udpate records:  None None None 5 None
+about to select after update
+about to udpate records:  None None None None 15
+about to select after update
+about to udpate records:  None 12 None None None
+about to select after update
+about to udpate records:  None None 18 None None
+about to select after update
+about to udpate records:  None None None 13 None
+about to select after update
+about to udpate records:  None None None None 6
+about to select after update
+about to udpate records:  None 8 None None None
+about to select after update
+about to udpate records:  None None 11 None None
+about to select after update
+about to udpate records:  None None None 1 None
+about to select after update
+about to udpate records:  None None None None 2
+about to select after update
+about to udpate records:  None 1 None None None
+about to select after update
+about to udpate records:  None None 13 None None
+about to select after update
+about to udpate records:  None None None 20 None
+about to select after update
+about to udpate records:  None None None None 15
+about to select after update
+about to udpate records:  None 13 None None None
+about to select after update
+about to udpate records:  None None 20 None None
+about to select after update
+about to udpate records:  None None None 20 None
+about to select after update
+about to udpate records:  None None None None 9
+about to select after update
+about to udpate records:  None 1 None None None
+about to select after update
+about to udpate records:  None None 16 None None
+about to select after update
+about to udpate records:  None None None 3 None
+about to select after update
+about to udpate records:  None None None None 4
+about to select after update
+about to udpate records:  None 1 None None None
+about to select after update
+about to udpate records:  None None 9 None None
+about to select after update
+about to udpate records:  None None None 19 None
+about to select after update
+about to udpate records:  None None None None 7
+about to select after update
+about to udpate records:  None 18 None None None
+about to select after update
+about to udpate records:  None None 17 None None
+about to select after update
+about to udpate records:  None None None 12 None
+about to select after update
+about to udpate records:  None None None None 9
+about to select after update
+about to udpate records:  None 10 None None None
+about to select after update
+about to udpate records:  None None 1 None None
+about to select after update
+about to udpate records:  None None None 13 None
+about to select after update
+about to udpate records:  None None None None 14
+about to select after update
+about to udpate records:  None 8 None None None
+about to select after update
+about to udpate records:  None None 6 None None
+about to select after update
+about to udpate records:  None None None 16 None
+about to select after update
+about to udpate records:  None None None None 20
+about to select after update
+about to udpate records:  None 3 None None None
+about to select after update
+about to udpate records:  None None 9 None None
+about to select after update
+about to udpate records:  None None None 11 None
+about to select after update
+about to udpate records:  None None None None 3
+about to select after update
+about to udpate records:  None 1 None None None
+about to select after update
+about to udpate records:  None None 0 None None
+about to select after update
+about to udpate records:  None None None 20 None
+about to select after update
+about to udpate records:  None None None None 14
+about to select after update
+about to udpate records:  None 11 None None None
+about to select after update
+about to udpate records:  None None 9 None None
+about to select after update
+about to udpate records:  None None None 19 None
+about to select after update
+about to udpate records:  None None None None 19
+about to select after update
+about to udpate records:  None 14 None None None
+about to select after update
+about to udpate records:  None None 8 None None
+about to select after update
+about to udpate records:  None None None 18 None
+about to select after update
+about to udpate records:  None None None None 4
+about to select after update
+about to udpate records:  None 12 None None None
+about to select after update
+about to udpate records:  None None 1 None None
+about to select after update
+about to udpate records:  None None None 7 None
+about to select after update
+about to udpate records:  None None None None 9
+about to select after update
+about to udpate records:  None 19 None None None
+about to select after update
+about to udpate records:  None None 2 None None
+about to select after update
+about to udpate records:  None None None 4 None
+about to select after update
+about to udpate records:  None None None None 2
+about to select after update
+about to udpate records:  None 19 None None None
+about to select after update
+about to udpate records:  None None 7 None None
+about to select after update
+about to udpate records:  None None None 10 None
+about to select after update
+about to udpate records:  None None None None 15
+about to select after update
+about to udpate records:  None 3 None None None
+about to select after update
+about to udpate records:  None None 8 None None
+about to select after update
+about to udpate records:  None None None 6 None
+about to select after update
+about to udpate records:  None None None None 4
+about to select after update
+about to udpate records:  None 5 None None None
+about to select after update
+about to udpate records:  None None 12 None None
+about to select after update
+about to udpate records:  None None None 8 None
+about to select after update
+about to udpate records:  None None None None 11
+about to select after update
+about to udpate records:  None 10 None None None
+about to select after update
+about to udpate records:  None None 10 None None
+about to select after update
+about to udpate records:  None None None 17 None
+about to select after update
+about to udpate records:  None None None None 8
+about to select after update
+about to udpate records:  None 5 None None None
+about to select after update
+about to udpate records:  None None 16 None None
+about to select after update
+about to udpate records:  None None None 17 None
+about to select after update
+about to udpate records:  None None None None 12
+about to select after update
+about to udpate records:  None 0 None None None
+about to select after update
+about to udpate records:  None None 11 None None
+about to select after update
+about to udpate records:  None None None 8 None
+about to select after update
+about to udpate records:  None None None None 2
+about to select after update
+about to udpate records:  None 4 None None None
+about to select after update
+about to udpate records:  None None 16 None None
+about to select after update
+about to udpate records:  None None None 8 None
+about to select after update
+about to udpate records:  None None None None 19
+about to select after update
+about to udpate records:  None 1 None None None
+about to select after update
+about to udpate records:  None None 0 None None
+about to select after update
+about to udpate records:  None None None 13 None
+about to select after update
+about to udpate records:  None None None None 7
+about to select after update
+about to udpate records:  None 8 None None None
+about to select after update
+about to udpate records:  None None 18 None None
+about to select after update
+about to udpate records:  None None None 9 None
+about to select after update
+about to udpate records:  None None None None 7
+about to select after update
+about to udpate records:  None 16 None None None
+about to select after update
+about to udpate records:  None None 1 None None
+about to select after update
+about to udpate records:  None None None 18 None
+about to select after update
+about to udpate records:  None None None None 12
+about to select after update
+about to udpate records:  None 19 None None None
+about to select after update
+about to udpate records:  None None 12 None None
+about to select after update
+about to udpate records:  None None None 9 None
+about to select after update
+about to udpate records:  None None None None 19
+about to select after update
+about to udpate records:  None 16 None None None
+about to select after update
+about to udpate records:  None None 15 None None
+about to select after update
+about to udpate records:  None None None 7 None
+about to select after update
+about to udpate records:  None None None None 12
+about to select after update
+about to udpate records:  None 19 None None None
+about to select after update
+about to udpate records:  None None 1 None None
+about to select after update
+about to udpate records:  None None None 15 None
+about to select after update
+about to udpate records:  None None None None 15
+about to select after update
+about to udpate records:  None 20 None None None
+about to select after update
+about to udpate records:  None None 0 None None
+about to select after update
+about to udpate records:  None None None 17 None
+about to select after update
+about to udpate records:  None None None None 3
+about to select after update
+about to udpate records:  None 0 None None None
+about to select after update
+about to udpate records:  None None 7 None None
+about to select after update
+about to udpate records:  None None None 6 None
+about to select after update
+about to udpate records:  None None None None 6
+about to select after update
+about to udpate records:  None 5 None None None
+about to select after update
+about to udpate records:  None None 0 None None
+about to select after update
+about to udpate records:  None None None 19 None
+about to select after update
+about to udpate records:  None None None None 7
+about to select after update
+about to udpate records:  None 4 None None None
+about to select after update
+about to udpate records:  None None 10 None None
+about to select after update
+about to udpate records:  None None None 16 None
+about to select after update
+about to udpate records:  None None None None 18
+about to select after update
+about to udpate records:  None 7 None None None
+about to select after update
+about to udpate records:  None None 1 None None
+about to select after update
+about to udpate records:  None None None 10 None
+about to select after update
+about to udpate records:  None None None None 9
+about to select after update
+about to udpate records:  None 13 None None None
+about to select after update
+about to udpate records:  None None 1 None None
+about to select after update
+about to udpate records:  None None None 6 None
+about to select after update
+about to udpate records:  None None None None 13
+about to select after update
+about to udpate records:  None 13 None None None
+about to select after update
+about to udpate records:  None None 9 None None
+about to select after update
+about to udpate records:  None None None 5 None
+about to select after update
+about to udpate records:  None None None None 18
+about to select after update
+about to udpate records:  None 0 None None None
+about to select after update
+about to udpate records:  None None 8 None None
+about to select after update
+about to udpate records:  None None None 13 None
+about to select after update
+about to udpate records:  None None None None 9
+about to select after update
+about to udpate records:  None 16 None None None
+about to select after update
+about to udpate records:  None None 19 None None
+about to select after update
+about to udpate records:  None None None 7 None
+about to select after update
+about to udpate records:  None None None None 14
+about to select after update
+about to udpate records:  None 2 None None None
+about to select after update
+about to udpate records:  None None 13 None None
+about to select after update
+about to udpate records:  None None None 3 None
+about to select after update
+about to udpate records:  None None None None 10
+about to select after update
+about to udpate records:  None 12 None None None
+about to select after update
+about to udpate records:  None None 13 None None
+about to select after update
+about to udpate records:  None None None 3 None
+about to select after update
+about to udpate records:  None None None None 12
+about to select after update
+about to udpate records:  None 1 None None None
+about to select after update
+about to udpate records:  None None 4 None None
+about to select after update
+about to udpate records:  None None None 4 None
+about to select after update
+about to udpate records:  None None None None 6
+about to select after update
+about to udpate records:  None 4 None None None
+about to select after update
+about to udpate records:  None None 5 None None
+about to select after update
+about to udpate records:  None None None 19 None
+about to select after update
+about to udpate records:  None None None None 18
+about to select after update
+about to udpate records:  None 7 None None None
+about to select after update
+about to udpate records:  None None 12 None None
+about to select after update
+about to udpate records:  None None None 7 None
+about to select after update
+about to udpate records:  None None None None 0
+about to select after update
+about to udpate records:  None 14 None None None
+about to select after update
+about to udpate records:  None None 9 None None
+about to select after update
+about to udpate records:  None None None 4 None
+about to select after update
+about to udpate records:  None None None None 16
+about to select after update
+about to udpate records:  None 10 None None None
+about to select after update
+about to udpate records:  None None 4 None None
+about to select after update
+about to udpate records:  None None None 7 None
+about to select after update
+about to udpate records:  None None None None 15
+about to select after update
+about to udpate records:  None 5 None None None
+about to select after update
+about to udpate records:  None None 19 None None
+about to select after update
+about to udpate records:  None None None 14 None
+about to select after update
+about to udpate records:  None None None None 5
+about to select after update
+about to udpate records:  None 6 None None None
+about to select after update
+about to udpate records:  None None 8 None None
+about to select after update
+about to udpate records:  None None None 1 None
+about to select after update
+about to udpate records:  None None None None 7
+about to select after update
+about to udpate records:  None 7 None None None
+about to select after update
+about to udpate records:  None None 6 None None
+about to select after update
+about to udpate records:  None None None 20 None
+about to select after update
+about to udpate records:  None None None None 20
+about to select after update
+about to udpate records:  None 18 None None None
+about to select after update
+about to udpate records:  None None 5 None None
+about to select after update
+about to udpate records:  None None None 2 None
+about to select after update
+about to udpate records:  None None None None 13
+about to select after update
+about to udpate records:  None 13 None None None
+about to select after update
+about to udpate records:  None None 11 None None
+about to select after update
+about to udpate records:  None None None 15 None
+about to select after update
+about to udpate records:  None None None None 15
+about to select after update
+about to udpate records:  None 17 None None None
+about to select after update
+about to udpate records:  None None 3 None None
+about to select after update
+about to udpate records:  None None None 17 None
+about to select after update
+about to udpate records:  None None None None 12
+about to select after update
+about to udpate records:  None 13 None None None
+about to select after update
+about to udpate records:  None None 9 None None
+about to select after update
+about to udpate records:  None None None 15 None
+about to select after update
+about to udpate records:  None None None None 4
+about to select after update
+about to udpate records:  None 10 None None None
+about to select after update
+about to udpate records:  None None 19 None None
+about to select after update
+about to udpate records:  None None None 2 None
+about to select after update
+about to udpate records:  None None None None 6
+about to select after update
+about to udpate records:  None 16 None None None
+about to select after update
+about to udpate records:  None None 8 None None
+about to select after update
+about to udpate records:  None None None 1 None
+about to select after update
+about to udpate records:  None None None None 20
+about to select after update
+about to udpate records:  None 9 None None None
+about to select after update
+about to udpate records:  None None 18 None None
+about to select after update
+about to udpate records:  None None None 6 None
+about to select after update
+about to udpate records:  None None None None 10
+about to select after update
+about to udpate records:  None 0 None None None
+about to select after update
+about to udpate records:  None None 16 None None
+about to select after update
+about to udpate records:  None None None 18 None
+about to select after update
+about to udpate records:  None None None None 4
+about to select after update
+about to udpate records:  None 11 None None None
+about to select after update
+about to udpate records:  None None 16 None None
+about to select after update
+about to udpate records:  None None None 1 None
+about to select after update
+about to udpate records:  None None None None 6
+about to select after update
+about to udpate records:  None 6 None None None
+about to select after update
+about to udpate records:  None None 14 None None
+about to select after update
+about to udpate records:  None None None 12 None
+about to select after update
+about to udpate records:  None None None None 9
+about to select after update
+about to udpate records:  None 16 None None None
+about to select after update
+about to udpate records:  None None 6 None None
+about to select after update
+about to udpate records:  None None None 8 None
+about to select after update
+about to udpate records:  None None None None 8
+about to select after update
+about to udpate records:  None 13 None None None
+about to select after update
+about to udpate records:  None None 12 None None
+about to select after update
+about to udpate records:  None None None 2 None
+about to select after update
+about to udpate records:  None None None None 7
+about to select after update
+about to udpate records:  None 3 None None None
+about to select after update
+about to udpate records:  None None 17 None None
+about to select after update
+about to udpate records:  None None None 0 None
+about to select after update
+about to udpate records:  None None None None 8
+about to select after update
+about to udpate records:  None 11 None None None
+about to select after update
+about to udpate records:  None None 16 None None
+about to select after update
+about to udpate records:  None None None 10 None
+about to select after update
+about to udpate records:  None None None None 18
+about to select after update
+about to udpate records:  None 10 None None None
+about to select after update
+about to udpate records:  None None 3 None None
+about to select after update
+about to udpate records:  None None None 11 None
+about to select after update
+about to udpate records:  None None None None 6
+about to select after update
+about to udpate records:  None 15 None None None
+about to select after update
+about to udpate records:  None None 5 None None
+about to select after update
+about to udpate records:  None None None 9 None
+about to select after update
+about to udpate records:  None None None None 13
+about to select after update
+about to udpate records:  None 5 None None None
+about to select after update
+about to udpate records:  None None 5 None None
+about to select after update
+about to udpate records:  None None None 16 None
+about to select after update
+about to udpate records:  None None None None 1
+about to select after update
+about to udpate records:  None 13 None None None
+about to select after update
+about to udpate records:  None None 12 None None
+about to select after update
+about to udpate records:  None None None 20 None
+about to select after update
+about to udpate records:  None None None None 19
+about to select after update
+about to udpate records:  None 7 None None None
+about to select after update
+about to udpate records:  None None 13 None None
+about to select after update
+about to udpate records:  None None None 16 None
+about to select after update
+about to udpate records:  None None None None 18
+about to select after update
+about to udpate records:  None 3 None None None
+about to select after update
+about to udpate records:  None None 16 None None
+about to select after update
+about to udpate records:  None None None 15 None
+about to select after update
+about to udpate records:  None None None None 1
+about to select after update
+about to udpate records:  None 16 None None None
+about to select after update
+about to udpate records:  None None 14 None None
+about to select after update
+about to udpate records:  None None None 13 None
+about to select after update
+about to udpate records:  None None None None 0
+about to select after update
+about to udpate records:  None 18 None None None
+about to select after update
+about to udpate records:  None None 3 None None
+about to select after update
+about to udpate records:  None None None 14 None
+about to select after update
+about to udpate records:  None None None None 5
+about to select after update
+about to udpate records:  None 3 None None None
+about to select after update
+about to udpate records:  None None 4 None None
+about to select after update
+about to udpate records:  None None None 19 None
+about to select after update
+about to udpate records:  None None None None 10
+about to select after update
+about to udpate records:  None 9 None None None
+about to select after update
+about to udpate records:  None None 19 None None
+about to select after update
+about to udpate records:  None None None 11 None
+about to select after update
+about to udpate records:  None None None None 17
+about to select after update
+about to udpate records:  None 3 None None None
+about to select after update
+about to udpate records:  None None 11 None None
+about to select after update
+about to udpate records:  None None None 16 None
+about to select after update
+about to udpate records:  None None None None 3
+about to select after update
+about to udpate records:  None 1 None None None
+about to select after update
+about to udpate records:  None None 20 None None
+about to select after update
+about to udpate records:  None None None 17 None
+about to select after update
+about to udpate records:  None None None None 13
+about to select after update
+about to udpate records:  None 19 None None None
+about to select after update
+about to udpate records:  None None 12 None None
+about to select after update
+about to udpate records:  None None None 19 None
+about to select after update
+about to udpate records:  None None None None 3
+about to select after update
+about to udpate records:  None 7 None None None
+about to select after update
+about to udpate records:  None None 3 None None
+about to select after update
+about to udpate records:  None None None 14 None
+about to select after update
+about to udpate records:  None None None None 6
+about to select after update
+about to udpate records:  None 1 None None None
+about to select after update
+about to udpate records:  None None 0 None None
+about to select after update
+about to udpate records:  None None None 10 None
+about to select after update
+about to udpate records:  None None None None 18
+about to select after update
+about to udpate records:  None 16 None None None
+about to select after update
+about to udpate records:  None None 13 None None
+about to select after update
+about to udpate records:  None None None 2 None
+about to select after update
+about to udpate records:  None None None None 6
+about to select after update
+about to udpate records:  None 19 None None None
+about to select after update
+about to udpate records:  None None 5 None None
+about to select after update
+about to udpate records:  None None None 14 None
+about to select after update
+about to udpate records:  None None None None 13
+about to select after update
+about to udpate records:  None 2 None None None
+about to select after update
+about to udpate records:  None None 16 None None
+about to select after update
+about to udpate records:  None None None 19 None
+about to select after update
+about to udpate records:  None None None None 20
+about to select after update
+about to udpate records:  None 4 None None None
+about to select after update
+about to udpate records:  None None 11 None None
+about to select after update
+about to udpate records:  None None None 4 None
+about to select after update
+about to udpate records:  None None None None 18
+about to select after update
+about to udpate records:  None 15 None None None
+about to select after update
+about to udpate records:  None None 7 None None
+about to select after update
+about to udpate records:  None None None 10 None
+about to select after update
+about to udpate records:  None None None None 10
+about to select after update
+about to udpate records:  None 4 None None None
+about to select after update
+about to udpate records:  None None 2 None None
+about to select after update
+about to udpate records:  None None None 20 None
+about to select after update
+about to udpate records:  None None None None 16
+about to select after update
+about to udpate records:  None 10 None None None
+about to select after update
+about to udpate records:  None None 9 None None
+about to select after update
+about to udpate records:  None None None 10 None
+about to select after update
+about to udpate records:  None None None None 14
+about to select after update
+about to udpate records:  None 13 None None None
+about to select after update
+about to udpate records:  None None 20 None None
+about to select after update
+about to udpate records:  None None None 15 None
+about to select after update
+about to udpate records:  None None None None 18
+about to select after update
+about to udpate records:  None 1 None None None
+about to select after update
+about to udpate records:  None None 0 None None
+about to select after update
+about to udpate records:  None None None 19 None
+about to select after update
+about to udpate records:  None None None None 1
+about to select after update
+about to udpate records:  None 17 None None None
+about to select after update
+about to udpate records:  None None 10 None None
+about to select after update
+about to udpate records:  None None None 4 None
+about to select after update
+about to udpate records:  None None None None 16
+about to select after update
+about to udpate records:  None 4 None None None
+about to select after update
+about to udpate records:  None None 17 None None
+about to select after update
+about to udpate records:  None None None 11 None
+about to select after update
+about to udpate records:  None None None None 13
+about to select after update
+about to udpate records:  None 7 None None None
+about to select after update
+about to udpate records:  None None 7 None None
+about to select after update
+about to udpate records:  None None None 5 None
+about to select after update
+about to udpate records:  None None None None 18
+about to select after update
+about to udpate records:  None 2 None None None
+about to select after update
+about to udpate records:  None None 1 None None
+about to select after update
+about to udpate records:  None None None 0 None
+about to select after update
+about to udpate records:  None None None None 17
+about to select after update
+about to udpate records:  None 15 None None None
+about to select after update
+about to udpate records:  None None 17 None None
+about to select after update
+about to udpate records:  None None None 10 None
+about to select after update
+about to udpate records:  None None None None 10
+about to select after update
+about to udpate records:  None 4 None None None
+about to select after update
+about to udpate records:  None None 6 None None
+about to select after update
+about to udpate records:  None None None 3 None
+about to select after update
+about to udpate records:  None None None None 9
+about to select after update
+Update finished
+Update took:  0.03872957899999999
+Aggregate finished
+Sum took:  0.043001125
