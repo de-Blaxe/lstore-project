@@ -6,7 +6,6 @@ from template.index import *
 import math
 import operator
 
-
 class Record:
 
     def __init__(self, rid, key, columns):
