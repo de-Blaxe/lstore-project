@@ -28,8 +28,10 @@ select_time0 = process_time()
 
 # 
 """
+select_index = 1
 for key in keys:
-    record = query.select(key, 1, [1, 1, 1, 1, 1])[0] # changed primary index to 1
+    key_val = records[key][selected_index]
+    record = query.select(key_val, select_index, [1, 1, 1, 1, 1])[0] # changed primary index to 1
     error = False
     for i, column in enumerate(record.columns):
         if column != records[key][i]:
@@ -43,7 +45,7 @@ for key in keys:
 # Doesn't make sense to loop over all the keys since we're not selecting based on this key anymore
 # Need to modify this to test on other columns because now we can return multiple records (more than one row)
 records_list = []
-records_list = query.select(key, 1, [1, 1, 1, 1, 1])
+records_list = query.select(key_val, select_index, [1, 1, 1, 1, 1])
 error = False
 # Now we check for correctness of each record
 key_counter = 0
