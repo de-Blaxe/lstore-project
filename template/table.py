@@ -477,7 +477,6 @@ class Table:
                     # Locate Base Record within selected Page Range
                     [_, base_row, base_byte_pos, _] = self.page_directory[mapped_baseID]
 
-                    # if time, make a string to padded schema converter/subfxn
                     if remaining_work[mapped_baseID][visited_index] == False:
                         base_schema_page = base_set_copy[base_row][SCHEMA_ENCODING_COLUMN]
                         [final_base_schema, _] = self.finalize_schema(base_schema_page, base_byte_pos)
