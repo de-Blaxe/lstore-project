@@ -480,7 +480,7 @@ class Table:
                     # if time, make a string to padded schema converter/subfxn
                     if remaining_work[mapped_baseID][visited_index] == False:
                         base_schema_page = base_set_copy[base_row][SCHEMA_ENCODING_COLUMN]
-                        [final_base_schema, diff] = self.finalize_schema(base_schema_data, base_byte_pos)
+                        [final_base_schema, _] = self.finalize_schema(base_schema_page, base_byte_pos)
                         # Remove non-updated columns from remaining work dictionary
                         for column, char in enumerate(final_base_schema):
                             if char == '0':
@@ -504,7 +504,7 @@ class Table:
                         last_TID_merged = curr_TID
                         base_set_copy[base_row][TPS_COLUMN].write(last_TID_merged, base_byte_pos)
                 
-                        tail_schema = self.convert_data(tail_schema, last_byte_pos)
+                        tail_schema = str(self.convert_data(tail_schema_page, last_byte_pos))
                         diff = self.num_columns - len(tail_schema)
 
                         # Because of padding, we know that columns < diff were not updated
