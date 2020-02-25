@@ -15,7 +15,7 @@ records = {}
 seed(3562901)
 
 insert_time0 = process_time()
-for i in range(0, 10): # changed from 1k -> happens 10 times for now... 
+for i in range(0, 2000): # changed from 1k -> happens 10 times for now...
     key = 92106429 + i
     records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)] 
     query.insert(*records[key])

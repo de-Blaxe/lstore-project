@@ -75,7 +75,7 @@ class Index:
     """
     # Build a Index on given column_number
     """
-    def create_index(self, column_number):        
+    def create_index(self, column_number, memory_manager):
         # Collect latest RIDs for each baseID
         baseIDs = list(self.indices[self.primary_index].values()) 
         
@@ -85,7 +85,7 @@ class Index:
             page_range = self.table.page_range_collection[page_range_index]
 
             # Check if rid is baseID or tailID
-            cur_pages = page_range.base_set[page_row]
+            cur_pages = memory_manager.get_pages(page_range.base_set[page_row], self.table)
 
             # Read its data
             base_data = cur_pages[INIT_COLS + self.primary_index].data

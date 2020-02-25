@@ -7,7 +7,7 @@ class MemoryManager():
     def __init__(self, db_path):
         # NOTE: all pages belonging to a set should share the same name
         self.db_path = db_path
-        # map rid to associated pageSet
+        # map pageSetName to associated pageSet
         self.bufferPool = dict()
         # map pageSetName to dirty bit
         self.isDirty = dict()
@@ -17,20 +17,34 @@ class MemoryManager():
         self.evictionScore = dict()
         # leastUsedPage is a pageSetName
         self.leastUsedPageSet = ""
+        self.maxSets = 2
 
-    def _get_records(self, rid, table):
-        page_set_name = table.page_directory[rid][3]
-        if rid not in self.bufferPool:
-            self._replace_pages(rid, table)
-        self._increment_scores(retrieved_page_set_name = page_set_name)
-        return self.bufferPool[rid]
+    def get_pages(self, page_set_name, table):
+        if page_set_name not in self.bufferPool:
+            self._replace_pages(page_set_name, table)
+        self._increment_scores(retrieved_page_set_name=page_set_name)
+        return self.bufferPool[page_set_name]
 
-    def _replace_pages(self, rid, table):
-        page_set_name = table.page_directory[rid][3]
-        # assuming eviction policy is LRU
-        if self.isDirty[self.leastUsedPageSet]:
-            self._write_set_to_disk(rid, table)
-        self.bufferPool.pop(self.leastUsedRecord, None)
+    def create_page_set(self, page_set_name, table):
+        if len(self.bufferPool) > self.maxSets:
+            # assuming eviction policy is LRU
+            if self.isDirty[self.leastUsedPageSet]:
+                self._write_set_to_disk(page_set_name, table)
+            self.bufferPool.pop(self.leastUsedPageSet, None)
+        cur_set = []
+        for _ in range(INIT_COLS + table.num_columns):
+            cur_set.append(Page())
+        self.bufferPool[page_set_name] = cur_set
+        self.isDirty[page_set_name] = True
+        self.pinScore[page_set_name] = 0
+        self._increment_scores(page_set_name)
+
+    def _replace_pages(self, page_set_name, table):
+        if len(self.bufferPool) > self.maxSets:
+            # assuming eviction policy is LRU
+            if self.isDirty[self.leastUsedPageSet]:
+                self._write_set_to_disk(page_set_name, table)
+            self.bufferPool.pop(self.leastUsedPageSet, None)
         # find page
         self._navigate_table_directory(table.name)
         # read file
@@ -42,33 +56,35 @@ class MemoryManager():
                 unpacked_first_unused_byte = int.from_bytes(file.read(8), 'little')
                 unpacked_data = bytearray(file.read(PAGE_SIZE))
                 page_set.append(Page(unpacked_num_records, unpacked_first_unused_byte, unpacked_data))
-        self.bufferPool[rid] = page_set
+        self.bufferPool[page_set_name] = page_set
 
-    def _write_set_to_disk(self, rid, table):
-        page_set_name = table.page_directory[rid][3]
+    def _write_set_to_disk(self, page_set_name, table):
         self._navigate_table_directory(table.name)
         with open(page_set_name, 'wb') as file:
             for i in range(table.num_columns + INIT_COLS):
-                cur_page = self.bufferPool[rid][i]
+                cur_page = self.bufferPool[page_set_name][i]
                 file.write(cur_page.num_records.to_bytes(8, 'little'))
                 file.write(cur_page.first_unused_byte.to_bytes(8, 'little'))
                 file.write(cur_page.data)
 
     def _increment_scores(self, retrieved_page_set_name):
-        max_score = self.evictionScore[retrieved_page_set_name]
+        max_score = self.evictionScore.get(retrieved_page_set_name, 0)
         for pageSetName, score in self.evictionScore.items():
             if score <= max_score:
                 self.evictionScore[pageSetName] += 1
-            if score >= self.evictionScore[self.leastUsedRecord]:
-                self.leastUsedRecord = pageSetName
+            if score > self.evictionScore.get(self.leastUsedPageSet, -1):
+                self.leastUsedPageSet = pageSetName
+                self.evictionScore[self.leastUsedPageSet] = score
         self.evictionScore[retrieved_page_set_name] = 0
 
     def _navigate_table_directory(self, table_name):
+        print(os.getcwd())
+        os.chdir(self.db_path)
         try:
-            os.chdir(self.db_path + '/' + table_name)
+            os.chdir(os.path.join(self.db_path, table_name))
         except:
-            os.mkdir(self.db_path + '/' + table_name)
-            os.chdir(self.db_path + '/' + table_name)
+            os.mkdir(os.path.join(self.db_path, table_name))
+            os.chdir(os.path.join(self.db_path, table_name))
 
 
 class Database():
@@ -83,7 +99,7 @@ class Database():
         # Store one file per table?
         # Assuming path to file is the same as table name?
         """
-        self.bufferpool = MemoryManager(path)
+        self.memory_manager = MemoryManager(path)
         pass
 
     def close(self):
@@ -102,7 +118,7 @@ class Database():
            print("Error: Duplicate Table Name\n")
            return None # Should we exit() instead?
 
-        table = Table(name, key_index, num_columns)
+        table = Table(name, key_index, num_columns, self.memory_manager)
         self.tables[name] = table
         return table
 

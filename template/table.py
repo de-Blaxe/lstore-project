@@ -37,15 +37,16 @@ class Record:
 
 class Page_Range:
 
-    def __init__(self, total_pages):
+    def __init__(self, total_pages, num_page_range, memory_manager, table):
         # Track Page space
         self.last_base_row = 0
         self.last_tail_row = 0
 
         self.base_set = [] # List of Base Pages
-        for _ in range(PAGE_RANGE_FACTOR):
-            self.base_set.append([])
-        
+        for i in range(PAGE_RANGE_FACTOR):
+            memory_manager.create_page_set(str(num_page_range*PAGE_CAPACITY*PAGE_RANGE_FACTOR + i*PAGE_CAPACITY), table=table)
+            self.base_set.append(str(num_page_range*PAGE_CAPACITY*PAGE_RANGE_FACTOR + i*PAGE_CAPACITY))
+
         self.tail_set = []   # List of Tail Pages
         self.num_updates = 0 # Number of Tail Records within Page Range
 
@@ -53,25 +54,21 @@ class Table:
 
     total_num_pages = 0
 
-    def __init__(self, name, num_columns, key_index):
+    def __init__(self, name, num_columns, key_index, memory_manager):
         self.name = name
         self.key_index = key_index
         self.num_columns = num_columns
-
         # Page Directory        - Maps RIDs to [page_range_index, page_row, byte_pos, page_name]
         # Page Range Collection - Stores all Page Ranges for Table
         # Indexer               - Maps key values to baseIDs
         self.page_directory = dict()
         self.page_range_collection = []
         self.indexer = Index(self)
-        
         self.LID_counter = 0             # Used to increment LIDs
         self.TID_counter = (2 ** 64) - 1 # Used to decrement TIDs
-
-
         self.invalid_rids = []
         self.update_to_pg_range = dict()
-
+        self.memory_manager = memory_manager
     """
     # Conditionally writes to meta and user data columns
     """
@@ -110,24 +107,17 @@ class Table:
         try:
             page_range = self.page_range_collection[page_range_index]
         except:
-            page_range = Page_Range(total_pages)
+            page_range = Page_Range(total_pages, len(self.page_range_collection), self.memory_manager, self)
             self.page_range_collection.append(page_range)
-        
+
         # Make alias
         page_range = self.page_range_collection[page_range_index]
         base_set = page_range.base_set # [[], [], ..., []]
-        cur_base_pages = base_set[page_range.last_base_row] # []
-
-        if len(cur_base_pages) == 0:
-            # Init State, create set of Base Pages
-            for base_row in range(PAGE_RANGE_FACTOR):
-                for page in range(total_pages):
-                    base_set[base_row].append(Page())
-        elif not cur_base_pages[INIT_COLS].has_space():
+        cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_row], table=self)# []
+        if not cur_base_pages[INIT_COLS].has_space():
             page_range.last_base_row += 1
-        
+            cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_row], table=self)
         # Write to Base Pages within matching Range
-        cur_base_pages = base_set[page_range.last_base_row]
         self.write_to_pages(cur_base_pages, record, schema_encoding)
          
         # Update Page Directory & Indexer
@@ -200,7 +190,7 @@ class Table:
             self.write_to_pages(cur_tail_pages, record, schema_encoding, isUpdate)
     
             # Read from base_set's indirection column
-            base_indir_page = page_range.base_set[base_page_row][INDIRECTION_COLUMN]
+            base_indir_page = self.memory_manager.get_pages(page_range.base_set[base_page_row], self)[INDIRECTION_COLUMN]
             base_indir_data = int.from_bytes(base_indir_page.data[base_byte_pos:base_byte_pos + DATA_SIZE], 'little')
     
             if base_indir_data: # Point to previous TID
@@ -270,7 +260,7 @@ class Table:
             # Retrieve value in base record's indirection column
             [page_range_index, base_page_row, base_byte_pos] = self.page_directory[baseID]
             base_set = self.page_range_collection[page_range_index].base_set
-            base_indir_page = base_set[base_page_row][INDIRECTION_COLUMN]
+            base_indir_page = self.memory_manager.get_pages(base_set[base_page_row], self)[INDIRECTION_COLUMN]
             latest_RID = int.from_bytes(base_indir_page.data[base_byte_pos:base_byte_pos + DATA_SIZE], 'little') 
             if latest_RID == 0: # No updates made
                 rid_output.append(baseID)
@@ -352,7 +342,7 @@ class Table:
                     page_set = page_range.base_set
  
                 # Read schema data
-                schema_page = page_set[page_row][SCHEMA_ENCODING_COLUMN]
+                schema_page = self.memory_manager.get_pages(page_set[page_row], self)[SCHEMA_ENCODING_COLUMN]
                 schema_data = schema_page.data[byte_pos:byte_pos + DATA_SIZE]
                 schema_str = str(int.from_bytes(schema_data, 'little'))
  
