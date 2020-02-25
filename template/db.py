@@ -5,37 +5,36 @@ from template.page import Page
 
 class MemoryManager():
     def __init__(self, db_path):
-        # NOTE: all pages belonging to a set should share the same
+        # NOTE: all pages belonging to a set should share the same name
         self.db_path = db_path
         # map rid to associated pageSet
         self.bufferPool = dict()
         # map pageSetName to dirty bit
         self.isDirty = dict()
+        # map pageSetName to pins
+        self.pinScore = dict()
         # map pageSetName to eviction score
         self.evictionScore = dict()
         # leastUsedPage is a pageSetName
         self.leastUsedPageSet = ""
 
     def _get_records(self, rid, table):
+        page_set_name = table.page_directory[rid][3]
         if rid not in self.bufferPool:
             self._replace_pages(rid, table)
-        self._incrementScores(page_name = table.page_directory[rid][3])
+        self._increment_scores(retrieved_page_set_name = page_set_name)
         return self.bufferPool[rid]
 
     def _replace_pages(self, rid, table):
+        page_set_name = table.page_directory[rid][3]
         # assuming eviction policy is LRU
         if self.isDirty[self.leastUsedPageSet]:
             self._write_set_to_disk(rid, table)
         self.bufferPool.pop(self.leastUsedRecord, None)
         # find page
-        try:
-            os.chdir(self.db_path + '/' + table.name)
-        except:
-            os.mkdir(self.db_path + '/' + table.name)
-            os.chdir(self.db_path + '/' + table.name)
+        self._navigate_table_directory(table.name)
         # read file
-        page_name = table.page_directory[rid][3]
-        with open(page_name, 'rb') as file:
+        with open(page_set_name, 'rb') as file:
             # overhead is 16 bytes
             page_set = []
             for i in range(table.num_columns + INIT_COLS):
@@ -44,19 +43,32 @@ class MemoryManager():
                 unpacked_data = bytearray(file.read(PAGE_SIZE))
                 page_set.append(Page(unpacked_num_records, unpacked_first_unused_byte, unpacked_data))
         self.bufferPool[rid] = page_set
-        os.chdir(self.db_path)
 
     def _write_set_to_disk(self, rid, table):
-        os.chdir(self.db_path)
+        page_set_name = table.page_directory[rid][3]
+        self._navigate_table_directory(table.name)
+        with open(page_set_name, 'wb') as file:
+            for i in range(table.num_columns + INIT_COLS):
+                cur_page = self.bufferPool[rid][i]
+                file.write(cur_page.num_records.to_bytes(8, 'little'))
+                file.write(cur_page.first_unused_byte.to_bytes(8, 'little'))
+                file.write(cur_page.data)
 
-    def _incrementScores(self, page_set_name):
-        max_score = self.evictionScore[page_set_name]
-        for rid, score in self.evictionScore.items:
+    def _increment_scores(self, retrieved_page_set_name):
+        max_score = self.evictionScore[retrieved_page_set_name]
+        for pageSetName, score in self.evictionScore.items():
             if score <= max_score:
-                self.evictionScore[rid] += 1
+                self.evictionScore[pageSetName] += 1
             if score >= self.evictionScore[self.leastUsedRecord]:
-                self.leastUsedRecord = rid
-        self.evictionScore[page_set_name] = 0
+                self.leastUsedRecord = pageSetName
+        self.evictionScore[retrieved_page_set_name] = 0
+
+    def _navigate_table_directory(self, table_name):
+        try:
+            os.chdir(self.db_path + '/' + table_name)
+        except:
+            os.mkdir(self.db_path + '/' + table_name)
+            os.chdir(self.db_path + '/' + table_name)
 
 
 class Database():
