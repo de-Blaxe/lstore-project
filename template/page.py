@@ -1,12 +1,11 @@
 from template.config import *
 
 class Page:
-
-    def __init__(self, num_records=0, first_unused_byte=0, data=None):
+    def __init__(self, num_records = 0, first_unused_byte = 0, data = None):
         self.num_records = num_records
         self.first_unused_byte = first_unused_byte
         self.data = bytearray(PAGE_SIZE) if data is None else data
-
+    
 
     """
     # Checks if Page has space
@@ -25,7 +24,4 @@ class Page:
             self.num_records += 1
             self.first_unused_byte += DATA_SIZE
         # Perform write
-        # Modified this logic
         self.data[position:DATA_SIZE + position] = value.to_bytes(DATA_SIZE, 'little') if type(value) == int else value 
-        # My bad -- this lead to the bug
-        #self.first_unused_byte += DATA_SIZE

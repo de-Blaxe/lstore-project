@@ -11,7 +11,13 @@ query = Query(grades_table)
 
 records = {}
 seed(3562901)
+<<<<<<< HEAD
 for i in range(0, 1000):
+=======
+
+insert_time0 = process_time()
+for i in range(0, 10):
+>>>>>>> e94ddb67407692ab372e099415abedb50de22eb8
     key = 92106429 + i
     records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)]
     query.insert(*records[key])
@@ -26,8 +32,37 @@ for key in keys:
             error = True
     if error:
         print('select error on', key, ':', record, ', correct:', records[key])
+<<<<<<< HEAD
     # else:
     #     print('select on', key, ':', record)
+=======
+    #else:
+     #    print('select on', key, ':', record)
+"""
+# Testing for select on column other than primary key
+# Doesn't make sense to loop over all the keys since we're not selecting based on this key anymore
+# Need to modify this to test on other columns because now we can return multiple records (more than one row)
+select_index = 1
+key_val = 92106429 
+records_list = []
+records_list = query.select(key_val, select_index, [1, 1, 1, 1, 1])
+error = False
+# Now we check for correctness of each record
+key_counter = 0
+for record in records_list:
+    for i, column in enumerate(record.columns):
+        #print("records = ", records)
+        if column != records[keys[key_counter]][i]:
+            error = True
+            
+    key_counter += 1
+    
+    if error:
+        for col in record.columns:
+            print("my columns = ", col)
+        print('select error on', key, ':', record, ', correct:', records[key])
+    
+>>>>>>> e94ddb67407692ab372e099415abedb50de22eb8
 print("Select finished")
 
 for _ in range(10):
@@ -51,6 +86,12 @@ for _ in range(10):
             updated_columns[i] = None
 print("Update finished")
 
+<<<<<<< HEAD
+=======
+
+"""
+sum_time0 = process_time()
+>>>>>>> e94ddb67407692ab372e099415abedb50de22eb8
 for i in range(0, 100):
     r = sorted(sample(range(0, len(keys)), 2))
     column_sum = sum(map(lambda key: records[key][0], keys[r[0]: r[1] + 1]))
