@@ -46,7 +46,8 @@ class Table:
         self.indexer = Index(self)
         
         self.LID_counter = 0             # Used to increment LIDs
-        self.TID_counter = (2 ** 64) - 1 # Used to decrement TIDs 
+        self.TID_counter = (2 ** 64) - 1 # Used to decrement TIDs
+
 
         self.invalid_rids = []
         self.update_to_pg_range = dict()
