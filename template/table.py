@@ -38,7 +38,7 @@ class Table:
         self.key_index = key_index
         self.num_columns = num_columns
 
-        # Page Directory        - Maps RIDs to [page_range_index, page_row, byte_pos, page_name]
+        # Page Directory        - Maps RIDs to [page_range_index, page_row, byte_pos, pageSet_name]
         # Page Range Collection - Stores all Page Ranges for Table
         # Indexer               - Maps key values to baseIDs
         self.page_directory = dict()
@@ -111,7 +111,7 @@ class Table:
          
         # Update Page Directory & Indexer
         byte_pos = cur_base_pages[INIT_COLS].first_unused_byte - DATA_SIZE
-        self.page_directory[record.rid] = [page_range_index, page_range.last_base_row, byte_pos]
+        self.page_directory[record.rid] = [page_range_index, page_range.last_base_row, byte_pos, "DEFAULT"]
         # print("UPDATING PAGE DIRECTORY: ")
         # print("{ RID=", record.rid, " : index=", page_range_index")
         # print(" & row=", page_range.last_base_row, "}\n")
@@ -150,7 +150,7 @@ class Table:
         if baseID == INVALID_RECORD:
             return
         else:
-            cur_keys = self.page_directory.keys()
+            cur_keys = self.page_directory
             # Base case: Check if record's RID is unique & Page Range exists
             if record.rid in cur_keys or not baseID in cur_keys:
                 print("Error: Record RID is not unique.\n")
@@ -161,7 +161,7 @@ class Table:
             total_pages = INIT_COLS + self.num_columns
     
             # Locate Page Range of base/tail record
-            [page_range_index, base_page_row, base_byte_pos] = self.page_directory[baseID]
+            [page_range_index, base_page_row, base_byte_pos, _] = self.page_directory[baseID]
             page_range = self.page_range_collection[page_range_index]
     
             tail_set = page_range.tail_set
@@ -230,7 +230,7 @@ class Table:
             self.update_to_pg_range[page_range_index] = page_range.num_updates
 
             byte_pos = cur_tail_pages[INIT_COLS].first_unused_byte - DATA_SIZE 
-            self.page_directory[record.rid] = [page_range_index, page_range.last_tail_row, byte_pos]
+            self.page_directory[record.rid] = [page_range_index, page_range.last_tail_row, byte_pos, "DEFAULT"]
                    
             # Check if primary key is updated -- if it is then replace old key with new key 
             if record.columns[self.key_index] is not None:
@@ -247,7 +247,7 @@ class Table:
 
         for baseID in baseIDs:
             # Retrieve value in base record's indirection column
-            [page_range_index, base_page_row, base_byte_pos] = self.page_directory[baseID]
+            [page_range_index, base_page_row, base_byte_pos, _] = self.page_directory[baseID]
             base_set = self.page_range_collection[page_range_index].base_set
             base_indir_page = base_set[base_page_row][INDIRECTION_COLUMN]
             latest_RID = int.from_bytes(base_indir_page.data[base_byte_pos:base_byte_pos + DATA_SIZE], 'little') 
@@ -264,7 +264,7 @@ class Table:
     """
     def get_previous(self, rid):
         # Retrieve value in tail record's indirection column
-        [page_range_index, page_row, byte_pos] = self.page_directory[rid]    
+        [page_range_index, page_row, byte_pos, _] = self.page_directory[rid]    
         page_range = self.page_range_collection[page_range_index]
 
         tail_set = page_range.tail_set      
@@ -321,7 +321,7 @@ class Table:
                 # Retrieve whatever data you can from latest record
                 assert rid != 0
                 # Locate record within Page Range
-                [page_range_index, page_row, byte_pos] = self.page_directory[rid]
+                [page_range_index, page_row, byte_pos, _] = self.page_directory[rid]
                 page_range = self.page_range_collection[page_range_index]
  
                 # RID may be a base or a tail ID
@@ -391,7 +391,7 @@ class Table:
     def delete_record(self, key):
         # Retrieve matching baseID for given key
         baseID = self.indexer.locate(key, self.key_index)
-        [page_range_index, page_row, byte_pos] = self.page_directory[baseID]        
+        [page_range_index, page_row, byte_pos, _] = self.page_directory[baseID]        
 
         # Invalidate base record
         page_range = self.page_range_collection[page_range_index]
@@ -412,7 +412,7 @@ class Table:
             """
             # I don't think it's beneficial to mark their RIDs as invalid
             # But still need to get num_deleted/invalidated
-            [_, page_row, byte_pos] = self.page_directory[next_rid]
+            [_, page_row, byte_pos, _] = self.page_directory[next_rid]
             cur_tail_pages = page_range.tail_set[page_row]
             tail_rid_page = cur_tail_pages[RID_COLUMN]
             tail_rid_page.write(INVALID_RECORD, byte_pos)
@@ -479,7 +479,7 @@ class Table:
                     mapped_baseID = int.from_bytes(mapped_base_data, 'little')
 
                     # Locate Base Record within selected Page Range
-                    [_, base_row, base_byte_pos] = self.page_directory[mapped_baseID]
+                    [_, base_row, base_byte_pos, _] = self.page_directory[mapped_baseID]
 
                     # if time, make a string to padded schema converter/subfxn
                     if remaining_work[mapped_baseID][visited_index] == False:
