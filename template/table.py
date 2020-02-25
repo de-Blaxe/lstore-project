@@ -57,7 +57,7 @@ class Table:
         self.key_index = key_index
         self.num_columns = num_columns
 
-        # Page Directory        - Maps RIDs to [page_range_index, page_row, byte_pos]
+        # Page Directory        - Maps RIDs to [page_range_index, page_row, byte_pos, page_name]
         # Page Range Collection - Stores all Page Ranges for Table
         # Indexer               - Maps key values to baseIDs
         self.page_directory = dict()
@@ -68,7 +68,7 @@ class Table:
         self.TID_counter = (2 ** 64) - 1 # Used to decrement TIDs 
 
         self.invalid_rids = []
-        self.update_to_pg_range = dict() # TODO need to reset back to 0 after merging 
+        self.update_to_pg_range = dict()
 
     """
     # Conditionally writes to meta and user data columns
@@ -452,7 +452,7 @@ class Table:
         # Check if all Page Ranges have already been merged
         if sum(list(self.update_to_pg_range.values())) != 0:
             # Select Page Range with most number of updates
-            page_range_index = max(self.update_to_pg_range.iteritems(), key=operator.itemgetter(1))[0]
+            page_range_index = max(self.update_to_pg_range.items(), key=operator.itemgetter(1))[0]
 
             # Collect Tail Pages within Page Range
             page_range = self.page_range_collection[page_range_index]
