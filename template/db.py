@@ -10,12 +10,15 @@ import threading
 # THIS DB.PY VERSION DOES NOT DEAL WITH BUFFERPOOL MANAGEMENT YET
 # MERGE THREAD IS NOT CALLED YET. 
 
-
+"""
 class MergeThread(threading.Thread):
     
     def __init__(self, table):
         threading.Thread.__init__(self)
         self.table = table
+        thread = threading.Thread(target=__merge, args=[self])
+        thread.setDaemon(False)
+        thread.start()
         #thread = threading.Thread(target=self.run, args=())
         #thread.daemon = False
         #thread.start()
@@ -23,7 +26,7 @@ class MergeThread(threading.Thread):
     def run(self, table):
         while True:
             table.merge()
-
+"""
 
 class Database():
 

@@ -15,7 +15,7 @@ records = {}
 seed(3562901)
 
 insert_time0 = process_time()
-for i in range(0, 100):
+for i in range(0, 10):
     key = 92106429 + i
     records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)] # changed primary index to 1
     query.insert(*records[key])
@@ -44,6 +44,8 @@ for key in keys:
 # Testing for select on column other than primary key
 # Doesn't make sense to loop over all the keys since we're not selecting based on this key anymore
 # Need to modify this to test on other columns because now we can return multiple records (more than one row)
+select_index = 1
+key_val = 92106429 
 records_list = []
 records_list = query.select(key_val, select_index, [1, 1, 1, 1, 1])
 error = False
@@ -101,6 +103,7 @@ for _ in range(2):
 print("Update finished")
 update_time1 = process_time()
 print("Update took: ", update_time1-update_time0)
+
 
 """
 sum_time0 = process_time()
