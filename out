@@ -1,0 +1,5 @@
+Inserting 10k records took:  			 0.0003060000000000007
+Updating 10k records took:  			 0.0001759999999999956
+Selecting 10k records took:  			 7.899999999999574e-05
+Aggregate 10k of 100 record batch took:	 0.0004289999999999988
+Deleting 10k records took:  			 0.022778999999999994
