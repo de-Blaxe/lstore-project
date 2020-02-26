@@ -557,6 +557,7 @@ class Table:
                 # Set selected Page Range's num_updates = 0
                 page_range.num_updates = 0
                 # TODO: Update original Page Directory's Base Pages
-               
+                # Do we need to call memory_manager.replaces_pages() or _write_set_to_disk()?
+                
                 
         # Else, busy wait until job is available
