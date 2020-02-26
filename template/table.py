@@ -72,7 +72,7 @@ class Table:
     """
     # Conditionally writes to meta and user data columns
     """
-    def write_to_pages(self, cur_pages, record, schema_encoding, isUpdate=None):
+    def write_to_pages(self, cur_pages, record, schema_encoding, page_set_name, isUpdate=None):
         # Write to metadata columns, if inserting base record
         if isUpdate is None:
             cur_pages[RID_COLUMN].write(record.rid)
@@ -85,6 +85,7 @@ class Table:
                 cur_pages[INIT_COLS + col].write(entry)
             else: # Write dummy value
                 cur_pages[INIT_COLS + col].write(0)
+        self.memory_manager.isDirty[page_set_name] = True
 
 
     """
@@ -112,13 +113,13 @@ class Table:
 
         # Make alias
         page_range = self.page_range_collection[page_range_index]
-        base_set = page_range.base_set # [[], [], ..., []]
-        cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_row], table=self)# []
+        base_set = page_range.base_set  # [[], [], ..., []]
+        cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_row], table=self)  # []
         if not cur_base_pages[INIT_COLS].has_space():
             page_range.last_base_row += 1
             cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_row], table=self)
         # Write to Base Pages within matching Range
-        self.write_to_pages(cur_base_pages, record, schema_encoding)
+        self.write_to_pages(cur_base_pages, record, schema_encoding, page_set_name=base_set[page_range.last_base_row])
          
         # Update Page Directory & Indexer
         byte_pos = cur_base_pages[INIT_COLS].first_unused_byte - DATA_SIZE
@@ -133,12 +134,10 @@ class Table:
     """
     # Creates & appends a tailRow to current Page Range
     """
-    def extend_tailSet(self, tail_set, total_pages):
+    def extend_tailSet(self, tail_set, first_rid):
         sublist = []
-        for _ in range(total_pages):
-            # Create a single Tail Row
-            sublist.append(Page())
-        tail_set.append(sublist)
+        self.memory_manager.create_page_set(str(first_rid), table=self)
+        tail_set.append(str(first_rid))
 
     
     """
@@ -177,20 +176,21 @@ class Table:
     
             tail_set = page_range.tail_set
             if len(tail_set) == 0: # Init State
-                self.extend_tailSet(tail_set, total_pages)
-            elif not tail_set[page_range.last_tail_row][INIT_COLS].has_space():
+                self.extend_tailSet(tail_set, first_rid=record.rid)
+            elif not self.memory_manager.get_pages(tail_set[page_range.last_tail_row], table=self)[INIT_COLS].has_space():
                 # Check if current Tail Page has space
-                self.extend_tailSet(tail_set, total_pages)
+                self.extend_tailSet(tail_set, first_rid=record.rid)
                 page_range.last_tail_row += 1
-    
-            cur_tail_pages = tail_set[page_range.last_tail_row] 
+
+            cur_tail_pages = self.memory_manager.get_pages(tail_set[page_range.last_tail_row], table=self)
     
             # Write to userdata columns
             isUpdate = True
-            self.write_to_pages(cur_tail_pages, record, schema_encoding, isUpdate)
-    
+            self.write_to_pages(cur_tail_pages, record, schema_encoding, page_set_name=tail_set[page_range.last_tail_row], isUpdate=isUpdate)
+
+            cur_base_pages = self.memory_manager.get_pages(page_range.base_set[base_page_row], table=self)
             # Read from base_set's indirection column
-            base_indir_page = self.memory_manager.get_pages(page_range.base_set[base_page_row], self)[INDIRECTION_COLUMN]
+            base_indir_page = cur_base_pages[INDIRECTION_COLUMN]
             base_indir_data = int.from_bytes(base_indir_page.data[base_byte_pos:base_byte_pos + DATA_SIZE], 'little')
     
             if base_indir_data: # Point to previous TID
@@ -202,7 +202,7 @@ class Table:
             base_indir_page.write(record.rid, base_byte_pos)
             
             # Make alias
-            base_schema_page = page_range.base_set[base_page_row][SCHEMA_ENCODING_COLUMN]
+            base_schema_page = cur_base_pages[SCHEMA_ENCODING_COLUMN]
             tail_schema_page = cur_tail_pages[SCHEMA_ENCODING_COLUMN]
             
             # Write to tail schema column (non-cumulative)
@@ -246,6 +246,8 @@ class Table:
             # Check if primary key is updated -- if it is then replace old key with new key 
             if record.columns[self.key_index] is not None:
                 self.indexer.update_primaryKey(record.key, record.columns[self.key_index], self.key_index)
+            self.memory_manager.isDirty[page_range.base_set[base_page_row]] = True
+            self.memory_manager.isDirty[page_range.tail_set[page_range.last_tail_row]] = True
             
 
     """
@@ -283,7 +285,7 @@ class Table:
             # No updates made to page_range, or rid=baseID
             return 0 # Indicate that current rid is latest (base)RID
         else:
-            tail_indir_page = tail_set[page_row][INDIRECTION_COLUMN]
+            tail_indir_page = self.memory_manager.get_pages(tail_set[page_row], table=self)[INDIRECTION_COLUMN]
             prev_RID = int.from_bytes(tail_indir_page.data[byte_pos:byte_pos + DATA_SIZE], 'little')
             return prev_RID # Single RID
 
@@ -351,7 +353,7 @@ class Table:
                     diff = self.num_columns - len(schema_str)
                     schema_str = '0' * diff + schema_str
  
-                for col, page in enumerate(page_set[page_row][INIT_COLS:]):
+                for col, page in enumerate(self.memory_manager.get_pages(page_set[page_row], table=self)[INIT_COLS:]):
                     if col not in columns_not_retrieved:
                         continue
                     # Retrieve values from older records, if they are not in the newest ones

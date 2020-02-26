@@ -6,15 +6,15 @@ from template.page import Page
 class MemoryManager():
     def __init__(self, db_path):
         # NOTE: all pages belonging to a set should share the same name
-        self.db_path = db_path
+        self.db_path = os.path.expanduser(db_path)
         # map pageSetName to associated pageSet
         self.bufferPool = dict()
         # map pageSetName to dirty bit
         self.isDirty = dict()
         # map pageSetName to pins
         self.pinScore = dict()
-        # map pageSetName to eviction score
-        self.evictionScore = dict()
+        # index -> PageSetName where index represents evictionScore
+        self.evictionScore = []
         # leastUsedPage is a pageSetName
         self.leastUsedPageSet = ""
         self.maxSets = 2
@@ -26,25 +26,17 @@ class MemoryManager():
         return self.bufferPool[page_set_name]
 
     def create_page_set(self, page_set_name, table):
-        if len(self.bufferPool) > self.maxSets:
-            # assuming eviction policy is LRU
-            if self.isDirty[self.leastUsedPageSet]:
-                self._write_set_to_disk(page_set_name, table)
-            self.bufferPool.pop(self.leastUsedPageSet, None)
+        self._evict(table)
         cur_set = []
         for _ in range(INIT_COLS + table.num_columns):
             cur_set.append(Page())
         self.bufferPool[page_set_name] = cur_set
         self.isDirty[page_set_name] = True
         self.pinScore[page_set_name] = 0
-        self._increment_scores(page_set_name)
+        self.evictionScore.insert(0, page_set_name)
 
     def _replace_pages(self, page_set_name, table):
-        if len(self.bufferPool) > self.maxSets:
-            # assuming eviction policy is LRU
-            if self.isDirty[self.leastUsedPageSet]:
-                self._write_set_to_disk(page_set_name, table)
-            self.bufferPool.pop(self.leastUsedPageSet, None)
+        self._evict(table)
         # find page
         self._navigate_table_directory(table.name)
         # read file
@@ -57,6 +49,9 @@ class MemoryManager():
                 unpacked_data = bytearray(file.read(PAGE_SIZE))
                 page_set.append(Page(unpacked_num_records, unpacked_first_unused_byte, unpacked_data))
         self.bufferPool[page_set_name] = page_set
+        self.isDirty[page_set_name] = False
+        self.pinScore[page_set_name] = 0
+        self.evictionScore.insert(0, page_set_name)
 
     def _write_set_to_disk(self, page_set_name, table):
         self._navigate_table_directory(table.name)
@@ -68,23 +63,32 @@ class MemoryManager():
                 file.write(cur_page.data)
 
     def _increment_scores(self, retrieved_page_set_name):
-        max_score = self.evictionScore.get(retrieved_page_set_name, 0)
-        for pageSetName, score in self.evictionScore.items():
-            if score <= max_score:
-                self.evictionScore[pageSetName] += 1
-            if score > self.evictionScore.get(self.leastUsedPageSet, -1):
-                self.leastUsedPageSet = pageSetName
-                self.evictionScore[self.leastUsedPageSet] = score
-        self.evictionScore[retrieved_page_set_name] = 0
+        max_score = self.evictionScore.index(retrieved_page_set_name)
+        self.evictionScore = self.evictionScore[:max_score] + self.evictionScore[max_score + 1:]
+        self.evictionScore.insert(0, retrieved_page_set_name)
 
     def _navigate_table_directory(self, table_name):
-        print(os.getcwd())
-        os.chdir(self.db_path)
         try:
             os.chdir(os.path.join(self.db_path, table_name))
         except:
             os.mkdir(os.path.join(self.db_path, table_name))
             os.chdir(os.path.join(self.db_path, table_name))
+
+    def _evict(self, table):
+        if len(self.bufferPool) == self.maxSets:
+            # assuming eviction policy is LRU
+            i = -1
+            while self.pinScore[self.evictionScore[i]] != 0:
+                i -= 1
+            evicting_page_set = self.evictionScore[i]
+            if self.isDirty[evicting_page_set]:
+                self._write_set_to_disk(evicting_page_set, table)
+            self.bufferPool.pop(evicting_page_set, None)
+            self.evictionScore.pop(i)
+            self.isDirty.pop(evicting_page_set, None)
+            self.pinScore.pop(evicting_page_set, None)
+        elif len(self.bufferPool) > self.maxSets:
+            raise Exception
 
 
 class Database():
