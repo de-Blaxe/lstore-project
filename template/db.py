@@ -95,14 +95,9 @@ class Database():
 
     def __init__(self):
         self.tables = dict() # Index tables by their unique names
-
         pass
 
     def open(self, path):
-        """
-        # Store one file per table?
-        # Assuming path to file is the same as table name?
-        """
         self.memory_manager = MemoryManager(path)
         pass
 

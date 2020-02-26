@@ -3,7 +3,7 @@ from time import time
 from template.config import *
 from template.index import *
 
-import threading # NOTE: COMMENTED OUT MERGE FOR NOW
+import threading
 import math
 import operator
 
@@ -53,12 +53,12 @@ class Table:
 
         # TODO: Put back in code
         #thread = threading.Thread(target=self.__merge, args=[])
-        # After some research, reason why we need daemon thread: https://www.bogotobogo.com/python/Multithread/python_multithreading_Daemon_join_method_threads.php
+        # After some research, reason why we need daemon thread
+        # https://www.bogotobogo.com/python/Multithread/python_multithreading_Daemon_join_method_threads.php
         #thread.setDaemon(True)
         #thread.start()
         #thread.join() [THIS LINE WAS ORIGINALLY LEFT OUT/COMMENTED by Neha]
         
-
 
     """
     # Conditionally writes to meta and user data columns
