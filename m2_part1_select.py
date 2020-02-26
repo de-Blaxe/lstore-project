@@ -15,7 +15,7 @@ records = {}
 seed(3562901)
 
 insert_time0 = process_time()
-for i in range(0, 2000): # changed from 1k -> happens 10 times for now...
+for i in range(0, 10): # changed from 1k 
     key = 92106429 + i
     records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)] 
     query.insert(*records[key])
@@ -60,7 +60,7 @@ select_time1 = process_time()
 print("Select took: ", select_time1-select_time0)
 
 update_time0 = process_time()
-for _ in range(10):
+for _ in range(3):
     for key in keys:
         updated_columns = [None, None, None, None, None]
         for i in range(1, grades_table.num_columns):

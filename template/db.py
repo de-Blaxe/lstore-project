@@ -13,7 +13,7 @@ class MemoryManager():
         self.isDirty = dict()
         # map pageSetName to pins
         self.pinScore = dict()
-        # index -> PageSetName where index represents evictionScore
+        # index -> PageSetName where value[index] represents evictionScore
         self.evictionScore = []
         # leastUsedPage is a pageSetName
         self.leastUsedPageSet = ""
@@ -27,12 +27,13 @@ class MemoryManager():
 
     def create_page_set(self, page_set_name, table):
         self._evict(table)
-        cur_set = []
+        cur_set = [] # List of Pages (one per column)
         for _ in range(INIT_COLS + table.num_columns):
             cur_set.append(Page())
         self.bufferPool[page_set_name] = cur_set
         self.isDirty[page_set_name] = True
         self.pinScore[page_set_name] = 0
+        # Place recently created page sets at the front of list
         self.evictionScore.insert(0, page_set_name)
 
     def _replace_pages(self, page_set_name, table):
@@ -64,6 +65,7 @@ class MemoryManager():
 
     def _increment_scores(self, retrieved_page_set_name):
         max_score = self.evictionScore.index(retrieved_page_set_name)
+        # Reset retrieved page set's evictionScore to 0
         self.evictionScore = self.evictionScore[:max_score] + self.evictionScore[max_score + 1:]
         self.evictionScore.insert(0, retrieved_page_set_name)
 
@@ -77,7 +79,8 @@ class MemoryManager():
     def _evict(self, table):
         if len(self.bufferPool) == self.maxSets:
             # assuming eviction policy is LRU
-            i = -1
+            i = -1 # Start at the end of list
+            # Find first unpinned Page Set
             while self.pinScore[self.evictionScore[i]] != 0:
                 i -= 1
             evicting_page_set = self.evictionScore[i]
@@ -98,6 +101,10 @@ class Database():
         pass
 
     def open(self, path):
+        """
+        # Store one file per table?
+        # Assuming path to file is the same as table name?
+        """
         self.memory_manager = MemoryManager(path)
         pass
 
