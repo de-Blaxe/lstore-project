@@ -15,7 +15,7 @@ records = {}
 seed(3562901)
 
 insert_time0 = process_time()
-for i in range(0, 10): # changed from 1k -> happens 10 times for now... 
+for i in range(0, 50): # changed from 1k -> happens 10 times for now... 
     key = 92106429 + i
     records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)] 
     query.insert(*records[key])
@@ -75,7 +75,7 @@ for _ in range(10):
                 if column != records[key][j]:
                     error = True
             if error:
-                 print('update error on', original, 'and', updated_columns, ':', record, ', correct:', records[key])
+                 print('update error on', original, 'and', updated_columns, ':', record.columns, ', correct:', records[key])
             #else:
                 #print('update on', original, 'and', updated_columns, ':', record.columns)
             updated_columns[i] = None

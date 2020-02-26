@@ -466,9 +466,11 @@ class Table:
                 page_range_index = max(self.update_to_pg_range.items(), key=operator.itemgetter(1))[0]
 
                 # Collect Tail Pages within Page Range
-                page_range = self.page_range_collection[page_range_index]
+                page_range_collection_copy = self.page_range_collection.copy()
+                page_range = page_range_collection_copy[page_range_index]
+                #page_range = original_page_range.copy()
                 tail_set = page_range.tail_set # [[Page, Page, Page],[Page, Page, Page],...]
-                base_set_copy = page_range.base_set.copy() # [[],[]]
+                base_set_copy = page_range.base_set ######### NOTE IDK .copy() # [[],[]]
 
                 merge_queue = tail_set # List of Tail Rows
                 #print("length of merge_queue should be 1 = ", len(tail_set))
@@ -493,6 +495,8 @@ class Table:
                 for baseID in range(minRID, maxRID + 1):
                     remaining_work[baseID] = [col for col in range(self.num_columns)]
                     remaining_work[baseID] += [init_tps, wasVisited]
+                    # Reset their num_updates to 0
+                    self.update_to_pg_range[baseID] = 0
 
                 # Create consolidated Base Pages
                 for row_number, tail_row in enumerate(merge_queue):
@@ -569,13 +573,13 @@ class Table:
                             # Fetch earlier Tail Record
                             last_byte_pos -= DATA_SIZE
                             #print("last_byte_pos after decrementing = ", last_byte_pos)
-
+    
                 ### After merge ###
                 # Set selected Page Range's num_updates = 0
                 page_range.num_updates = 0
-
-                # Two copies coexisting: original -> bufferpool and merged -> page range
-                for row_number, base_row in enumerate(base_set_copy): # [[],[]]
-                    page_range.base_set[row_number] = base_row
+                
+                # Two copies coexisting: original -> bufferpool and merged -> page range (NOT SURE IF RIGHT)
+                #page_range.base_set = base_set_copy    
+                #self.page_range.base_set = base_set_copy
 
         # Else, busy wait until job is available
