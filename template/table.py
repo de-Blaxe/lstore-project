@@ -55,10 +55,10 @@ class Table:
 
         # TODO: Put back in code
         
-        thread = threading.Thread(target=self.__merge, args=[])
+        #thread = threading.Thread(target=self.__merge, args=[])
         # After some research, reason why we need daemon thread: https://www.bogotobogo.com/python/Multithread/python_multithreading_Daemon_join_method_threads.php
-        thread.setDaemon(True)
-        thread.start()
+        #thread.setDaemon(True)
+        #thread.start()
         
         
         #thread.join() [THIS LINE WAS ORIGINALLY LEFT OUT/COMMENTED by Neha]
@@ -448,7 +448,9 @@ class Table:
     # Merges base & tail records within a Page Range
     """
     def __merge(self):
-        
+
+        # TODO: In read_records(), need to compare current TID with TPS of base Record? 
+
         while 1:
             # Shouldn't print here because of https://stackoverflow.com/questions/45267439/fatal-python-error-and-bufferedwriter
             #print("In merge", "\n")
@@ -564,3 +566,9 @@ class Table:
                 #self.page_range.base_set = base_set_copy
 
         # Else, busy wait until job is available
+
+
+# NOTES - AFTER MERGING (based on slack??)
+# check if indirection is valid or not: compare tps to indirection
+    # if valid: follow indirection
+    # invalid: read current base record (you have most up to date version already)
