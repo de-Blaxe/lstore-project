@@ -51,6 +51,13 @@ class Table:
         self.update_to_pg_range = dict()
         self.memory_manager = memory_manager
 
+        # TODO: Put this back to call merge thread
+        thread = threading.Thread(target=self.__merge, args=[])
+        # After some research, reason why we need daemon thread
+        # https://www.bogotobogo.com/python/Multithread/python_multithreading_Daemon_join_method_threads.php
+        thread.setDaemon(True)
+        thread.start()
+
 
     """
     # Conditionally writes to meta and user data columns
@@ -395,8 +402,8 @@ class Table:
 
         # Invalidate base record
         page_range = self.page_range_collection[page_range_index]
-        cur_base_pages = page_range.base_set[name_index] # Single []
-        base_rid_page = cur_base_pages[RID_COLUMN]
+        base_set_name = page_range.base_set[name_index]
+        base_rid_page = self.memory_manager(base_set_name, table=self)[RID_COLUMN]
         base_rid_page.write(INVALID_RECORD, byte_pos)
 
         # Invalidate all tail records, if any
@@ -431,13 +438,11 @@ class Table:
     """
     def __merge(self):
 
-        # NOTES
-        # In read_records(), need to compare current TID with TPS of base Record? 
-        # Do we have to check if needed Page is inside bufferpool or on disk?
+        # NOTE: In read_records(), need to compare current TID with TPS of base Record? 
 
         while 1:
-            # Shouldn't print here because of https://stackoverflow.com/questions/45267439/fatal-python-error-and-bufferedwriter
-            #print("In merge", "\n")
+            # Shouldn't print anything here 
+            # because of https://stackoverflow.com/questions/45267439/fatal-python-error-and-bufferedwriter
             merge_queue = []
 
             # Check if all Page Ranges have already been merged
@@ -446,12 +451,16 @@ class Table:
                 page_range_index = max(self.update_to_pg_range.items(), key=operator.itemgetter(1))[0]
 
                 # Collect Tail Pages within Page Range
+                # No need to make 'copies' here bc Page Ranges no longer store physical pages
+                """
                 page_range_collection_copy = self.page_range_collection.copy()
                 page_range = page_range_collection_copy[page_range_index]
-                tail_set = page_range.tail_set
-                base_set_copy = page_range.base_set
+                """
+                page_range = self.page_range_collection[page_range_index]
+                tail_set_names = page_range.tail_set
+                base_set_names = page_range.base_set
 
-                merge_queue = tail_set # Enqueue List of Tail Rows, each is a List of Set Names
+                merge_queue = tail_set_names # Enqueue List of Tail Page Set Names
                 last_TID_merged = 0 # Acts as TPS value
 
                 # Remaining Work Dictionary - Maps baseIDs to [columns needed, TPS, visited flag]
@@ -462,7 +471,7 @@ class Table:
                 minRID = (page_range_index) * (PAGE_RANGE_FACTOR * PAGE_CAPACITY) + 1
                 maxRID = minRID + (PAGE_RANGE_FACTOR * PAGE_CAPACITY) - 1
 
-                # Only write once per column per base record
+                # Flags 
                 init_tps = 0
                 tps_index = self.num_columns
                 wasVisited = False
@@ -477,14 +486,16 @@ class Table:
                 # Create consolidated Base Pages
                 for tail_set_name in merge_queue:
                     # Read Tail Page schema & TID
-                    tail_schema_page = self.memory_manager.get_pages(tail_set_name, table=self)[SCHEMA_ENCODING_COLUMN]
+                    tail_pages = self.memory_manager.get_pages(tail_set_name, table=self)
+                    tail_schema_page = tail_pages[SCHEMA_ENCODING_COLUMN]
                     # Byte positions are aligned across all Pages
                     last_byte_pos = tail_schema_page.first_unused_byte - DATA_SIZE
+                    
                     
                     # Iterate Tail Records backwards
                     while(last_byte_pos >= 0):
                         # Find mapped baseID for tail record
-                        mapped_base_page = self.memory_manager.get_pages(tail_set_name, table=self)[BASE_RID_COLUMN]
+                        mapped_base_page = tail_pages[BASE_RID_COLUMN]
                         mapped_baseID = self.convert_data(mapped_base_page, last_byte_pos)
                        
                         if mapped_baseID == INVALID_RECORD:
@@ -492,14 +503,19 @@ class Table:
                             continue
                         
                         # Locate Base Record within selected Page Range
-                        [_, base_row, base_byte_pos, _] = self.page_directory[mapped_baseID]
+                        [_, base_name_index, base_byte_pos] = self.page_directory[mapped_baseID]
                         
                         # Columns are removed from the the remaining_work dictionary
+                        # Logic to retain indices
                         remaining_columns = len(remaining_work[mapped_baseID])
                         visited_index = remaining_columns - 1
 
+                        # Copy Base Pages -- used as template when merging
+                        base_set_name = base_set_names[base_name_index]
+                        base_pages_copy = (self.memory_manager.get_pages(base_set_name, table=self)).copy()
+
                         if remaining_work[mapped_baseID][visited_index] == False:
-                            base_schema_page = base_set_copy[base_row][SCHEMA_ENCODING_COLUMN]
+                            base_schema_page = base_pages_copy[SCHEMA_ENCODING_COLUMN]
                             [final_base_schema, _] = self.finalize_schema(base_schema_page, base_byte_pos)
                             # Remove non-updated columns from remaining work dictionary
                             for column, char in enumerate(final_base_schema):
@@ -515,35 +531,32 @@ class Table:
                         tps_index = visited_index - 1
                         base_tps = remaining_work[mapped_baseID][tps_index]
                         # Fetch current TID                  
-                        tail_rid_page = self.memory_manager(tail_set_name, table=self)[RID_COLUMN]
+                        tail_rid_page = self.memory_manager.get_pages(tail_set_name, table=self)[RID_COLUMN]
                         curr_TID = self.convert_data(tail_rid_page, last_byte_pos)
                         
                         non_user_cols = 2 # TPS + visited Flag
                         if len(remaining_work[mapped_baseID]) != non_user_cols and base_tps != curr_TID:
-                            # (Incompleted Base Record and current TID was not merged yet)
+                            # (If Base Record not fully merged yet & current TID was not merged yet)
                             # Keep overwriting TPS column for each Base Record
                             last_TID_merged = curr_TID
-                            base_set_copy[base_row][TPS_COLUMN].write(last_TID_merged, base_byte_pos)
+                            base_tps_page = base_pages_copy[TPS_COLUMN].write(last_TID_merged, base_byte_pos)
                     
                             [tail_schema, diff] = self.finalize_schema(tail_schema_page, last_byte_pos)
                             for offset in range(diff, self.num_columns):
                                 # A single Tail Record can update 1+ columns
                                 if offset in remaining_work[mapped_baseID] and tail_schema[offset] == '1':
-                                    base_page = base_set_copy[base_row][INIT_COLS + offset]
-                                    tail_data = tail_row[INIT_COLS + offset].data
-                                    # Overwrite base set copy data
-                                    base_page.write(tail_data, base_byte_pos)
+                                    updated_base_page = base_pages_copy[INIT_COLS + offset]
+                                    tail_data = tail_pages[INIT_COLS + offset].data
+                                    # Overwrite template data
+                                    updated_base_page.write(tail_data, base_byte_pos)
                                     remaining_work[mapped_baseID].remove(offset)
-
                         # Fetch earlier Tail Record
                         last_byte_pos -= DATA_SIZE
-    
+                    
                 ### After merge ###
                 # Set selected Page Range's num_updates = 0
                 page_range.num_updates = 0
+                # TODO: Update original Page Directory's Base Pages
+               
                 
-                # FIXME: Neither of these stmts work...
-                #page_range.base_set = base_set_copy    
-                #self.page_range.base_set = base_set_copy
-
         # Else, busy wait until job is available
