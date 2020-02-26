@@ -39,7 +39,7 @@ class Table:
         self.name = name
         self.key_index = key_index
         self.num_columns = num_columns
-        # Page Directory            - Maps RIDs to [page_range_index, page_row, byte_pos]
+        # Page Directory            - Maps RIDs to [page_range_index, name_index, byte_pos]
         # Page Range Collection     - Stores all Page Ranges for Table
         # Indexer                   - Maps key values to baseIDs
         self.page_directory = dict()
@@ -96,7 +96,7 @@ class Table:
     """
     def insert_baseRecord(self, record, schema_encoding):
         # Base case: Check if record's RID is unique
-        if record.rid in self.page_directory.keys():
+        if record.rid in self.page_directory:
             print("Error: Record RID is not unique.\n")
             return
 
@@ -154,7 +154,7 @@ class Table:
         if baseID == INVALID_RECORD:
             return
         else:
-            cur_keys = self.page_directory.keys()
+            cur_keys = self.page_directory
             # Base case: Check if record's RID is unique & Page Range exists
             if record.rid in cur_keys or not baseID in cur_keys:
                 print("Error: Record RID is not unique.\n")
@@ -165,7 +165,7 @@ class Table:
             total_pages = INIT_COLS + self.num_columns
     
             # Locate Page Range of base/tail record
-            [page_range_index, base_page_row, base_byte_pos] = self.page_directory[baseID]
+            [page_range_index, base_name_index, base_byte_pos] = self.page_directory[baseID]
             page_range = self.page_range_collection[page_range_index]
     
             tail_set = page_range.tail_set
@@ -182,7 +182,7 @@ class Table:
             isUpdate = True
             self.write_to_pages(cur_tail_pages, record, schema_encoding, page_set_name=tail_set[page_range.last_tail_name], isUpdate=isUpdate)
 
-            cur_base_pages = self.memory_manager.get_pages(page_range.base_set[base_page_row], table=self)
+            cur_base_pages = self.memory_manager.get_pages(page_range.base_set[base_name_index], table=self)
             # Read from base_set's indirection column
             base_indir_page = cur_base_pages[INDIRECTION_COLUMN]
             base_indir_data = self.convert_data(base_indir_page, base_byte_pos)
@@ -235,7 +235,7 @@ class Table:
                 self.indexer.update_primaryKey(record.key, record.columns[self.key_index], self.key_index)
 
             # Both Base & Tail Pages modified Indirection and Schema Columns
-            self.memory_manager.isDirty[page_range.base_set[base_page_row]] = True
+            self.memory_manager.isDirty[page_range.base_set[base_name_index]] = True
             self.memory_manager.isDirty[page_range.tail_set[page_range.last_tail_name]] = True
             
 
@@ -249,9 +249,9 @@ class Table:
 
         for baseID in baseIDs:
             # Retrieve value in base record's indirection column
-            [page_range_index, base_page_row, base_byte_pos] = self.page_directory[baseID]
+            [page_range_index, base_name_index, base_byte_pos] = self.page_directory[baseID]
             base_set = self.page_range_collection[page_range_index].base_set
-            base_indir_page = self.memory_manager.get_pages(base_set[base_page_row], self)[INDIRECTION_COLUMN]
+            base_indir_page = self.memory_manager.get_pages(base_set[base_name_index], self)[INDIRECTION_COLUMN]
             latest_RID = self.convert_data(base_indir_page, base_byte_pos)
             if latest_RID == 0: # No updates made
                 rid_output.append(baseID)
@@ -266,7 +266,7 @@ class Table:
     """
     def get_previous(self, rid):
         # Retrieve value in tail record's indirection column
-        [page_range_index, page_row, byte_pos] = self.page_directory[rid]    
+        [page_range_index, name_index, byte_pos] = self.page_directory[rid]    
         page_range = self.page_range_collection[page_range_index]
 
         tail_set = page_range.tail_set      
@@ -274,7 +274,7 @@ class Table:
             # No updates made to page_range, or rid=baseID
             return 0
         else:
-            tail_indir_page = self.memory_manager.get_pages(tail_set[page_row], table=self)[INDIRECTION_COLUMN]
+            tail_indir_page = self.memory_manager.get_pages(tail_set[name_index], table=self)[INDIRECTION_COLUMN]
             prev_RID = self.convert_data(tail_indir_page, byte_pos)
             return prev_RID # Single RID
 
@@ -323,7 +323,7 @@ class Table:
                 # Retrieve whatever data you can from latest record
                 assert rid != 0
                 # Locate record within Page Range
-                [page_range_index, page_row, byte_pos] = self.page_directory[rid]
+                [page_range_index, name_index, byte_pos] = self.page_directory[rid]
                 page_range = self.page_range_collection[page_range_index]
  
                 # RID may be a base or a tail ID
@@ -333,14 +333,14 @@ class Table:
                     page_set = page_range.base_set
  
                 # Read schema data
-                schema_page = self.memory_manager.get_pages(page_set[page_row], self)[SCHEMA_ENCODING_COLUMN]
+                schema_page = self.memory_manager.get_pages(page_set[name_index], self)[SCHEMA_ENCODING_COLUMN]
                 [schema_str, _] = self.finalize_schema(schema_page, byte_pos)
                 # Leading zeros are lost after integer conversion, so padding needed
                 if len(schema_str) < self.num_columns:
                     diff = self.num_columns - len(schema_str)
                     schema_str = '0' * diff + schema_str
  
-                for col, page in enumerate(self.memory_manager.get_pages(page_set[page_row], table=self)[INIT_COLS:]):
+                for col, page in enumerate(self.memory_manager.get_pages(page_set[name_index], table=self)[INIT_COLS:]):
                     if col not in columns_not_retrieved:
                         continue
                     # Retrieve values from older records, if they are not in the newest ones
@@ -391,11 +391,11 @@ class Table:
     def delete_record(self, key):
         # Retrieve matching baseID for given key
         baseID = self.indexer.locate(key, self.key_index)
-        [page_range_index, page_row, byte_pos] = self.page_directory[baseID]        
+        [page_range_index, name_index, byte_pos] = self.page_directory[baseID]        
 
         # Invalidate base record
         page_range = self.page_range_collection[page_range_index]
-        cur_base_pages = page_range.base_set[page_row] # Single []
+        cur_base_pages = page_range.base_set[name_index] # Single []
         base_rid_page = cur_base_pages[RID_COLUMN]
         base_rid_page.write(INVALID_RECORD, byte_pos)
 
@@ -412,8 +412,8 @@ class Table:
             """
             # I don't think it's beneficial to mark their RIDs as invalid
             # But still need to get num_deleted/invalidated
-            [_, page_row, byte_pos] = self.page_directory[next_rid]
-            cur_tail_pages = page_range.tail_set[page_row]
+            [_, name_index, byte_pos] = self.page_directory[next_rid]
+            cur_tail_pages = page_range.tail_set[name_index]
             tail_rid_page = cur_tail_pages[RID_COLUMN]
             tail_rid_page.write(INVALID_RECORD, byte_pos)
             """
@@ -475,72 +475,68 @@ class Table:
                     self.update_to_pg_range[baseID] = 0
 
                 # Create consolidated Base Pages
-                for tail_row in merge_queue:
-                    for tail_set_name in tail_row:
-
-                        # Read Tail Page schema & TID
-                        tail_schema_page = self.memory_manager.get_pages(tail_set_name, table=self)[SCHEMA_ENCODING_COLUMN]
-                        # Byte positions are aligned across all Pages
-                        last_byte_pos = tail_schema_page.first_unused_byte - DATA_SIZE
+                for tail_set_name in merge_queue:
+                    # Read Tail Page schema & TID
+                    tail_schema_page = self.memory_manager.get_pages(tail_set_name, table=self)[SCHEMA_ENCODING_COLUMN]
+                    # Byte positions are aligned across all Pages
+                    last_byte_pos = tail_schema_page.first_unused_byte - DATA_SIZE
                     
-                        # Iterate Tail Records backwards
-                        while(last_byte_pos >= 0):
-                            # Find mapped baseID for tail record
-                            mapped_base_page = self.memory_manager.get_pages(tail_set_name, table=self)[BASE_RID_COLUMN]
-                            mapped_baseID = self.convert_data(mapped_base_page, last_byte_pos)
+                    # Iterate Tail Records backwards
+                    while(last_byte_pos >= 0):
+                        # Find mapped baseID for tail record
+                        mapped_base_page = self.memory_manager.get_pages(tail_set_name, table=self)[BASE_RID_COLUMN]
+                        mapped_baseID = self.convert_data(mapped_base_page, last_byte_pos)
                        
-                            if mapped_baseID == INVALID_RECORD:
-                                last_byte_pos -= DATA_SIZE
-                                continue
+                        if mapped_baseID == INVALID_RECORD:
+                            last_byte_pos -= DATA_SIZE
+                            continue
                         
-                            # Locate Base Record within selected Page Range
-                            [_, base_row, base_byte_pos, _] = self.page_directory[mapped_baseID]
+                        # Locate Base Record within selected Page Range
+                        [_, base_row, base_byte_pos, _] = self.page_directory[mapped_baseID]
                         
-                            # Columns are removed from the the remaining_work dictionary
-                            remaining_columns = len(remaining_work[mapped_baseID])
-                            visited_index = remaining_columns - 1
+                        # Columns are removed from the the remaining_work dictionary
+                        remaining_columns = len(remaining_work[mapped_baseID])
+                        visited_index = remaining_columns - 1
 
-                            if remaining_work[mapped_baseID][visited_index] == False:
-                                base_schema_page = base_set_copy[base_row][SCHEMA_ENCODING_COLUMN]
-                                [final_base_schema, _] = self.finalize_schema(base_schema_page, base_byte_pos)
-                                # Remove non-updated columns from remaining work dictionary
-                                for column, char in enumerate(final_base_schema):
-                                    if char == '0':
-                                        remaining_work[mapped_baseID].remove(column)
-                                        remaining_columns = len(remaining_work[mapped_baseID]) - 1
-                                        visited_index = remaining_columns
+                        if remaining_work[mapped_baseID][visited_index] == False:
+                            base_schema_page = base_set_copy[base_row][SCHEMA_ENCODING_COLUMN]
+                            [final_base_schema, _] = self.finalize_schema(base_schema_page, base_byte_pos)
+                            # Remove non-updated columns from remaining work dictionary
+                            for column, char in enumerate(final_base_schema):
+                                if char == '0':
+                                    remaining_work[mapped_baseID].remove(column)
+                                    remaining_columns = len(remaining_work[mapped_baseID]) - 1
+                                    visited_index = remaining_columns
                                     
-                                # Base Record has now been visited
-                                remaining_work[mapped_baseID][visited_index] = True
+                            # Base Record has now been visited
+                            remaining_work[mapped_baseID][visited_index] = True
 
-                            # Check remaining work and TPS for encountered baseID
-                            tps_index = visited_index - 1
-                            base_tps = remaining_work[mapped_baseID][tps_index]
-                            # Fetch current TID                  
-                            tail_rid_page = self.memory_manager(tail_set_name, table=self)[RID_COLUMN]
-                            curr_TID = self.convert_data(tail_rid_page, last_byte_pos)
+                        # Check remaining work and TPS for encountered baseID
+                        tps_index = visited_index - 1
+                        base_tps = remaining_work[mapped_baseID][tps_index]
+                        # Fetch current TID                  
+                        tail_rid_page = self.memory_manager(tail_set_name, table=self)[RID_COLUMN]
+                        curr_TID = self.convert_data(tail_rid_page, last_byte_pos)
                         
-                            non_user_cols = 2 # TPS + visited Flag
-                            if len(remaining_work[mapped_baseID]) == non_user_cols or base_tps == curr_TID:
-                                # Done merging a base record, or current Tail Record already merged
-                                last_byte_pos -= DATA_SIZE
-                            else:
-                                # Keep overwriting TPS column for each Base Record
-                                last_TID_merged = curr_TID
-                                base_set_copy[base_row][TPS_COLUMN].write(last_TID_merged, base_byte_pos)
+                        non_user_cols = 2 # TPS + visited Flag
+                        if len(remaining_work[mapped_baseID]) != non_user_cols and base_tps != curr_TID:
+                            # (Incompleted Base Record and current TID was not merged yet)
+                            # Keep overwriting TPS column for each Base Record
+                            last_TID_merged = curr_TID
+                            base_set_copy[base_row][TPS_COLUMN].write(last_TID_merged, base_byte_pos)
                     
-                                [tail_schema, diff] = self.finalize_schema(tail_schema_page, last_byte_pos)
-                                for offset in range(diff, self.num_columns):
-                                    # A single Tail Record can update 1+ columns
-                                    if offset in remaining_work[mapped_baseID] and tail_schema[offset] == '1':
-                                        base_page = base_set_copy[base_row][INIT_COLS + offset]
-                                        tail_data = tail_row[INIT_COLS + offset].data
-                                        # Overwrite base set copy data
-                                        base_page.write(tail_data, base_byte_pos)
-                                        remaining_work[mapped_baseID].remove(offset)
+                            [tail_schema, diff] = self.finalize_schema(tail_schema_page, last_byte_pos)
+                            for offset in range(diff, self.num_columns):
+                                # A single Tail Record can update 1+ columns
+                                if offset in remaining_work[mapped_baseID] and tail_schema[offset] == '1':
+                                    base_page = base_set_copy[base_row][INIT_COLS + offset]
+                                    tail_data = tail_row[INIT_COLS + offset].data
+                                    # Overwrite base set copy data
+                                    base_page.write(tail_data, base_byte_pos)
+                                    remaining_work[mapped_baseID].remove(offset)
 
-                                # Fetch earlier Tail Record
-                                last_byte_pos -= DATA_SIZE
+                        # Fetch earlier Tail Record
+                        last_byte_pos -= DATA_SIZE
     
                 ### After merge ###
                 # Set selected Page Range's num_updates = 0
