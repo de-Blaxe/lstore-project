@@ -17,9 +17,12 @@ class MemoryManager():
         self.evictionScore = []
         # leastUsedPage is a pageSetName
         self.leastUsedPageSet = ""
-        self.maxSets = 2
+        self.maxSets = 10
 
-    def get_pages(self, page_set_name, table):
+    def get_pages(self, page_set_name, table, read_only=True):
+        # Dont pin if we know we're strictly reading
+        if not read_only:
+            self.pinScore[page_set_name] = self.pinScore.get(page_set_name, 0) + 1
         if page_set_name not in self.bufferPool:
             self._replace_pages(page_set_name, table)
         self._increment_scores(retrieved_page_set_name=page_set_name)
@@ -50,7 +53,7 @@ class MemoryManager():
                 page_set.append(Page(unpacked_num_records, unpacked_first_unused_byte, unpacked_data))
         self.bufferPool[page_set_name] = page_set
         self.isDirty[page_set_name] = False
-        self.pinScore[page_set_name] = 0
+        self.pinScore[page_set_name] = self.pinScore.get(page_set_name, 0)
         self.evictionScore.insert(0, page_set_name)
 
     def _write_set_to_disk(self, page_set_name, table):
