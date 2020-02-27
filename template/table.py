@@ -16,17 +16,18 @@ class Record:
 
 class Page_Range:
 
-    def __init__(self, num_page_range, memory_manager, table):
+    def __init__(self, num_page_range, table):
         # Track Page space through indices
         self.last_base_name = 0
         self.last_tail_name = 0
 
         self.base_set = [] # List of Base Page Set Names
         for i in range(PAGE_RANGE_FACTOR):
-            # Encoding Page Set Names by their first BaseRecord's RID
+            # Page Set Names Format: 'firstBaseID_TableName'
             delimiter = '_'
-            encoded_base_set = (str(num_page_range*PAGE_CAPACITY*PAGE_RANGE_FACTOR + i*PAGE_CAPACITY)) + delimiter + table.name
-            memory_manager.create_page_set(encoded_base_set, table=table)
+            first_baseID = str(num_page_range*PAGE_CAPACITY*PAGE_RANGE_FACTOR + i*PAGE_CAPACITY)
+            encoded_base_set = first_baseID + delimiter + table.name
+            table.memory_manager.create_page_set(encoded_base_set, table=table)
             self.base_set.append(encoded_base_set)
 
         self.tail_set = []   # List of Tail Page Set Names
@@ -37,21 +38,21 @@ class Table:
 
     total_num_pages = 0
 
-    def __init__(self, name, num_columns, key_index, memory_manager):
+    def __init__(self, name, num_columns, key_index, mem_manager):
         self.name = name
         self.key_index = key_index
         self.num_columns = num_columns
-        # Page Directory            - Maps RIDs to [page_range_index, name_index, byte_pos]
-        # Page Range Collection     - Stores all Page Ranges for Table
-        # Indexer                   - Maps key values to baseIDs
+        # Page Directory                    - Maps RIDs to [page_range_index, name_index, byte_pos]
+        # Page Range Collection             - Stores all Page Ranges for Table
+        # Index                             - Index object that maps key values to baseIDs
         self.page_directory = dict()
         self.page_range_collection = []
-        self.indexer = Index(self)
-        self.LID_counter = 0             # Used to increment LIDs
-        self.TID_counter = (2 ** 64) - 1 # Used to decrement TIDs
+        self.index = Index(self)
+        self.LID_counter = 0                # Used to increment LIDs
+        self.TID_counter = (2 ** 64) - 1    # Used to decrement TIDs
         self.invalid_rids = []
         self.update_to_pg_range = dict()
-        self.memory_manager = memory_manager
+        self.memory_manager = mem_manager   # All Tables within Database share same Memory Manager
 
         thread = threading.Thread(target=self.__merge, args=[])
         # After some research, reason why we need daemon thread
@@ -119,7 +120,7 @@ class Table:
         try:
             page_range = self.page_range_collection[page_range_index]
         except:
-            page_range = Page_Range(len(self.page_range_collection), self.memory_manager, self)
+            page_range = Page_Range(len(self.page_range_collection), self)
             self.page_range_collection.append(page_range)
 
         # Make alias
@@ -141,7 +142,7 @@ class Table:
         # print(" & last base name index=", page_range.last_base_name, "}\n")
         
         # Insert primary key: RID for key_index column
-        self.indexer.insert_primaryKey(record.key, record.rid)
+        self.index.insert_primaryKey(record.key, record.rid)
 
 
     """
@@ -159,7 +160,7 @@ class Table:
     """
     def insert_tailRecord(self, record, schema_encoding):
         # Retrieve base record with matching key
-        baseID = self.indexer.locate(record.key, self.key_index)
+        baseID = self.index.locate(record.key, self.key_index)
         if baseID == INVALID_RECORD:
             return
         else:
@@ -241,7 +242,7 @@ class Table:
                    
             # Check if primary key is updated -- if it is then replace old key with new key 
             if record.columns[self.key_index] is not None:
-                self.indexer.update_primaryKey(record.key, record.columns[self.key_index], self.key_index)
+                self.index.update_primaryKey(record.key, record.columns[self.key_index], self.key_index)
 
             # Both Base & Tail Pages modified Indirection and Schema Columns
             self.memory_manager.isDirty[page_range.base_set[base_name_index]] = True
@@ -296,8 +297,8 @@ class Table:
          if max_key == None:
             if column != self.key_index:
                 for key in keys:
-                    result = self.indexer.locate(key, column)
-                    # indexer.locate() returns flag if no match found
+                    result = self.index.locate(key, column)
+                    # Index.locate() returns flag if no match found
                     if isinstance(result, int):
                         if result == INVALID_RECORD:
                             continue # Don't append invalid RID
@@ -306,11 +307,11 @@ class Table:
                 baseIDs = sorted(baseIDs)
             else:
                 # If column is primary key, we get a single key with single base RID
-                result = self.indexer.locate(keys, column)
+                result = self.index.locate(keys, column)
                 if result != INVALID_RECORD:
                     baseIDs.append(result)
          else: # Performing multi reads for summation 
-            baseIDs = self.indexer.locate_range(keys, max_key, column)
+            baseIDs = self.index.locate_range(keys, max_key, column)
          
          latest_records = self.get_latest(baseIDs)
          output = [] # A list of Record objects to return
@@ -419,7 +420,7 @@ class Table:
     """
     def delete_record(self, key):
         # Retrieve matching baseID for given key
-        baseID = self.indexer.locate(key, self.key_index)
+        baseID = self.index.locate(key, self.key_index)
         [page_range_index, name_index, byte_pos] = self.page_directory[baseID]        
 
         # Invalidate base record
@@ -451,7 +452,7 @@ class Table:
             next_rid = self.get_previous(next_rid)
 
         # Update Indexer & Page Range Collection
-        self.indexer.indices[self.key_index].pop(key)
+        self.index.indices[self.key_index].pop(key)
         page_range.num_updates -= num_deleted
 
 

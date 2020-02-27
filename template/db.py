@@ -19,7 +19,7 @@ class MemoryManager():
         self.pinScore = dict()
         # index -> PageSetName. Index represents evictionScore -> LRU policy
         # Newly created PageSets put at front (lower eviction score)
-        self.evictionScore = [] # [LOW:'0/Grades', ..., '99/Student':HIGH]
+        self.evictionScore = [] # [Low:'PageSetName1', ..., 'PageSetName3':High]
         # leastUsedPage is a pageSetName
         self.leastUsedPageSet = ""
         self.maxSets = 2
@@ -110,7 +110,6 @@ class Database():
 
     def __init__(self):
         self.tables = dict() # Index tables by their unique names
-        pass
 
 
     def open(self, path):
@@ -139,8 +138,6 @@ class Database():
         with open('table_objects.pkl', 'wb') as output:
             # Save the dictionary as a whole 
             pickle.dump(self.tables, output, pickle.HIGHEST_PROTOCOL)
-
-        pass
 
 
     """
@@ -202,12 +199,9 @@ class Database():
     """
     def get_table(self, name):
         self.memory_manager._navigate_table_directory(name)
-        # return self.tables[name] 
-        # Above doesn't work since dictionary made by part 1, which gets erased when program exits -> m2 part 2 problem???
         # Don't know if this will work...just reading from the file and loading back the objects
         with open('table_objects.pkl', 'rb') as input:
             self.tables = pickle.load(input)
 
         # Now look for the table_name and return the instance
         return self.tables[name]
-        pass 

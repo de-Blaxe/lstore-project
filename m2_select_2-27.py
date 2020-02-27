@@ -31,6 +31,7 @@ print("Insert took ", insert_time1-insert_time0)
 # CHECKS IF ONE OF RECORD OBJ RETURNED IS CORRECT
 # No longer compares expected Record against 0th Record in List of Records
 """
+
 select_time0 = process_time()
 
 select_index = 1
@@ -38,11 +39,6 @@ for key in keys:
     key_val = records[key][select_index]
     list_records = query.select(key_val, select_index, [1, 1, 1, 1, 1]) 
     error = False
-    """
-    for i, column in enumerate(record.columns):
-        if column != records[key][i]:
-            error = True
-    """
     # Checks if one of Record obj returned is correct
     for record in list_records:
         if record.columns == records[key]:
@@ -76,14 +72,13 @@ for _ in range(3):
                     error = True
             if error:
                  print('update error on', original, 'and', updated_columns, ':', record.columns, ', correct:', records[key])
-            #else:
-                #print('update on', original, 'and', updated_columns, ':', record.columns)
+            else:
+                print('update on', original, 'and', updated_columns, ':', record.columns)
             updated_columns[i] = None
 print("Update finished")
 update_time1 = process_time()
 print("Update took: ", update_time1-update_time0)
 
-"""
 sum_time0 = process_time()
 for i in range(0, 100):
     r = sorted(sample(range(0, len(keys)), 2))
@@ -97,4 +92,3 @@ print("Aggregate finished")
 sum_time1 = process_time()
 print("Sum took: ", sum_time1-sum_time0)
 db.close()
-"""

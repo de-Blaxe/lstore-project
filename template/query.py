@@ -40,11 +40,11 @@ class Query:
     def select(self, key, column, query_columns):
         # Create index for other columns only if needed
         if column is not self.table.key_index:
-            self.table.indexer.create_index(column, self.table.memory_manager)
+            self.table.index.create_index(column)
             # We need to now possibly read records from multiple keys -- so we need to use these keys as the parameter for read_records
-            record = self.table.read_records(self.table.indexer.indices[column], column, query_columns)
+            record = self.table.read_records(self.table.index.indices[column], column, query_columns)
             # Drop index only for non-primary column indexes
-            self.table.indexer.drop_index(self.table, column)
+            self.table.index.drop_index(self.table, column)
         else:
             record = self.table.read_records(key, column, query_columns)
         
