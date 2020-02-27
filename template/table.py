@@ -425,7 +425,7 @@ class Table:
         # Invalidate base record
         page_range = self.page_range_collection[page_range_index]
         base_set_name = page_range.base_set[name_index]
-        base_rid_page = self.memory_manager(base_set_name, table=self)[RID_COLUMN]
+        base_rid_page = self.memory_manager.get_pages(base_set_name, table=self)[RID_COLUMN]
         base_rid_page.write(INVALID_RECORD, byte_pos)
 
         # Invalidate all tail records, if any
@@ -451,7 +451,7 @@ class Table:
             next_rid = self.get_previous(next_rid)
 
         # Update Indexer & Page Range Collection
-        self.indexer.indices[self.key_index].remove(key)
+        self.indexer.indices[self.key_index].pop(key)
         page_range.num_updates -= num_deleted
 
 

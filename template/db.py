@@ -3,6 +3,9 @@ import os
 from template.config import *
 from template.page import Page
 
+# Used to save the tables dict
+import pickle
+
 
 class MemoryManager():
     def __init__(self, path):
@@ -129,6 +132,14 @@ class Database():
                 # Write them back to disk
                 [_, mapped_table_name] = page_set_name.split('_')
                 self.memory_manager._write_set_to_disk(page_set_name, self.tables[mapped_table_name])
+
+        # Need to save the tables dict to a file in order to retrive the table instance in get_table()
+        # Use the pickle module for this?
+        # Store the dictionary to a file
+        with open('table_objects.pkl', 'wb') as output:
+            # Save the dictionary as a whole 
+            pickle.dump(self.tables, output, pickle.HIGHEST_PROTOCOL)
+
         pass
 
 
@@ -193,4 +204,10 @@ class Database():
         self.memory_manager._navigate_table_directory(name)
         # return self.tables[name] 
         # Above doesn't work since dictionary made by part 1, which gets erased when program exits -> m2 part 2 problem???
+        # Don't know if this will work...just reading from the file and loading back the objects
+        with open('table_objects.pkl', 'rb') as input:
+            self.tables = pickle.load(input)
+
+        # Now look for the table_name and return the instance
+        return self.tables[name]
         pass 

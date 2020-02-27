@@ -21,10 +21,13 @@ for _ in range(10):
         for j in range(1, grades_table.num_columns):
             value = randint(0, 20)
             records[key][j] = value
+            # Added the insert cos doesnt make sense otherwise...repopulate??
+            query.insert(*records[key])
 keys = sorted(list(records.keys()))
 for key in keys:
     print(records[key])
-    print(records[key])
+    # Don't know why it's printing twice?
+    #print(records[key])
 
 for key in keys:
     record = query.select(key, 0, [1, 1, 1, 1, 1])[0]
@@ -33,7 +36,7 @@ for key in keys:
         if column != records[key][i]:
             error = True
     if error:
-        print('select error on', key, ':', record, ', correct:', records[key])
+        print('select error on', key, ':', record.columns, ', correct:', records[key])
 print("Select finished")
 
 deleted_keys = sample(keys, 10)
