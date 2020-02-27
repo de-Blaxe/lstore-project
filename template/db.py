@@ -179,7 +179,7 @@ class Database():
             print("Error: ", name, " is not a valid Table\n")
             return # Should we exit() instead?
         else:
-            # Delete its file from Disk: One file per Table
+            # Delete its file(s) from Disk: One directory per Table
             full_path = os.path.join(self.db_path, name)
             files_to_remove = os.listdir(full_path) # List of all files in Table
             for file_name in files_to_remove:
