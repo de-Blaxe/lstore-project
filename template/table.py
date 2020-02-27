@@ -25,10 +25,9 @@ class Page_Range:
         for i in range(PAGE_RANGE_FACTOR):
             # Encoding Page Set Names by their first BaseRecord's RID
             delimiter = '_'
-            encoded_page_set = (str(num_page_range*PAGE_CAPACITY*PAGE_RANGE_FACTOR + i*PAGE_CAPACITY)) + delimiter + table.name
-            
-            memory_manager.create_page_set(encoded_page_set, table=table)
-            self.base_set.append(encoded_page_set)
+            encoded_base_set = (str(num_page_range*PAGE_CAPACITY*PAGE_RANGE_FACTOR + i*PAGE_CAPACITY)) + delimiter + table.name
+            memory_manager.create_page_set(encoded_base_set, table=table)
+            self.base_set.append(encoded_base_set)
 
         self.tail_set = []   # List of Tail Page Set Names
         self.num_updates = 0 # Number of Tail Records within Page Range

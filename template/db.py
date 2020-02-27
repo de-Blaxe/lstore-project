@@ -191,6 +191,6 @@ class Database():
     """
     def get_table(self, name):
         self.memory_manager._navigate_table_directory(name)
-        return self.tables[name] 
+        # return self.tables[name] 
         # Above doesn't work since dictionary made by part 1, which gets erased when program exits -> m2 part 2 problem???
         pass 
