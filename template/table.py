@@ -24,8 +24,11 @@ class Page_Range:
         self.base_set = [] # List of Base Page Set Names
         for i in range(PAGE_RANGE_FACTOR):
             # Encoding Page Set Names by their first BaseRecord's RID
-            memory_manager.create_page_set(str(num_page_range*PAGE_CAPACITY*PAGE_RANGE_FACTOR + i*PAGE_CAPACITY), table=table)
-            self.base_set.append(str(num_page_range*PAGE_CAPACITY*PAGE_RANGE_FACTOR + i*PAGE_CAPACITY))
+            delimiter = '_'
+            encoded_page_set = (str(num_page_range*PAGE_CAPACITY*PAGE_RANGE_FACTOR + i*PAGE_CAPACITY)) + delimiter + table.name
+            
+            memory_manager.create_page_set(encoded_page_set, table=table)
+            self.base_set.append(encoded_page_set)
 
         self.tail_set = []   # List of Tail Page Set Names
         self.num_updates = 0 # Number of Tail Records within Page Range
@@ -146,9 +149,10 @@ class Table:
     # Creates & appends a List of Tail Page Set Names to current Page Range
     """
     def extend_tailSet(self, tail_set, first_rid):
-        sublist = []
-        self.memory_manager.create_page_set(str(first_rid), table=self)
-        tail_set.append(str(first_rid))
+        delimiter = '_'
+        encoded_tail_set = str(first_rid) + delimiter + self.name
+        self.memory_manager.create_page_set(encoded_tail_set, table=self)
+        tail_set.append(encoded_tail_set)
 
     
     """

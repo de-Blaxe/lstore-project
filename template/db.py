@@ -5,28 +5,29 @@ from template.page import Page
 
 
 class MemoryManager():
-    def __init__(self, path, name):
+    def __init__(self, path):
         # Store db path for later Table navigation
-        self.db_path = os.path.expanduser(path)
+        self.db_path = path
         # map pageSetName to associated pageSet
         self.bufferPool = dict()
         # map pageSetName to dirty bit
         self.isDirty = dict()
         # map pageSetName to pins
         self.pinScore = dict()
-        # index -> PageSetName where value[index] represents evictionScore
-        self.evictionScore = []
+        # index -> PageSetName. Index represents evictionScore -> LRU policy
+        # Newly created PageSets put at front (lower eviction score)
+        self.evictionScore = [] # [LOW:'0/Grades', ..., '99/Student':HIGH]
         # leastUsedPage is a pageSetName
         self.leastUsedPageSet = ""
         self.maxSets = 2
-        # Store its Table's name
-        self.personal_table = name
+
 
     def get_pages(self, page_set_name, table):
         if page_set_name not in self.bufferPool:
             self._replace_pages(page_set_name, table)
         self._increment_scores(retrieved_page_set_name=page_set_name)
         return self.bufferPool[page_set_name]
+
 
     def create_page_set(self, page_set_name, table):
         self._evict(table)
@@ -38,6 +39,7 @@ class MemoryManager():
         self.pinScore[page_set_name] = 0
         # Place recently created page sets at the front of list
         self.evictionScore.insert(0, page_set_name)
+
 
     def _replace_pages(self, page_set_name, table):
         self._evict(table)
@@ -56,7 +58,8 @@ class MemoryManager():
         self.isDirty[page_set_name] = False
         self.pinScore[page_set_name] = 0
         self.evictionScore.insert(0, page_set_name)
-    """
+
+
     def _write_set_to_disk(self, page_set_name, table):
         self._navigate_table_directory(table.name)
         with open(page_set_name, 'wb') as file:
@@ -65,12 +68,14 @@ class MemoryManager():
                 file.write(cur_page.num_records.to_bytes(8, 'little'))
                 file.write(cur_page.first_unused_byte.to_bytes(8, 'little'))
                 file.write(cur_page.data)
-    """
+
+
     def _increment_scores(self, retrieved_page_set_name):
         max_score = self.evictionScore.index(retrieved_page_set_name)
         # Reset retrieved page set's evictionScore to 0
         self.evictionScore = self.evictionScore[:max_score] + self.evictionScore[max_score + 1:]
         self.evictionScore.insert(0, retrieved_page_set_name)
+
 
     def _navigate_table_directory(self, table_name):
         try:
@@ -78,6 +83,7 @@ class MemoryManager():
         except:
             os.mkdir(os.path.join(self.db_path, table_name))
             os.chdir(os.path.join(self.db_path, table_name))
+
 
     def _evict(self, table):
         if len(self.bufferPool) == self.maxSets:
@@ -103,16 +109,17 @@ class Database():
         self.tables = dict() # Index tables by their unique names
         pass
 
+
     def open(self, path):
-        #self.memory_manager = MemoryManager(path)
-        # NOTE: all pages belonging to a set should share the same name
+        # Init single Memory Manager for Database
         self.db_path = os.path.expanduser(path)
+        self.memory_manager = MemoryManager(self.db_path)
         try:
             os.chdir(self.db_path)
         except:
             os.mkdir(self.db_path)
             os.chdir(self.db_path)
-        pass
+
 
     def close(self):
         # NOTE: THIS DOES NOT CONSIDER PINNED PAGES
@@ -120,9 +127,10 @@ class Database():
         for page_set_name, dirtyBit in self.memory_manager.isDirty.items():
             if dirtyBit:
                 # Write them back to disk
-                # TODO : Need to get Table instance (argument to write set to disk)
-                self.memory_manager._write_set_to_disk(page_set_name, self.tables['Grades'])
+                [_, mapped_table_name] = page_set_name.split('_')
+                self.memory_manager._write_set_to_disk(page_set_name, self.tables[mapped_table_name])
         pass
+
 
     """
     # Creates a new table
@@ -137,13 +145,8 @@ class Database():
            print("Error: Duplicate Table Name\n")
            return None # Should we exit() instead?
 
-        #table = Table(name, key_index, num_columns, self.memory_manager)
-        # Each Table should have its own MemoryManager since the 'bufferpool' & other dictionaries
-        # map pageSetNames, which are not unique to each Table
-        # Database can have many Tables...
-
-        memory_manager = MemoryManager(self.db_path, name)
-        table = Table(name, key_index, num_column, memory_manager)
+        # Memory Manager shared by all Tables
+        table = Table(name, key_index, num_columns, self.memory_manager)
         self.tables[name] = table
         
         return table
@@ -160,14 +163,27 @@ class Database():
             print("Error: ", name, " is not a valid Table\n")
             return # Should we exit() instead?
         else:
-            # Iterate through pages and invalidate RID of all records
-            """
-            page_dir = table_match.page_directory
-            rids = page_dir.keys()
-            for rid in rids:
-                # account for page ranges
-            """
-            pass
+            # Delete its file from Disk: One file per Table
+            full_path = os.path.join(self.db_path, name)
+            files_to_remove = os.listdir(full_path) # List of all files in Table
+            for file_name in files_to_remove:
+                os.remove(file_name)
+            os.rmdir(full_path) # Remove emptied directory
+        
+            # Alias
+            mem = self.memory_manager
+            # Iterate thru bufferpool dictionary
+            for encoding in mem.bufferpool:
+                # Find pageSet names that contain 'name'
+                [_, mapped_table_name] = encoding.split('_')
+                if mapped_table_name == name:
+                    mem.bufferpool.pop(encoding, None)
+                    mem.isDirty.pop(encoding, None)
+                    mem.evictionScore.remove(encoding)
+                    mem.pinScore.pop(encoding, None)
+
+            # Delete from Database
+            self.tables.pop(name)
 
 
     """
@@ -175,5 +191,6 @@ class Database():
     """
     def get_table(self, name):
         self.memory_manager._navigate_table_directory(name)
-        
-        #return self.tables[name]
+        return self.tables[name] 
+        # Above doesn't work since dictionary made by part 1, which gets erased when program exits -> m2 part 2 problem???
+        pass 
