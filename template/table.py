@@ -457,9 +457,6 @@ class Table:
     """
     def __merge(self):
 
-        # NOTE: In read_records(), need to compare current TID with TPS of base Record?
-        #merge_queue = []
-
         # Continue merging while there are outdated Base Pages not empty
         while (sum(list(self.update_to_pg_range.values())) != 0):
             # Select Page Range with most number of updates
