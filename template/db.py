@@ -22,9 +22,17 @@ class MemoryManager():
         self.evictionScore = [] # [Low:'PageSetName1', ..., 'PageSetName3':High]
         # leastUsedPage is a pageSetName
         self.leastUsedPageSet = ""
-        self.maxSets = 2
+        self.maxSets = 10
 
 
+    """
+    # Milestone 3 idea
+    def get_pages(self, page_set_name, table, read_only=True):
+        # Dont pin if we know we're strictly reading
+        if not read_only:
+            self.pinScore[page_set_name] = self.pinScore.get(page_set_name, 0) + 1
+        # <insert rest of get_pages() body here>
+    """
     def get_pages(self, page_set_name, table):
         if page_set_name not in self.bufferPool:
             self._replace_pages(page_set_name, table)
@@ -59,7 +67,7 @@ class MemoryManager():
                 page_set.append(Page(unpacked_num_records, unpacked_first_unused_byte, unpacked_data))
         self.bufferPool[page_set_name] = page_set
         self.isDirty[page_set_name] = False
-        self.pinScore[page_set_name] = 0
+        self.pinScore[page_set_name] = self.pinScore.get(page_set_name, 0)
         self.evictionScore.insert(0, page_set_name)
 
 

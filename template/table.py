@@ -54,6 +54,7 @@ class Table:
         self.update_to_pg_range = dict()
         self.memory_manager = mem_manager   # All Tables within Database share same Memory Manager
 
+        # Generate MergeThread in background
         thread = threading.Thread(target=self.__merge, args=[])
         # After some research, reason why we need daemon thread
         # https://www.bogotobogo.com/python/Multithread/python_multithreading_Daemon_join_method_threads.php
@@ -131,11 +132,19 @@ class Table:
         if not cur_base_pages[INIT_COLS].has_space():
             page_range.last_base_name += 1
             cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self)
+        """
+        # Milestone 3 idea
+        cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self, read_only=False)
+        """
         # Write to Base Pages within matching Range
         self.write_to_pages(cur_base_pages, record, schema_encoding, page_set_name=base_set[page_range.last_base_name])
          
         # Update Page Directory & Indexer
         byte_pos = cur_base_pages[INIT_COLS].first_unused_byte - DATA_SIZE
+        """
+        # Milestone 3 idea
+        self.memory_manager.pinScore[base_set[page_range.last_base_name]] -= 1
+        """
         self.page_directory[record.rid] = [page_range_index, page_range.last_base_name, byte_pos]
         # print("UPDATING PAGE DIRECTORY: ")
         # print("{ RID=", record.rid, " : pg range index=", page_range_index")
@@ -143,6 +152,7 @@ class Table:
         
         # Insert primary key: RID for key_index column
         self.index.insert_primaryKey(record.key, record.rid)
+
 
 
     """
@@ -187,12 +197,21 @@ class Table:
                 page_range.last_tail_name += 1
 
             cur_tail_pages = self.memory_manager.get_pages(tail_set[page_range.last_tail_name], table=self)
+            """
+            # Milestone 3 idea
+            cur_tail_pages = self.memory_manager.get_pages(tail_set[page_range.last_tail_name], table=self, read_only=False)
+            """
     
             # Write to userdata columns
             isUpdate = True
             self.write_to_pages(cur_tail_pages, record, schema_encoding, page_set_name=tail_set[page_range.last_tail_name], isUpdate=isUpdate)
 
             cur_base_pages = self.memory_manager.get_pages(page_range.base_set[base_name_index], table=self)
+            """
+            # Milestone 3 idea
+            cur_base_pages = self.memory_manager.get_pages(page_range.base_set[base_name_index], table=self, read_only=False)
+            """            
+
             # Read from base_set's indirection column
             base_indir_page = cur_base_pages[INDIRECTION_COLUMN]
             base_indir_data = self.convert_data(base_indir_page, base_byte_pos)
@@ -247,7 +266,12 @@ class Table:
             # Both Base & Tail Pages modified Indirection and Schema Columns
             self.memory_manager.isDirty[page_range.base_set[base_name_index]] = True
             self.memory_manager.isDirty[page_range.tail_set[page_range.last_tail_name]] = True
-            
+            """
+            # Milestone 3 idea
+            self.memory_manager.pinScore[tail_set[page_range.last_tail_name]] -= 1
+            self.memory_manager.pinScore[page_range.base_set[base_name_index]] -= 1
+            """
+
 
     """
     # Given list of baseIDs, retrieves corresponding latest RIDs
@@ -262,6 +286,7 @@ class Table:
             [page_range_index, base_name_index, base_byte_pos] = self.page_directory[baseID]
             base_set = self.page_range_collection[page_range_index].base_set
             base_indir_page = self.memory_manager.get_pages(base_set[base_name_index], self)[INDIRECTION_COLUMN]
+
             latest_RID = self.convert_data(base_indir_page, base_byte_pos)
             if latest_RID == 0: # No updates made
                 rid_output.append(baseID)
