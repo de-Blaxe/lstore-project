@@ -38,15 +38,8 @@ class Query:
     # :param query_columns: what columns to return. array of 1 or 0 values.
     """
     def select(self, key, column, query_columns):
-        # Create index for other columns only if needed
-        if column is not self.table.key_index:
-            self.table.index.create_index(column)
-            # We need to now possibly read records from multiple keys -- so we need to use these keys as the parameter for read_records
-            record = self.table.read_records(self.table.index.indices[column], column, query_columns)
-            # Drop index only for non-primary column indexes
-            self.table.index.drop_index(self.table, column)
-        else:
-            record = self.table.read_records(key, column, query_columns)
+        # Read record for given key and column
+        record = self.table.read_records(key, column, query_columns)
         
         return record
 

@@ -76,7 +76,7 @@ class Index:
     # Build a Index on given column_number
     """
     def create_index(self, column_number):
-        # Collect latest RIDs for each baseID
+                # Collect latest RIDs for each baseID
         baseIDs = list(self.indices[self.primary_index].values()) 
         
         # Get their latest keys for column_number via read_records()
@@ -95,7 +95,22 @@ class Index:
             query_cols_index = []
             for _ in range(self.num_columns):
                 query_cols_index.append(0)
-            query_cols_index[column_number] = 1
+            query_cols_index[column_number] = 1 
+            
+            # Check for old baseIDs and remove from key
+            # Check if baseID present in other mappings by looking through keys
+            # If found -- return the key
+            match_key = None
+            key_list = list(self.indices[column_number].keys())
+            rid_list = list(self.indices[column_number].values())
+            
+            if len(key_list) > 0 and len(rid_list) > 0:
+                try:
+                    key_list[rid_list.index(rid)]
+                    self.indices[match_key].remove(rid)
+                except:
+                    pass
+                     
 
             record = self.table.read_records(base_key, self.primary_index, query_cols_index)[0]
             latest_key = record.columns[column_number]

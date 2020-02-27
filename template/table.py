@@ -318,107 +318,99 @@ class Table:
     # Reads record(s) with matching key value and indexing column
     """
     def read_records(self, keys, column, query_columns, max_key=None):
-         baseIDs = []
-         if max_key == None:
-            if column != self.key_index:
-                for key in keys:
-                    result = self.index.locate(key, column)
-                    # Index.locate() returns flag if no match found
-                    if isinstance(result, int):
-                        if result == INVALID_RECORD:
-                            continue # Don't append invalid RID
-                    baseIDs += result
-                # Sort duplicate keys
-                baseIDs = sorted(baseIDs)
-            else:
-                # If column is primary key, we get a single key with single base RID
-                result = self.index.locate(keys, column)
-                if result != INVALID_RECORD:
-                    baseIDs.append(result)
-         else: # Performing multi reads for summation 
-            baseIDs = self.index.locate_range(keys, max_key, column)
+        
+        baseIDs = 0
          
-         latest_records = self.get_latest(baseIDs)
-         output = [] # A list of Record objects to return
-         
-         for rid in latest_records:
-            # Validation Stage: Check if rid is invalid
-            if rid in self.invalid_rids:
-                continue # Go to next rid in latest_records
+        if max_key == None:
+            result = self.index.locate(keys, column)
+            #print("result = ", result)
+            if result != INVALID_RECORD:
+                #baseIDs.append(result)
+                baseIDs = result
+        else: # Performing multi reads for summation 
+           [baseIDs] = self.index.locate_range(keys, max_key, column)
+        
+        latest_records = self.get_latest(baseIDs)
+        output = [] # A list of Record objects to return
+        
+        for rid in latest_records:
+           # Validation Stage: Check if rid is invalid
+           if rid in self.invalid_rids:
+               continue # Go to next rid in latest_records
 
-            data = [None] * self.num_columns 
-            columns_not_retrieved = set()
- 
-            # Determine columns not retrieved yet
-            for i in range(len(query_columns)):
-                if query_columns[i] == 1:
-                    columns_not_retrieved.add(i)
- 
-            while len(columns_not_retrieved) > 0: 
-                # Retrieve whatever data you can from latest record
-                assert rid != 0
-                # Locate record within Page Range
-                [page_range_index, name_index, byte_pos] = self.page_directory[rid]
-                page_range = self.page_range_collection[page_range_index]
+           data = [None] * self.num_columns 
+           columns_not_retrieved = set()
 
-                # RID may be a base or a tail ID
-                if rid >= self.TID_counter:
-                    # Find corresponding Base Record for Tail Record
-                    tail_set_name = page_range.tail_set[name_index]
-                    tail_pages = self.memory_manager.get_pages(tail_set_name, self)
-                    mapped_baseID_page = tail_pages[BASE_RID_COLUMN]
-                    mapped_baseID = self.convert_data(mapped_baseID_page, byte_pos)
-                    [_, base_name_index, base_byte_pos] = self.page_directory[mapped_baseID]
-                    base_set_name = page_range.base_set[base_name_index]
-                    # Read Base Record's TPS 
-                    base_pages = self.memory_manager.get_pages(base_set_name, self)
-                    base_tps_page = base_pages[TPS_COLUMN]
-                    base_tps = self.convert_data(base_tps_page, base_byte_pos)
-                    # Read Base Record's Indirection RID
-                    base_indir_page = base_pages[INDIRECTION_COLUMN]
-                    base_indir_rid = self.convert_data(base_indir_page, base_byte_pos)
-                    # Compare Base Record's TPS vs. Indirection
-                    if base_indir_rid == base_tps:
-                        # Base Record is already most up to date (Skip lineage)
-                        page_set = page_range.base_set
-                    else:
-                        # Otherwise, iterate thru tail records
-                        page_set = page_range.tail_set
-                else: # Reading a Base Record
-                    page_set = page_range.base_set
+           # Determine columns not retrieved yet
+           for i in range(len(query_columns)):
+               if query_columns[i] == 1:
+                   columns_not_retrieved.add(i)
 
-                # Read schema data
-                schema_page = self.memory_manager.get_pages(page_set[name_index], self)[SCHEMA_ENCODING_COLUMN]
-                [schema_str, _] = self.finalize_schema(schema_page, byte_pos)
-                # Leading zeros are lost after integer conversion, so padding needed
-                if len(schema_str) < self.num_columns:
-                    diff = self.num_columns - len(schema_str)
-                    schema_str = '0' * diff + schema_str
- 
-                for col, page in enumerate(self.memory_manager.get_pages(page_set[name_index], table=self)[INIT_COLS:]):
-                    if col not in columns_not_retrieved:
-                        continue
-                    # Retrieve values from older records, if they are not in the newest ones
-                    if rid < self.TID_counter or bool(int(schema_str[col])):
-                        data[col] = self.convert_data(page, byte_pos)
-                        columns_not_retrieved.discard(col)
- 
-                # Get RID from indirection column
-                prev_rid = self.get_previous(rid)
-                if prev_rid == 0:  
-                    break # Base record encountered
-                else:
-                    rid = prev_rid # Follow lineage
- 
-            ### End of while loop ###
-            # Given key might not be a primary key
-            primary_key = data[self.key_index]
-            # Append each RID's record into a list
-            record = Record(rid, primary_key, data)
-            output.append(record)
- 
-         ### End of outer for loop ###
-         return output
+           while len(columns_not_retrieved) > 0: 
+               # Retrieve whatever data you can from latest record
+               assert rid != 0
+               # Locate record within Page Range
+               [page_range_index, name_index, byte_pos] = self.page_directory[rid]
+               page_range = self.page_range_collection[page_range_index]
+
+               # RID may be a base or a tail ID
+               if rid >= self.TID_counter:
+                   # Find corresponding Base Record for Tail Record
+                   tail_set_name = page_range.tail_set[name_index]
+                   tail_pages = self.memory_manager.get_pages(tail_set_name, self)
+                   mapped_baseID_page = tail_pages[BASE_RID_COLUMN]
+                   mapped_baseID = self.convert_data(mapped_baseID_page, byte_pos)
+                   [_, base_name_index, base_byte_pos] = self.page_directory[mapped_baseID]
+                   base_set_name = page_range.base_set[base_name_index]
+                   # Read Base Record's TPS 
+                   base_pages = self.memory_manager.get_pages(base_set_name, self)
+                   base_tps_page = base_pages[TPS_COLUMN]
+                   base_tps = self.convert_data(base_tps_page, base_byte_pos)
+                   # Read Base Record's Indirection RID
+                   base_indir_page = base_pages[INDIRECTION_COLUMN]
+                   base_indir_rid = self.convert_data(base_indir_page, base_byte_pos)
+                   # Compare Base Record's TPS vs. Indirection
+                   if base_indir_rid == base_tps:
+                       # Base Record is already most up to date (Skip lineage)
+                       page_set = page_range.base_set
+                   else:
+                       # Otherwise, iterate thru tail records
+                       page_set = page_range.tail_set
+               else: # Reading a Base Record
+                   page_set = page_range.base_set
+
+               # Read schema data
+               schema_page = self.memory_manager.get_pages(page_set[name_index], self)[SCHEMA_ENCODING_COLUMN]
+               [schema_str, _] = self.finalize_schema(schema_page, byte_pos)
+               # Leading zeros are lost after integer conversion, so padding needed
+               if len(schema_str) < self.num_columns:
+                   diff = self.num_columns - len(schema_str)
+                   schema_str = '0' * diff + schema_str
+
+               for col, page in enumerate(self.memory_manager.get_pages(page_set[name_index], table=self)[INIT_COLS:]):
+                   if col not in columns_not_retrieved:
+                       continue
+                   # Retrieve values from older records, if they are not in the newest ones
+                   if rid < self.TID_counter or bool(int(schema_str[col])):
+                       data[col] = self.convert_data(page, byte_pos)
+                       columns_not_retrieved.discard(col)
+
+               # Get RID from indirection column
+               prev_rid = self.get_previous(rid)
+               if prev_rid == 0:  
+                   break # Base record encountered
+               else:
+                   rid = prev_rid # Follow lineage
+
+           ### End of while loop ###
+           # Given key might not be a primary key
+           primary_key = data[self.key_index]
+           # Append each RID's record into a list
+           record = Record(rid, primary_key, data)
+           output.append(record)
+
+        ### End of outer for loop ###
+        return output
 
 
     """
