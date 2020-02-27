@@ -1,5 +1,5 @@
-from lstore.db import Database
-from lstore.query import Query
+from template.db import Database
+from template.query import Query
 
 from random import choice, randint, sample, seed
 
@@ -12,7 +12,7 @@ query = Query(grades_table)
 # repopulate with random data
 records = {}
 seed(3562901)
-for i in range(0, 1000):
+for i in range(0, 100):
     key = 92106429 + i
     records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)]
 keys = sorted(list(records.keys()))
@@ -36,7 +36,7 @@ for key in keys:
         print('select error on', key, ':', record, ', correct:', records[key])
 print("Select finished")
 
-deleted_keys = sample(keys, 100)
+deleted_keys = sample(keys, 10)
 for key in deleted_keys:
     query.delete(key)
     records.pop(key, None)

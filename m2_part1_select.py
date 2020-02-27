@@ -15,7 +15,7 @@ records = {}
 seed(3562901)
 
 insert_time0 = process_time()
-for i in range(0, 30): # changed from 1k 
+for i in range(0, 100): # changed from 1k 
     key = 92106429 + i
     records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)] 
     query.insert(*records[key])
@@ -83,7 +83,7 @@ print("Update finished")
 update_time1 = process_time()
 print("Update took: ", update_time1-update_time0)
 
-
+"""
 sum_time0 = process_time()
 for i in range(0, 100):
     r = sorted(sample(range(0, len(keys)), 2))
@@ -97,3 +97,4 @@ print("Aggregate finished")
 sum_time1 = process_time()
 print("Sum took: ", sum_time1-sum_time0)
 db.close()
+"""

@@ -5,7 +5,7 @@ from template.page import Page
 
 
 class MemoryManager():
-    def __init__(self, path, name):
+    def __init__(self, path):
         # Store db path for later Table navigation
         self.db_path = os.path.expanduser(path)
         # map pageSetName to associated pageSet
@@ -56,7 +56,7 @@ class MemoryManager():
         self.isDirty[page_set_name] = False
         self.pinScore[page_set_name] = 0
         self.evictionScore.insert(0, page_set_name)
-    """
+
     def _write_set_to_disk(self, page_set_name, table):
         self._navigate_table_directory(table.name)
         with open(page_set_name, 'wb') as file:
@@ -65,7 +65,7 @@ class MemoryManager():
                 file.write(cur_page.num_records.to_bytes(8, 'little'))
                 file.write(cur_page.first_unused_byte.to_bytes(8, 'little'))
                 file.write(cur_page.data)
-    """
+
     def _increment_scores(self, retrieved_page_set_name):
         max_score = self.evictionScore.index(retrieved_page_set_name)
         # Reset retrieved page set's evictionScore to 0
@@ -104,7 +104,7 @@ class Database():
         pass
 
     def open(self, path):
-        #self.memory_manager = MemoryManager(path)
+        self.memory_manager = MemoryManager(path)
         # NOTE: all pages belonging to a set should share the same name
         self.db_path = os.path.expanduser(path)
         try:
@@ -137,13 +137,13 @@ class Database():
            print("Error: Duplicate Table Name\n")
            return None # Should we exit() instead?
 
-        #table = Table(name, key_index, num_columns, self.memory_manager)
+        table = Table(name, key_index, num_columns, self.memory_manager)
         # Each Table should have its own MemoryManager since the 'bufferpool' & other dictionaries
         # map pageSetNames, which are not unique to each Table
         # Database can have many Tables...
 
-        memory_manager = MemoryManager(self.db_path, name)
-        table = Table(name, key_index, num_column, memory_manager)
+        #memory_manager = MemoryManager(self.db_path, name)
+        #table = Table(name, key_index, num_column, memory_manager)
         self.tables[name] = table
         
         return table
