@@ -21,7 +21,7 @@ class MemoryManager():
         self.evictionScore = [] # [Low:'PageSetName1', ..., 'PageSetName3':High]
         # leastUsedPage is a pageSetName
         self.leastUsedPageSet = ""
-        self.maxSets = 10
+        self.maxSets = 2
 
 
     """
@@ -149,6 +149,10 @@ class Database():
                 pickle.dump(table, output, pickle.HIGHEST_PROTOCOL)
             with open(table.name+'_index.pkl', 'wb') as output:
                 pickle.dump(table.index, output, pickle.HIGHEST_PROTOCOL)
+            with open(table.name+'_page_directory.pkl', 'wb') as output:
+                pickle.dump(table.page_directory, output, pickle.HIGHEST_PROTOCOL)
+            with open(table.name+'_update_to_pg_range.pkl', 'wb') as output:
+                pickle.dump(table.update_to_pg_range, output, pickle.HIGHEST_PROTOCOL)
 
 
 
@@ -216,5 +220,9 @@ class Database():
             self.tables[name] = pickle.load(input)
         with open(name + '_index.pkl', 'rb') as input:
             self.tables[name].index = pickle.load(input)
+        with open(name + '_page_directory.pkl', 'rb') as input:
+            self.tables[name].page_directory = pickle.load(input)
+        with open(name + '_update_to_pg_range.pkl', 'rb') as input:
+            self.tables[name].update_to_pg_range = pickle.load(input)
         # Now look for the table_name and return the instance
         return self.tables[name]

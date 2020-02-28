@@ -12,16 +12,16 @@ query = Query(grades_table)
 # repopulate with random data
 records = {}
 seed(3562901)
-for i in range(0, 2000):
+for i in range(0, 1000):
     key = 92106429 + i
     records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)]
 keys = sorted(list(records.keys()))
-"""for _ in range(10):
+for _ in range(10):
     for key in keys:
         for j in range(1, grades_table.num_columns):
             value = randint(0, 20)
             records[key][j] = value
-keys = sorted(list(records.keys()))"""
+keys = sorted(list(records.keys()))
 for key in keys:
     print(records[key])
     # Don't know why it's printing twice?

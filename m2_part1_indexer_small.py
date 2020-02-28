@@ -11,7 +11,7 @@ query = Query(grades_table)
 
 records = {}
 seed(3562901)
-for i in range(0, 100): # Originally, 1,000 (1k)
+for i in range(0, 1000): # Originally, 1,000 (1k)
     key = 92106429 + i
     records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)]
     query.insert(*records[key])
@@ -23,7 +23,7 @@ grades_table.index.create_index(2)
 grades_table.index.create_index(3)
 grades_table.index.create_index(4)
 
-for c in range(self.num_columns):
+for c in range(grades_table.num_columns):
     _keys = list(set(record[c] for record in records))
     index = {v: [record for record in records if record[c] == v] for v in _keys}
     for key in _keys:

@@ -283,7 +283,7 @@ class Table:
 
         for baseID in baseIDs:
             # Retrieve value in base record's indirection column
-            [page_range_index, base_name_index, base_byte_pos] = self.page_directory[baseID]
+            page_range_index, base_name_index, base_byte_pos = self.page_directory[baseID]
             base_set = self.page_range_collection[page_range_index].base_set
             base_indir_page = self.memory_manager.get_pages(base_set[base_name_index], self)[INDIRECTION_COLUMN]
 

@@ -11,7 +11,7 @@ query = Query(grades_table)
 
 records = {}
 seed(3562901)
-for i in range(0, 2000):
+for i in range(0, 1000):
     key = 92106429 + i
     records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)]
     query.insert(*records[key])
@@ -30,7 +30,7 @@ for key in keys:
     #     print('select on', key, ':', record)
 print("Select finished")
 
-"""for _ in range(3):
+for _ in range(10):
     for key in keys:
         updated_columns = [None, None, None, None, None]
         for i in range(1, grades_table.num_columns):
@@ -61,5 +61,5 @@ for i in range(0, 100):
         print('sum error on [', keys[r[0]], ',', keys[r[1]], ']: ', result, ', correct: ', column_sum)
     # else:
     #     print('sum on [', keys[r[0]], ',', keys[r[1]], ']: ', column_sum)
-print("Aggregate finished")"""
+print("Aggregate finished")
 db.close()
