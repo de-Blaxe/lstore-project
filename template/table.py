@@ -328,7 +328,7 @@ class Table:
                 #baseIDs.append(result)
                 baseIDs = result
         else: # Performing multi reads for summation 
-           [baseIDs] = self.index.locate_range(keys, max_key, column)
+           baseIDs = self.index.locate_range(keys, max_key, column)
         
         latest_records = self.get_latest(baseIDs)
         output = [] # A list of Record objects to return

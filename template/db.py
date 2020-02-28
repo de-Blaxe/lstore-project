@@ -2,7 +2,6 @@ from template.table import Table
 import os
 from template.config import *
 from template.page import Page
-
 # Used to save the tables dict
 import pickle
 
@@ -143,9 +142,14 @@ class Database():
         # Need to save the tables dict to a file in order to retrive the table instance in get_table()
         # Use the pickle module for this?
         # Store the dictionary to a file
-        with open('table_objects.pkl', 'wb') as output:
-            # Save the dictionary as a whole 
-            pickle.dump(self.tables, output, pickle.HIGHEST_PROTOCOL)
+        for table in self.tables.values():
+            self.memory_manager._navigate_table_directory(table.name)
+            with open(table.name+'.pkl', 'wb') as output:
+                # Save the dictionary as a whole
+                pickle.dump(table, output, pickle.HIGHEST_PROTOCOL)
+            with open(table.name+'_index.pkl', 'wb') as output:
+                pickle.dump(table.index, output, pickle.HIGHEST_PROTOCOL)
+
 
 
     """
@@ -208,8 +212,9 @@ class Database():
     def get_table(self, name):
         self.memory_manager._navigate_table_directory(name)
         # Don't know if this will work...just reading from the file and loading back the objects
-        with open('table_objects.pkl', 'rb') as input:
-            self.tables = pickle.load(input)
-
+        with open(name + '.pkl', 'rb') as input:
+            self.tables[name] = pickle.load(input)
+        with open(name + '_index.pkl', 'rb') as input:
+            self.tables[name].index = pickle.load(input)
         # Now look for the table_name and return the instance
         return self.tables[name]

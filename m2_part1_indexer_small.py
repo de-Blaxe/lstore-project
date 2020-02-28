@@ -18,10 +18,10 @@ for i in range(0, 100): # Originally, 1,000 (1k)
 keys = sorted(list(records.keys()))
 print("Insert finished")
 
-table.index.create_index(1)
-table.index.create_index(2)
-table.index.create_index(3)
-table.index.create_index(4)
+grades_table.index.create_index(1)
+grades_table.index.create_index(2)
+grades_table.index.create_index(3)
+grades_table.index.create_index(4)
 
 for c in range(self.num_columns):
     _keys = list(set(record[c] for record in records))
@@ -37,7 +37,7 @@ for c in range(self.num_columns):
                     error = True
                     break
         if error:
-            print('select error on', key, ', column', c ':', results, ', correct:', index[key])
+            print('select error on', key, ', column', c, ':', results, ', correct:', index[key])
 print("Select finished")
 
 for _ in range(10):
