@@ -32,7 +32,7 @@ class MemoryManager():
             self.pinScore[page_set_name] = self.pinScore.get(page_set_name, 0) + 1
         # <insert rest of get_pages() body here>
     """
-    def get_pages(self, page_set_name, table, merging = False):
+    def get_pages(self, page_set_name, table, merging=False, read_only=True):
         if merging:
             with open(os.path.join(self.db_path, table.name, page_set_name), 'rb') as file:
                 # overhead is 16 bytes
@@ -43,6 +43,8 @@ class MemoryManager():
                     unpacked_data = bytearray(file.read(PAGE_SIZE))
                     page_set.append(Page(unpacked_num_records, unpacked_first_unused_byte, unpacked_data))
             return page_set
+        if not read_only:
+            self.pinScore[page_set_name] = self.pinScore.get(page_set_name, 0) + 1
         if page_set_name not in self.bufferPool:
             self._replace_pages(page_set_name, table)
         self._increment_scores(retrieved_page_set_name=page_set_name)

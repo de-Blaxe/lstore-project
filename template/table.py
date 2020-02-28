@@ -131,20 +131,14 @@ class Table:
         cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self)  # Set of Physical Pages
         if not cur_base_pages[INIT_COLS].has_space():
             page_range.last_base_name += 1
-            cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self)
-        """
-        # Milestone 3 idea
         cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self, read_only=False)
-        """
         # Write to Base Pages within matching Range
         self.write_to_pages(cur_base_pages, record, schema_encoding, page_set_name=base_set[page_range.last_base_name])
          
         # Update Page Directory & Indexer
         byte_pos = cur_base_pages[INIT_COLS].first_unused_byte - DATA_SIZE
-        """
-        # Milestone 3 idea
+        self.memory_manager.isDirty[base_set[page_range.last_base_name]] = True
         self.memory_manager.pinScore[base_set[page_range.last_base_name]] -= 1
-        """
         self.page_directory[record.rid] = [page_range_index, page_range.last_base_name, byte_pos]
         # print("UPDATING PAGE DIRECTORY: ")
         # print("{ RID=", record.rid, " : pg range index=", page_range_index")
@@ -195,22 +189,11 @@ class Table:
                 # Current Tail Set does not have space
                 self.extend_tailSet(tail_set, first_rid=record.rid)
                 page_range.last_tail_name += 1
-
-            cur_tail_pages = self.memory_manager.get_pages(tail_set[page_range.last_tail_name], table=self)
-            """
-            # Milestone 3 idea
             cur_tail_pages = self.memory_manager.get_pages(tail_set[page_range.last_tail_name], table=self, read_only=False)
-            """
-    
             # Write to userdata columns
             isUpdate = True
             self.write_to_pages(cur_tail_pages, record, schema_encoding, page_set_name=tail_set[page_range.last_tail_name], isUpdate=isUpdate)
-
-            cur_base_pages = self.memory_manager.get_pages(page_range.base_set[base_name_index], table=self)
-            """
-            # Milestone 3 idea
             cur_base_pages = self.memory_manager.get_pages(page_range.base_set[base_name_index], table=self, read_only=False)
-            """            
 
             # Read from base_set's indirection column
             base_indir_page = cur_base_pages[INDIRECTION_COLUMN]
@@ -266,11 +249,8 @@ class Table:
             # Both Base & Tail Pages modified Indirection and Schema Columns
             self.memory_manager.isDirty[page_range.base_set[base_name_index]] = True
             self.memory_manager.isDirty[page_range.tail_set[page_range.last_tail_name]] = True
-            """
-            # Milestone 3 idea
             self.memory_manager.pinScore[tail_set[page_range.last_tail_name]] -= 1
             self.memory_manager.pinScore[page_range.base_set[base_name_index]] -= 1
-            """
 
 
     """
@@ -443,8 +423,10 @@ class Table:
         # Invalidate base record
         page_range = self.page_range_collection[page_range_index]
         base_set_name = page_range.base_set[name_index]
-        base_rid_page = self.memory_manager.get_pages(base_set_name, table=self)[RID_COLUMN]
+        base_rid_page = self.memory_manager.get_pages(base_set_name, table=self, read_only=False)[RID_COLUMN]
         base_rid_page.write(INVALID_RECORD, byte_pos)
+        self.memory_manager.isDirty[base_set_name] = True
+        self.memory_manager.pinScore[base_set_name] -= 1
 
         # Invalidate all tail records, if any
         next_rid = self.get_latest([baseID])[0] # get_latest() returns a list
