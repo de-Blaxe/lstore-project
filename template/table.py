@@ -6,6 +6,7 @@ from template.index import *
 import threading
 import math
 import operator
+import itertools # to use 'zip'
 
 class Record:
 
@@ -37,6 +38,7 @@ class Page_Range:
 class Table:
 
     total_num_pages = 0
+    #merge_flag = False
 
     def __init__(self, name, num_columns, key_index, mem_manager):
         self.name = name
@@ -53,6 +55,8 @@ class Table:
         self.invalid_rids = []
         self.update_to_pg_range = dict()
         self.memory_manager = mem_manager   # All Tables within Database share same Memory Manager
+
+        self.merge_flag = False
 
         # Generate MergeThread in background
         thread = threading.Thread(target=self.__merge, args=[])
@@ -557,6 +561,11 @@ class Table:
                                 # Overwrite template data
                                 updated_base_page.write(tail_data, base_byte_pos)
                                 remaining_work[mapped_baseID].remove(offset)
+                    # Update original base pages
+                    if last_byte_pos == 0:
+                        # Need locking here?
+                        self.merge_flag = True
+                        self.memory_manager.bufferpool[base_set_name] = base_pages_copy
                     # Fetch earlier Tail Record
                     last_byte_pos -= DATA_SIZE
 
@@ -565,3 +574,8 @@ class Table:
             # Set selected Page Range's num_updates = 0
             page_range.num_updates = 0
 
+            """
+            # Replace Outdated Base Pages (Binary data)
+            #for base_set_name in base_set_names:
+                # old idea: self.memory_manager._write_set_to_disk(base_set_name, table=self) 
+            """
