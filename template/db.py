@@ -48,6 +48,8 @@ class MemoryManager():
         if page_set_name not in self.bufferPool:
             self._replace_pages(page_set_name, table)
         self._increment_scores(retrieved_page_set_name=page_set_name)
+        if len(self.bufferPool) > self.maxSets:
+            raise Exception
         return self.bufferPool[page_set_name]
 
 
@@ -61,6 +63,8 @@ class MemoryManager():
         self.pinScore[page_set_name] = 0
         # Place recently created page sets at the front of list
         self.evictionScore.insert(0, page_set_name)
+        if len(self.bufferPool) > self.maxSets:
+            raise Exception
 
 
     def _replace_pages(self, page_set_name, table):
@@ -78,6 +82,8 @@ class MemoryManager():
         self.isDirty[page_set_name] = False
         self.pinScore[page_set_name] = self.pinScore.get(page_set_name, 0)
         self.evictionScore.insert(0, page_set_name)
+        if len(self.bufferPool) > self.maxSets:
+            raise Exception
 
 
     def _write_set_to_disk(self, page_set_name, table):
@@ -87,12 +93,16 @@ class MemoryManager():
                 file.write(cur_page.num_records.to_bytes(8, 'little'))
                 file.write(cur_page.first_unused_byte.to_bytes(8, 'little'))
                 file.write(cur_page.data)
+        if len(self.bufferPool) > self.maxSets:
+            raise Exception
 
     def _increment_scores(self, retrieved_page_set_name):
         max_score = self.evictionScore.index(retrieved_page_set_name)
         # Reset retrieved page set's evictionScore to 0
         self.evictionScore = self.evictionScore[:max_score] + self.evictionScore[max_score + 1:]
         self.evictionScore.insert(0, retrieved_page_set_name)
+        if len(self.bufferPool) > self.maxSets:
+            raise Exception
 
     def _evict(self, table):
         if len(self.bufferPool) == self.maxSets:
@@ -104,10 +114,10 @@ class MemoryManager():
             evicting_page_set = self.evictionScore[i]
             if self.isDirty[evicting_page_set]:
                 self._write_set_to_disk(evicting_page_set, table)
-            self.bufferPool.pop(evicting_page_set, None)
             self.evictionScore.pop(i)
             self.isDirty.pop(evicting_page_set, None)
             self.pinScore.pop(evicting_page_set, None)
+            self.bufferPool.pop(evicting_page_set, None)
         elif len(self.bufferPool) > self.maxSets:
             raise Exception
 
