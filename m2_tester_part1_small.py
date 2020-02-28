@@ -11,7 +11,7 @@ query = Query(grades_table)
 
 records = {}
 seed(3562901)
-for i in range(0, 100): # changed from 1000 (1k)
+for i in range(0, 50): # changed from 1000 (1k)
     key = 92106429 + i
     records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)]
     query.insert(*records[key])
@@ -46,12 +46,16 @@ for _ in range(10):
                     error = True
             if error:
                 print('update error on', original, 'and', updated_columns, ':', record, ', correct:', records[key])
-            # else:
-            #     print('update on', original, 'and', updated_columns, ':', record)
+            else:
+                print('update on', original, 'and', updated_columns, ':', record)
             updated_columns[i] = None
 print("Update finished")
 
 #grades_table.merge()
+
+
+print("Update to Pg Range dictionary: ", grades_table.update_to_pg_range, "\n")
+print("Merge Flag after updates: ", grades_table.merge_flag, "\n")
 
 for i in range(0, 100):
     r = sorted(sample(range(0, len(keys)), 2))

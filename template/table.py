@@ -38,6 +38,7 @@ class Page_Range:
 class Table:
 
     total_num_pages = 0
+    #merge_flag = False
 
     def __init__(self, name, num_columns, key_index, mem_manager):
         self.name = name
@@ -54,6 +55,8 @@ class Table:
         self.invalid_rids = []
         self.update_to_pg_range = dict()
         self.memory_manager = mem_manager   # All Tables within Database share same Memory Manager
+
+        self.merge_flag = False
 
         # Generate MergeThread in background
         thread = threading.Thread(target=self.__merge, args=[])
@@ -579,8 +582,8 @@ class Table:
                     # Update original base pages
                     if last_byte_pos == 0:
                         # Need locking here?
-                        self.memory_manager.bufferpool[base_set_name] = base_set_copy
-                        continue
+                        self.merge_flag = True
+                        self.memory_manager.bufferpool[base_set_name] = base_pages_copy
                     # Fetch earlier Tail Record
                     last_byte_pos -= DATA_SIZE
 
