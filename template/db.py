@@ -21,7 +21,7 @@ class MemoryManager():
         self.evictionScore = [] # [Low:'PageSetName1', ..., 'PageSetName3':High]
         # leastUsedPage is a pageSetName
         self.leastUsedPageSet = ""
-        self.maxSets = 2
+        self.maxSets = 5
 
 
     """
@@ -32,7 +32,17 @@ class MemoryManager():
             self.pinScore[page_set_name] = self.pinScore.get(page_set_name, 0) + 1
         # <insert rest of get_pages() body here>
     """
-    def get_pages(self, page_set_name, table):
+    def get_pages(self, page_set_name, table, merging = False):
+        if merging:
+            with open(os.path.join(self.db_path, table.name, page_set_name), 'rb') as file:
+                # overhead is 16 bytes
+                page_set = []
+                for i in range(table.num_columns + INIT_COLS):
+                    unpacked_num_records = int.from_bytes(file.read(8), 'little')
+                    unpacked_first_unused_byte = int.from_bytes(file.read(8), 'little')
+                    unpacked_data = bytearray(file.read(PAGE_SIZE))
+                    page_set.append(Page(unpacked_num_records, unpacked_first_unused_byte, unpacked_data))
+            return page_set
         if page_set_name not in self.bufferPool:
             self._replace_pages(page_set_name, table)
         self._increment_scores(retrieved_page_set_name=page_set_name)
@@ -53,10 +63,8 @@ class MemoryManager():
 
     def _replace_pages(self, page_set_name, table):
         self._evict(table)
-        # find page
-        self._navigate_table_directory(table.name)
         # read file
-        with open(page_set_name, 'rb') as file:
+        with open(os.path.join(self.db_path, table.name, page_set_name), 'rb') as file:
             # overhead is 16 bytes
             page_set = []
             for i in range(table.num_columns + INIT_COLS):
@@ -71,14 +79,12 @@ class MemoryManager():
 
 
     def _write_set_to_disk(self, page_set_name, table):
-        self._navigate_table_directory(table.name)
-        with open(page_set_name, 'wb') as file:
+        with open(os.path.join(self.db_path, table.name, page_set_name), 'wb') as file:
             for i in range(table.num_columns + INIT_COLS):
                 cur_page = self.bufferPool[page_set_name][i]
                 file.write(cur_page.num_records.to_bytes(8, 'little'))
                 file.write(cur_page.first_unused_byte.to_bytes(8, 'little'))
                 file.write(cur_page.data)
-
 
     def _increment_scores(self, retrieved_page_set_name):
         max_score = self.evictionScore.index(retrieved_page_set_name)
@@ -86,19 +92,10 @@ class MemoryManager():
         self.evictionScore = self.evictionScore[:max_score] + self.evictionScore[max_score + 1:]
         self.evictionScore.insert(0, retrieved_page_set_name)
 
-
-    def _navigate_table_directory(self, table_name):
-        try:
-            os.chdir(os.path.join(self.db_path, table_name))
-        except:
-            os.mkdir(os.path.join(self.db_path, table_name))
-            os.chdir(os.path.join(self.db_path, table_name))
-
-
     def _evict(self, table):
         if len(self.bufferPool) == self.maxSets:
             # assuming eviction policy is LRU
-            i = -1 # Start at the end of list
+            i = -1  # Start at the end of list
             # Find first unpinned Page Set
             while self.pinScore[self.evictionScore[i]] != 0:
                 i -= 1
@@ -143,15 +140,14 @@ class Database():
         # Use the pickle module for this?
         # Store the dictionary to a file
         for table in self.tables.values():
-            self.memory_manager._navigate_table_directory(table.name)
-            with open(table.name+'.pkl', 'wb') as output:
+            with open(os.path.join(self.db_path, table.name, table.name) +'.pkl', 'wb') as output:
                 # Save the dictionary as a whole
                 pickle.dump(table, output, pickle.HIGHEST_PROTOCOL)
-            with open(table.name+'_index.pkl', 'wb') as output:
+            with open(os.path.join(self.db_path, table.name, table.name) +'_index.pkl', 'wb') as output:
                 pickle.dump(table.index, output, pickle.HIGHEST_PROTOCOL)
-            with open(table.name+'_page_directory.pkl', 'wb') as output:
+            with open(os.path.join(self.db_path, table.name, table.name) +'_page_directory.pkl', 'wb') as output:
                 pickle.dump(table.page_directory, output, pickle.HIGHEST_PROTOCOL)
-            with open(table.name+'_update_to_pg_range.pkl', 'wb') as output:
+            with open(os.path.join(self.db_path, table.name, table.name) +'_update_to_pg_range.pkl', 'wb') as output:
                 pickle.dump(table.update_to_pg_range, output, pickle.HIGHEST_PROTOCOL)
 
 
@@ -172,6 +168,10 @@ class Database():
         # Memory Manager shared by all Tables
         table = Table(name, key_index, num_columns, self.memory_manager)
         self.tables[name] = table
+        try:
+            os.mkdir(os.path.join(self.db_path, name))
+        except:
+            pass
         
         return table
 
@@ -214,15 +214,14 @@ class Database():
     # Returns table with the passed name
     """
     def get_table(self, name):
-        self.memory_manager._navigate_table_directory(name)
         # Don't know if this will work...just reading from the file and loading back the objects
-        with open(name + '.pkl', 'rb') as input:
+        with open(os.path.join(self.db_path, name, name) + '.pkl', 'rb') as input:
             self.tables[name] = pickle.load(input)
-        with open(name + '_index.pkl', 'rb') as input:
+        with open(os.path.join(self.db_path, name, name) + '_index.pkl', 'rb') as input:
             self.tables[name].index = pickle.load(input)
-        with open(name + '_page_directory.pkl', 'rb') as input:
+        with open(os.path.join(self.db_path, name, name) + '_page_directory.pkl', 'rb') as input:
             self.tables[name].page_directory = pickle.load(input)
-        with open(name + '_update_to_pg_range.pkl', 'rb') as input:
+        with open(os.path.join(self.db_path, name, name) + '_update_to_pg_range.pkl', 'rb') as input:
             self.tables[name].update_to_pg_range = pickle.load(input)
         # Now look for the table_name and return the instance
         return self.tables[name]

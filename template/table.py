@@ -514,7 +514,7 @@ class Table:
             # Create consolidated Base Pages
             for tail_set_name in merge_queue:
                 # Read Tail Page schema & TID
-                tail_pages = self.memory_manager.get_pages(tail_set_name, table=self)
+                tail_pages = self.memory_manager.get_pages(tail_set_name, table=self, merging=True)
                 tail_schema_page = tail_pages[SCHEMA_ENCODING_COLUMN]
                 # Byte positions are aligned across all Pages
                 last_byte_pos = tail_schema_page.first_unused_byte - DATA_SIZE
@@ -538,7 +538,7 @@ class Table:
 
                     # Copy Base Pages -- used as template when merging
                     base_set_name = base_set_names[base_name_index]
-                    base_pages_copy = (self.memory_manager.get_pages(base_set_name, table=self)).copy()
+                    base_pages_copy = (self.memory_manager.get_pages(base_set_name, table=self, merging=True)).copy()
 
                     if remaining_work[mapped_baseID][visited_index] == False:
                         base_schema_page = base_pages_copy[SCHEMA_ENCODING_COLUMN]
@@ -556,7 +556,7 @@ class Table:
                     tps_index = visited_index - 1
                     base_tps = remaining_work[mapped_baseID][tps_index]
                     # Fetch current TID                  
-                    tail_rid_page = self.memory_manager.get_pages(tail_set_name, table=self)[RID_COLUMN]
+                    tail_rid_page = self.memory_manager.get_pages(tail_set_name, table=self, merging=True)[RID_COLUMN]
                     curr_TID = self.convert_data(tail_rid_page, last_byte_pos)
                     
                     non_user_cols = 2 # TPS + visited Flag
@@ -583,6 +583,3 @@ class Table:
             # Set selected Page Range's num_updates = 0
             page_range.num_updates = 0
 
-            # Replace Outdated Base Pages (Binary data)
-            for base_set_name in base_set_names:
-                self.memory_manager._write_set_to_disk(base_set_name, table=self)
