@@ -28,7 +28,9 @@ class Page_Range:
             delimiter = '_'
             first_baseID = str(num_page_range*PAGE_CAPACITY*PAGE_RANGE_FACTOR + i*PAGE_CAPACITY)
             encoded_base_set = first_baseID + delimiter + table.name
+            table.memory_manager.lock.acquire()
             table.memory_manager.create_page_set(encoded_base_set, table=table)
+            table.memory_manager.lock.release()
             self.base_set.append(encoded_base_set)
 
         self.tail_set = []   # List of Tail Page Set Names
@@ -84,7 +86,9 @@ class Table:
                 cur_pages[INIT_COLS + col].write(entry)
             else: # Write dummy value
                 cur_pages[INIT_COLS + col].write(0)
+        self.memory_manager.lock.acquire()
         self.memory_manager.isDirty[page_set_name] = True
+        self.memory_manager.lock.release()
 
 
     """
@@ -134,17 +138,27 @@ class Table:
         page_range = self.page_range_collection[page_range_index]
         base_set = page_range.base_set  # List of Base Set Names
 
+        self.memory_manager.lock.acquire()
         cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self)  # Set of Physical Pages
-        if not cur_base_pages[INIT_COLS].has_space():
+        self.memory_manager.lock.release()
+        cur_base_pages_space = cur_base_pages[INIT_COLS].has_space()
+        self.memory_manager.lock.acquire()
+        self.memory_manager.pinScore[base_set[page_range.last_base_name]] -= 1
+        self.memory_manager.lock.release()
+        if not cur_base_pages_space:
             page_range.last_base_name += 1
+        self.memory_manager.lock.acquire()
         cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self, read_only=False)
+        self.memory_manager.lock.release()
         # Write to Base Pages within matching Range
         self.write_to_pages(cur_base_pages, record, schema_encoding, page_set_name=base_set[page_range.last_base_name])
          
         # Update Page Directory & Indexer
         byte_pos = cur_base_pages[INIT_COLS].first_unused_byte - DATA_SIZE
+        self.memory_manager.lock.acquire()
         self.memory_manager.isDirty[base_set[page_range.last_base_name]] = True
         self.memory_manager.pinScore[base_set[page_range.last_base_name]] -= 1
+        self.memory_manager.lock.release()
         self.page_directory[record.rid] = [page_range_index, page_range.last_base_name, byte_pos]
         # print("UPDATING PAGE DIRECTORY: ")
         # print("{ RID=", record.rid, " : pg range index=", page_range_index")
@@ -161,7 +175,9 @@ class Table:
     def extend_tailSet(self, tail_set, first_rid):
         delimiter = '_'
         encoded_tail_set = str(first_rid) + delimiter + self.name
+        self.memory_manager.lock.acquire()
         self.memory_manager.create_page_set(encoded_tail_set, table=self)
+        self.memory_manager.lock.release()
         tail_set.append(encoded_tail_set)
 
     
@@ -187,19 +203,28 @@ class Table:
             # Locate Page Range of base/tail record
             [page_range_index, base_name_index, base_byte_pos] = self.page_directory[baseID]
             page_range = self.page_range_collection[page_range_index]
-    
             tail_set = page_range.tail_set
             if len(tail_set) == 0: # Init State
                 self.extend_tailSet(tail_set, first_rid=record.rid)
-            elif not self.memory_manager.get_pages(tail_set[page_range.last_tail_name], table=self)[INIT_COLS].has_space():
-                # Current Tail Set does not have space
-                self.extend_tailSet(tail_set, first_rid=record.rid)
-                page_range.last_tail_name += 1
+            else:
+                self.memory_manager.lock.acquire()
+                tail_page_space = self.memory_manager.get_pages(tail_set[page_range.last_tail_name], table=self)[
+                    INIT_COLS].has_space()
+                self.memory_manager.pinScore[tail_set[page_range.last_tail_name]] -= 1
+                self.memory_manager.lock.release()
+                if not tail_page_space:
+                    # Current Tail Set does not have space
+                    self.extend_tailSet(tail_set, first_rid=record.rid)
+                    page_range.last_tail_name += 1
+            self.memory_manager.lock.acquire()
             cur_tail_pages = self.memory_manager.get_pages(tail_set[page_range.last_tail_name], table=self, read_only=False)
+            self.memory_manager.lock.release()
             # Write to userdata columns
             isUpdate = True
             self.write_to_pages(cur_tail_pages, record, schema_encoding, page_set_name=tail_set[page_range.last_tail_name], isUpdate=isUpdate)
+            self.memory_manager.lock.acquire()
             cur_base_pages = self.memory_manager.get_pages(page_range.base_set[base_name_index], table=self, read_only=False)
+            self.memory_manager.lock.release()
 
             # Read from base_set's indirection column
             base_indir_page = cur_base_pages[INDIRECTION_COLUMN]
@@ -253,10 +278,12 @@ class Table:
                 self.index.update_primaryKey(record.key, record.columns[self.key_index], self.key_index)
 
             # Both Base & Tail Pages modified Indirection and Schema Columns
+            self.memory_manager.lock.acquire()
             self.memory_manager.isDirty[page_range.base_set[base_name_index]] = True
             self.memory_manager.isDirty[page_range.tail_set[page_range.last_tail_name]] = True
             self.memory_manager.pinScore[tail_set[page_range.last_tail_name]] -= 1
             self.memory_manager.pinScore[page_range.base_set[base_name_index]] -= 1
+            self.memory_manager.lock.release()
 
 
     """
@@ -271,14 +298,17 @@ class Table:
             # Retrieve value in base record's indirection column
             page_range_index, base_name_index, base_byte_pos = self.page_directory[baseID]
             base_set = self.page_range_collection[page_range_index].base_set
+            self.memory_manager.lock.acquire()
             base_indir_page = self.memory_manager.get_pages(base_set[base_name_index], self)[INDIRECTION_COLUMN]
-
+            self.memory_manager.lock.release()
             latest_RID = self.convert_data(base_indir_page, base_byte_pos)
             if latest_RID == 0: # No updates made
                 rid_output.append(baseID)
             else: # Base record has been updated
                 rid_output.append(latest_RID)
-
+            self.memory_manager.lock.acquire()
+            self.memory_manager.pinScore[base_set[base_name_index]] -= 1
+            self.memory_manager.lock.release()
         return rid_output
 
     
@@ -295,8 +325,11 @@ class Table:
             # No updates made to page_range, or rid=baseID
             return 0
         else:
+            self.memory_manager.lock.acquire()
             tail_indir_page = self.memory_manager.get_pages(tail_set[name_index], table=self)[INDIRECTION_COLUMN]
             prev_RID = self.convert_data(tail_indir_page, byte_pos)
+            self.memory_manager.pinScore[tail_set[name_index]] -= 1
+            self.memory_manager.lock.release()
             return prev_RID # Single RID
 
 
@@ -321,82 +354,96 @@ class Table:
         
         for rid in latest_records:
            # Validation Stage: Check if rid is invalid
-           if rid in self.invalid_rids:
-               continue # Go to next rid in latest_records
+            if rid in self.invalid_rids:
+                continue # Go to next rid in latest_records
 
-           data = [None] * self.num_columns 
-           columns_not_retrieved = set()
+            data = [None] * self.num_columns
+            columns_not_retrieved = set()
 
-           # Determine columns not retrieved yet
-           for i in range(len(query_columns)):
-               if query_columns[i] == 1:
-                   columns_not_retrieved.add(i)
+            # Determine columns not retrieved yet
+            for i in range(len(query_columns)):
+                if query_columns[i] == 1:
+                    columns_not_retrieved.add(i)
 
-           while len(columns_not_retrieved) > 0: 
-               # Retrieve whatever data you can from latest record
-               assert rid != 0
-               # Locate record within Page Range
-               try:
-                   [page_range_index, name_index, byte_pos] = self.page_directory[rid]
-               except:
-                   print('error')
-               page_range = self.page_range_collection[page_range_index]
+            while len(columns_not_retrieved) > 0:
+                # Retrieve whatever data you can from latest record
+                assert rid != 0
+                # Locate record within Page Range
+                try:
+                    [page_range_index, name_index, byte_pos] = self.page_directory[rid]
+                except:
+                    print('error')
+                page_range = self.page_range_collection[page_range_index]
 
-               # RID may be a base or a tail ID
-               if rid >= self.TID_counter:
-                   # Find corresponding Base Record for Tail Record
-                   tail_set_name = page_range.tail_set[name_index]
-                   tail_pages = self.memory_manager.get_pages(tail_set_name, self)
-                   mapped_baseID_page = tail_pages[BASE_RID_COLUMN]
-                   mapped_baseID = self.convert_data(mapped_baseID_page, byte_pos)
-                   [_, base_name_index, base_byte_pos] = self.page_directory[mapped_baseID]
-                   base_set_name = page_range.base_set[base_name_index]
-                   # Read Base Record's TPS 
-                   base_pages = self.memory_manager.get_pages(base_set_name, self)
-                   base_tps_page = base_pages[TPS_COLUMN]
-                   base_tps = self.convert_data(base_tps_page, base_byte_pos)
-                   # Read Base Record's Indirection RID
-                   base_indir_page = base_pages[INDIRECTION_COLUMN]
-                   base_indir_rid = self.convert_data(base_indir_page, base_byte_pos)
-                   # Compare Base Record's TPS vs. Indirection
-                   if base_indir_rid == base_tps:
-                       # Base Record is already most up to date (Skip lineage)
-                       page_set = page_range.base_set
-                   else:
-                       # Otherwise, iterate thru tail records
-                       page_set = page_range.tail_set
-               else: # Reading a Base Record
-                   page_set = page_range.base_set
+                # RID may be a base or a tail ID
+                if rid >= self.TID_counter:
+                    # Find corresponding Base Record for Tail Record
+                    tail_set_name = page_range.tail_set[name_index]
+                    self.memory_manager.lock.acquire()
+                    tail_pages = self.memory_manager.get_pages(tail_set_name, self)
+                    mapped_baseID_page = tail_pages[BASE_RID_COLUMN]
+                    mapped_baseID = self.convert_data(mapped_baseID_page, byte_pos)
+                    self.memory_manager.pinScore[tail_set_name] -= 1
+                    self.memory_manager.lock.release()
+                    [_, base_name_index, base_byte_pos] = self.page_directory[mapped_baseID]
+                    base_set_name = page_range.base_set[base_name_index]
+                    # Read Base Record's TPS
+                    self.memory_manager.lock.acquire()
+                    base_pages = self.memory_manager.get_pages(base_set_name, self)
+                    base_tps_page = base_pages[TPS_COLUMN]
+                    base_tps = self.convert_data(base_tps_page, base_byte_pos)
+                    # Read Base Record's Indirection RID
+                    base_indir_page = base_pages[INDIRECTION_COLUMN]
+                    base_indir_rid = self.convert_data(base_indir_page, base_byte_pos)
+                    self.memory_manager.pinScore[base_set_name] -= 1
+                    self.memory_manager.lock.release()
+                    # Compare Base Record's TPS vs. Indirection
+                    if base_indir_rid == base_tps:
+                        # Base Record is already most up to date (Skip lineage)
+                        page_set = page_range.base_set
+                        name_index = base_name_index
+                    else:
+                        # Otherwise, iterate thru tail records
+                        page_set = page_range.tail_set
+                else: # Reading a Base Record
+                    page_set = page_range.base_set
 
-               # Read schema data
-               schema_page = self.memory_manager.get_pages(page_set[name_index], self)[SCHEMA_ENCODING_COLUMN]
-               [schema_str, _] = self.finalize_schema(schema_page, byte_pos)
-               # Leading zeros are lost after integer conversion, so padding needed
-               if len(schema_str) < self.num_columns:
-                   diff = self.num_columns - len(schema_str)
-                   schema_str = '0' * diff + schema_str
+                # Read schema data
+                self.memory_manager.lock.acquire()
+                buffer_page_set = self.memory_manager.get_pages(page_set[name_index], self)
+                schema_page = buffer_page_set[SCHEMA_ENCODING_COLUMN]
 
-               for col, page in enumerate(self.memory_manager.get_pages(page_set[name_index], table=self)[INIT_COLS:]):
-                   if col not in columns_not_retrieved:
-                       continue
-                   # Retrieve values from older records, if they are not in the newest ones
-                   if rid < self.TID_counter or bool(int(schema_str[col])):
-                       data[col] = self.convert_data(page, byte_pos)
-                       columns_not_retrieved.discard(col)
 
-               # Get RID from indirection column
-               prev_rid = self.get_previous(rid)
-               if prev_rid == 0:  
-                   break # Base record encountered
-               else:
-                   rid = prev_rid # Follow lineage
+                [schema_str, _] = self.finalize_schema(schema_page, byte_pos)
+                self.memory_manager.pinScore[page_set[name_index]] -= 1
+                self.memory_manager.lock.release()
+                # Leading zeros are lost after integer conversion, so padding needed
+                if len(schema_str) < self.num_columns:
+                    diff = self.num_columns - len(schema_str)
+                    schema_str = '0' * diff + schema_str
+                self.memory_manager.lock.acquire()
+                for col, page in enumerate(self.memory_manager.get_pages(page_set[name_index], table=self)[INIT_COLS:]):
+                    if col not in columns_not_retrieved:
+                        continue
+                    # Retrieve values from older records, if they are not in the newest ones
+                    if rid < self.TID_counter or bool(int(schema_str[col])):
+                        data[col] = self.convert_data(page, byte_pos)
+                        columns_not_retrieved.discard(col)
+                self.memory_manager.pinScore[page_set[name_index]] -= 1
+                self.memory_manager.lock.release()
+                # Get RID from indirection column
+                prev_rid = self.get_previous(rid)
+                if prev_rid == 0:
+                    break # Base record encountered
+                else:
+                    rid = prev_rid # Follow lineage
 
-           ### End of while loop ###
-           # Given key might not be a primary key
-           primary_key = data[self.key_index]
-           # Append each RID's record into a list
-           record = Record(rid, primary_key, data)
-           output.append(record)
+            ### End of while loop ###
+            # Given key might not be a primary key
+            primary_key = data[self.key_index]
+            # Append each RID's record into a list
+            record = Record(rid, primary_key, data)
+            output.append(record)
 
         ### End of outer for loop ###
         return output
@@ -432,10 +479,12 @@ class Table:
         # Invalidate base record
         page_range = self.page_range_collection[page_range_index]
         base_set_name = page_range.base_set[name_index]
+        self.memory_manager.lock.acquire()
         base_rid_page = self.memory_manager.get_pages(base_set_name, table=self, read_only=False)[RID_COLUMN]
         base_rid_page.write(INVALID_RECORD, byte_pos)
         self.memory_manager.isDirty[base_set_name] = True
         self.memory_manager.pinScore[base_set_name] -= 1
+        self.memory_manager.lock.release()
 
         # Invalidate all tail records, if any
         next_rid = self.get_latest([baseID])[0] # get_latest() returns a list
@@ -505,7 +554,9 @@ class Table:
                 # Create consolidated Base Pages
                 for tail_set_name in merge_queue:
                     # Read Tail Page schema & TID
+                    self.memory_manager.lock.acquire()
                     tail_pages = self.memory_manager.get_pages(tail_set_name, table=self, merging=True)
+                    self.memory_manager.lock.release()
                     tail_schema_page = tail_pages[SCHEMA_ENCODING_COLUMN]
                     # Byte positions are aligned across all Pages
                     last_byte_pos = tail_schema_page.first_unused_byte - DATA_SIZE
@@ -529,7 +580,9 @@ class Table:
 
                         # Copy Base Pages -- used as template when merging
                         base_set_name = base_set_names[base_name_index]
+                        self.memory_manager.lock.acquire()
                         base_pages_copy = self.memory_manager.get_pages(base_set_name, table=self, merging=True)
+                        self.memory_manager.lock.release()
 
                         if remaining_work[mapped_baseID][visited_index] == False:
                             base_schema_page = base_pages_copy[SCHEMA_ENCODING_COLUMN]
@@ -547,7 +600,9 @@ class Table:
                         tps_index = visited_index - 1
                         base_tps = remaining_work[mapped_baseID][tps_index]
                         # Fetch current TID
+                        self.memory_manager.lock.acquire()
                         tail_rid_page = self.memory_manager.get_pages(tail_set_name, table=self, merging=True)[RID_COLUMN]
+                        self.memory_manager.lock.release()
                         curr_TID = self.convert_data(tail_rid_page, last_byte_pos)
 
                         non_user_cols = 2 # TPS + visited Flag
@@ -558,6 +613,7 @@ class Table:
                             base_tps_page = base_pages_copy[TPS_COLUMN].write(last_TID_merged, base_byte_pos)
 
                             [tail_schema, diff] = self.finalize_schema(tail_schema_page, last_byte_pos)
+                            base_page_updated = False
                             for offset in range(diff, self.num_columns):
                                 # A single Tail Record can update 1+ columns
                                 if offset in remaining_work[mapped_baseID] and tail_schema[offset] == '1':
@@ -565,24 +621,38 @@ class Table:
                                     tail_data = tail_pages[INIT_COLS + offset].data
                                     # Overwrite template data
                                     updated_base_page.write(tail_data, base_byte_pos)
+                                    base_page_update = True
                                     remaining_work[mapped_baseID].remove(offset)
+                            if updated_base_page:
+                                self.merge_flag = True
+                                self.memory_manager.lock.acquire()
+                                self.memory_manager.get_pages(base_set_name, self, read_only=False)
+                                self.memory_manager.bufferPool[base_set_name][TPS_COLUMN] = base_pages_copy[TPS_COLUMN]
+                                self.memory_manager.bufferPool[base_set_name][INIT_COLS:] = base_pages_copy[INIT_COLS:]
+                                self.memory_manager.isDirty[base_set_name] = True
+                                if self.memory_manager.pinScore[base_set_name] <= 0:
+                                    raise Exception
+                                self.memory_manager.pinScore[base_set_name] -= 1
+                                self.memory_manager.lock.release()
+                                self.page_range_collection[page_range_index].num_updates -= 1
+                                self.update_to_pg_range[page_range_index] -= 1
+                                self.num_merged += 1
+
                         # Update original base pages
-                        if last_byte_pos == 0:
+                        '''if last_byte_pos == 0:
                             # Need locking here?
                             self.merge_flag = True
                             self.memory_manager.get_pages(base_set_name, self, read_only=False)
                             self.memory_manager.bufferPool[base_set_name] = base_pages_copy
                             self.memory_manager.isDirty[base_set_name] = True
-                            self.memory_manager.pinScore[base_set_name] -= 1
+                            self.memory_manager.pinScore[base_set_name] -= 1'''
                         # Fetch earlier Tail Record
                         last_byte_pos -= DATA_SIZE
 
                 ### After merge ###
                 # Set selected Page Range's num_updates = 0
                 #page_range.num_updates = 0
-                self.page_range_collection[page_range_index].num_updates -= num_merged
-                self.update_to_pg_range[page_range_index] -= num_merged
-                self.num_merged += num_merged
+
                 """
                 # Replace Outdated Base Pages (Binary data)
                 #for base_set_name in base_set_names:

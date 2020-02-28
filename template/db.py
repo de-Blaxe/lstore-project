@@ -2,9 +2,10 @@ from template.table import Table
 import os
 from template.config import *
 from template.page import Page
+from copy import deepcopy
 # Used to save the tables dict
 import pickle
-
+import threading
 
 class MemoryManager():
     def __init__(self, path):
@@ -21,7 +22,8 @@ class MemoryManager():
         self.evictionScore = [] # [Low:'PageSetName1', ..., 'PageSetName3':High]
         # leastUsedPage is a pageSetName
         self.leastUsedPageSet = ""
-        self.maxSets = 5
+        self.maxSets = 10
+        self.lock = threading.Lock()
 
 
     """
@@ -34,17 +36,19 @@ class MemoryManager():
     """
     def get_pages(self, page_set_name, table, merging=False, read_only=True):
         if merging:
-            with open(os.path.join(self.db_path, table.name, page_set_name), 'rb') as file:
-                # overhead is 16 bytes
-                page_set = []
-                for i in range(table.num_columns + INIT_COLS):
-                    unpacked_num_records = int.from_bytes(file.read(8), 'little')
-                    unpacked_first_unused_byte = int.from_bytes(file.read(8), 'little')
-                    unpacked_data = bytearray(file.read(PAGE_SIZE))
-                    page_set.append(Page(unpacked_num_records, unpacked_first_unused_byte, unpacked_data))
-            return page_set
-        if not read_only:
-            self.pinScore[page_set_name] = self.pinScore.get(page_set_name, 0) + 1
+            if page_set_name in self.bufferPool:
+                page_set = self.bufferPool[page_set_name]
+            else:
+                with open(os.path.join(self.db_path, table.name, page_set_name), 'rb') as file:
+                    # overhead is 16 bytes
+                    page_set = []
+                    for i in range(table.num_columns + INIT_COLS):
+                        unpacked_num_records = int.from_bytes(file.read(8), 'little')
+                        unpacked_first_unused_byte = int.from_bytes(file.read(8), 'little')
+                        unpacked_data = bytearray(file.read(PAGE_SIZE))
+                        page_set.append(Page(unpacked_num_records, unpacked_first_unused_byte, unpacked_data))
+            return deepcopy(page_set)
+        self.pinScore[page_set_name] = self.pinScore.get(page_set_name, 0) + 1
         if page_set_name not in self.bufferPool:
             self._replace_pages(page_set_name, table)
         self._increment_scores(retrieved_page_set_name=page_set_name)
@@ -58,11 +62,12 @@ class MemoryManager():
         cur_set = [] # List of Pages (one per column)
         for _ in range(INIT_COLS + table.num_columns):
             cur_set.append(Page())
+        self.pinScore[page_set_name] = self.pinScore.get(page_set_name, 0) + 1
         self.bufferPool[page_set_name] = cur_set
         self.isDirty[page_set_name] = True
-        self.pinScore[page_set_name] = 0
         # Place recently created page sets at the front of list
         self.evictionScore.insert(0, page_set_name)
+        self.pinScore[page_set_name] -= 1
         if len(self.bufferPool) > self.maxSets:
             raise Exception
 
@@ -70,6 +75,8 @@ class MemoryManager():
     def _replace_pages(self, page_set_name, table):
         self._evict(table)
         # read file
+        if type(page_set_name) is not str:
+            raise Exception
         with open(os.path.join(self.db_path, table.name, page_set_name), 'rb') as file:
             # overhead is 16 bytes
             page_set = []
@@ -102,6 +109,7 @@ class MemoryManager():
         self.evictionScore = self.evictionScore[:max_score] + self.evictionScore[max_score + 1:]
         self.evictionScore.insert(0, retrieved_page_set_name)
         if len(self.bufferPool) > self.maxSets:
+            print('wait')
             raise Exception
 
     def _evict(self, table):
@@ -152,6 +160,7 @@ class Database():
         # Use the pickle module for this?
         # Store the dictionary to a file
         for table in self.tables.values():
+            table.memory_manager = None
             with open(os.path.join(self.db_path, table.name, table.name) +'.pkl', 'wb') as output:
                 # Save the dictionary as a whole
                 pickle.dump(table, output, pickle.HIGHEST_PROTOCOL)
@@ -235,5 +244,6 @@ class Database():
             self.tables[name].page_directory = pickle.load(input)
         with open(os.path.join(self.db_path, name, name) + '_update_to_pg_range.pkl', 'rb') as input:
             self.tables[name].update_to_pg_range = pickle.load(input)
+        self.tables[name].memory_manager = self.memory_manager
         # Now look for the table_name and return the instance
         return self.tables[name]
