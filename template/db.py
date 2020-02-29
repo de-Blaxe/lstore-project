@@ -39,7 +39,7 @@ class MemoryManager():
         if merging:
             if page_set_name in self.bufferPool:
                 page_set = self.bufferPool[page_set_name]
-            else:
+            else: # Read from disk
                 with open(os.path.join(self.db_path, table.name, page_set_name), 'rb') as file:
                     # overhead is 16 bytes
                     page_set = []
@@ -151,12 +151,13 @@ class Database():
     def close(self):
         # NOTE: THIS DOES NOT CONSIDER PINNED PAGES
         # Check if any remaining Dirty Pages in bufferpool
+        self.memory_manager.lock.acquire()
         for page_set_name, dirtyBit in self.memory_manager.isDirty.items():
             if dirtyBit:
                 # Write them back to disk
                 [_, mapped_table_name] = page_set_name.split('_')
                 self.memory_manager._write_set_to_disk(page_set_name, self.tables[mapped_table_name])
-
+        self.memory_manager.lock.release()
         # Need to save the tables dict to a file in order to retrive the table instance in get_table()
         # Store the dictionary to a file
         for table in self.tables.values():
