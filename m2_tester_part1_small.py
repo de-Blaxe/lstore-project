@@ -11,14 +11,13 @@ query = Query(grades_table)
 
 records = {}
 seed(3562901)
-for i in range(0, 100): # changed from 1000 (1k)
+for i in range(0, 1000): # changed from 1000 (1k)
     key = 92106429 + i
     records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)]
     query.insert(*records[key])
 keys = sorted(list(records.keys()))
 print("Insert finished")
 
-"""
 for key in keys:
     record = query.select(key, 0, [1, 1, 1, 1, 1])[0]
     error = False
@@ -30,10 +29,8 @@ for key in keys:
     # else:
     #     print('select on', key, ':', record)
 print("Select finished")
-"""
 
-
-for _ in range(5):
+for _ in range(10):
     for key in keys:
         updated_columns = [None, None, None, None, None]
         for i in range(1, grades_table.num_columns):
@@ -54,29 +51,13 @@ for _ in range(5):
             updated_columns[i] = None
 print("Update finished")
 
-grades_table.merge()
+#grades_table.merge()
 
-"""
+
 print("Update to Pg Range dictionary: ", grades_table.update_to_pg_range, "\n")
 print("Merge Flag after updates: ", grades_table.merge_flag, "\n")
 print("Number Merged:", grades_table.num_merged, "\n")
-"""
 
-for key in keys:
-    record = query.select(key, 0, [1, 1, 1, 1, 1])[0]
-    error = False
-    for i, column in enumerate(record.columns):
-        if column != records[key][i]:
-            error = True
-    if error:
-        print('select error on', key, ':', record, ', correct:', records[key])
-    else:
-        print('select on', key, ':', record)
-print("Select finished")
-
-
-
-#for i in range(0, 50):
 '''for i in range(0, 100):
     r = sorted(sample(range(0, len(keys)), 2))
     column_sum = sum(map(lambda key: records[key][0], keys[r[0]: r[1] + 1]))
