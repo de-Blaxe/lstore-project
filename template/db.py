@@ -150,12 +150,13 @@ class Database():
     def close(self):
         # NOTE: THIS DOES NOT CONSIDER PINNED PAGES
         # Check if any remaining Dirty Pages in bufferpool
+        self.memory_manager.lock.acquire()
         for page_set_name, dirtyBit in self.memory_manager.isDirty.items():
             if dirtyBit:
                 # Write them back to disk
                 [_, mapped_table_name] = page_set_name.split('_')
                 self.memory_manager._write_set_to_disk(page_set_name, self.tables[mapped_table_name])
-
+        self.memory_manager.lock.release()
         # Need to save the tables dict to a file in order to retrive the table instance in get_table()
         # Use the pickle module for this?
         # Store the dictionary to a file
