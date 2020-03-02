@@ -14,6 +14,7 @@ class MemoryManager():
 
         # Map pageSetName to associated pageSet
         self.bufferPool = dict()
+        self.maxSets = 10
 
         # Map pageSetName to dirty bit
         self.isDirty = dict()
@@ -22,13 +23,12 @@ class MemoryManager():
         self.pinScore = dict()
 
         # Index -> PageSetName. Index represents evictionScore -> LRU policy
-        # Newly created PageSets put at front (lower eviction score)
+        # Newly created PageSets placed at front (lower eviction score)
         self.evictionScore = []
 
         # LeastUsedPage is a pageSetName
         self.leastUsedPageSet = ""
 
-        self.maxSets = 10
         # Lock shared MemoryManager resources
         self.lock = threading.Lock()
 
