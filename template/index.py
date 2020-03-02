@@ -111,7 +111,6 @@ class Index:
                 except:
                     pass
                      
-
             record = self.table.read_records(base_key, self.primary_index, query_cols_index)[0]
             latest_key = record.columns[column_number]
             self.indices[column_number][latest_key].append(rid)
@@ -121,4 +120,5 @@ class Index:
     Drop index of specific column
     """
     def drop_index(self, table, column_number):
-        self.indices[column_number] = defaultdict(list) # Empty placeholder
+        # Empty placeholder to maintain indices / user columns
+        self.indices[column_number] = defaultdict(list)
