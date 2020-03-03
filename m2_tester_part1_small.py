@@ -18,6 +18,7 @@ for i in range(0, 1000): # changed from 1000 (1k)
 keys = sorted(list(records.keys()))
 print("Insert finished")
 
+"""
 for key in keys:
     record = query.select(key, 0, [1, 1, 1, 1, 1])[0]
     error = False
@@ -29,8 +30,9 @@ for key in keys:
     # else:
     #     print('select on', key, ':', record)
 print("Select finished")
+"""
 
-for _ in range(10):
+for _ in range(5): # Changed from 10 to 5
     for key in keys:
         updated_columns = [None, None, None, None, None]
         for i in range(1, grades_table.num_columns):
@@ -48,10 +50,10 @@ for _ in range(10):
                 print('update error on', original, 'and', updated_columns, ':', record.columns, ', correct:', records[key])
             else:
                 print('update on', original, 'and', updated_columns, ':', record.columns)
+                if (key == 92106429 + 500 or key == 92106429 + 700):
+                    print("checking merge flag: ", grades_table.merge_flag, "\n")
             updated_columns[i] = None
 print("Update finished")
-
-#grades_table.merge()
 
 
 print("Update to Pg Range dictionary: ", grades_table.update_to_pg_range, "\n")

@@ -32,6 +32,8 @@ class MemoryManager():
         # Lock shared MemoryManager resources
         self.lock = threading.Lock()
 
+        self.db_close = False # ADDED
+
 
     """
     # Milestone 3 idea - get_pages()
@@ -150,7 +152,7 @@ class MemoryManager():
             # Assuming eviction policy is LRU
             i = -1  # Start at the end of list
             # Find first unpinned Page Set
-            while self.pinScore[self.evictionScore[i]] != 0:
+            while abs(i) != len(self.evictionScore) + 1 and self.pinScore[self.evictionScore[i]] != 0 :
                 i -= 1
             evicting_page_set = self.evictionScore[i]
             if self.isDirty[evicting_page_set]:
@@ -209,6 +211,8 @@ class Database():
                 pickle.dump(table.page_directory, output, pickle.HIGHEST_PROTOCOL)
             with open(os.path.join(self.db_path, table.name, table.name) +'_update_to_pg_range.pkl', 'wb') as output:
                 pickle.dump(table.update_to_pg_range, output, pickle.HIGHEST_PROTOCOL)
+
+        self.memory_manager.db_close = True # ADDED 
 
 
     """
