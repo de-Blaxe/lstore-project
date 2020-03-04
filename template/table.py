@@ -64,7 +64,7 @@ class Table:
 
         self.update_to_pg_range = dict()    # Entries: Number of Tail Records within Page Range
         self.memory_manager = mem_manager   # All Tables within Database share same Memory Manager
-        self.lock_manager = Lock_Manager()  # Manages concurrent Threads
+        #self.lock_manager = Lock_Manager()  # Manages concurrent Threads [can't pickle Thread Lock objects? -> commented out]
         
         self.merge_flag = False
         self.num_merged = 0
@@ -480,8 +480,6 @@ class Table:
 
         ### End of outer for loop ###
         # Release all Shared Locks for baseIDs
-        
-
         return output
 
 

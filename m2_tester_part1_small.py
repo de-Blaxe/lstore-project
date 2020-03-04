@@ -14,7 +14,7 @@ query = Query(grades_table)
 insert_time_0 = process_time()
 records = {}
 seed(3562901)
-for i in range(0, 1000): # changed from 1000 (1k)
+for i in range(0, 100): # changed from 1000 (1k)
     key = 92106429 + i
     records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)]
     query.insert(*records[key])
