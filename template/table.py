@@ -45,20 +45,21 @@ class Table:
         self.name = name
         self.key_index = key_index
         self.num_columns = num_columns
-        # Page Directory                    - Maps RIDs to [page_range_index, name_index, byte_pos]
-        # Page Range Collection             - Stores all Page Ranges for Table
-        # Index                             - Index object that maps key values to baseIDs
-        self.page_directory = dict()
-        self.page_range_collection = []
-        self.index = Index(self)
+
+        self.page_directory = dict()        # Maps RIDs to [page_range_index, name_index, byte_pos]
+        self.page_range_collection = []     # Stores all Page Ranges for Table
+        self.index = Index(self)            # Index object that maps key values to baseIDs
+
         self.LID_counter = 0                # Used to increment LIDs
         self.TID_counter = (2 ** 64) - 1    # Used to decrement TIDs
         self.invalid_rids = []
-        self.update_to_pg_range = dict()
+
+        self.update_to_pg_range = dict()    # Entries: Number of Tail Records within Page Range
         self.memory_manager = mem_manager   # All Tables within Database share same Memory Manager
 
         self.merge_flag = False
         self.num_merged = 0
+
         # Generate MergeThread in background
         thread = threading.Thread(target=self.__merge, args=[])
         # After some research, reason why we need daemon thread
@@ -353,13 +354,13 @@ class Table:
         else: # Performing multi reads for summation 
            baseIDs = self.index.locate_range(keys, max_key, column)
         
-        latest_records = self.get_latest(baseIDs)
+        latest_rids = self.get_latest(baseIDs)
         output = [] # A list of Record objects to return
         
-        for rid in latest_records:
+        for rid in latest_rids:
            # Validation Stage: Check if rid is invalid
             if rid in self.invalid_rids:
-                continue # Go to next rid in latest_records
+                continue # Go to next rid in latest_rids
             # Initialize data to base record's data
             data = [None] * self.num_columns
             columns_not_retrieved = set()
@@ -533,12 +534,12 @@ class Table:
                     min_rid = page_range_index * (PAGE_RANGE_FACTOR * PAGE_CAPACITY) + 1
                     max_rid = min_rid + (PAGE_RANGE_FACTOR * PAGE_CAPACITY) - 1
                     for base_id in range(min_rid, max_rid + 1):
-                        # get latest rid
-                        latest_records = self.get_latest(base_id)
-                        for rid in latest_records:
+                        # Get latest rid
+                        latest_rids = self.get_latest(base_id)
+                        for rid in latest_rids:
                             # Validation Stage: Check if rid is invalid
                             if rid in self.invalid_rids:
-                                continue  # Go to next rid in latest_records
+                                continue  # Go to next latest rid
                             # Initialize data to base record's data
                             columns_not_retrieved = set()
                             query_columns = [1] * self.num_columns
@@ -546,7 +547,6 @@ class Table:
                             for i in range(len(query_columns)):
                                 if query_columns[i] == 1:
                                     columns_not_retrieved.add(i)
-
                             # Locate record within Page Range
                             [page_range_index, name_index, byte_pos] = self.page_directory[rid]
                             page_range = self.page_range_collection[page_range_index]
@@ -561,22 +561,19 @@ class Table:
                                 data[i] = self.convert_data(base_pages[INIT_COLS + i], base_byte_pos)
                             self.memory_manager.pinScore[base_set_name] -= 1
                             self.memory_manager.lock.release()
-                            # Otherwise, iterate thru tail records
-
+                            # Reset counter
                             records_merged = 0
+                            # Retrieve whatever data you can from latest record
                             while len(columns_not_retrieved) > 0:
                                 # Locate record within Page Range
                                 [page_range_index, name_index, byte_pos] = self.page_directory[rid]
                                 page_range = self.page_range_collection[page_range_index]
-                                # Retrieve whatever data you can from latest record
                                 assert rid != 0
-
                                 # RID may be a base or a tail ID
                                 if rid >= self.TID_counter:
                                     page_set = page_range.tail_set
-                                else:  # Reading a Base Record
+                                else: # Reading a Base Record
                                     page_set = page_range.base_set
-
                                 # Read schema data
                                 self.memory_manager.lock.acquire()
                                 buffer_page_set = self.memory_manager.get_pages(page_set[name_index], self)
@@ -603,11 +600,10 @@ class Table:
                                 # Get RID from indirection column
                                 prev_rid = self.get_previous(rid)
                                 if prev_rid < self.TID_counter or prev_rid == base_tps:
-                                    break  # Base record encountered
+                                    break # Base record encountered
                                 else:
-                                    rid = prev_rid  # Follow lineage
-
-                            ### End of while loop ###
+                                    rid = prev_rid # Follow lineage
+                            ### Finished merging a Base Record ###
                             try:
                                 self.memory_manager.lock.acquire()
                                 base_pages = self.memory_manager.get_pages(base_set_name, self)
