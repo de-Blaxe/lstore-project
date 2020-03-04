@@ -1,6 +1,8 @@
 from template.table import Table, Record
 from template.index import Index
+from template.transaction import Transaction
 
+import threading
 
 class TransactionWorker:
 
@@ -9,6 +11,7 @@ class TransactionWorker:
     """
     def __init__(self):
         self.transactions = []
+        #self.txn_thread = threading.Thread(target=self.run, args=[]) [but don't know when to call start()]  
         pass
 
     """
@@ -20,6 +23,11 @@ class TransactionWorker:
     # txn_worker = TransactionWorker([t])
     # th1 = threading.Thread(target=txn_worker.run)
     """
+
+    def add_transaction(self, transaction):
+        # Append new set of queries
+        self.transactions.append(transaction)
+        pass
 
     def run(self):
         for txn in self.transactions:

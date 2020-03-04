@@ -6,7 +6,7 @@ from copy import deepcopy
 import threading
 import math
 import operator
-import itertools # to use 'zip'
+
 
 class Record:
 
@@ -56,7 +56,9 @@ class Table:
 
         self.update_to_pg_range = dict()    # Entries: Number of Tail Records within Page Range
         self.memory_manager = mem_manager   # All Tables within Database share same Memory Manager
-
+        """
+        self.lock_manager = dict()          # Maps RIDs to number of Shared Locks (0: Available, -1: Exclusive Lock)
+        """
         self.merge_flag = False
         self.num_merged = 0
 
@@ -341,19 +343,22 @@ class Table:
     """
     # Reads record(s) with matching key value and indexing column
     """
-    def read_records(self, keys, column, query_columns, max_key=None):
+    def read_records(self, key, column, query_columns, max_key=None):
         
         baseIDs = 0
          
         if max_key == None:
-            result = self.index.locate(keys, column)
-            #print("result = ", result)
+            result = self.index.locate(key, column)
             if result != INVALID_RECORD:
-                #baseIDs.append(result)
                 baseIDs = result
         else: # Performing multi reads for summation 
-           baseIDs = self.index.locate_range(keys, max_key, column)
-        
+           baseIDs = self.index.locate_range(key, max_key, column)
+        """
+        # Check if any writers for given baseID
+        for baseID in baseIDs:
+            if (self.lock_manager[baseID] == -1):
+                # call Transaction abort (but how to access current Transaction?) 
+        """
         latest_rids = self.get_latest(baseIDs)
         output = [] # A list of Record objects to return
         
