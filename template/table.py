@@ -40,8 +40,9 @@ class Page_Range:
 class Lock_Manager:
     
     def __init__(self):
-        self.current_locks = dict()         # Maps RIDS to number of Shared Locks (0+: Available, -1: Exclusive Lock)
-        self.latch = threading.Lock()       # Protect Lock Manager itself
+        self.current_locks = dict()               # Maps RIDS to number of Shared Locks (0+: Available, -1: Exclusive Lock)
+        self.threadID_to_tids = defaultdict(list) # Maps ThreadIDs to TailIDs created during runtime (in case of Rollback?)
+        self.latch = threading.Lock()             # Protect Lock Manager itself
 
 
 class Table:
