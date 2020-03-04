@@ -14,7 +14,7 @@ class MemoryManager():
 
         # Map pageSetName to associated pageSet
         self.bufferPool = dict()
-        self.maxSets = 10
+        #self.maxSets = 10
 
         # Map pageSetName to dirty bit
         self.isDirty = dict()
@@ -67,7 +67,7 @@ class MemoryManager():
         if page_set_name not in self.bufferPool:
             self._replace_pages(page_set_name, table)
         self._increment_scores(retrieved_page_set_name=page_set_name)
-        if len(self.bufferPool) > self.maxSets:
+        if len(self.bufferPool) > BUFFER_SIZE: #self.maxSets:
             raise Exception
         return self.bufferPool[page_set_name]
 
@@ -86,7 +86,7 @@ class MemoryManager():
         # Place recently created page sets at the front of list
         self.evictionScore.insert(0, page_set_name)
         self.pinScore[page_set_name] -= 1
-        if len(self.bufferPool) > self.maxSets:
+        if len(self.bufferPool) > BUFFER_SIZE: #self.maxSets:
             raise Exception
 
 
@@ -112,7 +112,7 @@ class MemoryManager():
         self.isDirty[page_set_name] = False
         self.pinScore[page_set_name] = self.pinScore.get(page_set_name, 0)
         self.evictionScore.insert(0, page_set_name)
-        if len(self.bufferPool) > self.maxSets:
+        if len(self.bufferPool) > BUFFER_SIZE: #self.maxSets:
             raise Exception
 
 
@@ -126,7 +126,7 @@ class MemoryManager():
                 file.write(cur_page.num_records.to_bytes(8, 'little'))
                 file.write(cur_page.first_unused_byte.to_bytes(8, 'little'))
                 file.write(cur_page.data)
-        if len(self.bufferPool) > self.maxSets:
+        if len(self.bufferPool) > BUFFER_SIZE: #self.maxSets:
             raise Exception
 
 
@@ -138,7 +138,7 @@ class MemoryManager():
         # Reset retrieved page set's evictionScore to 0
         self.evictionScore = self.evictionScore[:max_score] + self.evictionScore[max_score + 1:]
         self.evictionScore.insert(0, retrieved_page_set_name)
-        if len(self.bufferPool) > self.maxSets:
+        if len(self.bufferPool) > BUFFER_SIZE: #self.maxSets:
             raise Exception
 
 
@@ -146,7 +146,7 @@ class MemoryManager():
     # Evicts LRU Page Set in BufferPool. Writebacks to Disk, if needed.
     """
     def _evict(self, table):
-        if len(self.bufferPool) == self.maxSets:
+        if len(self.bufferPool) == BUFFER_SIZE: #self.maxSets:
             # Assuming eviction policy is LRU
             i = -1  # Start at the end of list
             # Find first unpinned Page Set
@@ -159,7 +159,7 @@ class MemoryManager():
             self.isDirty.pop(evicting_page_set, None)
             self.pinScore.pop(evicting_page_set, None)
             self.bufferPool.pop(evicting_page_set, None)
-        elif len(self.bufferPool) > self.maxSets:
+        elif len(self.bufferPool) > BUFFER_SIZE: #self.maxSets:
             raise Exception
 
 

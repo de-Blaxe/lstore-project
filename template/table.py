@@ -37,6 +37,13 @@ class Page_Range:
         self.num_updates = 0 # Number of Tail Records within Page Range
 
 
+class Lock_Manager:
+    
+    def __init__(self):
+        self.current_locks = dict()         # Maps RIDS to number of Shared Locks (0+: Available, -1: Exclusive Lock)
+        self.latch = threading.Lock()       # Protect Lock Manager itself
+
+
 class Table:
 
     total_num_pages = 0
@@ -56,9 +63,8 @@ class Table:
 
         self.update_to_pg_range = dict()    # Entries: Number of Tail Records within Page Range
         self.memory_manager = mem_manager   # All Tables within Database share same Memory Manager
-        """
-        self.lock_manager = dict()          # Maps RIDs to number of Shared Locks (0: Available, -1: Exclusive Lock)
-        """
+        self.lock_manager = Lock_Manager()  # Manages concurrent Threads
+        
         self.merge_flag = False
         self.num_merged = 0
 
@@ -138,18 +144,22 @@ class Table:
         page_range = self.page_range_collection[page_range_index]
         base_set = page_range.base_set  # List of Base Set Names
 
+        # Retrieve set of physical pages
         self.memory_manager.lock.acquire()
-        cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self)  # Set of Physical Pages
+        cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self)
         self.memory_manager.lock.release()
         cur_base_pages_space = cur_base_pages[INIT_COLS].has_space()
         self.memory_manager.lock.acquire()
         self.memory_manager.pinScore[base_set[page_range.last_base_name]] -= 1
         self.memory_manager.lock.release()
+
         if not cur_base_pages_space:
             page_range.last_base_name += 1
+
         self.memory_manager.lock.acquire()
         cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self, read_only=False)
         self.memory_manager.lock.release()
+
         # Write to Base Pages within matching Range
         self.write_to_pages(cur_base_pages, record, schema_encoding, page_set_name=base_set[page_range.last_base_name])
          
@@ -166,7 +176,6 @@ class Table:
         
         # Insert primary key: RID for key_index column
         self.index.insert_primaryKey(record.key, record.rid)
-
 
 
     """
@@ -344,24 +353,36 @@ class Table:
     # Reads record(s) with matching key value and indexing column
     """
     def read_records(self, key, column, query_columns, max_key=None):
-        
-        baseIDs = 0
-         
+        baseIDs = 0      
         if max_key == None:
             result = self.index.locate(key, column)
             if result != INVALID_RECORD:
                 baseIDs = result
         else: # Performing multi reads for summation 
            baseIDs = self.index.locate_range(key, max_key, column)
+
         """
         # Check if any writers for given baseID
         for baseID in baseIDs:
-            if (self.lock_manager[baseID] == -1):
-                # call Transaction abort (but how to access current Transaction?) 
+            if (self.lock_manager.current_locks[baseID] == -1):
+                # Exclusive Lock in use
+                # Current Transaction must abort
+                raise Exception
+        # Otherwise, proceed with query & commit???
+            # Do we need to check rids in latest_rids?
         """
+
         latest_rids = self.get_latest(baseIDs)
         output = [] # A list of Record objects to return
-        
+
+        """
+        rids_accessed = latest_rids 
+            # Keep appending to list inside for loop (below)?
+            # Since we may call get_previous
+        lock each rid in rids_accessed
+        release each of them at end?
+        """
+
         for rid in latest_rids:
            # Validation Stage: Check if rid is invalid
             if rid in self.invalid_rids:
@@ -404,8 +425,8 @@ class Table:
             base_indir_rid = self.convert_data(base_indir_page, base_byte_pos)
             self.memory_manager.pinScore[base_set_name] -= 1
             self.memory_manager.lock.release()
-        # Otherwise, iterate thru tail records
 
+            # Retrieve whatever data you can from latest record
             while len(columns_not_retrieved) > 0:
                 # Locate record within Page Range
                 [page_range_index, name_index, byte_pos] = self.page_directory[rid]
@@ -424,7 +445,6 @@ class Table:
                 self.memory_manager.lock.acquire()
                 buffer_page_set = self.memory_manager.get_pages(page_set[name_index], self)
                 schema_page = buffer_page_set[SCHEMA_ENCODING_COLUMN]
-
 
                 [schema_str, _] = self.finalize_schema(schema_page, byte_pos)
                 self.memory_manager.pinScore[page_set[name_index]] -= 1
@@ -458,6 +478,9 @@ class Table:
             output.append(record)
 
         ### End of outer for loop ###
+        # Release all Shared Locks for baseIDs
+        
+
         return output
 
 

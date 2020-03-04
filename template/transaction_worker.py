@@ -31,5 +31,9 @@ class TransactionWorker:
 
     def run(self):
         for txn in self.transactions:
-            txn.run()
+            txn_thread = threading.Thread(target=txn.run, args=[])
+            txn_thread.start()
+            #txn.run() [template code]
+            # Maybe in Table Class, if we need to abort (resource not ready), we raise an Exception
+            # Exception caught by Transaction.run() method -> knows if it can abort or commit
         pass

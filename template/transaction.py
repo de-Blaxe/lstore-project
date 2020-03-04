@@ -24,11 +24,18 @@ class Transaction:
 
     def run(self):
         for query, args in self.queries:
-            query(*args)
+            try:
+                query(*args)
+            except Exception:
+                self.abort()
+            else:
+                self.commit()
         pass
 
     def abort(self):
+        print("No wait. Aborting!")
         pass
 
     def commit(self):
+        print("Successful Transaction!")
         pass

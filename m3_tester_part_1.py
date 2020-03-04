@@ -38,8 +38,10 @@ for i in range(0, 1000):
     t.add_query(q.insert, *records[key])
 
 for i in range(num_threads):
+    """
     txn_thread = threading.Thread(target=transaction_workers[i].run(), args=[])
     txn_thread.start()
-    #transaction_workers[i].run() [Original tester code]
+    """
+    transaction_workers[i].run() #[Original tester code]
 
 db.close()
