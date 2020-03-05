@@ -18,8 +18,8 @@ BASE_RID_COLUMN = 4
 TPS_COLUMN = 5
 INIT_COLS = 6
 
-BUFFER_SIZE = 10 # Max number of Page Sets in BufferPool
+BUFFER_SIZE = 10 # # TODO: Changed from 10 to 15, Max number of Page Sets in BufferPool
 PAGE_CAPACITY = 512 # Max Records per Page
-PAGE_RANGE_FACTOR = 4 # Max Base Rows per Page Range
+PAGE_RANGE_FACTOR = 4 # Max Base Sets per Page Range
 
 

@@ -22,6 +22,7 @@ class Transaction:
         # query.method(*args)
         self.queries.append((query, args))
 
+    # This MUST return 0 if transaction is sucessful, else it must return 0 [TA note]
     def run(self):
         for query, args in self.queries:
             try:

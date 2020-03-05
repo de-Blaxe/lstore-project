@@ -553,6 +553,8 @@ class Table:
     def __merge(self):
         # Continue merging while there are outdated Base Pages not empty
         while True:
+            # Make copy of dictionary to avoid runtime error [dynamic size]
+            #update_to_pg_range_copy = self.update_to_pg_range.copy() 
             for page_range_index in self.update_to_pg_range:
                 if self.update_to_pg_range[page_range_index] > 0:
                     page_range = self.page_range_collection[page_range_index]

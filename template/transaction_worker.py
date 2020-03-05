@@ -9,9 +9,10 @@ class TransactionWorker:
     """
     # Creates a transaction worker object.
     """
-    def __init__(self):
+    def __init__(self, transactions = []):
+        self.stats = []
         self.transactions = []
-        #self.txn_thread = threading.Thread(target=self.run, args=[]) [but don't know when to call start()]  
+        self.result = 0
         pass
 
     """
@@ -24,16 +25,19 @@ class TransactionWorker:
     # th1 = threading.Thread(target=txn_worker.run)
     """
 
-    def add_transaction(self, transaction):
+    def add_transaction(self, txn):
         # Append new set of queries
-        self.transactions.append(transaction)
+        self.transactions.append(txn)
         pass
 
     def run(self):
-        for txn in self.transactions:
-            txn_thread = threading.Thread(target=txn.run, args=[])
+        for transaction in self.transactions:
+            self.stats.append(transaction.run())
+        self.result = sum(self.stats)
+        """
+        # Idea?
+        for transaction in self.transactions:
+            txn_thread = threading.Thread(target=transaction.run, args=[])
             txn_thread.start()
-            #txn.run() [template code]
-            # Maybe in Table Class, if we need to abort (resource not ready), we raise an Exception
-            # Exception caught by Transaction.run() method -> knows if it can abort or commit
+        """ 
         pass
