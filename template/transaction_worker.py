@@ -1,8 +1,5 @@
 from template.table import Table, Record
 from template.index import Index
-from template.transaction import Transaction
-
-import threading
 
 class TransactionWorker:
 
@@ -11,9 +8,12 @@ class TransactionWorker:
     """
     def __init__(self, transactions = []):
         self.stats = []
-        self.transactions = []
+        self.transactions = transactions
         self.result = 0
         pass
+
+    def add_transaction(self, t):
+        self.transactions.append(t)
 
     """
     # Adds the given query to this transaction
@@ -21,23 +21,11 @@ class TransactionWorker:
     # q = Query(grades_table)
     # t = Transaction()
     # t.add_query(q.update, 0, *[None, 1, None, 2, None])
-    # txn_worker = TransactionWorker([t])
-    # th1 = threading.Thread(target=txn_worker.run)
+    # transaction_worker = TransactionWorker([t])
     """
-
-    def add_transaction(self, txn):
-        # Append new set of queries
-        self.transactions.append(txn)
-        pass
-
     def run(self):
         for transaction in self.transactions:
+            # each transaction returns True if committed or False if aborted
             self.stats.append(transaction.run())
-        self.result = sum(self.stats)
-        """
-        # Idea?
-        for transaction in self.transactions:
-            txn_thread = threading.Thread(target=transaction.run, args=[])
-            txn_thread.start()
-        """ 
-        pass
+        # stores the number of transactions that committed
+        self.result = len(list(filter(lambda x: x, self.stats)))
