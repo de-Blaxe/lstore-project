@@ -81,11 +81,11 @@ class Index:
         
         # Get their latest keys for column_number via read_records()
         for rid in baseIDs:
-            [page_range_index, page_row, byte_pos] = self.table.page_directory[rid]
+            [page_range_index, name_index, byte_pos] = self.table.page_directory[rid]
             page_range = self.table.page_range_collection[page_range_index]
 
             # Check if rid is baseID or tailID
-            cur_pages = self.table.memory_manager.get_pages(page_range.base_set[page_row], self.table)
+            cur_pages = self.table.memory_manager.get_pages(page_range.base_set[name_index], self.table)
 
             # Read its data
             base_data = cur_pages[INIT_COLS + self.primary_index].data
