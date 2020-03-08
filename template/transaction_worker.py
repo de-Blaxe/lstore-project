@@ -12,8 +12,10 @@ class TransactionWorker:
         self.result = 0
         pass
 
+
     def add_transaction(self, t):
         self.transactions.append(t)
+
 
     """
     # Adds the given query to this transaction
@@ -25,7 +27,7 @@ class TransactionWorker:
     """
     def run(self):
         for transaction in self.transactions:
-            # each transaction returns True if committed or False if aborted
+            # Each transaction returns True if committed or False if aborted
             self.stats.append(transaction.run())
-        # stores the number of transactions that committed
+        # Stores the number of transactions that committed
         self.result = len(list(filter(lambda x: x, self.stats)))

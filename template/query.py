@@ -2,17 +2,24 @@ from template.table import Table, Record
 from template.index import Index
 from template.config import *
 
+
 class Query:
     """
-    # Creates a Query object that can perform different queries on the specified table 
+    # Creates a Query object that can perform different queries on the specified table
+    Queries that fail must return False
+    Queries that succeed should return the result or True
+    Any query that crashes (due to exceptions) should return False 
     """
     def __init__(self, table):
         self.table = table
         pass
 
+
     """
     # internal Method
     # Read a record with specified RID
+    # Returns True upon succesful deletion
+    # Return False if record doesn't exist or is locked due to 2PL
     """
     def delete(self, key):
         self.table.delete_record(key)
@@ -21,10 +28,12 @@ class Query:
 
     """
     # Insert a record with specified columns
+    # Return True upon succesful insertion
+    # Returns False if insert fails for whatever reason
     """
     def insert(self, *columns):
         # Create a new Record instance
-        schema_encoding = '0' * self.table.num_columns # Changed template code (array -> string)
+        schema_encoding = '0' * self.table.num_columns
         self.table.LID_counter += 1 
         baseID = self.table.LID_counter
         record = Record(rid=baseID, key=columns[self.table.key_index], columns=columns) 
@@ -35,7 +44,10 @@ class Query:
     """
     # Read a record with specified key
     # :param key: the key value to select records based on
-    # :param query_columns: what columns to return. array of 1 or 0 values.
+    # :param query_columns: what columns to return. Array of 1 and/or 0s.
+    # Returns a list of Record objects upon success
+    # Returns False if record locked by TPL
+    # Assume that select will never be called on a key that doesn't exist
     """
     def select(self, key, column, query_columns):
         # Read record for given key and column
@@ -46,6 +58,9 @@ class Query:
 
     """
     # Update a record with specified key and columns
+    # Returns True if update is succesful
+    # Returns False if no records exist with given key 
+    # or if the target record cannot be accessed due to 2PL locking
     """
     def update(self, key, *columns):
         # Determine schema encoding
@@ -57,19 +72,23 @@ class Query:
         self.table.insert_tailRecord(record, schema_encoding)
         self.table.TID_counter -= 1
 
+
     """
     :param start_range: int         # Start of the key range to aggregate 
     :param end_range: int           # Increment start_range by 1 until end_range
     :param col_index: int  	        # Index of desired column to aggregate
+
     # This function is only called on the primary key
+    # Returns the summation of the given range upon success
+    # Returns False if no record exists in the given range
     """
     def sum(self, start_range, end_range, col_index):
         return self.table.collect_values(start_range, end_range, col_index)
 
 
     """
-    # increments one column of the record
-    # this implementation should work if your select and update queries already work
+    # Increments one column of the record
+    # This implementation should work if your select and update queries already work
     :param key: the primary of key of the record to increment
     :param column: the column to increment
     # Returns True is increment is successful

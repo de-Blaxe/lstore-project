@@ -40,14 +40,17 @@ class Page_Range:
 class Lock_Manager:
     
     def __init__(self):
-        self.current_locks = dict()               # Maps RIDS to number of Shared Locks (0+: Available, -1: Exclusive Lock)
-        self.threadID_to_tids = defaultdict(list) # Maps ThreadIDs to TailIDs created during runtime (in case of Rollback?)
-        self.latch = threading.Lock()             # Protect Lock Manager itself
+        # Maps ThreadIDs to TailIDs created during runtime (in case of Rollback?)
+        self.threadID_to_tids = defaultdict(list) 
+        # Protect Lock Manager itself        
+        self.latch = threading.Lock()            
+        # Maps RIDS to number of Shared Locks (0+: Available, -1: Exclusive Lock)
+        self.current_locks = dict()    
 
 
 class Table:
 
-    total_num_pages = 0
+    #total_num_pages = 0
 
     def __init__(self, name, num_columns, key_index, mem_manager):
         self.name = name
@@ -64,7 +67,7 @@ class Table:
 
         self.update_to_pg_range = dict()    # Entries: Number of Tail Records within Page Range
         self.memory_manager = mem_manager   # All Tables within Database share same Memory Manager
-        #self.lock_manager = Lock_Manager()  # Manages concurrent Threads [can't pickle Thread Lock objects? -> commented out]
+        #self.lock_manager = Lock_Manager() # Manages concurrent Threads [can't pickle Thread Lock objects? -> commented out for now]
         
         self.merge_flag = False
         self.num_merged = 0
@@ -115,7 +118,7 @@ class Table:
         # Determine amount of padding needed (diff), if any
         diff = self.num_columns - len(init_schema)
         final_schema = ('0' * diff) + init_schema if diff else init_schema
-        return [final_schema, diff] # diff result used in merge()
+        return [final_schema, diff]
 
 
     """
@@ -143,7 +146,7 @@ class Table:
 
         # Make alias
         page_range = self.page_range_collection[page_range_index]
-        base_set = page_range.base_set  # List of Base Set Names
+        base_set = page_range.base_set # List of Base Set Names
 
         # Retrieve set of physical pages
         self.memory_manager.lock.acquire()
@@ -230,8 +233,7 @@ class Table:
             cur_tail_pages = self.memory_manager.get_pages(tail_set[page_range.last_tail_name], table=self, read_only=False)
             self.memory_manager.lock.release()
             # Write to userdata columns
-            isUpdate = True
-            self.write_to_pages(cur_tail_pages, record, schema_encoding, page_set_name=tail_set[page_range.last_tail_name], isUpdate=isUpdate)
+            self.write_to_pages(cur_tail_pages, record, schema_encoding, page_set_name=tail_set[page_range.last_tail_name], isUpdate=True)
             self.memory_manager.lock.acquire()
             cur_base_pages = self.memory_manager.get_pages(page_range.base_set[base_name_index], table=self, read_only=False)
             self.memory_manager.lock.release()
@@ -362,27 +364,8 @@ class Table:
         else: # Performing multi reads for summation 
            baseIDs = self.index.locate_range(key, max_key, column)
 
-        """
-        # Check if any writers for given baseID
-        for baseID in baseIDs:
-            if (self.lock_manager.current_locks[baseID] == -1):
-                # Exclusive Lock in use
-                # Current Transaction must abort
-                raise Exception
-        # Otherwise, proceed with query & commit???
-            # Do we need to check rids in latest_rids?
-        """
-
         latest_rids = self.get_latest(baseIDs)
         output = [] # A list of Record objects to return
-
-        """
-        rids_accessed = latest_rids 
-            # Keep appending to list inside for loop (below)?
-            # Since we may call get_previous
-        lock each rid in rids_accessed
-        release each of them at end?
-        """
 
         for rid in latest_rids:
            # Validation Stage: Check if rid is invalid
@@ -400,6 +383,7 @@ class Table:
             # Locate record within Page Range
             [page_range_index, name_index, byte_pos] = self.page_directory[rid]
             page_range = self.page_range_collection[page_range_index]
+
             if rid >= self.TID_counter:
                 # Find corresponding Base Record for Tail Record
                 tail_set_name = page_range.tail_set[name_index]
@@ -414,13 +398,16 @@ class Table:
             else:
                 [_, base_name_index, base_byte_pos] = self.page_directory[rid]
                 base_set_name = page_range.base_set[base_name_index]
+
             # Read Base Record's TPS
             self.memory_manager.lock.acquire()
             base_pages = self.memory_manager.get_pages(base_set_name, self)
+
             for i in range(self.num_columns):
                 data[i] = self.convert_data(base_pages[INIT_COLS + i], base_byte_pos)
             base_tps_page = base_pages[TPS_COLUMN]
             base_tps = self.convert_data(base_tps_page, base_byte_pos)
+
             # Read Base Record's Indirection RID
             base_indir_page = base_pages[INDIRECTION_COLUMN]
             base_indir_rid = self.convert_data(base_indir_page, base_byte_pos)
@@ -434,8 +421,6 @@ class Table:
                 page_range = self.page_range_collection[page_range_index]
                 # Retrieve whatever data you can from latest record
                 assert rid != 0
-
-
                 # RID may be a base or a tail ID
                 if rid >= self.TID_counter:
                     page_set = page_range.tail_set
@@ -464,6 +449,7 @@ class Table:
                         columns_not_retrieved.discard(col)
                 self.memory_manager.pinScore[page_set[name_index]] -= 1
                 self.memory_manager.lock.release()
+
                 # Get RID from indirection column
                 prev_rid = self.get_previous(rid)
                 if prev_rid < self.TID_counter or prev_rid == base_tps:
@@ -479,7 +465,7 @@ class Table:
             output.append(record)
 
         ### End of outer for loop ###
-        # Release all Shared Locks for baseIDs
+        # Release all Shared Locks for baseIDs / tailIDs?
         return output
 
 
@@ -530,14 +516,6 @@ class Table:
 
         # Start from most recent tail records to older ones      
         while (next_rid != 0): # At least one tail record exists
-            """
-            # I don't think it's beneficial to mark their RIDs as invalid
-            # But still need to get num_deleted/invalidated
-            [_, name_index, byte_pos] = self.page_directory[next_rid]
-            cur_tail_pages = page_range.tail_set[name_index]
-            tail_rid_page = cur_tail_pages[RID_COLUMN]
-            tail_rid_page.write(INVALID_RECORD, byte_pos)
-            """
             self.invalid_rids.append(next_rid)
             num_deleted += 1
             next_rid = self.get_previous(next_rid)
@@ -645,5 +623,6 @@ class Table:
                                 self.page_range_collection[page_range_index].num_updates -= records_merged
                                 self.update_to_pg_range[page_range_index] -= records_merged
                                 self.num_merged += records_merged
+                                self.merge_flag = True
                             except AttributeError:
                                 return

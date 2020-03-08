@@ -6,8 +6,6 @@ A data structure holding indices for various columns of a table.
 Key column should be indexd by default, other columns can be indexed through this object. 
 Indices are usually B-Trees, but other data structures can be used as well.
 """
-
-
 class Index:
 
     def __init__(self, table):
@@ -16,15 +14,12 @@ class Index:
         self.num_columns = table.num_columns
         self.table = table
         self.indices = []
-
         # Only have a dictionary of key:val for the primary key column
         # For the rest of the columns create a defauldict(list) type
             # This just creates a list as value for each key
             # key: [val1, val2, ...] where the value is appended to the list
-
         for col in range(table.num_columns):
             self.indices.append(defaultdict(list))
-        
         self.indices[self.primary_index] = dict()
      
 
@@ -64,9 +59,10 @@ class Index:
         # Search and replace dictionary entry
         base_rid = self.locate(key, self.primary_index)
         self.indices[column_number][new_key] = base_rid
-        # Don't pop because of select in main
-        #self.indices[self.primary_index].pop(key)
-    
+
+    """
+    # Insert (key, val) pair for primary keys
+    """
     def insert_primaryKey(self, key, val):
         # Insert key-value pair into primary key
         self.indices[self.primary_index].update({key:val})
@@ -76,7 +72,7 @@ class Index:
     # Build a Index on given column_number
     """
     def create_index(self, column_number):
-                # Collect latest RIDs for each baseID
+        # Collect latest RIDs for each baseID
         baseIDs = list(self.indices[self.primary_index].values()) 
         
         # Get their latest keys for column_number via read_records()
@@ -120,5 +116,5 @@ class Index:
     Drop index of specific column
     """
     def drop_index(self, table, column_number):
-        # Empty placeholder to maintain indices / user columns
+        # Empty placeholder to maintain column indices
         self.indices[column_number] = defaultdict(list)
