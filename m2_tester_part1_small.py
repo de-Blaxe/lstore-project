@@ -14,7 +14,7 @@ query = Query(grades_table)
 insert_time_0 = process_time()
 records = {}
 seed(3562901)
-for i in range(0, 1000): # changed from 1000 (1k)
+for i in range(0, 10): # changed from 1000 (1k)
     key = 92106429 + i
     records[key] = [key, randint(0, 20), randint(0, 20), randint(0, 20), randint(0, 20)]
     query.insert(*records[key])
@@ -40,7 +40,7 @@ print("Selecting 1k records took: \t\t\t", select_time_1 - select_time_0, "\n")
 
 
 update_time_0 = process_time()
-for _ in range(10): # Changed from 10 to 5
+for _ in range(5): # Changed from 10 to 5
     for key in keys:
         updated_columns = [None, None, None, None, None]
         for i in range(1, grades_table.num_columns):
@@ -69,8 +69,6 @@ print("Update to Pg Range dictionary: ", grades_table.update_to_pg_range, "\n")
 #print("Merge Flag after updates: ", grades_table.merge_flag, "\n")
 print("Number Merged:", grades_table.num_merged, "\n")
 
-
-print("Number evicted:", grades_table.memory_manager.num_evicted, "\n")
 """
 sum_time_0 = process_time()
 for i in range(0, 25): # Changed from 100 to 25 bc it took too long

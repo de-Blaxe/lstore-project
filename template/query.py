@@ -52,7 +52,6 @@ class Query:
     def select(self, key, column, query_columns):
         # Read record for given key and column
         record = self.table.read_records(key, column, query_columns)
-        
         return record
 
 

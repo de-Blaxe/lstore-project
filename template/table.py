@@ -3,10 +3,12 @@ from time import time
 from template.config import *
 from template.index import *
 from copy import deepcopy
+
 import threading
 import math
 import operator
 
+from time import process_time
 
 class Record:
 
@@ -36,23 +38,9 @@ class Page_Range:
         self.tail_set = []   # List of Tail Page Set Names
         self.num_updates = 0 # Number of Tail Records within Page Range
 
-
-class Lock_Manager:
-    
-    def __init__(self):
-        # Maps ThreadIDs to TailIDs created during runtime (in case of Rollback?)
-        self.threadID_to_tids = defaultdict(list) 
-        # Protect Lock Manager itself        
-        self.latch = threading.Lock()            
-        # Maps RIDS to number of Shared Locks (0+: Available, -1: Exclusive Lock)
-        self.current_locks = dict()    
-
-
 class Table:
 
-    #total_num_pages = 0
-
-    def __init__(self, name, num_columns, key_index, mem_manager):
+    def __init__(self, name, num_columns, key_index, mem_manager, lock_manager):
         self.name = name
         self.key_index = key_index
         self.num_columns = num_columns
@@ -67,17 +55,20 @@ class Table:
 
         self.update_to_pg_range = dict()    # Entries: Number of Tail Records within Page Range
         self.memory_manager = mem_manager   # All Tables within Database share same Memory Manager
-        #self.lock_manager = Lock_Manager() # Manages concurrent Threads [can't pickle Thread Lock objects? -> commented out for now]
-        
-        self.merge_flag = False
-        self.num_merged = 0
+        self.lock_manager = lock_manager    # Manages concurrent Threads [can't pickle Thread Lock objects? -> commented out for now]
+
+        #self.my_latch = self.memory_manager.latches[self.name] # Still Pickle error, can't make an alias
 
         # Generate MergeThread in background
+        self.merge_flag = False
+        self.num_merged = 0
+        """
         thread = threading.Thread(target=self.__merge, args=[])
         # After some research, reason why we need daemon thread
         # https://www.bogotobogo.com/python/Multithread/python_multithreading_Daemon_join_method_threads.php
         thread.setDaemon(True)
         thread.start()
+        """
 
 
     """
@@ -125,6 +116,15 @@ class Table:
     # Creates & inserts new base record into Table
     """
     def insert_baseRecord(self, record, schema_encoding):
+        """
+        # TESTING TO SEE IF WE CAN ACCESS TABLE'S LOCK MANAGER'S LATCH via MEMORY MANAGER
+        my_latch = self.memory_manager.latches[self.name]
+        my_latch.acquire()
+        # Fake critical section
+        print("latching test!")
+        my_latch.release()
+        """
+
         # Base case: Check if record's RID is unique
         if record.rid in self.page_directory:
             print("Error: Record RID is not unique.\n")
@@ -174,9 +174,6 @@ class Table:
         self.memory_manager.pinScore[base_set[page_range.last_base_name]] -= 1
         self.memory_manager.lock.release()
         self.page_directory[record.rid] = [page_range_index, page_range.last_base_name, byte_pos]
-        # print("UPDATING PAGE DIRECTORY: ")
-        # print("{ RID=", record.rid, " : pg range index=", page_range_index")
-        # print(" & last base name index=", page_range.last_base_name, "}\n")
         
         # Insert primary key: RID for key_index column
         self.index.insert_primaryKey(record.key, record.rid)
@@ -310,8 +307,6 @@ class Table:
     """
     def get_latest(self, baseIDs):
         rid_output = [] # List of RIDs
-        if isinstance(baseIDs, int):
-            baseIDs = [baseIDs]
 
         for baseID in baseIDs:
             # Retrieve value in base record's indirection column
@@ -360,17 +355,68 @@ class Table:
         if max_key == None:
             result = self.index.locate(key, column)
             if result != INVALID_RECORD:
-                baseIDs = result
+                baseIDs = [result] # Make into a list with one baseID
         else: # Performing multi reads for summation 
            baseIDs = self.index.locate_range(key, max_key, column)
 
+        # Obtain latch for LockManager & current ThreadID
+        self.memory_manager.lock.acquire()
+        latch = self.memory_manager.latches[self.name]
+        self.memory_manager.lock.release()
+
+        curr_threadID = threading.get_ident()
+
+        # TODO: Maybe make a Table Method to handle abort()? 
+        # Check if all baseIDs are available for reading
+        latch.acquire()
+        for baseID in baseIDs:
+            try:
+                # See if baseID exists and has no outstanding writers
+                if self.lock_manager.current_locks[baseID] == EXCLUSIVE_LOCK:
+                    tids_made = self.lock_manager.threadID_to_tids[curr_threadID]
+                    if len(tids_made):
+                        # Current thread created at least one Tail record
+                        self.invalid_rids += tids_made
+                    latch.release()
+                    return False # Signal Transaction to abort()
+                else:
+                    print("print multiple times ok")#, baseID, "\n")
+                    self.lock_manager.current_locks[baseID] += 1
+            except KeyError:
+                # First time using baseID
+                print("print once ")#, baseID, "\n")
+                self.lock_manager.current_locks[baseID] = 1
+        # Default behavior if no abort            
+        latch.release()
+
         latest_rids = self.get_latest(baseIDs)
         output = [] # A list of Record objects to return
+        # Track all RIDs accessed during read_records
+        rids_accessed = latest_rids
 
         for rid in latest_rids:
            # Validation Stage: Check if rid is invalid
             if rid in self.invalid_rids:
                 continue # Go to next rid in latest_rids
+
+            # Check if all rids (previous and latest ones) are available for reading
+            latch.acquire()
+            try:
+                if self.lock_manager.current_locks[rid] == EXCLUSIVE_LOCK:
+                    tids_made = self.lock_manager.threadID_to_tids[curr_threadID]
+                    if len(tids_made):
+                        # Current thread created at least one Tail record
+                        self.invalid_rids += tids_made
+                    latch.release()
+                    return False # Signal Transaction to abort()
+                else:
+                    self.lock_manager.current_locks[rid] += 1
+            except KeyError: # First time using (latest/previous) rid
+                self.lock_manager.current_locks[rid] = 1
+            
+            # Default behavior if no abort
+            latch.release()
+
             # Initialize data to base record's data
             data = [None] * self.num_columns
             columns_not_retrieved = set()
@@ -454,7 +500,8 @@ class Table:
                 prev_rid = self.get_previous(rid)
                 if prev_rid < self.TID_counter or prev_rid == base_tps:
                     break # Base record encountered
-                else:
+                else:   
+                    rids_accessed += [prev_rid]
                     rid = prev_rid # Follow lineage
 
             ### End of while loop ###
@@ -465,7 +512,18 @@ class Table:
             output.append(record)
 
         ### End of outer for loop ###
-        # Release all Shared Locks for baseIDs / tailIDs?
+        # Release all Shared Locks for all RIDs accessed
+        #latch.acquire()
+        print("ThreadID= ", curr_threadID, " accessed these RIDs: ", rids_accessed, "\n")
+        for rid_used in rids_accessed:
+            latch.acquire()            
+            print("BEFORE for rid=", rid_used, " num sharers: ", self.lock_manager.current_locks[rid_used]) #, "start: ", process_time())
+            self.lock_manager.current_locks[rid_used] -= 1
+            print("AFTER for rid=", rid_used, " num sharers: ", self.lock_manager.current_locks[rid_used]) #, "end: ", process_time())
+            latch.release()
+        print("------------------------------")
+        #latch.release()
+
         return output
 
 

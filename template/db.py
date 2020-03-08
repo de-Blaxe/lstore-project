@@ -6,8 +6,19 @@ from copy import deepcopy
 # Used to save the tables dict
 import pickle
 import threading
+from collections import defaultdict
+
+class LockManager:
+
+    def __init__(self):
+        # Maps ThreadIDs to TailIDs created during threading (in case of Rollback -> mark those TIDs as invalid)
+        self.threadID_to_tids = defaultdict(list)
+        #self.latch = threading.Lock() # NOTE: DOES NOT COMPILE , PICKLE ERROR?
+        # Maps RIDS to number of Shared Locks (0+: Available [read], -1: Exclusive Lock [write])
+        self.current_locks = dict()
 
 class MemoryManager():
+
     def __init__(self, path):
         # Store db path for later Table navigation
         self.db_path = path
@@ -26,6 +37,13 @@ class MemoryManager():
         self.lock = threading.Lock()
         # Counter, incremented by _evict()
         self.num_evicted = 0
+
+        # Create a unique latch for each Table's LockManager
+        # Each latch protects a LockManager
+        self.latches = dict()
+
+    def create_latch(self, table_name):
+        self.latches[table_name] = threading.Lock()
 
 
     """
@@ -164,7 +182,6 @@ class Database():
     def __init__(self):
         self.tables = dict() # Index tables by their unique names
 
-
     """
     # Opens / Creates Disk for Database
     """
@@ -221,7 +238,11 @@ class Database():
            return None # Should we exit() instead?
 
         # Memory Manager shared by all Tables
-        table = Table(name, key_index, num_columns, self.memory_manager)
+        # Each Table gets exclusive Lock Manager
+        lock_manager = LockManager()
+        self.memory_manager.create_latch(name)       
+
+        table = Table(name, key_index, num_columns, self.memory_manager, lock_manager)
         self.tables[name] = table
         try:
             os.mkdir(os.path.join(self.db_path, name))

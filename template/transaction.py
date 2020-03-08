@@ -18,7 +18,7 @@ class Transaction:
     # t = Transaction()
     # t.add_query(q.update, 0, *[None, 1, None, 2, None])
     """
-    def add_query(self, query, *args):
+    def add_query(self, query, *args): 
         self.queries.append((query, args))
 
 
@@ -40,5 +40,12 @@ class Transaction:
 
 
     def commit(self):
-        # TODO: commit to database
+        # TODO: LATERRRRR commit to database
         return True
+
+"""
+Txn Worker -> Thread
+txns = [Txn1, Txn2, Txn3, ...] Txn 2 fails -> move onto next Txn (Txn3 onwards)???
+
+# Actually don't think so bc of template code (run() returns early if result == False)
+"""

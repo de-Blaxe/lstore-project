@@ -7,9 +7,6 @@ DATA_SIZE = 8
 
 ## Decimal-based
 
-INVALID_RECORD = 0
-
-
 INDIRECTION_COLUMN = 0
 RID_COLUMN = 1
 TIMESTAMP_COLUMN = 2
@@ -22,4 +19,6 @@ BUFFER_SIZE = 10 # # TODO: Changed from 10 to 15, Max number of Page Sets in Buf
 PAGE_CAPACITY = 512 # Max Records per Page
 PAGE_RANGE_FACTOR = 4 # Max Base Sets per Page Range
 
-
+## FLAGS
+INVALID_RECORD = 0
+EXCLUSIVE_LOCK = -1
