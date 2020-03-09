@@ -380,12 +380,13 @@ class Table:
                     latch.release()
                     return False # Signal Transaction to abort()
                 else:
-                    print("print multiple times ok")#, baseID, "\n")
+                    #print("print multiple times ok for RID:", baseID, "\n")
+                    print("ThreadID is now: ", curr_threadID, "and will increment counter for RID=", baseID, "\n")        
                     self.lock_manager.current_locks[baseID] += 1
             except KeyError:
                 # First time using baseID
-                print("print once ")#, baseID, "\n")
                 self.lock_manager.current_locks[baseID] = 1
+                print("ThreadID is now:", curr_threadID, " and will update ", baseID, "with value=", self.lock_manager.current_locks[baseID], "\n")
         # Default behavior if no abort            
         latch.release()
 
@@ -409,7 +410,7 @@ class Table:
                         self.invalid_rids += tids_made
                     latch.release()
                     return False # Signal Transaction to abort()
-                else:
+                elif rid >= self.TID_counter: # Already incremented baseIDs
                     self.lock_manager.current_locks[rid] += 1
             except KeyError: # First time using (latest/previous) rid
                 self.lock_manager.current_locks[rid] = 1
@@ -513,16 +514,14 @@ class Table:
 
         ### End of outer for loop ###
         # Release all Shared Locks for all RIDs accessed
-        #latch.acquire()
-        print("ThreadID= ", curr_threadID, " accessed these RIDs: ", rids_accessed, "\n")
+        latch.acquire()
         for rid_used in rids_accessed:
-            latch.acquire()            
-            print("BEFORE for rid=", rid_used, " num sharers: ", self.lock_manager.current_locks[rid_used]) #, "start: ", process_time())
+            #print("BEFORE for rid=", rid_used, " num sharers: ", self.lock_manager.current_locks[rid_used])
+            print("ThreadID is now: ", curr_threadID, " will now decrement for RID=", rid_used, "\n")
             self.lock_manager.current_locks[rid_used] -= 1
-            print("AFTER for rid=", rid_used, " num sharers: ", self.lock_manager.current_locks[rid_used]) #, "end: ", process_time())
-            latch.release()
+            #print("AFTER for rid=", rid_used, " num sharers: ", self.lock_manager.current_locks[rid_used])
         print("------------------------------")
-        #latch.release()
+        latch.release()
 
         return output
 

@@ -1,0 +1,5020 @@
+Thread 0 started
+print once for RID: 94 
+
+BEFORE for rid= 94  num sharers:  2
+AFTER for rid= 94  num sharers:  1
+------------------------------
+print once for RID: 100 
+
+BEFORE for rid= 100  num sharers:  2
+AFTER for rid= 100  num sharers:  1
+------------------------------
+print once for RID: 35 
+
+BEFORE for rid= 35  num sharers:  2
+AFTER for rid= 35  num sharers:  1
+------------------------------
+print once for RID: 98 
+
+BEFORE for rid= 98  num sharers:  2
+AFTER for rid= 98  num sharers:  1
+------------------------------
+print once for RID: 59 
+
+BEFORE for rid= 59  num sharers:  2
+AFTER for rid= 59  num sharers:  1
+------------------------------
+print once for RID: 13 
+
+BEFORE for rid= 13  num sharers:  2
+AFTER for rid= 13  num sharers:  1
+------------------------------
+print once for RID: 18 
+
+BEFORE for rid= 18  num sharers:  2
+AFTER for rid= 18  num sharers:  1
+------------------------------
+print once for RID: 36 
+
+BEFORE for rid= 36  num sharers:  2
+AFTER for rid= 36  num sharers:  1
+------------------------------
+print once for RID: 72 
+
+BEFORE for rid= 72  num sharers:  2
+AFTER for rid= 72  num sharers:  1
+------------------------------
+print once for RID: 80 
+
+BEFORE for rid= 80  num sharers:  2
+AFTER for rid= 80  num sharers:  1
+------------------------------
+print once for RID: 53 
+
+BEFORE for rid= 53  num sharers:  2
+AFTER for rid= 53  num sharers:  1
+------------------------------
+print once for RID: 12 
+
+BEFORE for rid= 12  num sharers:  2
+AFTER for rid= 12  num sharers:  1
+------------------------------
+print multiple times ok for RID: 80 
+
+BEFORE for rid= 80  num sharers:  3
+AFTER for rid= 80  num sharers:  2
+------------------------------
+print once for RID: 55 
+
+BEFORE for rid= 55  num sharers:  2
+AFTER for rid= 55  num sharers:  1
+------------------------------
+print once for RID: 87 
+
+BEFORE for rid= 87  num sharers:  2
+AFTER for rid= 87  num sharers:  1
+------------------------------
+print once for RID: 24 
+
+BEFORE for rid= 24  num sharers:  2
+AFTER for rid= 24  num sharers:  1
+------------------------------
+print once for RID: 79 
+
+BEFORE for rid= 79  num sharers:  2
+AFTER for rid= 79  num sharers:  1
+------------------------------
+print once for RID: 1 
+
+BEFORE for rid= 1  num sharers:  2
+AFTER for rid= 1  num sharers:  1
+------------------------------
+print once for RID: 3 
+
+BEFORE for rid= 3  num sharers:  2
+AFTER for rid= 3  num sharers:  1
+------------------------------
+print once for RID: 30 
+
+BEFORE for rid= 30  num sharers:  2
+AFTER for rid= 30  num sharers:  1
+------------------------------
+print once for RID: 91 
+
+BEFORE for rid= 91  num sharers:  2
+AFTER for rid= 91  num sharers:  1
+------------------------------
+print once for RID: 90 
+
+BEFORE for rid= 90  num sharers:  2
+AFTER for rid= 90  num sharers:  1
+------------------------------
+print once for RID: 86 
+
+BEFORE for rid= 86  num sharers:  2
+AFTER for rid= 86  num sharers:  1
+------------------------------
+print multiple times ok for RID: 100 
+
+BEFORE for rid= 100  num sharers:  3
+AFTER for rid= 100  num sharers:  2
+------------------------------
+print once for RID: 28 
+
+BEFORE for rid= 28  num sharers:  2
+AFTER for rid= 28  num sharers:  1
+------------------------------
+print once for RID: 65 
+
+BEFORE for rid= 65  num sharers:  2
+AFTER for rid= 65  num sharers:  1
+------------------------------
+print once for RID: 22 
+
+BEFORE for rid= 22  num sharers:  2
+AFTER for rid= 22  num sharers:  1
+------------------------------
+print once for RID: 43 
+
+BEFORE for rid= 43  num sharers:  2
+AFTER for rid= 43  num sharers:  1
+------------------------------
+print once for RID: 7 
+
+BEFORE for rid= 7  num sharers:  2
+AFTER for rid= 7  num sharers:  1
+------------------------------
+print multiple times ok for RID: 94 
+
+BEFORE for rid= 94  num sharers:  3
+AFTER for rid= 94  num sharers:  2
+------------------------------
+print once for RID: 99 
+
+BEFORE for rid= 99  num sharers:  2
+AFTER for rid= 99  num sharers:  1
+------------------------------
+print once for RID: 81 
+
+BEFORE for rid= 81  num sharers:  2
+AFTER for rid= 81  num sharers:  1
+------------------------------
+print once for RID: 78 
+
+BEFORE for rid= 78  num sharers:  2
+AFTER for rid= 78  num sharers:  1
+------------------------------
+print once for RID: 51 
+
+BEFORE for rid= 51  num sharers:  2
+AFTER for rid= 51  num sharers:  1
+------------------------------
+print multiple times ok for RID: 72 
+
+BEFORE for rid= 72  num sharers:  3
+AFTER for rid= 72  num sharers:  2
+------------------------------
+print multiple times ok for RID: 30 
+
+BEFORE for rid= 30  num sharers:  3
+AFTER for rid= 30  num sharers:  2
+------------------------------
+print once for RID: 62 
+
+BEFORE for rid= 62  num sharers:  2
+AFTER for rid= 62  num sharers:  1
+------------------------------
+print once for RID: 6 
+
+BEFORE for rid= 6  num sharers:  2
+AFTER for rid= 6  num sharers:  1
+------------------------------
+print once for RID: 4 
+
+BEFORE for rid= 4  num sharers:  2
+AFTER for rid= 4  num sharers:  1
+------------------------------
+print once for RID: 27 
+
+BEFORE for rid= 27  num sharers:  2
+AFTER for rid= 27  num sharers:  1
+------------------------------
+print once for RID: 16 
+
+BEFORE for rid= 16  num sharers:  2
+AFTER for rid= 16  num sharers:  1
+------------------------------
+print once for RID: 56 
+
+BEFORE for rid= 56  num sharers:  2
+AFTER for rid= 56  num sharers:  1
+------------------------------
+print multiple times ok for RID: 3 
+
+BEFORE for rid= 3  num sharers:  3
+AFTER for rid= 3  num sharers:  2
+------------------------------
+print once for RID: 75 
+
+BEFORE for rid= 75  num sharers:  2
+AFTER for rid= 75  num sharers:  1
+------------------------------
+print once for RID: 14 
+
+BEFORE for rid= 14  num sharers:  2
+AFTER for rid= 14  num sharers:  1
+------------------------------
+print once for RID: 19 
+
+BEFORE for rid= 19  num sharers:  2
+AFTER for rid= 19  num sharers:  1
+------------------------------
+print once for RID: 45 
+
+BEFORE for rid= 45  num sharers:  2
+AFTER for rid= 45  num sharers:  1
+------------------------------
+print multiple times ok for RID: 35 
+
+BEFORE for rid= 35  num sharers:  3
+AFTER for rid= 35  num sharers:  2
+------------------------------
+print multiple times ok for RID: 12 
+
+BEFORE for rid= 12  num sharers:  3
+AFTER for rid= 12  num sharers:  2
+------------------------------
+print once for RID: 41 
+
+BEFORE for rid= 41  num sharers:  2
+AFTER for rid= 41  num sharers:  1
+------------------------------
+print once for RID: 82 
+
+BEFORE for rid= 82  num sharers:  2
+AFTER for rid= 82  num sharers:  1
+------------------------------
+print multiple times ok for RID: 53 
+
+BEFORE for rid= 53  num sharers:  3
+AFTER for rid= 53  num sharers:  2
+------------------------------
+print once for RID: 25 
+
+BEFORE for rid= 25  num sharers:  2
+AFTER for rid= 25  num sharers:  1
+------------------------------
+print once for RID: 39 
+
+BEFORE for rid= 39  num sharers:  2
+AFTER for rid= 39  num sharers:  1
+------------------------------
+print once for RID: 2 
+
+BEFORE for rid= 2  num sharers:  2
+AFTER for rid= 2  num sharers:  1
+------------------------------
+print multiple times ok for RID: 18 
+
+BEFORE for rid= 18  num sharers:  3
+AFTER for rid= 18  num sharers:  2
+------------------------------
+print multiple times ok for RID: 82 
+
+BEFORE for rid= 82  num sharers:  3
+AFTER for rid= 82  num sharers:  2
+------------------------------
+print once for RID: 48 
+
+BEFORE for rid= 48  num sharers:  2
+AFTER for rid= 48  num sharers:  1
+------------------------------
+print once for RID: 64 
+
+BEFORE for rid= 64  num sharers:  2
+AFTER for rid= 64  num sharers:  1
+------------------------------
+print multiple times ok for RID: 78 
+
+BEFORE for rid= 78  num sharers:  3
+AFTER for rid= 78  num sharers:  2
+------------------------------
+print once for RID: 52 
+
+BEFORE for rid= 52  num sharers:  2
+AFTER for rid= 52  num sharers:  1
+------------------------------
+print once for RID: 83 
+
+BEFORE for rid= 83  num sharers:  2
+AFTER for rid= 83  num sharers:  1
+------------------------------
+print multiple times ok for RID: 12 
+
+BEFORE for rid= 12  num sharers:  4
+AFTER for rid= 12  num sharers:  3
+------------------------------
+print once for RID: 10 
+
+BEFORE for rid= 10  num sharers:  2
+AFTER for rid= 10  num sharers:  1
+------------------------------
+print once for RID: 63 
+
+BEFORE for rid= 63  num sharers:  2
+AFTER for rid= 63  num sharers:  1
+------------------------------
+print once for RID: 96 
+
+BEFORE for rid= 96  num sharers:  2
+AFTER for rid= 96  num sharers:  1
+------------------------------
+print once for RID: 85 
+
+BEFORE for rid= 85  num sharers:  2
+AFTER for rid= 85  num sharers:  1
+------------------------------
+print multiple times ok for RID: 27 
+
+BEFORE for rid= 27  num sharers:  3
+AFTER for rid= 27  num sharers:  2
+------------------------------
+print once for RID: 46 
+
+BEFORE for rid= 46  num sharers:  2
+AFTER for rid= 46  num sharers:  1
+------------------------------
+print multiple times ok for RID: 78 
+
+BEFORE for rid= 78  num sharers:  4
+AFTER for rid= 78  num sharers:  3
+------------------------------
+print multiple times ok for RID: 45 
+
+BEFORE for rid= 45  num sharers:  3
+AFTER for rid= 45  num sharers:  2
+------------------------------
+print multiple times ok for RID: 1 
+
+BEFORE for rid= 1  num sharers:  3
+AFTER for rid= 1  num sharers:  2
+------------------------------
+print once for RID: 47 
+
+BEFORE for rid= 47  num sharers:  2
+AFTER for rid= 47  num sharers:  1
+------------------------------
+print once for RID: 71 
+
+BEFORE for rid= 71  num sharers:  2
+AFTER for rid= 71  num sharers:  1
+------------------------------
+print multiple times ok for RID: 62 
+
+BEFORE for rid= 62  num sharers:  3
+AFTER for rid= 62  num sharers:  2
+------------------------------
+print multiple times ok for RID: 28 
+
+BEFORE for rid= 28  num sharers:  3
+AFTER for rid= 28  num sharers:  2
+------------------------------
+print multiple times ok for RID: 10 
+
+BEFORE for rid= 10  num sharers:  3
+AFTER for rid= 10  num sharers:  2
+------------------------------
+print once for RID: 77 
+
+BEFORE for rid= 77  num sharers:  2
+AFTER for rid= 77  num sharers:  1
+------------------------------
+print once for RID: 21 
+
+BEFORE for rid= 21  num sharers:  2
+AFTER for rid= 21  num sharers:  1
+------------------------------
+print once for RID: 23 
+
+BEFORE for rid= 23  num sharers:  2
+AFTER for rid= 23  num sharers:  1
+------------------------------
+print multiple times ok for RID: 51 
+
+BEFORE for rid= 51  num sharers:  3
+AFTER for rid= 51  num sharers:  2
+------------------------------
+print once for RID: 54 
+
+BEFORE for rid= 54  num sharers:  2
+AFTER for rid= 54  num sharers:  1
+------------------------------
+print multiple times ok for RID: 10 
+
+BEFORE for rid= 10  num sharers:  4
+AFTER for rid= 10  num sharers:  3
+------------------------------
+print multiple times ok for RID: 81 
+
+BEFORE for rid= 81  num sharers:  3
+AFTER for rid= 81  num sharers:  2
+------------------------------
+print once for RID: 76 
+
+BEFORE for rid= 76  num sharers:  2
+AFTER for rid= 76  num sharers:  1
+------------------------------
+print once for RID: 17 
+
+BEFORE for rid= 17  num sharers:  2
+AFTER for rid= 17  num sharers:  1
+------------------------------
+print multiple times ok for RID: 62 
+
+BEFORE for rid= 62  num sharers:  4
+AFTER for rid= 62  num sharers:  3
+------------------------------
+print multiple times ok for RID: 22 
+
+BEFORE for rid= 22  num sharers:  3
+AFTER for rid= 22  num sharers:  2
+------------------------------
+print multiple times ok for RID: 41 
+
+BEFORE for rid= 41  num sharers:  3
+AFTER for rid= 41  num sharers:  2
+------------------------------
+print once for RID: 37 
+
+BEFORE for rid= 37  num sharers:  2
+AFTER for rid= 37  num sharers:  1
+------------------------------
+print multiple times ok for RID: 47 
+
+BEFORE for rid= 47  num sharers:  3
+AFTER for rid= 47  num sharers:  2
+------------------------------
+print multiple times ok for RID: 7 
+
+BEFORE for rid= 7  num sharers:  3
+AFTER for rid= 7  num sharers:  2
+------------------------------
+print multiple times ok for RID: 96 
+
+BEFORE for rid= 96  num sharers:  3
+AFTER for rid= 96  num sharers:  2
+------------------------------
+print multiple times ok for RID: 96 
+
+BEFORE for rid= 96  num sharers:  4
+AFTER for rid= 96  num sharers:  3
+------------------------------
+print multiple times ok for RID: 10 
+
+BEFORE for rid= 10  num sharers:  5
+AFTER for rid= 10  num sharers:  4
+------------------------------
+print multiple times ok for RID: 3 
+
+BEFORE for rid= 3  num sharers:  4
+AFTER for rid= 3  num sharers:  3
+------------------------------
+print multiple times ok for RID: 56 
+
+BEFORE for rid= 56  num sharers:  3
+AFTER for rid= 56  num sharers:  2
+------------------------------
+print once for RID: 95 
+
+BEFORE for rid= 95  num sharers:  2
+AFTER for rid= 95  num sharers:  1
+------------------------------
+print multiple times ok for RID: 25 
+
+BEFORE for rid= 25  num sharers:  3
+AFTER for rid= 25  num sharers:  2
+------------------------------
+print multiple times ok for RID: 45 
+
+BEFORE for rid= 45  num sharers:  4
+AFTER for rid= 45  num sharers:  3
+------------------------------
+print multiple times ok for RID: 65 
+
+BEFORE for rid= 65  num sharers:  3
+AFTER for rid= 65  num sharers:  2
+------------------------------
+print multiple times ok for RID: 48 
+
+BEFORE for rid= 48  num sharers:  3
+AFTER for rid= 48  num sharers:  2
+------------------------------
+print multiple times ok for RID: 72 
+
+BEFORE for rid= 72  num sharers:  4
+AFTER for rid= 72  num sharers:  3
+------------------------------
+print multiple times ok for RID: 55 
+
+BEFORE for rid= 55  num sharers:  3
+AFTER for rid= 55  num sharers:  2
+------------------------------
+print once for RID: 93 
+
+BEFORE for rid= 93  num sharers:  2
+AFTER for rid= 93  num sharers:  1
+------------------------------
+print once for RID: 69 
+
+BEFORE for rid= 69  num sharers:  2
+AFTER for rid= 69  num sharers:  1
+------------------------------
+print multiple times ok for RID: 98 
+
+BEFORE for rid= 98  num sharers:  3
+AFTER for rid= 98  num sharers:  2
+------------------------------
+print once for RID: 44 
+
+BEFORE for rid= 44  num sharers:  2
+AFTER for rid= 44  num sharers:  1
+------------------------------
+print multiple times ok for RID: 24 
+
+BEFORE for rid= 24  num sharers:  3
+AFTER for rid= 24  num sharers:  2
+------------------------------
+print multiple times ok for RID: 28 
+
+BEFORE for rid= 28  num sharers:  4
+AFTER for rid= 28  num sharers:  3
+------------------------------
+print once for RID: 33 
+
+BEFORE for rid= 33  num sharers:  2
+AFTER for rid= 33  num sharers:  1
+------------------------------
+print multiple times ok for RID: 36 
+
+BEFORE for rid= 36  num sharers:  3
+AFTER for rid= 36  num sharers:  2
+------------------------------
+print multiple times ok for RID: 62 
+
+BEFORE for rid= 62  num sharers:  5
+AFTER for rid= 62  num sharers:  4
+------------------------------
+print multiple times ok for RID: 90 
+
+BEFORE for rid= 90  num sharers:  3
+AFTER for rid= 90  num sharers:  2
+------------------------------
+print multiple times ok for RID: 14 
+
+BEFORE for rid= 14  num sharers:  3
+AFTER for rid= 14  num sharers:  2
+------------------------------
+print multiple times ok for RID: 52 
+
+BEFORE for rid= 52  num sharers:  3
+AFTER for rid= 52  num sharers:  2
+------------------------------
+print multiple times ok for RID: 79 
+
+BEFORE for rid= 79  num sharers:  3
+AFTER for rid= 79  num sharers:  2
+------------------------------
+print multiple times ok for RID: 77 
+
+BEFORE for rid= 77  num sharers:  3
+AFTER for rid= 77  num sharers:  2
+------------------------------
+print multiple times ok for RID: 85 
+
+BEFORE for rid= 85  num sharers:  3
+AFTER for rid= 85  num sharers:  2
+------------------------------
+print once for RID: 57 
+
+BEFORE for rid= 57  num sharers:  2
+AFTER for rid= 57  num sharers:  1
+------------------------------
+print once for RID: 66 
+
+BEFORE for rid= 66  num sharers:  2
+AFTER for rid= 66  num sharers:  1
+------------------------------
+print once for RID: 5 
+
+BEFORE for rid= 5  num sharers:  2
+AFTER for rid= 5  num sharers:  1
+------------------------------
+print once for RID: 8 
+
+BEFORE for rid= 8  num sharers:  2
+AFTER for rid= 8  num sharers:  1
+------------------------------
+print once for RID: 92 
+
+BEFORE for rid= 92  num sharers:  2
+AFTER for rid= 92  num sharers:  1
+------------------------------
+print once for RID: 26 
+
+BEFORE for rid= 26  num sharers:  2
+AFTER for rid= 26  num sharers:  1
+------------------------------
+Thread 1 started
+print multiple times ok for RID: 63 
+
+BEFORE for rid= 63  num sharers:  3
+AFTER for rid= 63  num sharers:  2
+------------------------------
+print once for RID: 70 
+
+BEFORE for rid= 70  num sharers:  2
+AFTER for rid= 70  num sharers:  1
+------------------------------
+print once for RID: 20 
+
+BEFORE for rid= 20  num sharers:  2
+AFTER for rid= 20  num sharers:  1
+------------------------------
+print multiple times ok for RID: 7 
+
+BEFORE for rid= 7  num sharers:  4
+AFTER for rid= 7  num sharers:  3
+------------------------------
+print multiple times ok for RID: 37 
+
+BEFORE for rid= 37  num sharers:  3
+AFTER for rid= 37  num sharers:  2
+------------------------------
+print multiple times ok for RID: 2 
+
+BEFORE for rid= 2  num sharers:  3
+AFTER for rid= 2  num sharers:  2
+------------------------------
+print multiple times ok for RID: 27 
+
+BEFORE for rid= 27  num sharers:  4
+AFTER for rid= 27  num sharers:  3
+------------------------------
+print multiple times ok for RID: 66 
+
+BEFORE for rid= 66  num sharers:  3
+AFTER for rid= 66  num sharers:  2
+------------------------------
+print once for RID: 34 
+
+BEFORE for rid= 34  num sharers:  2
+AFTER for rid= 34  num sharers:  1
+------------------------------
+print once for RID: 11 
+
+BEFORE for rid= 11  num sharers:  2
+AFTER for rid= 11  num sharers:  1
+------------------------------
+print multiple times ok for RID: 8 
+
+BEFORE for rid= 8  num sharers:  3
+AFTER for rid= 8  num sharers:  2
+------------------------------
+print multiple times ok for RID: 51 
+
+BEFORE for rid= 51  num sharers:  4
+AFTER for rid= 51  num sharers:  3
+------------------------------
+print multiple times ok for RID: 12 
+
+BEFORE for rid= 12  num sharers:  5
+AFTER for rid= 12  num sharers:  4
+------------------------------
+print multiple times ok for RID: 28 
+
+BEFORE for rid= 28  num sharers:  5
+AFTER for rid= 28  num sharers:  4
+------------------------------
+print multiple times ok for RID: 96 
+
+BEFORE for rid= 96  num sharers:  5
+AFTER for rid= 96  num sharers:  4
+------------------------------
+print multiple times ok for RID: 99 
+
+BEFORE for rid= 99  num sharers:  3
+AFTER for rid= 99  num sharers:  2
+------------------------------
+print multiple times ok for RID: 47 
+
+BEFORE for rid= 47  num sharers:  4
+AFTER for rid= 47  num sharers:  3
+------------------------------
+print multiple times ok for RID: 2 
+
+BEFORE for rid= 2  num sharers:  4
+AFTER for rid= 2  num sharers:  3
+------------------------------
+print multiple times ok for RID: 81 
+
+BEFORE for rid= 81  num sharers:  4
+AFTER for rid= 81  num sharers:  3
+------------------------------
+print multiple times ok for RID: 59 
+
+BEFORE for rid= 59  num sharers:  3
+AFTER for rid= 59  num sharers:  2
+------------------------------
+print once for RID: 31 
+
+BEFORE for rid= 31  num sharers:  2
+AFTER for rid= 31  num sharers:  1
+------------------------------
+print multiple times ok for RID: 3 
+
+BEFORE for rid= 3  num sharers:  5
+AFTER for rid= 3  num sharers:  4
+------------------------------
+print multiple times ok for RID: 4 
+
+BEFORE for rid= 4  num sharers:  3
+AFTER for rid= 4  num sharers:  2
+------------------------------
+print multiple times ok for RID: 24 
+
+BEFORE for rid= 24  num sharers:  4
+AFTER for rid= 24  num sharers:  3
+------------------------------
+print once for RID: 89 
+
+BEFORE for rid= 89  num sharers:  2
+AFTER for rid= 89  num sharers:  1
+------------------------------
+print multiple times ok for RID: 98 
+
+BEFORE for rid= 98  num sharers:  4
+AFTER for rid= 98  num sharers:  3
+------------------------------
+print multiple times ok for RID: 24 
+
+BEFORE for rid= 24  num sharers:  5
+AFTER for rid= 24  num sharers:  4
+------------------------------
+print multiple times ok for RID: 91 
+
+BEFORE for rid= 91  num sharers:  3
+AFTER for rid= 91  num sharers:  2
+------------------------------
+print multiple times ok for RID: 93 
+
+BEFORE for rid= 93  num sharers:  3
+AFTER for rid= 93  num sharers:  2
+------------------------------
+print multiple times ok for RID: 13 
+
+BEFORE for rid= 13  num sharers:  3
+AFTER for rid= 13  num sharers:  2
+------------------------------
+print multiple times ok for RID: 53 
+
+BEFORE for rid= 53  num sharers:  4
+AFTER for rid= 53  num sharers:  3
+------------------------------
+print multiple times ok for RID: 43 
+
+BEFORE for rid= 43  num sharers:  3
+AFTER for rid= 43  num sharers:  2
+------------------------------
+print multiple times ok for RID: 59 
+
+BEFORE for rid= 59  num sharers:  4
+AFTER for rid= 59  num sharers:  3
+------------------------------
+print once for RID: 49 
+
+BEFORE for rid= 49  num sharers:  2
+AFTER for rid= 49  num sharers:  1
+------------------------------
+print multiple times ok for RID: 53 
+
+BEFORE for rid= 53  num sharers:  5
+AFTER for rid= 53  num sharers:  4
+------------------------------
+print multiple times ok for RID: 39 
+
+BEFORE for rid= 39  num sharers:  3
+AFTER for rid= 39  num sharers:  2
+------------------------------
+print multiple times ok for RID: 96 
+
+BEFORE for rid= 96  num sharers:  6
+AFTER for rid= 96  num sharers:  5
+------------------------------
+print once for RID: 68 
+
+BEFORE for rid= 68  num sharers:  2
+AFTER for rid= 68  num sharers:  1
+------------------------------
+print multiple times ok for RID: 79 
+
+BEFORE for rid= 79  num sharers:  4
+AFTER for rid= 79  num sharers:  3
+------------------------------
+print multiple times ok for RID: 98 
+
+BEFORE for rid= 98  num sharers:  5
+AFTER for rid= 98  num sharers:  4
+------------------------------
+print multiple times ok for RID: 77 
+
+BEFORE for rid= 77  num sharers:  4
+AFTER for rid= 77  num sharers:  3
+------------------------------
+print multiple times ok for RID: 4 
+
+BEFORE for rid= 4  num sharers:  4
+AFTER for rid= 4  num sharers:  3
+------------------------------
+print once for RID: 58 
+
+BEFORE for rid= 58  num sharers:  2
+AFTER for rid= 58  num sharers:  1
+------------------------------
+print multiple times ok for RID: 78 
+
+BEFORE for rid= 78  num sharers:  5
+AFTER for rid= 78  num sharers:  4
+------------------------------
+print multiple times ok for RID: 47 
+
+BEFORE for rid= 47  num sharers:  5
+AFTER for rid= 47  num sharers:  4
+------------------------------
+print multiple times ok for RID: 98 
+
+BEFORE for rid= 98  num sharers:  6
+AFTER for rid= 98  num sharers:  5
+------------------------------
+print multiple times ok for RID: 72 
+
+BEFORE for rid= 72  num sharers:  5
+AFTER for rid= 72  num sharers:  4
+------------------------------
+print multiple times ok for RID: 5 
+
+BEFORE for rid= 5  num sharers:  3
+AFTER for rid= 5  num sharers:  2
+------------------------------
+print multiple times ok for RID: 14 
+
+BEFORE for rid= 14  num sharers:  4
+AFTER for rid= 14  num sharers:  3
+------------------------------
+print multiple times ok for RID: 83 
+
+BEFORE for rid= 83  num sharers:  3
+AFTER for rid= 83  num sharers:  2
+------------------------------
+print multiple times ok for RID: 69 
+
+BEFORE for rid= 69  num sharers:  3
+AFTER for rid= 69  num sharers:  2
+------------------------------
+print multiple times ok for RID: 39 
+
+BEFORE for rid= 39  num sharers:  4
+AFTER for rid= 39  num sharers:  3
+------------------------------
+print multiple times ok for RID: 86 
+
+BEFORE for rid= 86  num sharers:  3
+AFTER for rid= 86  num sharers:  2
+------------------------------
+print once for RID: 40 
+
+BEFORE for rid= 40  num sharers:  2
+AFTER for rid= 40  num sharers:  1
+------------------------------
+print multiple times ok for RID: 85 
+
+BEFORE for rid= 85  num sharers:  4
+AFTER for rid= 85  num sharers:  3
+------------------------------
+print multiple times ok for RID: 40 
+
+BEFORE for rid= 40  num sharers:  3
+AFTER for rid= 40  num sharers:  2
+------------------------------
+print multiple times ok for RID: 78 
+
+BEFORE for rid= 78  num sharers:  6
+AFTER for rid= 78  num sharers:  5
+------------------------------
+print multiple times ok for RID: 86 
+
+BEFORE for rid= 86  num sharers:  4
+AFTER for rid= 86  num sharers:  3
+------------------------------
+print multiple times ok for RID: 24 
+
+BEFORE for rid= 24  num sharers:  6
+AFTER for rid= 24  num sharers:  5
+------------------------------
+print once for RID: 42 
+
+BEFORE for rid= 42  num sharers:  2
+AFTER for rid= 42  num sharers:  1
+------------------------------
+print multiple times ok for RID: 19 
+
+BEFORE for rid= 19  num sharers:  3
+AFTER for rid= 19  num sharers:  2
+------------------------------
+print multiple times ok for RID: 90 
+
+BEFORE for rid= 90  num sharers:  4
+AFTER for rid= 90  num sharers:  3
+------------------------------
+print multiple times ok for RID: 52 
+
+BEFORE for rid= 52  num sharers:  4
+AFTER for rid= 52  num sharers:  3
+------------------------------
+print multiple times ok for RID: 79 
+
+BEFORE for rid= 79  num sharers:  5
+AFTER for rid= 79  num sharers:  4
+------------------------------
+print multiple times ok for RID: 87 
+
+BEFORE for rid= 87  num sharers:  3
+AFTER for rid= 87  num sharers:  2
+------------------------------
+print multiple times ok for RID: 86 
+
+BEFORE for rid= 86  num sharers:  5
+AFTER for rid= 86  num sharers:  4
+------------------------------
+print multiple times ok for RID: 42 
+
+BEFORE for rid= 42  num sharers:  3
+AFTER for rid= 42  num sharers:  2
+------------------------------
+print multiple times ok for RID: 65 
+
+BEFORE for rid= 65  num sharers:  4
+AFTER for rid= 65  num sharers:  3
+------------------------------
+print multiple times ok for RID: 46 
+
+BEFORE for rid= 46  num sharers:  3
+AFTER for rid= 46  num sharers:  2
+------------------------------
+print multiple times ok for RID: 45 
+
+BEFORE for rid= 45  num sharers:  5
+AFTER for rid= 45  num sharers:  4
+------------------------------
+print multiple times ok for RID: 64 
+
+BEFORE for rid= 64  num sharers:  3
+AFTER for rid= 64  num sharers:  2
+------------------------------
+print multiple times ok for RID: 10 
+
+BEFORE for rid= 10  num sharers:  6
+AFTER for rid= 10  num sharers:  5
+------------------------------
+print multiple times ok for RID: 49 
+
+BEFORE for rid= 49  num sharers:  3
+AFTER for rid= 49  num sharers:  2
+------------------------------
+print multiple times ok for RID: 36 
+
+BEFORE for rid= 36  num sharers:  4
+AFTER for rid= 36  num sharers:  3
+------------------------------
+print multiple times ok for RID: 34 
+
+BEFORE for rid= 34  num sharers:  3
+AFTER for rid= 34  num sharers:  2
+------------------------------
+print multiple times ok for RID: 42 
+
+BEFORE for rid= 42  num sharers:  4
+AFTER for rid= 42  num sharers:  3
+------------------------------
+print multiple times ok for RID: 14 
+
+BEFORE for rid= 14  num sharers:  5
+AFTER for rid= 14  num sharers:  4
+------------------------------
+print multiple times ok for RID: 79 
+
+BEFORE for rid= 79  num sharers:  6
+AFTER for rid= 79  num sharers:  5
+------------------------------
+print multiple times ok for RID: 94 
+
+BEFORE for rid= 94  num sharers:  4
+AFTER for rid= 94  num sharers:  3
+------------------------------
+print multiple times ok for RID: 51 
+
+BEFORE for rid= 51  num sharers:  5
+AFTER for rid= 51  num sharers:  4
+------------------------------
+print multiple times ok for RID: 14 
+
+BEFORE for rid= 14  num sharers:  6
+AFTER for rid= 14  num sharers:  5
+------------------------------
+print multiple times ok for RID: 49 
+
+BEFORE for rid= 49  num sharers:  4
+AFTER for rid= 49  num sharers:  3
+------------------------------
+print multiple times ok for RID: 3 
+
+BEFORE for rid= 3  num sharers:  6
+AFTER for rid= 3  num sharers:  5
+------------------------------
+print multiple times ok for RID: 37 
+
+BEFORE for rid= 37  num sharers:  4
+AFTER for rid= 37  num sharers:  3
+------------------------------
+print once for RID: 15 
+
+BEFORE for rid= 15  num sharers:  2
+AFTER for rid= 15  num sharers:  1
+------------------------------
+print multiple times ok for RID: 10 
+
+BEFORE for rid= 10  num sharers:  7
+AFTER for rid= 10  num sharers:  6
+------------------------------
+print multiple times ok for RID: 47 
+
+BEFORE for rid= 47  num sharers:  6
+AFTER for rid= 47  num sharers:  5
+------------------------------
+print multiple times ok for RID: 86 
+
+BEFORE for rid= 86  num sharers:  6
+AFTER for rid= 86  num sharers:  5
+------------------------------
+print multiple times ok for RID: 63 
+
+BEFORE for rid= 63  num sharers:  4
+AFTER for rid= 63  num sharers:  3
+------------------------------
+print multiple times ok for RID: 45 
+
+BEFORE for rid= 45  num sharers:  6
+AFTER for rid= 45  num sharers:  5
+------------------------------
+print multiple times ok for RID: 12 
+
+BEFORE for rid= 12  num sharers:  6
+AFTER for rid= 12  num sharers:  5
+------------------------------
+print once for RID: 29 
+
+BEFORE for rid= 29  num sharers:  2
+AFTER for rid= 29  num sharers:  1
+------------------------------
+print multiple times ok for RID: 44 
+
+BEFORE for rid= 44  num sharers:  3
+AFTER for rid= 44  num sharers:  2
+------------------------------
+print once for RID: 74 
+
+BEFORE for rid= 74  num sharers:  2
+AFTER for rid= 74  num sharers:  1
+------------------------------
+print once for RID: 88 
+
+BEFORE for rid= 88  num sharers:  2
+AFTER for rid= 88  num sharers:  1
+------------------------------
+print multiple times ok for RID: 58 
+
+BEFORE for rid= 58  num sharers:  3
+AFTER for rid= 58  num sharers:  2
+------------------------------
+print multiple times ok for RID: 19 
+
+BEFORE for rid= 19  num sharers:  4
+AFTER for rid= 19  num sharers:  3
+------------------------------
+print multiple times ok for RID: 89 
+
+BEFORE for rid= 89  num sharers:  3
+AFTER for rid= 89  num sharers:  2
+------------------------------
+print multiple times ok for RID: 5 
+
+BEFORE for rid= 5  num sharers:  4
+AFTER for rid= 5  num sharers:  3
+------------------------------
+print multiple times ok for RID: 66 
+
+BEFORE for rid= 66  num sharers:  4
+AFTER for rid= 66  num sharers:  3
+------------------------------
+print multiple times ok for RID: 57 
+
+BEFORE for rid= 57  num sharers:  3
+AFTER for rid= 57  num sharers:  2
+------------------------------
+print multiple times ok for RID: 6 
+
+BEFORE for rid= 6  num sharers:  3
+AFTER for rid= 6  num sharers:  2
+------------------------------
+print multiple times ok for RID: 51 
+
+BEFORE for rid= 51  num sharers:  6
+AFTER for rid= 51  num sharers:  5
+------------------------------
+print multiple times ok for RID: 39 
+
+BEFORE for rid= 39  num sharers:  5
+AFTER for rid= 39  num sharers:  4
+------------------------------
+print multiple times ok for RID: 87 
+
+BEFORE for rid= 87  num sharers:  4
+AFTER for rid= 87  num sharers:  3
+------------------------------
+print multiple times ok for RID: 98 
+
+BEFORE for rid= 98  num sharers:  7
+AFTER for rid= 98  num sharers:  6
+------------------------------
+print multiple times ok for RID: 75 
+
+BEFORE for rid= 75  num sharers:  3
+AFTER for rid= 75  num sharers:  2
+------------------------------
+print multiple times ok for RID: 55 
+
+BEFORE for rid= 55  num sharers:  4
+AFTER for rid= 55  num sharers:  3
+------------------------------
+print once for RID: 9 
+
+BEFORE for rid= 9  num sharers:  2
+AFTER for rid= 9  num sharers:  1
+------------------------------
+print once for RID: 38 
+
+BEFORE for rid= 38  num sharers:  2
+AFTER for rid= 38  num sharers:  1
+------------------------------
+print multiple times ok for RID: 79 
+
+BEFORE for rid= 79  num sharers:  7
+AFTER for rid= 79  num sharers:  6
+------------------------------
+print multiple times ok for RID: 10 
+
+BEFORE for rid= 10  num sharers:  8
+AFTER for rid= 10  num sharers:  7
+------------------------------
+print multiple times ok for RID: 57 
+
+BEFORE for rid= 57  num sharers:  4
+AFTER for rid= 57  num sharers:  3
+------------------------------
+print multiple times ok for RID: 59 
+
+BEFORE for rid= 59  num sharers:  5
+AFTER for rid= 59  num sharers:  4
+------------------------------
+print multiple times ok for RID: 80 
+
+BEFORE for rid= 80  num sharers:  4
+AFTER for rid= 80  num sharers:  3
+------------------------------
+print multiple times ok for RID: 47 
+
+BEFORE for rid= 47  num sharers:  7
+AFTER for rid= 47  num sharers:  6
+------------------------------
+print multiple times ok for RID: 100 
+
+BEFORE for rid= 100  num sharers:  4
+AFTER for rid= 100  num sharers:  3
+------------------------------
+print once for RID: 50 
+
+BEFORE for rid= 50  num sharers:  2
+AFTER for rid= 50  num sharers:  1
+------------------------------
+print multiple times ok for RID: 50 
+
+BEFORE for rid= 50  num sharers:  3
+AFTER for rid= 50  num sharers:  2
+------------------------------
+print once for RID: 84 
+
+BEFORE for rid= 84  num sharers:  2
+AFTER for rid= 84  num sharers:  1
+------------------------------
+print multiple times ok for RID: 28 
+
+BEFORE for rid= 28  num sharers:  6
+AFTER for rid= 28  num sharers:  5
+------------------------------
+print multiple times ok for RID: 23 
+
+BEFORE for rid= 23  num sharers:  3
+AFTER for rid= 23  num sharers:  2
+------------------------------
+print multiple times ok for RID: 5 
+
+BEFORE for rid= 5  num sharers:  5
+AFTER for rid= 5  num sharers:  4
+------------------------------
+print multiple times ok for RID: 45 
+
+BEFORE for rid= 45  num sharers:  7
+AFTER for rid= 45  num sharers:  6
+------------------------------
+print multiple times ok for RID: 98 
+
+BEFORE for rid= 98  num sharers:  8
+AFTER for rid= 98  num sharers:  7
+------------------------------
+Thread 2 started
+print multiple times ok for RID: 8 
+
+BEFORE for rid= 8  num sharers:  4
+AFTER for rid= 8  num sharers:  3
+------------------------------
+print once for RID: 97 
+
+BEFORE for rid= 97  num sharers:  2
+AFTER for rid= 97  num sharers:  1
+------------------------------
+print multiple times ok for RID: 16 
+
+BEFORE for rid= 16  num sharers:  3
+AFTER for rid= 16  num sharers:  2
+------------------------------
+print multiple times ok for RID: 40 
+
+BEFORE for rid= 40  num sharers:  4
+AFTER for rid= 40  num sharers:  3
+------------------------------
+print multiple times ok for RID: 23 
+
+BEFORE for rid= 23  num sharers:  4
+AFTER for rid= 23  num sharers:  3
+------------------------------
+print multiple times ok for RID: 56 
+
+BEFORE for rid= 56  num sharers:  4
+AFTER for rid= 56  num sharers:  3
+------------------------------
+print multiple times ok for RID: 20 
+
+BEFORE for rid= 20  num sharers:  3
+AFTER for rid= 20  num sharers:  2
+------------------------------
+print multiple times ok for RID: 77 
+
+BEFORE for rid= 77  num sharers:  5
+AFTER for rid= 77  num sharers:  4
+------------------------------
+print multiple times ok for RID: 44 
+
+BEFORE for rid= 44  num sharers:  4
+AFTER for rid= 44  num sharers:  3
+------------------------------
+print multiple times ok for RID: 51 
+
+BEFORE for rid= 51  num sharers:  7
+AFTER for rid= 51  num sharers:  6
+------------------------------
+print multiple times ok for RID: 100 
+
+BEFORE for rid= 100  num sharers:  5
+AFTER for rid= 100  num sharers:  4
+------------------------------
+print once for RID: 61 
+
+BEFORE for rid= 61  num sharers:  2
+AFTER for rid= 61  num sharers:  1
+------------------------------
+print multiple times ok for RID: 62 
+
+BEFORE for rid= 62  num sharers:  6
+AFTER for rid= 62  num sharers:  5
+------------------------------
+print multiple times ok for RID: 3 
+
+BEFORE for rid= 3  num sharers:  7
+AFTER for rid= 3  num sharers:  6
+------------------------------
+print multiple times ok for RID: 97 
+
+BEFORE for rid= 97  num sharers:  3
+AFTER for rid= 97  num sharers:  2
+------------------------------
+print multiple times ok for RID: 41 
+
+BEFORE for rid= 41  num sharers:  4
+AFTER for rid= 41  num sharers:  3
+------------------------------
+print multiple times ok for RID: 70 
+
+BEFORE for rid= 70  num sharers:  3
+AFTER for rid= 70  num sharers:  2
+------------------------------
+print multiple times ok for RID: 44 
+
+BEFORE for rid= 44  num sharers:  5
+AFTER for rid= 44  num sharers:  4
+------------------------------
+print multiple times ok for RID: 26 
+
+BEFORE for rid= 26  num sharers:  3
+AFTER for rid= 26  num sharers:  2
+------------------------------
+print multiple times ok for RID: 44 
+
+BEFORE for rid= 44  num sharers:  6
+AFTER for rid= 44  num sharers:  5
+------------------------------
+print multiple times ok for RID: 1 
+
+BEFORE for rid= 1  num sharers:  4
+AFTER for rid= 1  num sharers:  3
+------------------------------
+print multiple times ok for RID: 92 
+
+BEFORE for rid= 92  num sharers:  3
+AFTER for rid= 92  num sharers:  2
+------------------------------
+print multiple times ok for RID: 16 
+
+BEFORE for rid= 16  num sharers:  4
+AFTER for rid= 16  num sharers:  3
+------------------------------
+print multiple times ok for RID: 95 
+
+BEFORE for rid= 95  num sharers:  3
+AFTER for rid= 95  num sharers:  2
+------------------------------
+print multiple times ok for RID: 83 
+
+BEFORE for rid= 83  num sharers:  4
+AFTER for rid= 83  num sharers:  3
+------------------------------
+print multiple times ok for RID: 46 
+
+BEFORE for rid= 46  num sharers:  4
+AFTER for rid= 46  num sharers:  3
+------------------------------
+print multiple times ok for RID: 22 
+
+BEFORE for rid= 22  num sharers:  4
+AFTER for rid= 22  num sharers:  3
+------------------------------
+print multiple times ok for RID: 35 
+
+BEFORE for rid= 35  num sharers:  4
+AFTER for rid= 35  num sharers:  3
+------------------------------
+print once for RID: 67 
+
+BEFORE for rid= 67  num sharers:  2
+AFTER for rid= 67  num sharers:  1
+------------------------------
+print multiple times ok for RID: 100 
+
+BEFORE for rid= 100  num sharers:  6
+AFTER for rid= 100  num sharers:  5
+------------------------------
+print multiple times ok for RID: 75 
+
+BEFORE for rid= 75  num sharers:  4
+AFTER for rid= 75  num sharers:  3
+------------------------------
+print multiple times ok for RID: 48 
+
+BEFORE for rid= 48  num sharers:  4
+AFTER for rid= 48  num sharers:  3
+------------------------------
+print multiple times ok for RID: 85 
+
+BEFORE for rid= 85  num sharers:  5
+AFTER for rid= 85  num sharers:  4
+------------------------------
+print multiple times ok for RID: 59 
+
+BEFORE for rid= 59  num sharers:  6
+AFTER for rid= 59  num sharers:  5
+------------------------------
+print multiple times ok for RID: 39 
+
+BEFORE for rid= 39  num sharers:  6
+AFTER for rid= 39  num sharers:  5
+------------------------------
+print multiple times ok for RID: 75 
+
+BEFORE for rid= 75  num sharers:  5
+AFTER for rid= 75  num sharers:  4
+------------------------------
+print multiple times ok for RID: 43 
+
+BEFORE for rid= 43  num sharers:  4
+AFTER for rid= 43  num sharers:  3
+------------------------------
+print multiple times ok for RID: 72 
+
+BEFORE for rid= 72  num sharers:  6
+AFTER for rid= 72  num sharers:  5
+------------------------------
+print multiple times ok for RID: 56 
+
+BEFORE for rid= 56  num sharers:  5
+AFTER for rid= 56  num sharers:  4
+------------------------------
+print multiple times ok for RID: 33 
+
+BEFORE for rid= 33  num sharers:  3
+AFTER for rid= 33  num sharers:  2
+------------------------------
+print multiple times ok for RID: 94 
+
+BEFORE for rid= 94  num sharers:  5
+AFTER for rid= 94  num sharers:  4
+------------------------------
+print multiple times ok for RID: 13 
+
+BEFORE for rid= 13  num sharers:  4
+AFTER for rid= 13  num sharers:  3
+------------------------------
+print multiple times ok for RID: 94 
+
+BEFORE for rid= 94  num sharers:  6
+AFTER for rid= 94  num sharers:  5
+------------------------------
+print multiple times ok for RID: 67 
+
+BEFORE for rid= 67  num sharers:  3
+AFTER for rid= 67  num sharers:  2
+------------------------------
+print multiple times ok for RID: 55 
+
+BEFORE for rid= 55  num sharers:  5
+AFTER for rid= 55  num sharers:  4
+------------------------------
+print multiple times ok for RID: 24 
+
+BEFORE for rid= 24  num sharers:  7
+AFTER for rid= 24  num sharers:  6
+------------------------------
+print multiple times ok for RID: 44 
+
+BEFORE for rid= 44  num sharers:  7
+AFTER for rid= 44  num sharers:  6
+------------------------------
+print multiple times ok for RID: 56 
+
+BEFORE for rid= 56  num sharers:  6
+AFTER for rid= 56  num sharers:  5
+------------------------------
+print multiple times ok for RID: 10 
+
+BEFORE for rid= 10  num sharers:  9
+AFTER for rid= 10  num sharers:  8
+------------------------------
+print multiple times ok for RID: 17 
+
+BEFORE for rid= 17  num sharers:  3
+AFTER for rid= 17  num sharers:  2
+------------------------------
+print multiple times ok for RID: 67 
+
+BEFORE for rid= 67  num sharers:  4
+AFTER for rid= 67  num sharers:  3
+------------------------------
+print multiple times ok for RID: 5 
+
+BEFORE for rid= 5  num sharers:  6
+AFTER for rid= 5  num sharers:  5
+------------------------------
+print multiple times ok for RID: 72 
+
+BEFORE for rid= 72  num sharers:  7
+AFTER for rid= 72  num sharers:  6
+------------------------------
+print multiple times ok for RID: 8 
+
+BEFORE for rid= 8  num sharers:  5
+AFTER for rid= 8  num sharers:  4
+------------------------------
+print multiple times ok for RID: 41 
+
+BEFORE for rid= 41  num sharers:  5
+AFTER for rid= 41  num sharers:  4
+------------------------------
+print multiple times ok for RID: 65 
+
+BEFORE for rid= 65  num sharers:  5
+AFTER for rid= 65  num sharers:  4
+------------------------------
+print multiple times ok for RID: 34 
+
+BEFORE for rid= 34  num sharers:  4
+AFTER for rid= 34  num sharers:  3
+------------------------------
+print multiple times ok for RID: 22 
+
+BEFORE for rid= 22  num sharers:  5
+AFTER for rid= 22  num sharers:  4
+------------------------------
+print multiple times ok for RID: 57 
+
+BEFORE for rid= 57  num sharers:  5
+AFTER for rid= 57  num sharers:  4
+------------------------------
+print multiple times ok for RID: 79 
+
+BEFORE for rid= 79  num sharers:  8
+AFTER for rid= 79  num sharers:  7
+------------------------------
+print multiple times ok for RID: 47 
+
+BEFORE for rid= 47  num sharers:  8
+AFTER for rid= 47  num sharers:  7
+------------------------------
+print multiple times ok for RID: 81 
+
+BEFORE for rid= 81  num sharers:  5
+AFTER for rid= 81  num sharers:  4
+------------------------------
+print multiple times ok for RID: 83 
+
+BEFORE for rid= 83  num sharers:  5
+AFTER for rid= 83  num sharers:  4
+------------------------------
+print multiple times ok for RID: 25 
+
+BEFORE for rid= 25  num sharers:  4
+AFTER for rid= 25  num sharers:  3
+------------------------------
+print multiple times ok for RID: 83 
+
+BEFORE for rid= 83  num sharers:  6
+AFTER for rid= 83  num sharers:  5
+------------------------------
+print multiple times ok for RID: 86 
+
+BEFORE for rid= 86  num sharers:  7
+AFTER for rid= 86  num sharers:  6
+------------------------------
+print multiple times ok for RID: 76 
+
+BEFORE for rid= 76  num sharers:  3
+AFTER for rid= 76  num sharers:  2
+------------------------------
+print multiple times ok for RID: 5 
+
+BEFORE for rid= 5  num sharers:  7
+AFTER for rid= 5  num sharers:  6
+------------------------------
+print multiple times ok for RID: 54 
+
+BEFORE for rid= 54  num sharers:  3
+AFTER for rid= 54  num sharers:  2
+------------------------------
+print multiple times ok for RID: 16 
+
+BEFORE for rid= 16  num sharers:  5
+AFTER for rid= 16  num sharers:  4
+------------------------------
+print multiple times ok for RID: 53 
+
+BEFORE for rid= 53  num sharers:  6
+AFTER for rid= 53  num sharers:  5
+------------------------------
+print multiple times ok for RID: 36 
+
+BEFORE for rid= 36  num sharers:  5
+AFTER for rid= 36  num sharers:  4
+------------------------------
+print multiple times ok for RID: 4 
+
+BEFORE for rid= 4  num sharers:  5
+AFTER for rid= 4  num sharers:  4
+------------------------------
+print multiple times ok for RID: 42 
+
+BEFORE for rid= 42  num sharers:  5
+AFTER for rid= 42  num sharers:  4
+------------------------------
+print multiple times ok for RID: 84 
+
+BEFORE for rid= 84  num sharers:  3
+AFTER for rid= 84  num sharers:  2
+------------------------------
+print multiple times ok for RID: 62 
+
+BEFORE for rid= 62  num sharers:  7
+AFTER for rid= 62  num sharers:  6
+------------------------------
+print multiple times ok for RID: 35 
+
+BEFORE for rid= 35  num sharers:  5
+AFTER for rid= 35  num sharers:  4
+------------------------------
+print multiple times ok for RID: 95 
+
+BEFORE for rid= 95  num sharers:  4
+AFTER for rid= 95  num sharers:  3
+------------------------------
+print multiple times ok for RID: 92 
+
+BEFORE for rid= 92  num sharers:  4
+AFTER for rid= 92  num sharers:  3
+------------------------------
+print multiple times ok for RID: 56 
+
+BEFORE for rid= 56  num sharers:  7
+AFTER for rid= 56  num sharers:  6
+------------------------------
+print multiple times ok for RID: 92 
+
+BEFORE for rid= 92  num sharers:  5
+AFTER for rid= 92  num sharers:  4
+------------------------------
+print multiple times ok for RID: 12 
+
+BEFORE for rid= 12  num sharers:  7
+AFTER for rid= 12  num sharers:  6
+------------------------------
+print multiple times ok for RID: 49 
+
+BEFORE for rid= 49  num sharers:  5
+AFTER for rid= 49  num sharers:  4
+------------------------------
+print multiple times ok for RID: 97 
+
+BEFORE for rid= 97  num sharers:  4
+AFTER for rid= 97  num sharers:  3
+------------------------------
+print multiple times ok for RID: 81 
+
+BEFORE for rid= 81  num sharers:  6
+AFTER for rid= 81  num sharers:  5
+------------------------------
+print multiple times ok for RID: 37 
+
+BEFORE for rid= 37  num sharers:  5
+AFTER for rid= 37  num sharers:  4
+------------------------------
+print multiple times ok for RID: 65 
+
+BEFORE for rid= 65  num sharers:  6
+AFTER for rid= 65  num sharers:  5
+------------------------------
+print multiple times ok for RID: 77 
+
+BEFORE for rid= 77  num sharers:  6
+AFTER for rid= 77  num sharers:  5
+------------------------------
+print multiple times ok for RID: 6 
+
+BEFORE for rid= 6  num sharers:  4
+AFTER for rid= 6  num sharers:  3
+------------------------------
+print multiple times ok for RID: 11 
+
+BEFORE for rid= 11  num sharers:  3
+AFTER for rid= 11  num sharers:  2
+------------------------------
+print multiple times ok for RID: 54 
+
+BEFORE for rid= 54  num sharers:  4
+AFTER for rid= 54  num sharers:  3
+------------------------------
+print multiple times ok for RID: 80 
+
+BEFORE for rid= 80  num sharers:  5
+AFTER for rid= 80  num sharers:  4
+------------------------------
+print multiple times ok for RID: 72 
+
+BEFORE for rid= 72  num sharers:  8
+AFTER for rid= 72  num sharers:  7
+------------------------------
+print multiple times ok for RID: 100 
+
+BEFORE for rid= 100  num sharers:  7
+AFTER for rid= 100  num sharers:  6
+------------------------------
+print multiple times ok for RID: 53 
+
+BEFORE for rid= 53  num sharers:  7
+AFTER for rid= 53  num sharers:  6
+------------------------------
+print multiple times ok for RID: 46 
+
+BEFORE for rid= 46  num sharers:  5
+AFTER for rid= 46  num sharers:  4
+------------------------------
+print multiple times ok for RID: 82 
+
+BEFORE for rid= 82  num sharers:  4
+AFTER for rid= 82  num sharers:  3
+------------------------------
+print multiple times ok for RID: 93 
+
+BEFORE for rid= 93  num sharers:  4
+AFTER for rid= 93  num sharers:  3
+------------------------------
+print multiple times ok for RID: 5 
+
+BEFORE for rid= 5  num sharers:  8
+AFTER for rid= 5  num sharers:  7
+------------------------------
+print multiple times ok for RID: 67 
+
+BEFORE for rid= 67  num sharers:  5
+AFTER for rid= 67  num sharers:  4
+------------------------------
+print multiple times ok for RID: 21 
+
+BEFORE for rid= 21  num sharers:  3
+AFTER for rid= 21  num sharers:  2
+------------------------------
+print multiple times ok for RID: 86 
+
+BEFORE for rid= 86  num sharers:  8
+AFTER for rid= 86  num sharers:  7
+------------------------------
+print multiple times ok for RID: 64 
+
+BEFORE for rid= 64  num sharers:  4
+AFTER for rid= 64  num sharers:  3
+------------------------------
+print once for RID: 60 
+
+BEFORE for rid= 60  num sharers:  2
+AFTER for rid= 60  num sharers:  1
+------------------------------
+print multiple times ok for RID: 72 
+
+BEFORE for rid= 72  num sharers:  9
+AFTER for rid= 72  num sharers:  8
+------------------------------
+print multiple times ok for RID: 9 
+
+BEFORE for rid= 9  num sharers:  3
+AFTER for rid= 9  num sharers:  2
+------------------------------
+print multiple times ok for RID: 82 
+
+BEFORE for rid= 82  num sharers:  5
+AFTER for rid= 82  num sharers:  4
+------------------------------
+print multiple times ok for RID: 22 
+
+BEFORE for rid= 22  num sharers:  6
+AFTER for rid= 22  num sharers:  5
+------------------------------
+print multiple times ok for RID: 27 
+
+BEFORE for rid= 27  num sharers:  5
+AFTER for rid= 27  num sharers:  4
+------------------------------
+print multiple times ok for RID: 40 
+
+BEFORE for rid= 40  num sharers:  5
+AFTER for rid= 40  num sharers:  4
+------------------------------
+print multiple times ok for RID: 86 
+
+BEFORE for rid= 86  num sharers:  9
+AFTER for rid= 86  num sharers:  8
+------------------------------
+print multiple times ok for RID: 52 
+
+BEFORE for rid= 52  num sharers:  5
+AFTER for rid= 52  num sharers:  4
+------------------------------
+print multiple times ok for RID: 39 
+
+BEFORE for rid= 39  num sharers:  7
+AFTER for rid= 39  num sharers:  6
+------------------------------
+print multiple times ok for RID: 98 
+
+BEFORE for rid= 98  num sharers:  9
+AFTER for rid= 98  num sharers:  8
+------------------------------
+print multiple times ok for RID: 88 
+
+BEFORE for rid= 88  num sharers:  3
+AFTER for rid= 88  num sharers:  2
+------------------------------
+print multiple times ok for RID: 5 
+
+BEFORE for rid= 5  num sharers:  9
+AFTER for rid= 5  num sharers:  8
+------------------------------
+print multiple times ok for RID: 4 
+
+BEFORE for rid= 4  num sharers:  6
+AFTER for rid= 4  num sharers:  5
+------------------------------
+print multiple times ok for RID: 61 
+
+BEFORE for rid= 61  num sharers:  3
+AFTER for rid= 61  num sharers:  2
+------------------------------
+print multiple times ok for RID: 14 
+
+BEFORE for rid= 14  num sharers:  7
+AFTER for rid= 14  num sharers:  6
+------------------------------
+print multiple times ok for RID: 99 
+
+BEFORE for rid= 99  num sharers:  4
+AFTER for rid= 99  num sharers:  3
+------------------------------
+print multiple times ok for RID: 98 
+
+BEFORE for rid= 98  num sharers:  10
+AFTER for rid= 98  num sharers:  9
+------------------------------
+print multiple times ok for RID: 87 
+
+BEFORE for rid= 87  num sharers:  5
+AFTER for rid= 87  num sharers:  4
+------------------------------
+print multiple times ok for RID: 29 
+
+BEFORE for rid= 29  num sharers:  3
+AFTER for rid= 29  num sharers:  2
+------------------------------
+print multiple times ok for RID: 28 
+
+BEFORE for rid= 28  num sharers:  7
+AFTER for rid= 28  num sharers:  6
+------------------------------
+print multiple times ok for RID: 81 
+
+BEFORE for rid= 81  num sharers:  7
+AFTER for rid= 81  num sharers:  6
+------------------------------
+Thread 3 started
+print multiple times ok for RID: 79 
+
+BEFORE for rid= 79  num sharers:  9
+AFTER for rid= 79  num sharers:  8
+------------------------------
+print multiple times ok for RID: 82 
+
+BEFORE for rid= 82  num sharers:  6
+AFTER for rid= 82  num sharers:  5
+------------------------------
+print multiple times ok for RID: 74 
+
+BEFORE for rid= 74  num sharers:  3
+AFTER for rid= 74  num sharers:  2
+------------------------------
+print multiple times ok for RID: 88 
+
+BEFORE for rid= 88  num sharers:  4
+AFTER for rid= 88  num sharers:  3
+------------------------------
+print multiple times ok for RID: 66 
+
+BEFORE for rid= 66  num sharers:  5
+AFTER for rid= 66  num sharers:  4
+------------------------------
+print multiple times ok for RID: 100 
+
+BEFORE for rid= 100  num sharers:  8
+AFTER for rid= 100  num sharers:  7
+------------------------------
+print multiple times ok for RID: 51 
+
+BEFORE for rid= 51  num sharers:  8
+AFTER for rid= 51  num sharers:  7
+------------------------------
+print multiple times ok for RID: 75 
+
+BEFORE for rid= 75  num sharers:  6
+AFTER for rid= 75  num sharers:  5
+------------------------------
+print multiple times ok for RID: 49 
+
+BEFORE for rid= 49  num sharers:  6
+AFTER for rid= 49  num sharers:  5
+------------------------------
+print multiple times ok for RID: 39 
+
+BEFORE for rid= 39  num sharers:  8
+AFTER for rid= 39  num sharers:  7
+------------------------------
+print multiple times ok for RID: 21 
+
+BEFORE for rid= 21  num sharers:  4
+AFTER for rid= 21  num sharers:  3
+------------------------------
+print multiple times ok for RID: 84 
+
+BEFORE for rid= 84  num sharers:  4
+AFTER for rid= 84  num sharers:  3
+------------------------------
+print multiple times ok for RID: 36 
+
+BEFORE for rid= 36  num sharers:  6
+AFTER for rid= 36  num sharers:  5
+------------------------------
+print multiple times ok for RID: 16 
+
+BEFORE for rid= 16  num sharers:  6
+AFTER for rid= 16  num sharers:  5
+------------------------------
+print multiple times ok for RID: 63 
+
+BEFORE for rid= 63  num sharers:  5
+AFTER for rid= 63  num sharers:  4
+------------------------------
+print multiple times ok for RID: 62 
+
+BEFORE for rid= 62  num sharers:  8
+AFTER for rid= 62  num sharers:  7
+------------------------------
+print multiple times ok for RID: 27 
+
+BEFORE for rid= 27  num sharers:  6
+AFTER for rid= 27  num sharers:  5
+------------------------------
+print multiple times ok for RID: 80 
+
+BEFORE for rid= 80  num sharers:  6
+AFTER for rid= 80  num sharers:  5
+------------------------------
+print multiple times ok for RID: 29 
+
+BEFORE for rid= 29  num sharers:  4
+AFTER for rid= 29  num sharers:  3
+------------------------------
+print multiple times ok for RID: 50 
+
+BEFORE for rid= 50  num sharers:  4
+AFTER for rid= 50  num sharers:  3
+------------------------------
+print multiple times ok for RID: 1 
+
+BEFORE for rid= 1  num sharers:  5
+AFTER for rid= 1  num sharers:  4
+------------------------------
+print multiple times ok for RID: 31 
+
+BEFORE for rid= 31  num sharers:  3
+AFTER for rid= 31  num sharers:  2
+------------------------------
+print multiple times ok for RID: 39 
+
+BEFORE for rid= 39  num sharers:  9
+AFTER for rid= 39  num sharers:  8
+------------------------------
+print multiple times ok for RID: 6 
+
+BEFORE for rid= 6  num sharers:  5
+AFTER for rid= 6  num sharers:  4
+------------------------------
+print multiple times ok for RID: 89 
+
+BEFORE for rid= 89  num sharers:  4
+AFTER for rid= 89  num sharers:  3
+------------------------------
+print multiple times ok for RID: 96 
+
+BEFORE for rid= 96  num sharers:  7
+AFTER for rid= 96  num sharers:  6
+------------------------------
+print multiple times ok for RID: 70 
+
+BEFORE for rid= 70  num sharers:  4
+AFTER for rid= 70  num sharers:  3
+------------------------------
+print multiple times ok for RID: 2 
+
+BEFORE for rid= 2  num sharers:  5
+AFTER for rid= 2  num sharers:  4
+------------------------------
+print multiple times ok for RID: 48 
+
+BEFORE for rid= 48  num sharers:  5
+AFTER for rid= 48  num sharers:  4
+------------------------------
+print multiple times ok for RID: 53 
+
+BEFORE for rid= 53  num sharers:  8
+AFTER for rid= 53  num sharers:  7
+------------------------------
+print multiple times ok for RID: 2 
+
+BEFORE for rid= 2  num sharers:  6
+AFTER for rid= 2  num sharers:  5
+------------------------------
+print multiple times ok for RID: 77 
+
+BEFORE for rid= 77  num sharers:  7
+AFTER for rid= 77  num sharers:  6
+------------------------------
+print multiple times ok for RID: 44 
+
+BEFORE for rid= 44  num sharers:  8
+AFTER for rid= 44  num sharers:  7
+------------------------------
+print multiple times ok for RID: 2 
+
+BEFORE for rid= 2  num sharers:  7
+AFTER for rid= 2  num sharers:  6
+------------------------------
+print multiple times ok for RID: 49 
+
+BEFORE for rid= 49  num sharers:  7
+AFTER for rid= 49  num sharers:  6
+------------------------------
+print multiple times ok for RID: 39 
+
+BEFORE for rid= 39  num sharers:  10
+AFTER for rid= 39  num sharers:  9
+------------------------------
+print multiple times ok for RID: 50 
+
+BEFORE for rid= 50  num sharers:  5
+AFTER for rid= 50  num sharers:  4
+------------------------------
+print multiple times ok for RID: 28 
+
+BEFORE for rid= 28  num sharers:  8
+AFTER for rid= 28  num sharers:  7
+------------------------------
+print multiple times ok for RID: 47 
+
+BEFORE for rid= 47  num sharers:  9
+AFTER for rid= 47  num sharers:  8
+------------------------------
+print multiple times ok for RID: 48 
+
+BEFORE for rid= 48  num sharers:  6
+AFTER for rid= 48  num sharers:  5
+------------------------------
+print multiple times ok for RID: 79 
+
+BEFORE for rid= 79  num sharers:  10
+AFTER for rid= 79  num sharers:  9
+------------------------------
+print multiple times ok for RID: 57 
+
+BEFORE for rid= 57  num sharers:  6
+AFTER for rid= 57  num sharers:  5
+------------------------------
+print multiple times ok for RID: 54 
+
+BEFORE for rid= 54  num sharers:  5
+AFTER for rid= 54  num sharers:  4
+------------------------------
+print multiple times ok for RID: 62 
+
+BEFORE for rid= 62  num sharers:  9
+AFTER for rid= 62  num sharers:  8
+------------------------------
+print multiple times ok for RID: 82 
+
+BEFORE for rid= 82  num sharers:  7
+AFTER for rid= 82  num sharers:  6
+------------------------------
+print multiple times ok for RID: 96 
+
+BEFORE for rid= 96  num sharers:  8
+AFTER for rid= 96  num sharers:  7
+------------------------------
+print multiple times ok for RID: 52 
+
+BEFORE for rid= 52  num sharers:  6
+AFTER for rid= 52  num sharers:  5
+------------------------------
+print multiple times ok for RID: 11 
+
+BEFORE for rid= 11  num sharers:  4
+AFTER for rid= 11  num sharers:  3
+------------------------------
+print multiple times ok for RID: 80 
+
+BEFORE for rid= 80  num sharers:  7
+AFTER for rid= 80  num sharers:  6
+------------------------------
+print multiple times ok for RID: 94 
+
+BEFORE for rid= 94  num sharers:  7
+AFTER for rid= 94  num sharers:  6
+------------------------------
+print multiple times ok for RID: 54 
+
+BEFORE for rid= 54  num sharers:  6
+AFTER for rid= 54  num sharers:  5
+------------------------------
+print multiple times ok for RID: 30 
+
+BEFORE for rid= 30  num sharers:  4
+AFTER for rid= 30  num sharers:  3
+------------------------------
+print multiple times ok for RID: 21 
+
+BEFORE for rid= 21  num sharers:  5
+AFTER for rid= 21  num sharers:  4
+------------------------------
+print multiple times ok for RID: 65 
+
+BEFORE for rid= 65  num sharers:  7
+AFTER for rid= 65  num sharers:  6
+------------------------------
+print multiple times ok for RID: 46 
+
+BEFORE for rid= 46  num sharers:  6
+AFTER for rid= 46  num sharers:  5
+------------------------------
+print multiple times ok for RID: 48 
+
+BEFORE for rid= 48  num sharers:  7
+AFTER for rid= 48  num sharers:  6
+------------------------------
+print multiple times ok for RID: 34 
+
+BEFORE for rid= 34  num sharers:  5
+AFTER for rid= 34  num sharers:  4
+------------------------------
+print multiple times ok for RID: 64 
+
+BEFORE for rid= 64  num sharers:  5
+AFTER for rid= 64  num sharers:  4
+------------------------------
+print multiple times ok for RID: 98 
+
+BEFORE for rid= 98  num sharers:  11
+AFTER for rid= 98  num sharers:  10
+------------------------------
+print multiple times ok for RID: 58 
+
+BEFORE for rid= 58  num sharers:  4
+AFTER for rid= 58  num sharers:  3
+------------------------------
+print multiple times ok for RID: 37 
+
+BEFORE for rid= 37  num sharers:  6
+AFTER for rid= 37  num sharers:  5
+------------------------------
+print multiple times ok for RID: 15 
+
+BEFORE for rid= 15  num sharers:  3
+AFTER for rid= 15  num sharers:  2
+------------------------------
+print multiple times ok for RID: 5 
+
+BEFORE for rid= 5  num sharers:  10
+AFTER for rid= 5  num sharers:  9
+------------------------------
+print multiple times ok for RID: 45 
+
+BEFORE for rid= 45  num sharers:  8
+AFTER for rid= 45  num sharers:  7
+------------------------------
+print multiple times ok for RID: 29 
+
+BEFORE for rid= 29  num sharers:  5
+AFTER for rid= 29  num sharers:  4
+------------------------------
+print multiple times ok for RID: 19 
+
+BEFORE for rid= 19  num sharers:  5
+AFTER for rid= 19  num sharers:  4
+------------------------------
+print multiple times ok for RID: 56 
+
+BEFORE for rid= 56  num sharers:  8
+AFTER for rid= 56  num sharers:  7
+------------------------------
+print multiple times ok for RID: 67 
+
+BEFORE for rid= 67  num sharers:  6
+AFTER for rid= 67  num sharers:  5
+------------------------------
+print multiple times ok for RID: 54 
+
+BEFORE for rid= 54  num sharers:  7
+AFTER for rid= 54  num sharers:  6
+------------------------------
+print multiple times ok for RID: 62 
+
+BEFORE for rid= 62  num sharers:  10
+AFTER for rid= 62  num sharers:  9
+------------------------------
+print multiple times ok for RID: 65 
+
+BEFORE for rid= 65  num sharers:  8
+AFTER for rid= 65  num sharers:  7
+------------------------------
+print once for RID: 32 
+
+BEFORE for rid= 32  num sharers:  2
+AFTER for rid= 32  num sharers:  1
+------------------------------
+print multiple times ok for RID: 25 
+
+BEFORE for rid= 25  num sharers:  5
+AFTER for rid= 25  num sharers:  4
+------------------------------
+print multiple times ok for RID: 39 
+
+BEFORE for rid= 39  num sharers:  11
+AFTER for rid= 39  num sharers:  10
+------------------------------
+print multiple times ok for RID: 59 
+
+BEFORE for rid= 59  num sharers:  7
+AFTER for rid= 59  num sharers:  6
+------------------------------
+print multiple times ok for RID: 74 
+
+BEFORE for rid= 74  num sharers:  4
+AFTER for rid= 74  num sharers:  3
+------------------------------
+print multiple times ok for RID: 67 
+
+BEFORE for rid= 67  num sharers:  7
+AFTER for rid= 67  num sharers:  6
+------------------------------
+print multiple times ok for RID: 3 
+
+BEFORE for rid= 3  num sharers:  8
+AFTER for rid= 3  num sharers:  7
+------------------------------
+print multiple times ok for RID: 18 
+
+BEFORE for rid= 18  num sharers:  4
+AFTER for rid= 18  num sharers:  3
+------------------------------
+print multiple times ok for RID: 19 
+
+BEFORE for rid= 19  num sharers:  6
+AFTER for rid= 19  num sharers:  5
+------------------------------
+print multiple times ok for RID: 7 
+
+BEFORE for rid= 7  num sharers:  5
+AFTER for rid= 7  num sharers:  4
+------------------------------
+print multiple times ok for RID: 95 
+
+BEFORE for rid= 95  num sharers:  5
+AFTER for rid= 95  num sharers:  4
+------------------------------
+print multiple times ok for RID: 5 
+
+BEFORE for rid= 5  num sharers:  11
+AFTER for rid= 5  num sharers:  10
+------------------------------
+print multiple times ok for RID: 33 
+
+BEFORE for rid= 33  num sharers:  4
+AFTER for rid= 33  num sharers:  3
+------------------------------
+print multiple times ok for RID: 8 
+
+BEFORE for rid= 8  num sharers:  6
+AFTER for rid= 8  num sharers:  5
+------------------------------
+print multiple times ok for RID: 49 
+
+BEFORE for rid= 49  num sharers:  8
+AFTER for rid= 49  num sharers:  7
+------------------------------
+print multiple times ok for RID: 71 
+
+BEFORE for rid= 71  num sharers:  3
+AFTER for rid= 71  num sharers:  2
+------------------------------
+print multiple times ok for RID: 72 
+
+BEFORE for rid= 72  num sharers:  10
+AFTER for rid= 72  num sharers:  9
+------------------------------
+print multiple times ok for RID: 20 
+
+BEFORE for rid= 20  num sharers:  4
+AFTER for rid= 20  num sharers:  3
+------------------------------
+print multiple times ok for RID: 76 
+
+BEFORE for rid= 76  num sharers:  4
+AFTER for rid= 76  num sharers:  3
+------------------------------
+print multiple times ok for RID: 77 
+
+BEFORE for rid= 77  num sharers:  8
+AFTER for rid= 77  num sharers:  7
+------------------------------
+print multiple times ok for RID: 49 
+
+BEFORE for rid= 49  num sharers:  9
+AFTER for rid= 49  num sharers:  8
+------------------------------
+print multiple times ok for RID: 33 
+
+BEFORE for rid= 33  num sharers:  5
+AFTER for rid= 33  num sharers:  4
+------------------------------
+print multiple times ok for RID: 12 
+
+BEFORE for rid= 12  num sharers:  8
+AFTER for rid= 12  num sharers:  7
+------------------------------
+print multiple times ok for RID: 34 
+
+BEFORE for rid= 34  num sharers:  6
+AFTER for rid= 34  num sharers:  5
+------------------------------
+print multiple times ok for RID: 23 
+
+BEFORE for rid= 23  num sharers:  5
+AFTER for rid= 23  num sharers:  4
+------------------------------
+print multiple times ok for RID: 94 
+
+BEFORE for rid= 94  num sharers:  8
+AFTER for rid= 94  num sharers:  7
+------------------------------
+print multiple times ok for RID: 27 
+
+BEFORE for rid= 27  num sharers:  7
+AFTER for rid= 27  num sharers:  6
+------------------------------
+print multiple times ok for RID: 79 
+
+BEFORE for rid= 79  num sharers:  11
+AFTER for rid= 79  num sharers:  10
+------------------------------
+print once for RID: 73 
+
+BEFORE for rid= 73  num sharers:  2
+AFTER for rid= 73  num sharers:  1
+------------------------------
+print multiple times ok for RID: 60 
+
+BEFORE for rid= 60  num sharers:  3
+AFTER for rid= 60  num sharers:  2
+------------------------------
+print multiple times ok for RID: 24 
+
+BEFORE for rid= 24  num sharers:  8
+AFTER for rid= 24  num sharers:  7
+------------------------------
+print multiple times ok for RID: 24 
+
+BEFORE for rid= 24  num sharers:  9
+AFTER for rid= 24  num sharers:  8
+------------------------------
+print multiple times ok for RID: 96Thread 4 started
+Thread 5 started
+ 
+
+Thread 6 started
+print multiple times ok for RID: 100 
+
+Thread 7 started
+print multiple times ok for RID: 74 
+
+BEFORE for rid= 96  num sharers:  9
+AFTER for rid= 96  num sharers:  8
+------------------------------
+print multiple times ok for RID: 60 
+
+Thread 0 finished
+Thread 1 finished
+Thread 2 finished
+BEFORE for rid= 100  num sharers:  9
+AFTER for rid= 100  num sharers:  8
+------------------------------
+print multiple times ok for RID: 30 
+
+print multiple times ok for RID: 29 
+
+print multiple times ok for RID: 49 
+
+BEFORE for rid= 74  num sharers:  5
+AFTER for rid= 74  num sharers:  4
+------------------------------
+print multiple times ok for RID: 63 
+
+BEFORE for rid= 49  num sharers:  10
+AFTER for rid= 49  num sharers:  9
+------------------------------
+print multiple times ok for RID: 91 
+
+BEFORE for rid= 29  num sharers:  6
+AFTER for rid= 29  num sharers:  5
+------------------------------
+print multiple times ok for RID: 53 
+
+BEFORE for rid= 63  num sharers:  6
+AFTER for rid= 63  num sharers:  5
+------------------------------
+print multiple times ok for RID: 29 
+
+BEFORE for rid= 30  num sharers:  5
+AFTER for rid= 30  num sharers:  4
+------------------------------
+print multiple times ok for RID: 15 
+
+BEFORE for rid= 53  num sharers:  9
+AFTER for rid= 53  num sharers:  8
+------------------------------
+BEFORE for rid= 60  num sharers:  4
+AFTER for rid= 60  num sharers:  3
+------------------------------
+BEFORE for rid= 91  num sharers:  4
+AFTER for rid= 91  num sharers:  3
+------------------------------
+print multiple times ok for RID: 88 
+
+BEFORE for rid= 29  num sharers:  7
+AFTER for rid= 29  num sharers:  6
+------------------------------
+print multiple times ok for RID: 23 
+
+print multiple times ok for RID: 98 
+
+BEFORE for rid= 15  num sharers:  4
+AFTER for rid= 15  num sharers:  3
+------------------------------
+print multiple times ok for RID: 75 
+
+print multiple times ok for RID: 81 
+
+BEFORE for rid= 75  num sharers:  7
+AFTER for rid= 75  num sharers:  6
+------------------------------
+print multiple times ok for RID: 37 
+
+BEFORE for rid= 88  num sharers:  5
+AFTER for rid= 88  num sharers:  4
+------------------------------
+BEFORE for rid= 23  num sharers:  6
+AFTER for rid= 23  num sharers:  5
+------------------------------
+BEFORE for rid= 98  num sharers:  12
+AFTER for rid= 98  num sharers:  11
+------------------------------
+print multiple times ok for RID: 75 
+
+print multiple times ok for RID: 49 
+
+print multiple times ok for RID: 96 
+
+BEFORE for rid= 81  num sharers:  8
+AFTER for rid= 81  num sharers:  7
+------------------------------
+print multiple times ok for RID: 60 
+
+BEFORE for rid= 75  num sharers:  8
+AFTER for rid= 75  num sharers:  7
+------------------------------
+print multiple times ok for RID: 40 
+
+BEFORE for rid= 49  num sharers:  11
+AFTER for rid= 49  num sharers:  10
+------------------------------
+print multiple times ok for RID: 52 
+
+BEFORE for rid= 37  num sharers:  7
+AFTER for rid= 37  num sharers:  6
+------------------------------
+BEFORE for rid= 60  num sharers:  5
+AFTER for rid= 60  num sharers:  4
+------------------------------
+print multiple times ok for RID: 62 
+
+BEFORE for rid= 96  num sharers:  10
+AFTER for rid= 96  num sharers:  9
+------------------------------
+print multiple times ok for RID: 100 
+
+print multiple times ok for RID: 6 
+
+BEFORE for rid= 52  num sharers:  7
+AFTER for rid= 52  num sharers:  6
+------------------------------
+BEFORE for rid= 100  num sharers:  10
+AFTER for rid= 100  num sharers:  9
+------------------------------
+BEFORE for rid= 62  num sharers:  11
+AFTER for rid= 62  num sharers:  10
+------------------------------
+print multiple times ok for RID: 83 
+
+BEFORE for rid= 40  num sharers:  6
+AFTER for rid= 40  num sharers:  5
+------------------------------
+print multiple times ok for RID: 68 
+
+BEFORE for rid= 6  num sharers:  6
+AFTER for rid= 6  num sharers:  5
+------------------------------
+print multiple times ok for RID: 93 
+
+print multiple times ok for RID: 61 
+
+print multiple times ok for RID: 74 
+
+BEFORE for rid= 83  num sharers:  7
+AFTER for rid= 83  num sharers:  6
+------------------------------
+BEFORE for rid= 68  num sharers:  3
+AFTER for rid= 68  num sharers:  2
+------------------------------
+print multiple times ok for RID: 42 
+
+print multiple times ok for RID: 58 
+
+BEFORE for rid= 61  num sharers:  4
+AFTER for rid= 61  num sharers:  3
+------------------------------
+BEFORE for rid= 93  num sharers:  5
+AFTER for rid= 93  num sharers:  4
+------------------------------
+BEFORE for rid= 74  num sharers:  6
+AFTER for rid= 74  num sharers:  5
+------------------------------
+print multiple times ok for RID: 53 
+
+print multiple times ok for RID: 68 
+
+BEFORE for rid= 42  num sharers:  6
+AFTER for rid= 42  num sharers:  5
+------------------------------
+print multiple times ok for RID: 19 
+
+BEFORE for rid= 58  num sharers:  5
+AFTER for rid= 58  num sharers:  4
+------------------------------
+print multiple times ok for RID: 92 
+
+BEFORE for rid= 53  num sharers:  10
+AFTER for rid= 53  num sharers:  9
+------------------------------
+print multiple times ok for RID: 57 
+
+BEFORE for rid= 68  num sharers:  4
+AFTER for rid= 68  num sharers:  3
+------------------------------
+BEFORE for rid= 19  num sharers:  7
+AFTER for rid= 19  num sharers:  6
+------------------------------
+print multiple times ok for RID: 25 
+
+print multiple times ok for RID: 27 
+
+BEFORE for rid= 92  num sharers:  6
+AFTER for rid= 92  num sharers:  5
+------------------------------
+print multiple times ok for RID: 2 
+
+BEFORE for rid= 57  num sharers:  7
+AFTER for rid= 57  num sharers:  6
+------------------------------
+print multiple times ok for RID: 18 
+
+BEFORE for rid= 25  num sharers:  6
+AFTER for rid= 25  num sharers:  5
+------------------------------
+print multiple times ok for RID: 4 
+
+BEFORE for rid= 27  num sharers:  8
+AFTER for rid= 27  num sharers:  7
+------------------------------
+BEFORE for rid= 2  num sharers:  8
+AFTER for rid= 2  num sharers:  7
+------------------------------
+print multiple times ok for RID: 60 
+
+BEFORE for rid= 18  num sharers:  5
+AFTER for rid= 18  num sharers:  4
+------------------------------
+print multiple times ok for RID: 68 
+
+print multiple times ok for RID: 82 
+
+BEFORE for rid= 60  num sharers:  6
+AFTER for rid= 60  num sharers:  5
+------------------------------
+BEFORE for rid= 4  num sharers:  7
+AFTER for rid= 4  num sharers:  6
+------------------------------
+print multiple times ok for RID: 14 
+
+print multiple times ok for RID: 10 
+
+print multiple times ok for RID: 66 
+
+BEFORE for rid= 68  num sharers:  5
+AFTER for rid= 68  num sharers:  4
+------------------------------
+BEFORE for rid= 82  num sharers:  8
+AFTER for rid= 82  num sharers:  7
+------------------------------
+print multiple times ok for RID: 23 
+
+BEFORE for rid= 14  num sharers:  8
+AFTER for rid= 14  num sharers:  7
+------------------------------
+print multiple times ok for RID: 36 
+
+BEFORE for rid= 10  num sharers:  10
+AFTER for rid= 10  num sharers:  9
+------------------------------
+print multiple times ok for RID: 60 
+
+BEFORE for rid= 23  num sharers:  7
+AFTER for rid= 23  num sharers:  6
+------------------------------
+print multiple times ok for RID: 92 
+
+print multiple times ok for RID: 13 
+
+BEFORE for rid= 36  num sharers:  7
+AFTER for rid= 36  num sharers:  6
+------------------------------
+print multiple times ok for RID: 83 
+
+BEFORE for rid= 66  num sharers:  6
+AFTER for rid= 66  num sharers:  5
+------------------------------
+BEFORE for rid= 60  num sharers:  7
+AFTER for rid= 60  num sharers:  6
+------------------------------
+print multiple times ok for RID: 54 
+
+BEFORE for rid= 13  num sharers:  5
+AFTER for rid= 13  num sharers:  4
+------------------------------
+print multiple times ok for RID: 38 
+
+BEFORE for rid= 92  num sharers:  7
+AFTER for rid= 92  num sharers:  6
+------------------------------
+BEFORE for rid= 83  num sharers:  8
+AFTER for rid= 83  num sharers:  7
+------------------------------
+print multiple times ok for RID: 87 
+
+print multiple times ok for RID: 67 
+
+print multiple times ok for RID: 95 
+
+BEFORE for rid= 54  num sharers:  8
+AFTER for rid= 54  num sharers:  7
+------------------------------
+BEFORE for rid= 38  num sharers:  3
+AFTER for rid= 38  num sharers:  2
+------------------------------
+print multiple times ok for RID: 54 
+
+BEFORE for rid= 87  num sharers:  6
+AFTER for rid= 87  num sharers:  5
+------------------------------
+print multiple times ok for RID: 7 
+
+BEFORE for rid= 67  num sharers:  8
+AFTER for rid= 67  num sharers:  7
+------------------------------
+BEFORE for rid= 95  num sharers:  6
+AFTER for rid= 95  num sharers:  5
+------------------------------
+print multiple times ok for RID: 93 
+
+print multiple times ok for RID: 10 
+
+print multiple times ok for RID: 80 
+
+BEFORE for rid= 54  num sharers:  9
+AFTER for rid= 54  num sharers:  8
+------------------------------
+BEFORE for rid= 7  num sharers:  6
+AFTER for rid= 7  num sharers:  5
+------------------------------
+BEFORE for rid= 93  num sharers:  6
+AFTER for rid= 93  num sharers:  5
+------------------------------
+print multiple times ok for RID: 78 
+
+print multiple times ok for RID: 94 
+
+BEFORE for rid= 10  num sharers:  11
+AFTER for rid= 10  num sharers:  10
+------------------------------
+BEFORE for rid= 80  num sharers:  8
+AFTER for rid= 80  num sharers:  7
+------------------------------
+print multiple times ok for RID: 59 
+
+print multiple times ok for RID: 82 
+
+print multiple times ok for RID: 32 
+
+BEFORE for rid= 78  num sharers:  7
+AFTER for rid= 78  num sharers:  6
+------------------------------
+BEFORE for rid= 94  num sharers:  9
+AFTER for rid= 94  num sharers:  8
+------------------------------
+BEFORE for rid= 59  num sharers:  8
+AFTER for rid= 59  num sharers:  7
+------------------------------
+print multiple times ok for RID: 26 
+
+print multiple times ok for RID: 92 
+
+BEFORE for rid= 32  num sharers:  3
+AFTER for rid= 32  num sharers:  2
+------------------------------
+print multiple times ok for RID: 12 
+
+BEFORE for rid= 82  num sharers:  9
+AFTER for rid= 82  num sharers:  8
+------------------------------
+BEFORE for rid= 26  num sharers:  4
+AFTER for rid= 26  num sharers:  3
+------------------------------
+print multiple times ok for RID: 69 
+
+print multiple times ok for RID: 27 
+
+print multiple times ok for RID: 31 
+
+BEFORE for rid= 92  num sharers:  8
+AFTER for rid= 92  num sharers:  7
+------------------------------
+BEFORE for rid= 12  num sharers:  9
+AFTER for rid= 12  num sharers:  8
+------------------------------
+BEFORE for rid= 69  num sharers:  4
+AFTER for rid= 69  num sharers:  3
+------------------------------
+print multiple times ok for RID: 82 
+
+print multiple times ok for RID: 62 
+
+BEFORE for rid= 27  num sharers:  9
+AFTER for rid= 27  num sharers:  8
+------------------------------
+BEFORE for rid= 31  num sharers:  4
+AFTER for rid= 31  num sharers:  3
+------------------------------
+print multiple times ok for RID: 72 
+
+print multiple times ok for RID: 18 
+
+print multiple times ok for RID: 18 
+
+BEFORE for rid= 82  num sharers:  10
+AFTER for rid= 82  num sharers:  9
+------------------------------
+BEFORE for rid= 62  num sharers:  12
+AFTER for rid= 62  num sharers:  11
+------------------------------
+BEFORE for rid= 72  num sharers:  11
+AFTER for rid= 72  num sharers:  10
+------------------------------
+print multiple times ok for RID: 64 
+
+print multiple times ok for RID: 74 
+
+BEFORE for rid= 18  num sharers:  8
+AFTER for rid= 18  num sharers:  7
+------------------------------
+BEFORE for rid= 18  num sharers:  7
+AFTER for rid= 18  num sharers:  6
+------------------------------
+print multiple times ok for RID: 58 
+
+print multiple times ok for RID: 15 
+
+print multiple times ok for RID: 96 
+
+BEFORE for rid= 64  num sharers:  6
+AFTER for rid= 64  num sharers:  5
+------------------------------
+BEFORE for rid= 74  num sharers:  7
+AFTER for rid= 74  num sharers:  6
+------------------------------
+BEFORE for rid= 58  num sharers:  6
+AFTER for rid= 58  num sharers:  5
+------------------------------
+print multiple times ok for RID: 20 
+
+print multiple times ok for RID: 56 
+
+BEFORE for rid= 15  num sharers:  5
+AFTER for rid= 15  num sharers:  4
+------------------------------
+BEFORE for rid= 96  num sharers:  11
+AFTER for rid= 96  num sharers:  10
+------------------------------
+print multiple times ok for RID: 62 
+
+print multiple times ok for RID: 68 
+
+print multiple times ok for RID: 61 
+
+BEFORE for rid= 20  num sharers:  5
+AFTER for rid= 20  num sharers:  4
+------------------------------
+BEFORE for rid= 56  num sharers:  9
+AFTER for rid= 56  num sharers:  8
+------------------------------
+BEFORE for rid= 62  num sharers:  13
+AFTER for rid= 62  num sharers:  12
+------------------------------
+print multiple times ok for RID: 47 
+
+print multiple times ok for RID: 89 
+
+BEFORE for rid= 68  num sharers:  6
+AFTER for rid= 68  num sharers:  5
+------------------------------
+print multiple times ok for RID: 84 
+
+BEFORE for rid= 61  num sharers:  5
+AFTER for rid= 61  num sharers:  4
+------------------------------
+print multiple times ok for RID: 96 
+
+print multiple times ok for RID: 18 
+
+BEFORE for rid= 47  num sharers:  10
+AFTER for rid= 47  num sharers:  9
+------------------------------
+BEFORE for rid= 89  num sharers:  5
+AFTER for rid= 89  num sharers:  4
+------------------------------
+BEFORE for rid= 84  num sharers:  5
+AFTER for rid= 84  num sharers:  4
+------------------------------
+print multiple times ok for RID: 96 
+
+print multiple times ok for RID: 35 
+
+BEFORE for rid= 96  num sharers:  13
+AFTER for rid= 96  num sharers:  12
+------------------------------
+print multiple times ok for RID: 15 
+
+BEFORE for rid= 18  num sharers:  8
+AFTER for rid= 18  num sharers:  7
+------------------------------
+print multiple times ok for RID: 62 
+
+print multiple times ok for RID: 47 
+
+BEFORE for rid= 96  num sharers:  13
+AFTER for rid= 96  num sharers:  12
+------------------------------
+BEFORE for rid= 35  num sharers:  6
+AFTER for rid= 35  num sharers:  5
+------------------------------
+BEFORE for rid= 15  num sharers:  6
+AFTER for rid= 15  num sharers:  5
+------------------------------
+print multiple times ok for RID: 8 
+
+print multiple times ok for RID: 29 
+
+BEFORE for rid= 62  num sharers:  14
+AFTER for rid= 62  num sharers:  13
+------------------------------
+print multiple times ok for RID: 19 
+
+BEFORE for rid= 47  num sharers:  11
+AFTER for rid= 47  num sharers:  10
+------------------------------
+print multiple times ok for RID: 83 
+
+print multiple times ok for RID: 92 
+
+BEFORE for rid= 8  num sharers:  7
+AFTER for rid= 8  num sharers:  6
+------------------------------
+BEFORE for rid= 29  num sharers:  8
+AFTER for rid= 29  num sharers:  7
+------------------------------
+BEFORE for rid= 19  num sharers:  8
+AFTER for rid= 19  num sharers:  7
+------------------------------
+print multiple times ok for RID: 77 
+
+print multiple times ok for RID: 82 
+
+BEFORE for rid= 83  num sharers:  9
+AFTER for rid= 83  num sharers:  8
+------------------------------
+print multiple times ok for RID: 80 
+
+BEFORE for rid= 92  num sharers:  9
+AFTER for rid= 92  num sharers:  8
+------------------------------
+print multiple times ok for RID: 20 
+
+print multiple times ok for RID: 22 
+
+BEFORE for rid= 77  num sharers:  9
+AFTER for rid= 77  num sharers:  8
+------------------------------
+BEFORE for rid= 82  num sharers:  11
+AFTER for rid= 82  num sharers:  10
+------------------------------
+BEFORE for rid= 80  num sharers:  9
+AFTER for rid= 80  num sharers:  8
+------------------------------
+print multiple times ok for RID: 93 
+
+print multiple times ok for RID: 68 
+
+BEFORE for rid= 20  num sharers:  6
+AFTER for rid= 20  num sharers:  5
+------------------------------
+Thread 3 finished
+print multiple times ok for RID: 29 
+
+BEFORE for rid= 22  num sharers:  7
+AFTER for rid= 22  num sharers:  6
+------------------------------
+print multiple times ok for RID: 58 
+
+BEFORE for rid= 93  num sharers:  7
+AFTER for rid= 93  num sharers:  6
+------------------------------
+BEFORE for rid= 68  num sharers:  7
+AFTER for rid= 68  num sharers:  6
+------------------------------
+BEFORE for rid= 29  num sharers:  9
+AFTER for rid= 29  num sharers:  8
+------------------------------
+print multiple times ok for RID: 92 
+
+print multiple times ok for RID: 79 
+
+print multiple times ok for RID: 11 
+
+BEFORE for rid= 58  num sharers:  7
+AFTER for rid= 58  num sharers:  6
+------------------------------
+print multiple times ok for RID: 62 
+
+BEFORE for rid= 92  num sharers:  10
+AFTER for rid= 92  num sharers:  9
+------------------------------
+BEFORE for rid= 79  num sharers:  12
+AFTER for rid= 79  num sharers:  11
+------------------------------
+BEFORE for rid= 11  num sharers:  5
+AFTER for rid= 11  num sharers:  4
+------------------------------
+print multiple times ok for RID: 55 
+
+print multiple times ok for RID: 59 
+
+print multiple times ok for RID: 77 
+
+BEFORE for rid= 62  num sharers:  15
+AFTER for rid= 62  num sharers:  14
+------------------------------
+print multiple times ok for RID: 3 
+
+BEFORE for rid= 55  num sharers:  6
+AFTER for rid= 55  num sharers:  5
+------------------------------
+BEFORE for rid= 59  num sharers:  9
+AFTER for rid= 59  num sharers:  8
+------------------------------
+BEFORE for rid= 77  num sharers:  10
+AFTER for rid= 77  num sharers:  9
+------------------------------
+print multiple times ok for RID: 87 
+
+print multiple times ok for RID: 93 
+
+print multiple times ok for RID: 21 
+
+BEFORE for rid= 3  num sharers:  9
+AFTER for rid= 3  num sharers:  8
+------------------------------
+print multiple times ok for RID: 2 
+
+BEFORE for rid= 87  num sharers:  7
+AFTER for rid= 87  num sharers:  6
+------------------------------
+BEFORE for rid= 93  num sharers:  8
+AFTER for rid= 93  num sharers:  7
+------------------------------
+BEFORE for rid= 21  num sharers:  6
+AFTER for rid= 21  num sharers:  5
+------------------------------
+print multiple times ok for RID: 2 
+
+print multiple times ok for RID: 40 
+
+print multiple times ok for RID: 94 
+
+BEFORE for rid= 2  num sharers:  10
+AFTER for rid= 2  num sharers:  9
+------------------------------
+print multiple times ok for RID: 96 
+
+BEFORE for rid= 2  num sharers:  10
+AFTER for rid= 2  num sharers:  9
+------------------------------
+BEFORE for rid= 40  num sharers:  7
+AFTER for rid= 40  num sharers:  6
+------------------------------
+BEFORE for rid= 94  num sharers:  10
+AFTER for rid= 94  num sharers:  9
+------------------------------
+print multiple times ok for RID: 61 
+
+print multiple times ok for RID: 87 
+
+print multiple times ok for RID: 17 
+
+BEFORE for rid= 96  num sharers:  14
+AFTER for rid= 96  num sharers:  13
+------------------------------
+print multiple times ok for RID: 63 
+
+BEFORE for rid= 61  num sharers:  6
+AFTER for rid= 61  num sharers:  5
+------------------------------
+BEFORE for rid= 87  num sharers:  8
+AFTER for rid= 87  num sharers:  7
+------------------------------
+BEFORE for rid= 17  num sharers:  4
+AFTER for rid= 17  num sharers:  3
+------------------------------
+print multiple times ok for RID: 4 
+
+print multiple times ok for RID: 72 
+
+print multiple times ok for RID: 41 
+
+BEFORE for rid= 63  num sharers:  7
+AFTER for rid= 63  num sharers:  6
+------------------------------
+print multiple times ok for RID: 45 
+
+BEFORE for rid= 4  num sharers:  8
+AFTER for rid= 4  num sharers:  7
+------------------------------
+BEFORE for rid= 72  num sharers:  12
+AFTER for rid= 72  num sharers:  11
+------------------------------
+BEFORE for rid= 41  num sharers:  6
+AFTER for rid= 41  num sharers:  5
+------------------------------
+print multiple times ok for RID: 2 
+
+print multiple times ok for RID: 51 
+
+print multiple times ok for RID: 18 
+
+BEFORE for rid= 45  num sharers:  9
+AFTER for rid= 45  num sharers:  8
+------------------------------
+print multiple times ok for RID: 72 
+
+BEFORE for rid= 2  num sharers:  11
+AFTER for rid= 2  num sharers:  10
+------------------------------
+BEFORE for rid= 51  num sharers:  9
+AFTER for rid= 51  num sharers:  8
+------------------------------
+BEFORE for rid= 18  num sharers:  9
+AFTER for rid= 18  num sharers:  8
+------------------------------
+print multiple times ok for RID: 5 
+
+print multiple times ok for RID: 18 
+
+print multiple times ok for RID: 4 
+
+BEFORE for rid= 72  num sharers:  13
+AFTER for rid= 72  num sharers:  12
+------------------------------
+print multiple times ok for RID: 61 
+
+BEFORE for rid= 5  num sharers:  12
+AFTER for rid= 5  num sharers:  11
+------------------------------
+BEFORE for rid= 18  num sharers:  10
+AFTER for rid= 18  num sharers:  9
+------------------------------
+BEFORE for rid= 4  num sharers:  9
+AFTER for rid= 4  num sharers:  8
+------------------------------
+print multiple times ok for RID: 78 
+
+print multiple times ok for RID: 30 
+
+print multiple times ok for RID: 21 
+
+BEFORE for rid= 61  num sharers:  7
+AFTER for rid= 61  num sharers:  6
+------------------------------
+print multiple times ok for RID: 56 
+
+BEFORE for rid= 78  num sharers:  8
+AFTER for rid= 78  num sharers:  7
+------------------------------
+BEFORE for rid= 30  num sharers:  6
+AFTER for rid= 30  num sharers:  5
+------------------------------
+BEFORE for rid= 21  num sharers:  7
+AFTER for rid= 21  num sharers:  6
+------------------------------
+print multiple times ok for RID: 85 
+
+print multiple times ok for RID: 6 
+
+print multiple times ok for RID: 73 
+
+BEFORE for rid= 56  num sharers:  10
+AFTER for rid= 56  num sharers:  9
+------------------------------
+print multiple times ok for RID: 36 
+
+BEFORE for rid= 85  num sharers:  6
+AFTER for rid= 85  num sharers:  5
+------------------------------
+BEFORE for rid= 6  num sharers:  7
+AFTER for rid= 6  num sharers:  6
+------------------------------
+BEFORE for rid= 73  num sharers:  3
+AFTER for rid= 73  num sharers:  2
+------------------------------
+print multiple times ok for RID: 15 
+
+print multiple times ok for RID: 92 
+
+print multiple times ok for RID: 92 
+
+BEFORE for rid= 36  num sharers:  8
+AFTER for rid= 36  num sharers:  7
+------------------------------
+print multiple times ok for RID: 54 
+
+BEFORE for rid= 15  num sharers:  7
+AFTER for rid= 15  num sharers:  6
+------------------------------
+BEFORE for rid= 92  num sharers:  13
+AFTER for rid= 92  num sharers:  12
+------------------------------
+BEFORE for rid= 92  num sharers:  12
+AFTER for rid= 92  num sharers:  11
+------------------------------
+print multiple times ok for RID: 63 
+
+print multiple times ok for RID: 90 
+
+print multiple times ok for RID: 99 
+
+BEFORE for rid= 54  num sharers:  10
+AFTER for rid= 54  num sharers:  9
+------------------------------
+print multiple times ok for RID: 26 
+
+BEFORE for rid= 63  num sharers:  8
+AFTER for rid= 63  num sharers:  7
+------------------------------
+BEFORE for rid= 90  num sharers:  5
+AFTER for rid= 90  num sharers:  4
+------------------------------
+BEFORE for rid= 99  num sharers:  5
+AFTER for rid= 99  num sharers:  4
+------------------------------
+print multiple times ok for RID: 16 
+
+print multiple times ok for RID: 6 
+
+print multiple times ok for RID: 68 
+
+BEFORE for rid= 26  num sharers:  5
+AFTER for rid= 26  num sharers:  4
+------------------------------
+print multiple times ok for RID: 80 
+
+BEFORE for rid= 16  num sharers:  7
+AFTER for rid= 16  num sharers:  6
+------------------------------
+BEFORE for rid= 6  num sharers:  8
+AFTER for rid= 6  num sharers:  7
+------------------------------
+BEFORE for rid= 68  num sharers:  8
+AFTER for rid= 68  num sharers:  7
+------------------------------
+print multiple times ok for RID: 21 
+
+print multiple times ok for RID: 31 
+
+print multiple times ok for RID: 77 
+
+BEFORE for rid= 80  num sharers:  10
+AFTER for rid= 80  num sharers:  9
+------------------------------
+print multiple times ok for RID: 49 
+
+BEFORE for rid= 21  num sharers:  8
+AFTER for rid= 21  num sharers:  7
+------------------------------
+BEFORE for rid= 31  num sharers:  5
+AFTER for rid= 31  num sharers:  4
+------------------------------
+BEFORE for rid= 77  num sharers:  11
+AFTER for rid= 77  num sharers:  10
+------------------------------
+print multiple times ok for RID: 49 
+
+print multiple times ok for RID: 37 
+
+print multiple times ok for RID: 37 
+
+BEFORE for rid= 49  num sharers:  13
+AFTER for rid= 49  num sharers:  12
+------------------------------
+print multiple times ok for RID: 2 
+
+BEFORE for rid= 49  num sharers:  13
+AFTER for rid= 49  num sharers:  12
+------------------------------
+BEFORE for rid= 37  num sharers:  10
+AFTER for rid= 37  num sharers:  9
+------------------------------
+BEFORE for rid= 37  num sharers:  9
+AFTER for rid= 37  num sharers:  8
+------------------------------
+print multiple times ok for RID: 52 
+
+print multiple times ok for RID: 47 
+
+print multiple times ok for RID: 75 
+
+BEFORE for rid= 2  num sharers:  12
+AFTER for rid= 2  num sharers:  11
+------------------------------
+print multiple times ok for RID: 36 
+
+BEFORE for rid= 52  num sharers:  8
+AFTER for rid= 52  num sharers:  7
+------------------------------
+BEFORE for rid= 47  num sharers:  12
+AFTER for rid= 47  num sharers:  11
+------------------------------
+BEFORE for rid= 75  num sharers:  9
+AFTER for rid= 75  num sharers:  8
+------------------------------
+print multiple times ok for RID: 61 
+
+print multiple times ok for RID: 62 
+
+print multiple times ok for RID: 80 
+
+BEFORE for rid= 36  num sharers:  9
+AFTER for rid= 36  num sharers:  8
+------------------------------
+print multiple times ok for RID: 33 
+
+BEFORE for rid= 61  num sharers:  8
+AFTER for rid= 61  num sharers:  7
+------------------------------
+BEFORE for rid= 62  num sharers:  16
+AFTER for rid= 62  num sharers:  15
+------------------------------
+BEFORE for rid= 80  num sharers:  11
+AFTER for rid= 80  num sharers:  10
+------------------------------
+print multiple times ok for RID: 18 
+
+print multiple times ok for RID: 5 
+
+print multiple times ok for RID: 32 
+
+BEFORE for rid= 33  num sharers:  6
+AFTER for rid= 33  num sharers:  5
+------------------------------
+print multiple times ok for RID: 60 
+
+BEFORE for rid= 18  num sharers:  11
+AFTER for rid= 18  num sharers:  10
+------------------------------
+BEFORE for rid= 5  num sharers:  13
+AFTER for rid= 5  num sharers:  12
+------------------------------
+BEFORE for rid= 32  num sharers:  4
+AFTER for rid= 32  num sharers:  3
+------------------------------
+print multiple times ok for RID: 54 
+
+print multiple times ok for RID: 8 
+
+print multiple times ok for RID: 21 
+
+BEFORE for rid= 60  num sharers:  8
+AFTER for rid= 60  num sharers:  7
+------------------------------
+print multiple times ok for RID: 62 
+
+BEFORE for rid= 54  num sharers:  11
+AFTER for rid= 54  num sharers:  10
+------------------------------
+BEFORE for rid= 8  num sharers:  8
+AFTER for rid= 8  num sharers:  7
+------------------------------
+BEFORE for rid= 21  num sharers:  9
+AFTER for rid= 21  num sharers:  8
+------------------------------
+print multiple times ok for RID: 47 
+
+print multiple times ok for RID: 32 
+
+print multiple times ok for RID: 73 
+
+BEFORE for rid= 62  num sharers:  17
+AFTER for rid= 62  num sharers:  16
+------------------------------
+print multiple times ok for RID: 39 
+
+BEFORE for rid= 47  num sharers:  13
+AFTER for rid= 47  num sharers:  12
+------------------------------
+BEFORE for rid= 32  num sharers:  5
+AFTER for rid= 32  num sharers:  4
+------------------------------
+BEFORE for rid= 73  num sharers:  4
+AFTER for rid= 73  num sharers:  3
+------------------------------
+print multiple times ok for RID: 97 
+
+print multiple times ok for RID: 28 
+
+print multiple times ok for RID: 35 
+
+BEFORE for rid= 39  num sharers:  12
+AFTER for rid= 39  num sharers:  11
+------------------------------
+print multiple times ok for RID: 22 
+
+BEFORE for rid= 97  num sharers:  5
+AFTER for rid= 97  num sharers:  4
+------------------------------
+BEFORE for rid= 28  num sharers:  9
+AFTER for rid= 28  num sharers:  8
+------------------------------
+BEFORE for rid= 35  num sharers:  7
+AFTER for rid= 35  num sharers:  6
+------------------------------
+print multiple times ok for RID: 70 
+
+print multiple times ok for RID: 55 
+
+print multiple times ok for RID: 77 
+
+BEFORE for rid= 22  num sharers:  8
+AFTER for rid= 22  num sharers:  7
+------------------------------
+print multiple times ok for RID: 37 
+
+BEFORE for rid= 70  num sharers:  5
+AFTER for rid= 70  num sharers:  4
+------------------------------
+BEFORE for rid= 55  num sharers:  7
+AFTER for rid= 55  num sharers:  6
+------------------------------
+BEFORE for rid= 77  num sharers:  12
+AFTER for rid= 77  num sharers:  11
+------------------------------
+print multiple times ok for RID: 37 
+
+print multiple times ok for RID: 10 
+
+print multiple times ok for RID: 6 
+
+BEFORE for rid= 37  num sharers:  11
+AFTER for rid= 37  num sharers:  10
+------------------------------
+print multiple times ok for RID: 74 
+
+BEFORE for rid= 37  num sharers:  11
+AFTER for rid= 37  num sharers:  10
+------------------------------
+BEFORE for rid= 10  num sharers:  12
+AFTER for rid= 10  num sharers:  11
+------------------------------
+BEFORE for rid= 6  num sharers:  9
+AFTER for rid= 6  num sharers:  8
+------------------------------
+print multiple times ok for RID: 54 
+
+print multiple times ok for RID: 21 
+
+print multiple times ok for RID: 63 
+
+BEFORE for rid= 74  num sharers:  8
+AFTER for rid= 74  num sharers:  7
+------------------------------
+print multiple times ok for RID: 74 
+
+BEFORE for rid= 54  num sharers:  12
+AFTER for rid= 54  num sharers:  11
+------------------------------
+BEFORE for rid= 21  num sharers:  10
+AFTER for rid= 21  num sharers:  9
+------------------------------
+BEFORE for rid= 63  num sharers:  9
+AFTER for rid= 63  num sharers:  8
+------------------------------
+print multiple times ok for RID: 92 
+
+print multiple times ok for RID: 96 
+
+print multiple times ok for RID: 49 
+
+BEFORE for rid= 74  num sharers:  9
+AFTER for rid= 74  num sharers:  8
+------------------------------
+print multiple times ok for RID: 8 
+
+BEFORE for rid= 92  num sharers:  13
+AFTER for rid= 92  num sharers:  12
+------------------------------
+BEFORE for rid= 96  num sharers:  15
+AFTER for rid= 96  num sharers:  14
+------------------------------
+BEFORE for rid= 49  num sharers:  14
+AFTER for rid= 49  num sharers:  13
+------------------------------
+print multiple times ok for RID: 14 
+
+print multiple times ok for RID: 75 
+
+print multiple times ok for RID: 88 
+
+BEFORE for rid= 8  num sharers:  9
+AFTER for rid= 8  num sharers:  8
+------------------------------
+print multiple times ok for RID: 13 
+
+BEFORE for rid= 14  num sharers:  9
+AFTER for rid= 14  num sharers:  8
+------------------------------
+BEFORE for rid= 75  num sharers:  10
+AFTER for rid= 75  num sharers:  9
+------------------------------
+BEFORE for rid= 88  num sharers:  6
+AFTER for rid= 88  num sharers:  5
+------------------------------
+print multiple times ok for RID: 37 
+
+print multiple times ok for RID: 6 
+
+print multiple times ok for RID: 26 
+
+BEFORE for rid= 13  num sharers:  6
+AFTER for rid= 13  num sharers:  5
+------------------------------
+print multiple times ok for RID: 35 
+
+BEFORE for rid= 37  num sharers:  12
+AFTER for rid= 37  num sharers:  11
+------------------------------
+BEFORE for rid= 6  num sharers:  10
+AFTER for rid= 6  num sharers:  9
+------------------------------
+BEFORE for rid= 26  num sharers:  6
+AFTER for rid= 26  num sharers:  5
+------------------------------
+print multiple times ok for RID: 15 
+
+print multiple times ok for RID: 73 
+
+print multiple times ok for RID: 55 
+
+BEFORE for rid= 35  num sharers:  8
+AFTER for rid= 35  num sharers:  7
+------------------------------
+print multiple times ok for RID: 41 
+
+BEFORE for rid= 15  num sharers:  8
+AFTER for rid= 15  num sharers:  7
+------------------------------
+BEFORE for rid= 73  num sharers:  5
+AFTER for rid= 73  num sharers:  4
+------------------------------
+BEFORE for rid= 55  num sharers:  8
+AFTER for rid= 55  num sharers:  7
+------------------------------
+print multiple times ok for RID: 62 
+
+print multiple times ok for RID: 36 
+
+print multiple times ok for RID: 11 
+
+BEFORE for rid= 41  num sharers:  7
+AFTER for rid= 41  num sharers:  6
+------------------------------
+print multiple times ok for RID: 41 
+
+BEFORE for rid= 62  num sharers:  18
+AFTER for rid= 62  num sharers:  17
+------------------------------
+BEFORE for rid= 36  num sharers:  10
+AFTER for rid= 36  num sharers:  9
+------------------------------
+BEFORE for rid= 11  num sharers:  6
+AFTER for rid= 11  num sharers:  5
+------------------------------
+print multiple times ok for RID: 98 
+
+print multiple times ok for RID: 23 
+
+print multiple times ok for RID: 37 
+
+BEFORE for rid= 41  num sharers:  8
+AFTER for rid= 41  num sharers:  7
+------------------------------
+print multiple times ok for RID: 56 
+
+BEFORE for rid= 98  num sharers:  13
+AFTER for rid= 98  num sharers:  12
+------------------------------
+BEFORE for rid= 23  num sharers:  8
+AFTER for rid= 23  num sharers:  7
+------------------------------
+BEFORE for rid= 37  num sharers:  13
+AFTER for rid= 37  num sharers:  12
+------------------------------
+print multiple times ok for RID: 69 
+
+print multiple times ok for RID: 68 
+
+print multiple times ok for RID: 91 
+
+BEFORE for rid= 56  num sharers:  11
+AFTER for rid= 56  num sharers:  10
+------------------------------
+print multiple times ok for RID: 90 
+
+BEFORE for rid= 69  num sharers:  5
+AFTER for rid= 69  num sharers:  4
+------------------------------
+BEFORE for rid= 68  num sharers:  9
+AFTER for rid= 68  num sharers:  8
+------------------------------
+BEFORE for rid= 91  num sharers:  5
+AFTER for rid= 91  num sharers:  4
+------------------------------
+print multiple times ok for RID: 9 
+
+print multiple times ok for RID: 59 
+
+print multiple times ok for RID: 11 
+
+BEFORE for rid= 90  num sharers:  6
+AFTER for rid= 90  num sharers:  5
+------------------------------
+print multiple times ok for RID: 39 
+
+BEFORE for rid= 9  num sharers:  4
+AFTER for rid= 9  num sharers:  3
+------------------------------
+BEFORE for rid= 59  num sharers:  10
+AFTER for rid= 59  num sharers:  9
+------------------------------
+BEFORE for rid= 11  num sharers:  7
+AFTER for rid= 11  num sharers:  6
+------------------------------
+print multiple times ok for RID: 83 
+
+print multiple times ok for RID: 25 
+
+print multiple times ok for RID: 43 
+
+BEFORE for rid= 39  num sharers:  13
+AFTER for rid= 39  num sharers:  12
+------------------------------
+print multiple times ok for RID: 86 
+
+BEFORE for rid= 83  num sharers:  10
+AFTER for rid= 83  num sharers:  9
+------------------------------
+BEFORE for rid= 25  num sharers:  7
+AFTER for rid= 25  num sharers:  6
+------------------------------
+BEFORE for rid= 43  num sharers:  5
+AFTER for rid= 43  num sharers:  4
+------------------------------
+print multiple times ok for RID: 64 
+
+print multiple times ok for RID: 35 
+
+print multiple times ok for RID: 4 
+
+BEFORE for rid= 86  num sharers:  10
+AFTER for rid= 86  num sharers:  9
+------------------------------
+print multiple times ok for RID: 68 
+
+BEFORE for rid= 64  num sharers:  7
+AFTER for rid= 64  num sharers:  6
+------------------------------
+BEFORE for rid= 35  num sharers:  9
+AFTER for rid= 35  num sharers:  8
+------------------------------
+BEFORE for rid= 4  num sharers:  10
+AFTER for rid= 4  num sharers:  9
+------------------------------
+print multiple times ok for RID: 30 
+
+print multiple times ok for RID: 68 
+
+print multiple times ok for RID: 29 
+
+BEFORE for rid= 68  num sharers:  11
+AFTER for rid= 68  num sharers:  10
+------------------------------
+print multiple times ok for RID: 78 
+
+BEFORE for rid= 30  num sharers:  7
+AFTER for rid= 30  num sharers:  6
+------------------------------
+BEFORE for rid= 68  num sharers:  11
+AFTER for rid= 68  num sharers:  10
+------------------------------
+BEFORE for rid= 29  num sharers:  10
+AFTER for rid= 29  num sharers:  9
+------------------------------
+print multiple times ok for RID: 76 
+
+print multiple times ok for RID: 63 
+
+print multiple times ok for RID: 39 
+
+BEFORE for rid= 78  num sharers:  9
+AFTER for rid= 78  num sharers:  8
+------------------------------
+print multiple times ok for RID: 12 
+
+BEFORE for rid= 76  num sharers:  5
+AFTER for rid= 76  num sharers:  4
+------------------------------
+BEFORE for rid= 63  num sharers:  10
+AFTER for rid= 63  num sharers:  9
+------------------------------
+BEFORE for rid= 39  num sharers:  14
+AFTER for rid= 39  num sharers:  13
+------------------------------
+print multiple times ok for RID: 64 
+
+print multiple times ok for RID: 66 
+
+print multiple times ok for RID: 95 
+
+BEFORE for rid= 12  num sharers:  10
+AFTER for rid= 12  num sharers:  9
+------------------------------
+print multiple times ok for RID: 69 
+
+BEFORE for rid= 64  num sharers:  8
+AFTER for rid= 64  num sharers:  7
+------------------------------
+BEFORE for rid= 66  num sharers:  7
+AFTER for rid= 66  num sharers:  6
+------------------------------
+BEFORE for rid= 95  num sharers:  7
+AFTER for rid= 95  num sharers:  6
+------------------------------
+print multiple times ok for RID: 8 
+
+print multiple times ok for RID: 66 
+
+print multiple times ok for RID: 49 
+
+BEFORE for rid= 69  num sharers:  6
+AFTER for rid= 69  num sharers:  5
+------------------------------
+print multiple times ok for RID: 70 
+
+BEFORE for rid= 8  num sharers:  10
+AFTER for rid= 8  num sharers:  9
+------------------------------
+BEFORE for rid= 66  num sharers:  8
+AFTER for rid= 66  num sharers:  7
+------------------------------
+BEFORE for rid= 49  num sharers:  15
+AFTER for rid= 49  num sharers:  14
+------------------------------
+print multiple times ok for RID: 28 
+
+print multiple times ok for RID: 47 
+
+print multiple times ok for RID: 95 
+
+BEFORE for rid= 70  num sharers:  6
+AFTER for rid= 70  num sharers:  5
+------------------------------
+print multiple times ok for RID: 53 
+
+BEFORE for rid= 28  num sharers:  10
+AFTER for rid= 28  num sharers:  9
+------------------------------
+BEFORE for rid= 47  num sharers:  14
+AFTER for rid= 47  num sharers:  13
+------------------------------
+BEFORE for rid= 95  num sharers:  8
+AFTER for rid= 95  num sharers:  7
+------------------------------
+print multiple times ok for RID: 48 
+
+print multiple times ok for RID: 79 
+
+print multiple times ok for RID: 96 
+
+BEFORE for rid= 53  num sharers:  11
+AFTER for rid= 53  num sharers:  10
+------------------------------
+print multiple times ok for RID: 17 
+
+BEFORE for rid= 48  num sharers:  8
+AFTER for rid= 48  num sharers:  7
+------------------------------
+BEFORE for rid= 79  num sharers:  13
+AFTER for rid= 79  num sharers:  12
+------------------------------
+BEFORE for rid= 96  num sharers:  16
+AFTER for rid= 96  num sharers:  15
+------------------------------
+print multiple times ok for RID: 66 
+
+print multiple times ok for RID: 9 
+
+print multiple times ok for RID: 26 
+
+BEFORE for rid= 17  num sharers:  5
+AFTER for rid= 17  num sharers:  4
+------------------------------
+print multiple times ok for RID: 1 
+
+BEFORE for rid= 66  num sharers:  9
+AFTER for rid= 66  num sharers:  8
+------------------------------
+BEFORE for rid= 9  num sharers:  5
+AFTER for rid= 9  num sharers:  4
+------------------------------
+BEFORE for rid= 26  num sharers:  7
+AFTER for rid= 26  num sharers:  6
+------------------------------
+print multiple times ok for RID: 27 
+
+print multiple times ok for RID: 17 
+
+print multiple times ok for RID: 87 
+
+BEFORE for rid= 1  num sharers:  6
+AFTER for rid= 1  num sharers:  5
+------------------------------
+print multiple times ok for RID: 15 
+
+BEFORE for rid= 27  num sharers:  10
+AFTER for rid= 27  num sharers:  9
+------------------------------
+BEFORE for rid= 17  num sharers:  6
+AFTER for rid= 17  num sharers:  5
+------------------------------
+BEFORE for rid= 87  num sharers:  9
+AFTER for rid= 87  num sharers:  8
+------------------------------
+print multiple times ok for RID: 64 
+
+print multiple times ok for RID: 39 
+
+print multiple times ok for RID: 4 
+
+BEFORE for rid= 15  num sharers:  9
+AFTER for rid= 15  num sharers:  8
+------------------------------
+print multiple times ok for RID: 67 
+
+BEFORE for rid= 64  num sharers:  9
+AFTER for rid= 64  num sharers:  8
+------------------------------
+BEFORE for rid= 39  num sharers:  15
+AFTER for rid= 39  num sharers:  14
+------------------------------
+BEFORE for rid= 4  num sharers:  11
+AFTER for rid= 4  num sharers:  10
+------------------------------
+print multiple times ok for RID: 79 
+
+print multiple times ok for RID: 33 
+
+print multiple times ok for RID: 53 
+
+BEFORE for rid= 67  num sharers:  9
+AFTER for rid= 67  num sharers:  8
+------------------------------
+print multiple times ok for RID: 95 
+
+BEFORE for rid= 79  num sharers:  14
+AFTER for rid= 79  num sharers:  13
+------------------------------
+BEFORE for rid= 33  num sharers:  7
+AFTER for rid= 33  num sharers:  6
+------------------------------
+BEFORE for rid= 53  num sharers:  12
+AFTER for rid= 53  num sharers:  11
+------------------------------
+print multiple times ok for RID: 81 
+
+print multiple times ok for RID: 10 
+
+print multiple times ok for RID: 25 
+
+BEFORE for rid= 95  num sharers:  9
+AFTER for rid= 95  num sharers:  8
+------------------------------
+print multiple times ok for RID: 33 
+
+BEFORE for rid= 81  num sharers:  9
+AFTER for rid= 81  num sharers:  8
+------------------------------
+BEFORE for rid= 10  num sharers:  13
+AFTER for rid= 10  num sharers:  12
+------------------------------
+BEFORE for rid= 25  num sharers:  8
+AFTER for rid= 25  num sharers:  7
+------------------------------
+print multiple times ok for RID: 72 
+
+print multiple times ok for RID: 25 
+
+print multiple times ok for RID: 71 
+
+BEFORE for rid= 33  num sharers:  8
+AFTER for rid= 33  num sharers:  7
+------------------------------
+print multiple times ok for RID: 64 
+
+BEFORE for rid= 72  num sharers:  14
+AFTER for rid= 72  num sharers:  13
+------------------------------
+BEFORE for rid= 25  num sharers:  9
+AFTER for rid= 25  num sharers:  8
+------------------------------
+BEFORE for rid= 71  num sharers:  4
+AFTER for rid= 71  num sharers:  3
+------------------------------
+print multiple times ok for RID: 73 
+
+print multiple times ok for RID: 82 
+
+print multiple times ok for RID: 22 
+
+BEFORE for rid= 64  num sharers:  10
+AFTER for rid= 64  num sharers:  9
+------------------------------
+print multiple times ok for RID: 51 
+
+BEFORE for rid= 73  num sharers:  6
+AFTER for rid= 73  num sharers:  5
+------------------------------
+BEFORE for rid= 82  num sharers:  12
+AFTER for rid= 82  num sharers:  11
+------------------------------
+BEFORE for rid= 22  num sharers:  9
+AFTER for rid= 22  num sharers:  8
+------------------------------
+print multiple times ok for RID: 11 
+
+print multiple times ok for RID: 80 
+
+print multiple times ok for RID: 16 
+
+BEFORE for rid= 51  num sharers:  10
+AFTER for rid= 51  num sharers:  9
+------------------------------
+print multiple times ok for RID: 74 
+
+BEFORE for rid= 11  num sharers:  8
+AFTER for rid= 11  num sharers:  7
+------------------------------
+BEFORE for rid= 80  num sharers:  12
+AFTER for rid= 80  num sharers:  11
+------------------------------
+BEFORE for rid= 16  num sharers:  8
+AFTER for rid= 16  num sharers:  7
+------------------------------
+print multiple times ok for RID: 98 
+
+print multiple times ok for RID: 68 
+
+print multiple times ok for RID: 9 
+
+BEFORE for rid= 74  num sharers:  10
+AFTER for rid= 74  num sharers:  9
+------------------------------
+print multiple times ok for RID: 98 
+
+BEFORE for rid= 98  num sharers:  15
+AFTER for rid= 98  num sharers:  14
+------------------------------
+BEFORE for rid= 68  num sharers:  12
+AFTER for rid= 68  num sharers:  11
+------------------------------
+BEFORE for rid= 9  num sharers:  6
+AFTER for rid= 9  num sharers:  5
+------------------------------
+print multiple times ok for RID: 3 
+
+print multiple times ok for RID: 51 
+
+print multiple times ok for RID: 45 
+
+BEFORE for rid= 98  num sharers:  15
+AFTER for rid= 98  num sharers:  14
+------------------------------
+print multiple times ok for RID: 73 
+
+BEFORE for rid= 3  num sharers:  10
+AFTER for rid= 3  num sharers:  9
+------------------------------
+BEFORE for rid= 51  num sharers:  11
+AFTER for rid= 51  num sharers:  10
+------------------------------
+BEFORE for rid= 45  num sharers:  10
+AFTER for rid= 45  num sharers:  9
+------------------------------
+print multiple times ok for RID: 67 
+
+print multiple times ok for RID: 27 
+
+print multiple times ok for RID: 71 
+
+BEFORE for rid= 73  num sharers:  7
+AFTER for rid= 73  num sharers:  6
+------------------------------
+print multiple times ok for RID: 92 
+
+BEFORE for rid= 67  num sharers:  10
+AFTER for rid= 67  num sharers:  9
+------------------------------
+BEFORE for rid= 27  num sharers:  11
+AFTER for rid= 27  num sharers:  10
+------------------------------
+BEFORE for rid= 71  num sharers:  5
+AFTER for rid= 71  num sharers:  4
+------------------------------
+print multiple times ok for RID: 12 
+
+print multiple times ok for RID: 5 
+
+print multiple times ok for RID: 76 
+
+BEFORE for rid= 92  num sharers:  14
+AFTER for rid= 92  num sharers:  13
+------------------------------
+print multiple times ok for RID: 83 
+
+BEFORE for rid= 12  num sharers:  11
+AFTER for rid= 12  num sharers:  10
+------------------------------
+BEFORE for rid= 5  num sharers:  14
+AFTER for rid= 5  num sharers:  13
+------------------------------
+BEFORE for rid= 76  num sharers:  6
+AFTER for rid= 76  num sharers:  5
+------------------------------
+print multiple times ok for RID: 80 
+
+print multiple times ok for RID: 57 
+
+print multiple times ok for RID: 32 
+
+BEFORE for rid= 83  num sharers:  11
+AFTER for rid= 83  num sharers:  10
+------------------------------
+print multiple times ok for RID: 34 
+
+BEFORE for rid= 80  num sharers:  13
+AFTER for rid= 80  num sharers:  12
+------------------------------
+BEFORE for rid= 57  num sharers:  8
+AFTER for rid= 57  num sharers:  7
+------------------------------
+BEFORE for rid= 32  num sharers:  6
+AFTER for rid= 32  num sharers:  5
+------------------------------
+print multiple times ok for RID: 32 
+
+print multiple times ok for RID: 86 
+
+print multiple times ok for RID: 71 
+
+BEFORE for rid= 34  num sharers:  7
+AFTER for rid= 34  num sharers:  6
+------------------------------
+print multiple times ok for RID: 89 
+
+BEFORE for rid= 32  num sharers:  7
+AFTER for rid= 32  num sharers:  6
+------------------------------
+BEFORE for rid= 86  num sharers:  11
+AFTER for rid= 86  num sharers:  10
+------------------------------
+BEFORE for rid= 71  num sharers:  6
+AFTER for rid= 71  num sharers:  5
+------------------------------
+print multiple times ok for RID: 61 
+
+print multiple times ok for RID: 36 
+
+print multiple times ok for RID: 67 
+
+BEFORE for rid= 89  num sharers:  6
+AFTER for rid= 89  num sharers:  5
+------------------------------
+print multiple times ok for RID: 51 
+
+BEFORE for rid= 61  num sharers:  9
+AFTER for rid= 61  num sharers:  8
+------------------------------
+BEFORE for rid= 36  num sharers:  11
+AFTER for rid= 36  num sharers:  10
+------------------------------
+BEFORE for rid= 67  num sharers:  11
+AFTER for rid= 67  num sharers:  10
+------------------------------
+print multiple times ok for RID: 34 
+
+print multiple times ok for RID: 82 
+
+print multiple times ok for RID: 62 
+
+BEFORE for rid= 51  num sharers:  12
+AFTER for rid= 51  num sharers:  11
+------------------------------
+print multiple times ok for RID: 18 
+
+BEFORE for rid= 34  num sharers:  8
+AFTER for rid= 34  num sharers:  7
+------------------------------
+BEFORE for rid= 82  num sharers:  13
+AFTER for rid= 82  num sharers:  12
+------------------------------
+BEFORE for rid= 62  num sharers:  19
+AFTER for rid= 62  num sharers:  18
+------------------------------
+print multiple times ok for RID: 61 
+
+print multiple times ok for RID: 7 
+
+print multiple times ok for RID: 41 
+
+BEFORE for rid= 18  num sharers:  12
+AFTER for rid= 18  num sharers:  11
+------------------------------
+print multiple times ok for RID: 77 
+
+BEFORE for rid= 61  num sharers:  10
+AFTER for rid= 61  num sharers:  9
+------------------------------
+BEFORE for rid= 7  num sharers:  7
+AFTER for rid= 7  num sharers:  6
+------------------------------
+BEFORE for rid= 41  num sharers:  9
+AFTER for rid= 41  num sharers:  8
+------------------------------
+print multiple times ok for RID: 26 
+
+print multiple times ok for RID: 37 
+
+print multiple times ok for RID: 81 
+
+BEFORE for rid= 77  num sharers:  13
+AFTER for rid= 77  num sharers:  12
+------------------------------
+print multiple times ok for RID: 74 
+
+BEFORE for rid= 26  num sharers:  8
+AFTER for rid= 26  num sharers:  7
+------------------------------
+BEFORE for rid= 37  num sharers:  14
+AFTER for rid= 37  num sharers:  13
+------------------------------
+BEFORE for rid= 81  num sharers:  10
+AFTER for rid= 81  num sharers:  9
+------------------------------
+print multiple times ok for RID: 91 
+
+print multiple times ok for RID: 24 
+
+print multiple times ok for RID: 28 
+
+BEFORE for rid= 74  num sharers:  11
+AFTER for rid= 74  num sharers:  10
+------------------------------
+print multiple times ok for RID: 96 
+
+BEFORE for rid= 91  num sharers:  6
+AFTER for rid= 91  num sharers:  5
+------------------------------
+BEFORE for rid= 24  num sharers:  10
+AFTER for rid= 24  num sharers:  9
+------------------------------
+BEFORE for rid= 28  num sharers:  11
+AFTER for rid= 28  num sharers:  10
+------------------------------
+print multiple times ok for RID: 66 
+
+print multiple times ok for RID: 18 
+
+print multiple times ok for RID: 99 
+
+BEFORE for rid= 96  num sharers:  17
+AFTER for rid= 96  num sharers:  16
+------------------------------
+print multiple times ok for RID: 23 
+
+BEFORE for rid= 66  num sharers:  10
+AFTER for rid= 66  num sharers:  9
+------------------------------
+BEFORE for rid= 18  num sharers:  13
+AFTER for rid= 18  num sharers:  12
+------------------------------
+BEFORE for rid= 99  num sharers:  6
+AFTER for rid= 99  num sharers:  5
+------------------------------
+print multiple times ok for RID: 53 
+
+print multiple times ok for RID: 94 
+
+print multiple times ok for RID: 16 
+
+BEFORE for rid= 23  num sharers:  9
+AFTER for rid= 23  num sharers:  8
+------------------------------
+print multiple times ok for RID: 92 
+
+BEFORE for rid= 53  num sharers:  13
+AFTER for rid= 53  num sharers:  12
+------------------------------
+BEFORE for rid= 94  num sharers:  11
+AFTER for rid= 94  num sharers:  10
+------------------------------
+BEFORE for rid= 16  num sharers:  9
+AFTER for rid= 16  num sharers:  8
+------------------------------
+print multiple times ok for RID: 67 
+
+print multiple times ok for RID: 29 
+
+print multiple times ok for RID: 54 
+
+BEFORE for rid= 92  num sharers:  15
+AFTER for rid= 92  num sharers:  14
+------------------------------
+print multiple times ok for RID: 24 
+
+BEFORE for rid= 67  num sharers:  12
+AFTER for rid= 67  num sharers:  11
+------------------------------
+BEFORE for rid= 29  num sharers:  11
+AFTER for rid= 29  num sharers:  10
+------------------------------
+BEFORE for rid= 54  num sharers:  13
+AFTER for rid= 54  num sharers:  12
+------------------------------
+print multiple times ok for RID: 75 
+
+print multiple times ok for RID: 59 
+
+BEFORE for rid= 24  num sharers:  11
+AFTER for rid= 24  num sharers:  10
+------------------------------
+print multiple times ok for RID: 42 
+
+BEFORE for rid= 75  num sharers:  11
+AFTER for rid= 75  num sharers:  10
+------------------------------
+print multiple times ok for RID: 24 
+
+print multiple times ok for RID: 29 
+
+BEFORE for rid= 59  num sharers:  11
+AFTER for rid= 59  num sharers:  10
+------------------------------
+BEFORE for rid= 42  num sharers:  7
+AFTER for rid= 42  num sharers:  6
+------------------------------
+print multiple times ok for RID: 78 
+
+BEFORE for rid= 24  num sharers:  12
+AFTER for rid= 24  num sharers:  11
+------------------------------
+print multiple times ok for RID: 61 
+
+BEFORE for rid= 29  num sharers:  12
+AFTER for rid= 29  num sharers:  11
+------------------------------
+print multiple times ok for RID: 37 
+
+print multiple times ok for RID: 100 
+
+BEFORE for rid= 78  num sharers:  10
+AFTER for rid= 78  num sharers:  9
+------------------------------
+BEFORE for rid= 61  num sharers:  11
+AFTER for rid= 61  num sharers:  10
+------------------------------
+print multiple times ok for RID: 40 
+
+BEFORE for rid= 37  num sharers:  15
+AFTER for rid= 37  num sharers:  14
+------------------------------
+print multiple times ok for RID: 87 
+
+BEFORE for rid= 100  num sharers:  11
+AFTER for rid= 100  num sharers:  10
+------------------------------
+print multiple times ok for RID: 17 
+
+print multiple times ok for RID: 55 
+
+BEFORE for rid= 40  num sharers:  8
+AFTER for rid= 40  num sharers:  7
+------------------------------
+BEFORE for rid= 87  num sharers:  10
+AFTER for rid= 87  num sharers:  9
+------------------------------
+print multiple times ok for RID: 98 
+
+BEFORE for rid= 17  num sharers:  7
+AFTER for rid= 17  num sharers:  6
+------------------------------
+print multiple times ok for RID: 20 
+
+BEFORE for rid= 55  num sharers:  9
+AFTER for rid= 55  num sharers:  8
+------------------------------
+print multiple times ok for RID: 64 
+
+print multiple times ok for RID: 9 
+
+BEFORE for rid= 98  num sharers:  16
+AFTER for rid= 98  num sharers:  15
+------------------------------
+BEFORE for rid= 20  num sharers:  7
+AFTER for rid= 20  num sharers:  6
+------------------------------
+print multiple times ok for RID: 77 
+
+BEFORE for rid= 64  num sharers:  11
+AFTER for rid= 64  num sharers:  10
+------------------------------
+print multiple times ok for RID: 1 
+
+BEFORE for rid= 9  num sharers:  7
+AFTER for rid= 9  num sharers:  6
+------------------------------
+print multiple times ok for RID: 82 
+
+print multiple times ok for RID: 27 
+
+BEFORE for rid= 77  num sharers:  14
+AFTER for rid= 77  num sharers:  13
+------------------------------
+BEFORE for rid= 1  num sharers:  7
+AFTER for rid= 1  num sharers:  6
+------------------------------
+print multiple times ok for RID: 34 
+
+BEFORE for rid= 82  num sharers:  14
+AFTER for rid= 82  num sharers:  13
+------------------------------
+print multiple times ok for RID: 83 
+
+BEFORE for rid= 27  num sharers:  12
+AFTER for rid= 27  num sharers:  11
+------------------------------
+print multiple times ok for RID: 17 
+
+print multiple times ok for RID: 18 
+
+BEFORE for rid= 34  num sharers:  9
+AFTER for rid= 34  num sharers:  8
+------------------------------
+BEFORE for rid= 83  num sharers:  12
+AFTER for rid= 83  num sharers:  11
+------------------------------
+print multiple times ok for RID: 10 
+
+BEFORE for rid= 17  num sharers:  8
+AFTER for rid= 17  num sharers:  7
+------------------------------
+print multiple times ok for RID: 60 
+
+BEFORE for rid= 18  num sharers:  14
+AFTER for rid= 18  num sharers:  13
+------------------------------
+print multiple times ok for RID: 29 
+
+BEFORE for rid= 10  num sharers:  14
+AFTER for rid= 10  num sharers:  13
+------------------------------
+print multiple times ok for RID: 86 
+
+BEFORE for rid= 29  num sharers:  13
+AFTER for rid= 29  num sharers:  12
+------------------------------
+BEFORE for rid= 60  num sharers:  9
+AFTER for rid= 60  num sharers:  8
+------------------------------
+print multiple times ok for RID: 60 
+
+print multiple times ok for RID: 85 
+
+print multiple times ok for RID: 27 
+
+BEFORE for rid= 86  num sharers:  12
+AFTER for rid= 86  num sharers:  11
+------------------------------
+BEFORE for rid= 60  num sharers:  10
+AFTER for rid= 60  num sharers:  9
+------------------------------
+print multiple times ok for RID: 27 
+
+BEFORE for rid= 85  num sharers:  7
+AFTER for rid= 85  num sharers:  6
+------------------------------
+BEFORE for rid= 27  num sharers:  14
+AFTER for rid= 27  num sharers:  13
+------------------------------
+print multiple times ok for RID: 17 
+
+print multiple times ok for RID: 60 
+
+print multiple times ok for RID: 34 
+
+BEFORE for rid= 27  num sharers:  14
+AFTER for rid= 27  num sharers:  13
+------------------------------
+BEFORE for rid= 17  num sharers:  9
+AFTER for rid= 17  num sharers:  8
+------------------------------
+print multiple times ok for RID: 69 
+
+BEFORE for rid= 60  num sharers:  11
+AFTER for rid= 60  num sharers:  10
+------------------------------
+BEFORE for rid= 34  num sharers:  10
+AFTER for rid= 34  num sharers:  9
+------------------------------
+print multiple times ok for RID: 16 
+
+print multiple times ok for RID: 92 
+
+print multiple times ok for RID: 63 
+
+BEFORE for rid= 69  num sharers:  7
+AFTER for rid= 69  num sharers:  6
+------------------------------
+BEFORE for rid= 16  num sharers:  10
+AFTER for rid= 16  num sharers:  9
+------------------------------
+print multiple times ok for RID: 93 
+
+BEFORE for rid= 92  num sharers:  16
+AFTER for rid= 92  num sharers:  15
+------------------------------
+BEFORE for rid= 63  num sharers:  11
+AFTER for rid= 63  num sharers:  10
+------------------------------
+print multiple times ok for RID: 13 
+
+print multiple times ok for RID: 78 
+
+print multiple times ok for RID: 25 
+
+BEFORE for rid= 93  num sharers:  9
+AFTER for rid= 93  num sharers:  8
+------------------------------
+BEFORE for rid= 13  num sharers:  7
+AFTER for rid= 13  num sharers:  6
+------------------------------
+print multiple times ok for RID: 53 
+
+BEFORE for rid= 78  num sharers:  11
+AFTER for rid= 78  num sharers:  10
+------------------------------
+BEFORE for rid= 25  num sharers:  10
+AFTER for rid= 25  num sharers:  9
+------------------------------
+print multiple times ok for RID: 96 
+
+print multiple times ok for RID: 44 
+
+print multiple times ok for RID: 90 
+
+BEFORE for rid= 53  num sharers:  14
+AFTER for rid= 53  num sharers:  13
+------------------------------
+print multiple times ok for RID: 62 
+
+BEFORE for rid= 96  num sharers:  18
+AFTER for rid= 96  num sharers:  17
+------------------------------
+print multiple times ok for RID: 51 
+
+BEFORE for rid= 90  num sharers:  7
+AFTER for rid= 90  num sharers:  6
+------------------------------
+print multiple times ok for RID: 6 
+
+BEFORE for rid= 62  num sharers:  20
+AFTER for rid= 62  num sharers:  19
+------------------------------
+BEFORE for rid= 51  num sharers:  13
+AFTER for rid= 51  num sharers:  12
+------------------------------
+print multiple times ok for RID: 64 
+
+BEFORE for rid= 44  num sharers:  9
+AFTER for rid= 44  num sharers:  8
+------------------------------
+BEFORE for rid= 6  num sharers:  11
+AFTER for rid= 6  num sharers:  10
+------------------------------
+print multiple times ok for RID: 42 
+
+print multiple times ok for RID: 22 
+
+print multiple times ok for RID: 1 
+
+BEFORE for rid= 64  num sharers:  12
+AFTER for rid= 64  num sharers:  11
+------------------------------
+BEFORE for rid= 42  num sharers:  8
+AFTER for rid= 42  num sharers:  7
+------------------------------
+print multiple times ok for RID: 4 
+
+BEFORE for rid= 22  num sharers:  10
+AFTER for rid= 22  num sharers:  9
+------------------------------
+BEFORE for rid= 1  num sharers:  8
+AFTER for rid= 1  num sharers:  7
+------------------------------
+print multiple times ok for RID: 61 
+
+print multiple times ok for RID: 18 
+
+print multiple times ok for RID: 93 
+
+BEFORE for rid= 4  num sharers:  12
+AFTER for rid= 4  num sharers:  11
+------------------------------
+BEFORE for rid= 61  num sharers:  12
+AFTER for rid= 61  num sharers:  11
+------------------------------
+print multiple times ok for RID: 40 
+
+BEFORE for rid= 93  num sharers:  10
+AFTER for rid= 93  num sharers:  9
+------------------------------
+print multiple times ok for RID: 62 
+
+BEFORE for rid= 18  num sharers:  15
+AFTER for rid= 18  num sharers:  14
+------------------------------
+BEFORE for rid= 40  num sharers:  9
+AFTER for rid= 40  num sharers:  8
+------------------------------
+print multiple times ok for RID: 48 
+
+print multiple times ok for RID: 17 
+
+print multiple times ok for RID: 6 
+
+BEFORE for rid= 62  num sharers:  21
+AFTER for rid= 62  num sharers:  20
+------------------------------
+print multiple times ok for RID: 10 
+
+BEFORE for rid= 48  num sharers:  9
+AFTER for rid= 48  num sharers:  8
+------------------------------
+print multiple times ok for RID: 32 
+
+BEFORE for rid= 6  num sharers:  12
+AFTER for rid= 6  num sharers:  11
+------------------------------
+BEFORE for rid= 10  num sharers:  15
+AFTER for rid= 10  num sharers:  14
+------------------------------
+print multiple times ok for RID: 77 
+
+BEFORE for rid= 17  num sharers:  10
+AFTER for rid= 17  num sharers:  9
+------------------------------
+BEFORE for rid= 32  num sharers:  8
+AFTER for rid= 32  num sharers:  7
+------------------------------
+print multiple times ok for RID: 82 
+
+print multiple times ok for RID: 58 
+
+print multiple times ok for RID: 18 
+
+BEFORE for rid= 77  num sharers:  15
+AFTER for rid= 77  num sharers:  14
+------------------------------
+BEFORE for rid= 82  num sharers:  15
+AFTER for rid= 82  num sharers:  14
+------------------------------
+print multiple times ok for RID: 38 
+
+BEFORE for rid= 18  num sharers:  16
+AFTER for rid= 18  num sharers:  15
+------------------------------
+print multiple times ok for RID: 10 
+
+BEFORE for rid= 38  num sharers:  4
+AFTER for rid= 38  num sharers:  3
+------------------------------
+print multiple times ok for RID: 12 
+
+BEFORE for rid= 58  num sharers:  8
+AFTER for rid= 58  num sharers:  7
+------------------------------
+BEFORE for rid= 10  num sharers:  16
+AFTER for rid= 10  num sharers:  15
+------------------------------
+print multiple times ok for RID: 100 
+
+print multiple times ok for RID: 41 
+
+print multiple times ok for RID: 6 
+
+BEFORE for rid= 12  num sharers:  12
+AFTER for rid= 12  num sharers:  11
+------------------------------
+BEFORE for rid= 100  num sharers:  12
+AFTER for rid= 100  num sharers:  11
+------------------------------
+print multiple times ok for RID: 32 
+
+BEFORE for rid= 41  num sharers:  10
+AFTER for rid= 41  num sharers:  9
+------------------------------
+BEFORE for rid= 6  num sharers:  13
+AFTER for rid= 6  num sharers:  12
+------------------------------
+print multiple times ok for RID: 32 
+
+print multiple times ok for RID: 24 
+
+print multiple times ok for RID: 31 
+
+BEFORE for rid= 32  num sharers:  11
+AFTER for rid= 32  num sharers:  10
+------------------------------
+BEFORE for rid= 32  num sharers:  10
+AFTER for rid= 32  num sharers:  9
+------------------------------
+print multiple times ok for RID: 35 
+
+BEFORE for rid= 31  num sharers:  6
+AFTER for rid= 31  num sharers:  5
+------------------------------
+print multiple times ok for RID: 15 
+
+BEFORE for rid= 24  num sharers:  13
+AFTER for rid= 24  num sharers:  12
+------------------------------
+BEFORE for rid= 35  num sharers:  10
+AFTER for rid= 35  num sharers:  9
+------------------------------
+print multiple times ok for RID: 89 
+
+print multiple times ok for RID: 51 
+
+print multiple times ok for RID: 58 
+
+BEFORE for rid= 15  num sharers:  10
+AFTER for rid= 15  num sharers:  9
+------------------------------
+BEFORE for rid= 89  num sharers:  7
+AFTER for rid= 89  num sharers:  6
+------------------------------
+print multiple times ok for RID: 12 
+
+BEFORE for rid= 51  num sharers:  14
+AFTER for rid= 51  num sharers:  13
+------------------------------
+print multiple times ok for RID: 44 
+
+BEFORE for rid= 58  num sharers:  9
+AFTER for rid= 58  num sharers:  8
+------------------------------
+BEFORE for rid= 12  num sharers:  13
+AFTER for rid= 12  num sharers:  12
+------------------------------
+print multiple times ok for RID: 95 
+
+print multiple times ok for RID: 82 
+
+print multiple times ok for RID: 58 
+
+BEFORE for rid= 44  num sharers:  10
+AFTER for rid= 44  num sharers:  9
+------------------------------
+BEFORE for rid= 95  num sharers:  10
+AFTER for rid= 95  num sharers:  9
+------------------------------
+print multiple times ok for RID: 3 
+
+BEFORE for rid= 82  num sharers:  16
+AFTER for rid= 82  num sharers:  15
+------------------------------
+BEFORE for rid= 58  num sharers:  10
+AFTER for rid= 58  num sharers:  9
+------------------------------
+print multiple times ok for RID: 5 
+
+print multiple times ok for RID: 84 
+
+print multiple times ok for RID: 9 
+
+BEFORE for rid= 3  num sharers:  11
+AFTER for rid= 3  num sharers:  10
+------------------------------
+BEFORE for rid= 9  num sharers:  8
+AFTER for rid= 9  num sharers:  7
+------------------------------
+print multiple times ok for RID: 100 
+
+BEFORE for rid= 84  num sharers:  6
+AFTER for rid= 84  num sharers:  5
+------------------------------
+BEFORE for rid= 5  num sharers:  15
+AFTER for rid= 5  num sharers:  14
+------------------------------
+print multiple times ok for RID: 36 
+
+print multiple times ok for RID: 41 
+
+print multiple times ok for RID: 46 
+
+BEFORE for rid= 100  num sharers:  13
+AFTER for rid= 100  num sharers:  12
+------------------------------
+BEFORE for rid= 36  num sharers:  12
+AFTER for rid= 36  num sharers:  11
+------------------------------
+print multiple times ok for RID: 52 
+
+BEFORE for rid= 41  num sharers:  11
+AFTER for rid= 41  num sharers:  10
+------------------------------
+BEFORE for rid= 46  num sharers:  7
+AFTER for rid= 46  num sharers:  6
+------------------------------
+print multiple times ok for RID: 28 
+
+print multiple times ok for RID: 2 
+
+print multiple times ok for RID: 64 
+
+BEFORE for rid= 52  num sharers:  9
+AFTER for rid= 52  num sharers:  8
+------------------------------
+BEFORE for rid= 2  num sharers:  13
+AFTER for rid= 2  num sharers:  12
+------------------------------
+print multiple times ok for RID: 5 
+
+BEFORE for rid= 28  num sharers:  12
+AFTER for rid= 28  num sharers:  11
+------------------------------
+print multiple times ok for RID: 12 
+
+BEFORE for rid= 64  num sharers:  13
+AFTER for rid= 64  num sharers:  12
+------------------------------
+print multiple times ok for RID: 63 
+
+BEFORE for rid= 5  num sharers:  16
+AFTER for rid= 5  num sharers:  15
+------------------------------
+print multiple times ok for RID: 91 
+
+BEFORE for rid= 12  num sharers:  14
+AFTER for rid= 12  num sharers:  13
+------------------------------
+print multiple times ok for RID: 79 
+
+BEFORE for rid= 63  num sharers:  12
+AFTER for rid= 63  num sharers:  11
+------------------------------
+print multiple times ok for RID: 30 
+
+BEFORE for rid= 91  num sharers:  7
+AFTER for rid= 91  num sharers:  6
+------------------------------
+print multiple times ok for RID: 30 
+
+BEFORE for rid= 79  num sharers:  15
+AFTER for rid= 79  num sharers:  14
+------------------------------
+print multiple times ok for RID: 1 
+
+BEFORE for rid= 30  num sharers:  10
+AFTER for rid= 30  num sharers:  9
+------------------------------
+print multiple times ok for RID: 10 
+
+print multiple times ok for RID: 100 
+
+BEFORE for rid= 30  num sharers:  9
+AFTER for rid= 30  num sharers:  8
+------------------------------
+BEFORE for rid= 10  num sharers:  17
+AFTER for rid= 10  num sharers:  16
+------------------------------
+print multiple times ok for RID: 13 
+
+BEFORE for rid= 1  num sharers:  9
+AFTER for rid= 1  num sharers:  8
+------------------------------
+print multiple times ok for RID: 97 
+
+print multiple times ok for RID: 18 
+
+BEFORE for rid= 100  num sharers:  14
+AFTER for rid= 100  num sharers:  13
+------------------------------
+BEFORE for rid= 13  num sharers:  8
+AFTER for rid= 13  num sharers:  7
+------------------------------
+BEFORE for rid= 97  num sharers:  6
+AFTER for rid= 97  num sharers:  5
+------------------------------
+print multiple times ok for RID: 29 
+
+print multiple times ok for RID: 68 
+
+BEFORE for rid= 18  num sharers:  17
+AFTER for rid= 18  num sharers:  16
+------------------------------
+print multiple times ok for RID: 83 
+
+print multiple times ok for RID: 87 
+
+BEFORE for rid= 29  num sharers:  14
+AFTER for rid= 29  num sharers:  13
+------------------------------
+BEFORE for rid= 68  num sharers:  13
+AFTER for rid= 68  num sharers:  12
+------------------------------
+BEFORE for rid= 83  num sharers:  13
+AFTER for rid= 83  num sharers:  12
+------------------------------
+print multiple times ok for RID: 86 
+
+print multiple times ok for RID: 48 
+
+BEFORE for rid= 87  num sharers:  11
+AFTER for rid= 87  num sharers:  10
+------------------------------
+print multiple times ok for RID: 50 
+
+print multiple times ok for RID: 51 
+
+BEFORE for rid= 86  num sharers:  13
+AFTER for rid= 86  num sharers:  12
+------------------------------
+BEFORE for rid= 48  num sharers:  10
+AFTER for rid= 48  num sharers:  9
+------------------------------
+BEFORE for rid= 50  num sharers:  6
+AFTER for rid= 50  num sharers:  5
+------------------------------
+print multiple times ok for RID: 31 
+
+print multiple times ok for RID: 46 
+
+BEFORE for rid= 51  num sharers:  15
+AFTER for rid= 51  num sharers:  14
+------------------------------
+print multiple times ok for RID: 69 
+
+print multiple times ok for RID: 69 
+
+BEFORE for rid= 31  num sharers:  7
+AFTER for rid= 31  num sharers:  6
+------------------------------
+BEFORE for rid= 46  num sharers:  8
+AFTER for rid= 46  num sharers:  7
+------------------------------
+BEFORE for rid= 69  num sharers:  10
+AFTER for rid= 69  num sharers:  9
+------------------------------
+print multiple times ok for RID: 13 
+
+print multiple times ok for RID: 11 
+
+BEFORE for rid= 69  num sharers:  9
+AFTER for rid= 69  num sharers:  8
+------------------------------
+print multiple times ok for RID: 2 
+
+print multiple times ok for RID: 74 
+
+BEFORE for rid= 13  num sharers:  9
+AFTER for rid= 13  num sharers:  8
+------------------------------
+BEFORE for rid= 11  num sharers:  9
+AFTER for rid= 11  num sharers:  8
+------------------------------
+BEFORE for rid= 2  num sharers:  14
+AFTER for rid= 2  num sharers:  13
+------------------------------
+print multiple times ok for RID: 82 
+
+print multiple times ok for RID: 17 
+
+BEFORE for rid= 74  num sharers:  12
+AFTER for rid= 74  num sharers:  11
+------------------------------
+print multiple times ok for RID: 18 
+
+print multiple times ok for RID: 77 
+
+BEFORE for rid= 82  num sharers:  17
+AFTER for rid= 82  num sharers:  16
+------------------------------
+BEFORE for rid= 17  num sharers:  11
+AFTER for rid= 17  num sharers:  10
+------------------------------
+BEFORE for rid= 18  num sharers:  18
+AFTER for rid= 18  num sharers:  17
+------------------------------
+print multiple times ok for RID: 98 
+
+print multiple times ok for RID: 39 
+
+BEFORE for rid= 77  num sharers:  16
+AFTER for rid= 77  num sharers:  15
+------------------------------
+print multiple times ok for RID: 50 
+
+print multiple times ok for RID: 39 
+
+BEFORE for rid= 98  num sharers:  17
+AFTER for rid= 98  num sharers:  16
+------------------------------
+BEFORE for rid= 39  num sharers:  17
+AFTER for rid= 39  num sharers:  16
+------------------------------
+BEFORE for rid= 50  num sharers:  7
+AFTER for rid= 50  num sharers:  6
+------------------------------
+print multiple times ok for RID: 75 
+
+print multiple times ok for RID: 17 
+
+BEFORE for rid= 39  num sharers:  17
+AFTER for rid= 39  num sharers:  16
+------------------------------
+print multiple times ok for RID: 36 
+
+print multiple times ok for RID: 52 
+
+BEFORE for rid= 75  num sharers:  12
+AFTER for rid= 75  num sharers:  11
+------------------------------
+BEFORE for rid= 17  num sharers:  12
+AFTER for rid= 17  num sharers:  11
+------------------------------
+BEFORE for rid= 36  num sharers:  13
+AFTER for rid= 36  num sharers:  12
+------------------------------
+print multiple times ok for RID: 2 
+
+print multiple times ok for RID: 67 
+
+BEFORE for rid= 52  num sharers:  10
+AFTER for rid= 52  num sharers:  9
+------------------------------
+print multiple times ok for RID: 1 
+
+print multiple times ok for RID: 73 
+
+BEFORE for rid= 2  num sharers:  15
+AFTER for rid= 2  num sharers:  14
+------------------------------
+BEFORE for rid= 67  num sharers:  13
+AFTER for rid= 67  num sharers:  12
+------------------------------
+BEFORE for rid= 1  num sharers:  10
+AFTER for rid= 1  num sharers:  9
+------------------------------
+print multiple times ok for RID: 88 
+
+print multiple times ok for RID: 9 
+
+BEFORE for rid= 73  num sharers:  8
+AFTER for rid= 73  num sharers:  7
+------------------------------
+print multiple times ok for RID: 69 
+
+print multiple times ok for RID: 65 
+
+BEFORE for rid= 88  num sharers:  7
+AFTER for rid= 88  num sharers:  6
+------------------------------
+BEFORE for rid= 9  num sharers:  9
+AFTER for rid= 9  num sharers:  8
+------------------------------
+BEFORE for rid= 69  num sharers:  10
+AFTER for rid= 69  num sharers:  9
+------------------------------
+print multiple times ok for RID: 61 
+
+print multiple times ok for RID: 42 
+
+BEFORE for rid= 65  num sharers:  9
+AFTER for rid= 65  num sharers:  8
+------------------------------
+print multiple times ok for RID: 56 
+
+BEFORE for rid= 61  num sharers:  13
+AFTER for rid= 61  num sharers:  12
+------------------------------
+BEFORE for rid= 42  num sharers:  9
+AFTER for rid= 42  num sharers:  8
+------------------------------
+print multiple times ok for RID: 75 
+
+BEFORE for rid= 56  num sharers:  12
+AFTER for rid= 56  num sharers:  11
+------------------------------
+print multiple times ok for RID: 74 
+
+BEFORE for rid= 75  num sharers:  13
+AFTER for rid= 75  num sharers:  12
+------------------------------
+BEFORE for rid= 74  num sharers:  13
+AFTER for rid= 74  num sharers:  12
+------------------------------
+print multiple times ok for RID: 43 
+
+BEFORE for rid= 43  num sharers:  6
+AFTER for rid= 43  num sharers:  5
+------------------------------
+print multiple times ok for RID: 90 
+
+BEFORE for rid= 90  num sharers:  8
+AFTER for rid= 90  num sharers:  7
+------------------------------
+Thread 4 finished
+Thread 5 finished
+Thread 6 finished
+Thread 7 finished
+1000 transaction committed.
+------------------------------
+Sum should be zero: 1000
+Entire current locks dictionary: {94: 10, 100: 13, 35: 9, 98: 16, 59: 10, 13: 8, 18: 17, 36: 12, 72: 13, 80: 12, 53: 13, 12: 13, 55: 8, 87: 10, 24: 12, 79: 14, 1: 9, 3: 10, 30: 8, 91: 6, 90: 7, 86: 12, 28: 11, 65: 8, 22: 9, 43: 5, 7: 6, 99: 5, 81: 9, 78: 10, 51: 14, 62: 20, 6: 12, 4: 11, 27: 13, 16: 9, 56: 11, 75: 12, 14: 8, 19: 7, 45: 9, 41: 10, 82: 16, 25: 9, 39: 16, 2: 14, 48: 9, 64: 12, 52: 9, 83: 12, 10: 16, 63: 11, 96: 17, 85: 6, 46: 7, 47: 13, 71: 5, 77: 15, 21: 9, 23: 8, 54: 12, 76: 5, 17: 11, 37: 14, 95: 9, 93: 9, 69: 9, 44: 9, 33: 7, 57: 7, 66: 9, 5: 15, 8: 9, 92: 15, 26: 7, 70: 5, 20: 6, 34: 9, 11: 8, 31: 6, 89: 6, 49: 14, 68: 12, 58: 9, 40: 8, 42: 8, 15: 9, 29: 13, 74: 12, 88: 6, 9: 8, 38: 3, 50: 6, 84: 5, 97: 5, 61: 12, 67: 12, 60: 10, 32: 9, 73: 7}
