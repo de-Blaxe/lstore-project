@@ -35,6 +35,7 @@ class Transaction:
             # If the query has failed the transaction should abort
             if result == False:
                 return self.abort()
+            # This condition is tailored to txn_reads_only.py (selecting by primary key --> list of one record returned)
             if result[0].columns != self.expected_results[count]:
                 print("Select error. Query returned: ", result[0].columns, " but Expected: ", self.expected_results[count], "\n")
             else:
@@ -48,7 +49,7 @@ class Transaction:
 
 
     def commit(self):
-        # TODO: LATERRRRR commit to database
+        # TODO: LATER commit to database
         return True
 
 """
