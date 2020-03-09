@@ -418,6 +418,9 @@ class Table:
             # Default behavior if no abort
             latch.release()
 
+            # Checking if we can allow other threads to run in between...
+            print("Hello from ThreadID=", curr_threadID, " I'm working on RID=", rid, "\n")
+
             # Initialize data to base record's data
             data = [None] * self.num_columns
             columns_not_retrieved = set()
@@ -434,10 +437,11 @@ class Table:
             if rid >= self.TID_counter:
                 # Find corresponding Base Record for Tail Record
                 tail_set_name = page_range.tail_set[name_index]
-                self.memory_manager.lock.acquire()
+                #self.memory_manager.lock.acquire() --> We want to allow concurrent reads for the same RIDs (within same pageSet)
                 tail_pages = self.memory_manager.get_pages(tail_set_name, self)
                 mapped_baseID_page = tail_pages[BASE_RID_COLUMN]
                 mapped_baseID = self.convert_data(mapped_baseID_page, byte_pos)
+                self.memory_manager.lock.acquire() # NOTE: MOVED HERE
                 self.memory_manager.pinScore[tail_set_name] -= 1
                 self.memory_manager.lock.release()
                 [_, base_name_index, base_byte_pos] = self.page_directory[mapped_baseID]
@@ -447,7 +451,7 @@ class Table:
                 base_set_name = page_range.base_set[base_name_index]
 
             # Read Base Record's TPS
-            self.memory_manager.lock.acquire()
+            # self.memory_manager.lock.acquire()--> We want to allow concurrent reads for the same RIDs (within same pageSet)            
             base_pages = self.memory_manager.get_pages(base_set_name, self)
 
             for i in range(self.num_columns):
@@ -458,6 +462,8 @@ class Table:
             # Read Base Record's Indirection RID
             base_indir_page = base_pages[INDIRECTION_COLUMN]
             base_indir_rid = self.convert_data(base_indir_page, base_byte_pos)
+            
+            self.memory_manager.lock.acquire() # NOTE: MOVED HERE
             self.memory_manager.pinScore[base_set_name] -= 1
             self.memory_manager.lock.release()
 
@@ -475,18 +481,21 @@ class Table:
                     page_set = page_range.base_set
 
                 # Read schema data
-                self.memory_manager.lock.acquire()
+                #self.memory_manager.lock.acquire() --> We want to allow concurrent reads for the same RIDs (within same pageSet)
                 buffer_page_set = self.memory_manager.get_pages(page_set[name_index], self)
                 schema_page = buffer_page_set[SCHEMA_ENCODING_COLUMN]
 
                 [schema_str, _] = self.finalize_schema(schema_page, byte_pos)
+                
+                self.memory_manager.lock.acquire() # NOTE: MOVED HERE
                 self.memory_manager.pinScore[page_set[name_index]] -= 1
                 self.memory_manager.lock.release()
+
                 # Leading zeros are lost after integer conversion, so padding needed
                 if len(schema_str) < self.num_columns:
                     diff = self.num_columns - len(schema_str)
                     schema_str = '0' * diff + schema_str
-                self.memory_manager.lock.acquire()
+                # self.memory_manager.lock.acquire()--> We want to allow concurrent reads for the same RIDs (within same pageSet
                 for col, page in enumerate(self.memory_manager.get_pages(page_set[name_index], table=self)[INIT_COLS:]):
                     if col not in columns_not_retrieved:
                         continue
@@ -494,6 +503,8 @@ class Table:
                     if rid < self.TID_counter or bool(int(schema_str[col])):
                         data[col] = self.convert_data(page, byte_pos)
                         columns_not_retrieved.discard(col)
+
+                self.memory_manager.lock.acquire() # NOTE: MOVED HERE
                 self.memory_manager.pinScore[page_set[name_index]] -= 1
                 self.memory_manager.lock.release()
 

@@ -20,7 +20,7 @@ num_threads = 8
 seed(8739878934)
 
 # Generate random records
-for i in range(0, 100):
+for i in range(0, 10): # Changed from 100 to 10
     key = 92106429 + i
     keys.append(key)
     records[key] = [key, randint(0,20), randint(0,20), randint(0,20), randint(0,20)] # Init with random col values
