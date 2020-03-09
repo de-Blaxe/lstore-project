@@ -1,5 +1,6 @@
 """
-# NOTE: FOLLOWING TESTS FOR CONCURRENT READS ONLY (Shared Locks) 
+# NOTE: FOLLOWING TESTS FOR CONCURRENT READS ONLY (Shared Locks)
+# Attempts to check for correctness of reads by declaring an 'expected_results' array per Transaction
 """
 
 from template.db import Database
@@ -32,11 +33,10 @@ transaction_workers = []
 for i in range(num_threads):
     transaction_workers.append(TransactionWorker([]))
 
-expected_results = []
 # Testing concurrent Reads
 for i in range(1000): 
     transaction = Transaction()
-    key = choice(keys) # choose one random key
+    key = choice(keys) # choose one random key (one random record to read)
     q = Query(grades_table)
     transaction.add_query(q.select, key, 0, [1, 1, 1, 1, 1])
     transaction.add_expected_results(records[key])
@@ -71,8 +71,7 @@ if s != num_committed_transactions * 5:
 else:
     print('Pass.')
 """
+# Modified above because we're only testing concurrent reads (no writing, no aborts are possible)
 
 print("Sum should be zero:", sum(list(grades_table.lock_manager.current_locks.values())))
 print("Entire current locks dictionary:", grades_table.lock_manager.current_locks)
-
-# Modified above because we're only testing concurrent reads (no writing, no aborts are possible)

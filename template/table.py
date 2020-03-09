@@ -386,7 +386,7 @@ class Table:
             except KeyError:
                 # First time using baseID
                 self.lock_manager.current_locks[baseID] = 1
-                print("ThreadID is now:", curr_threadID, " and will update ", baseID, "with value=", self.lock_manager.current_locks[baseID], "\n")
+                print("ThreadID is now:", curr_threadID, " and will update RID=", baseID, "with value=", self.lock_manager.current_locks[baseID], "\n")
         # Default behavior if no abort            
         latch.release()
 
@@ -433,6 +433,9 @@ class Table:
             # Locate record within Page Range
             [page_range_index, name_index, byte_pos] = self.page_directory[rid]
             page_range = self.page_range_collection[page_range_index]
+
+            # Checking if we can allow threads to run in between again...
+            print("Greetings from ThreadID=", curr_threadID, " I'm working on RID=", rid, "\n")
 
             if rid >= self.TID_counter:
                 # Find corresponding Base Record for Tail Record
