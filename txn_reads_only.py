@@ -23,7 +23,7 @@ seed(8739878934)
 for i in range(0, 100):
     key = 92106429 + i
     keys.append(key)
-    records[key] = [key, 0, 0, 0, 0]
+    records[key] = [key, randint(0,20), randint(0,20), randint(0,20), randint(0,20)] # Init with random col values
     q = Query(grades_table)
     q.insert(*records[key])
 
@@ -32,13 +32,14 @@ transaction_workers = []
 for i in range(num_threads):
     transaction_workers.append(TransactionWorker([]))
 
+expected_results = []
 # Testing concurrent Reads
 for i in range(1000): 
     transaction = Transaction()
     key = choice(keys) # choose one random key
     q = Query(grades_table)
     transaction.add_query(q.select, key, 0, [1, 1, 1, 1, 1])
-    q = Query(grades_table)
+    transaction.add_expected_results(records[key])
     transaction_workers[i % num_threads].add_transaction(transaction)
 
 

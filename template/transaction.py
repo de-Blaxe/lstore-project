@@ -8,6 +8,7 @@ class Transaction:
     """
     def __init__(self):
         self.queries = []
+        self.expected_results = []
         pass
 
 
@@ -21,16 +22,23 @@ class Transaction:
     def add_query(self, query, *args): 
         self.queries.append((query, args))
 
+    def add_expected_results(self, desired_columns):
+        self.expected_results.append(desired_columns)
 
     # If you choose to implement this differently,
     # this method must still return True if transaction commits 
     # or False on abort
     def run(self):
-        for query, args in self.queries:
+        for count, request in enumerate(self.queries):
+            [query, args] = request
             result = query(*args)
             # If the query has failed the transaction should abort
             if result == False:
                 return self.abort()
+            if result[0].columns != self.expected_results[count]:
+                print("Select error. Query returned: ", result[0].columns, " but Expected: ", self.expected_results[count], "\n")
+            else:
+                print('Pass\n')
         return self.commit()
 
 
