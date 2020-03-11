@@ -59,6 +59,12 @@ class Table:
 
         #self.my_latch = self.memory_manager.latches[self.name] # Still Pickle error, can't make an alias
 
+        # DEBUGGING PURPOSES: Assuming only 8 Transaction Worker Threads
+        # https://www.geeksforgeeks.org/ways-increment-character-python/        
+        self.all_threads = dict() # Map ThreadIDs to a nickname 
+        self.thread_count = 0 # Counter
+        self.thread_nickname = 'A' # Thread nicknames start at 'A'
+
         # Generate MergeThread in background
         self.merge_flag = False
         self.num_merged = 0
@@ -343,13 +349,11 @@ class Table:
     # Reads record(s) with matching key value and indexing column
     """
     def read_records(self, key, column, query_columns, max_key=None):
-        baseIDs = 0      
-        if max_key == None:
-
         """
         # NOTE: Please see template/concurrency_notes on git
         """ 
-
+        baseIDs = 0      
+        if max_key == None:
             result = self.index.locate(key, column)
             if result != INVALID_RECORD:
                 baseIDs = [result] # Make into a list with one baseID
@@ -362,6 +366,15 @@ class Table:
         self.memory_manager.lock.release()
 
         curr_threadID = threading.get_ident()
+        # NOTE: DEBUGGING PURPOSES EASIER TO FOLLOW BEHAVIOR OF THREADS
+        try:
+            self.all_threads[curr_threadID]
+        except KeyError:
+            self.all_threads[curr_threadID] = chr(ord(self.thread_nickname) + self.thread_count)
+            self.thread_count += 1 # To generate new nickname in advance
+
+        # Alias (debugging purposes)
+        thread_nickname = self.all_threads[curr_threadID]
 
         # TODO: Maybe make a Table Method to handle abort()? 
         # Check if all baseIDs are available for reading
@@ -377,14 +390,11 @@ class Table:
                     latch.release()
                     return False # Signal Transaction to abort()
                 else:
-                    #print("print multiple times ok for RID:", baseID, "\n")
-                    #print("ThreadID is now: ", curr_threadID, "and will increment counter for RID=", baseID, "\n")        
                     self.lock_manager.current_locks[baseID] += 1
             except KeyError:
                 # First time using baseID
                 self.lock_manager.current_locks[baseID] = 1
-                #print("ThreadID is now:", curr_threadID, " and create new entry for RID=", baseID, "\n")
-            print("ThreadID {} finished incrementing RID= {}\n".format(curr_threadID, baseID))
+            print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
         # Default behavior if no abort
         latch.release()
 
@@ -413,14 +423,11 @@ class Table:
                     return False # Signal Transaction to abort()
                 elif rid >= self.TID_counter: # Already incremented baseIDs
                     self.lock_manager.current_locks[rid] += 1
-                    print("ThreadID {} finished incrementing RID= {}\n".format(curr_threadID, rid))  # Only print for tailIDs in loop
+                    print("Thread {} finished incrementing RID={}\n".format(thread_nickname, rid))  # Only print for tailIDs in loop
             except KeyError: # First time using (latest/previous) rid
                 self.lock_manager.current_locks[rid] = 1
             # Default behavior if no abort
             latch.release()
-
-            # Checking if we can allow other threads to run in between...
-            #print("Hello from ThreadID=", curr_threadID, " I'm working on RID=", rid, "\n")
 
             # Initialize data to base record's data
             data = [None] * self.num_columns
@@ -434,9 +441,6 @@ class Table:
             # Locate record within Page Range
             [page_range_index, name_index, byte_pos] = self.page_directory[rid]
             page_range = self.page_range_collection[page_range_index]
-
-            # Checking if we can allow threads to run in between again...
-            #print("Greetings from ThreadID=", curr_threadID, " I'm working on RID=", rid, "\n")
 
             if rid >= self.TID_counter:
                 # Find corresponding Base Record for Tail Record
@@ -532,10 +536,11 @@ class Table:
         latch.acquire()
         for rid_used in rids_accessed:
             print("= = = = = " * 10)
-            print("BEFORE for RID=", rid_used, " num sharers: ", self.lock_manager.current_locks[rid_used])
-            print("ThreadID is now: ", curr_threadID, " will now decrement for RID=", rid_used)
+            init_sharers = deepcopy(self.lock_manager.current_locks[rid_used])
             self.lock_manager.current_locks[rid_used] -= 1
-            print("AFTER for RID=", rid_used, " num sharers: ", self.lock_manager.current_locks[rid_used])
+            print("Thread {} will decrement for RID={}. \
+                    BEFORE num sharers: {} vs AFTER num sharers: {}".format( \
+                    thread_nickname, rid_used, init_sharers, self.lock_manager.current_locks[rid_used]))
             print("= = = = = " * 10)
         print("-------One Read Operation completed-------------")
         latch.release()
