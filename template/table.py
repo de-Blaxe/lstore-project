@@ -55,7 +55,7 @@ class Table:
 
         self.update_to_pg_range = dict()    # Entries: Number of Tail Records within Page Range
         self.memory_manager = mem_manager   # All Tables within Database share same Memory Manager
-        self.lock_manager = lock_manager    # Manages concurrent Threads [can't pickle Thread Lock objects? -> commented out for now]
+        self.lock_manager = lock_manager    # Manages concurrent Threads 
 
         #self.my_latch = self.memory_manager.latches[self.name] # Still Pickle error, can't make an alias
 
@@ -346,6 +346,59 @@ class Table:
 
 
     """
+    # Helper function to generate nicknames for given threadID (can remove later)
+    """
+    def gen_thread_nickname(self, curr_threadID):
+        # NOTE: FOR DEBUGGING PURPOSES, EASIER TO FOLLOW BEHAVIOR OF THREADS
+        try:
+            self.all_threads[curr_threadID]
+        except KeyError:
+            self.all_threads[curr_threadID] = chr(ord(self.thread_nickname) + self.thread_count)
+            self.thread_count += 1 # To generate new nickname in advance
+        return self.all_threads[curr_threadID] # Return nickname
+
+
+    """
+    # Attempt to grab a Shared Lock for given RID and latch availability
+    """
+    def get_shared_lock(self, rid, curr_threadID, latch, is_baseID=True):
+        # Alias for threadID
+        thread_nickname = self.all_threads[curr_threadID]
+        try:
+            # See if baseID exists and has no outstanding writers
+            if self.lock_manager.current_locks[rid] == EXCLUSIVE_LOCK:
+                tids_made = self.lock_manager.threadID_to_tids[curr_threadID]
+                if len(tids_made):
+                    # Current thread created at least one Tail record
+                    self.invalid_rids += tids_made
+                latch.release()
+                return False # Signal Transaction to abort()
+            elif is_baseID or rid >= self.TID_counter:
+                # Avoid over-incrementing num_sharers for baseIDs
+                self.lock_manager.current_locks[rid] += 1
+        except KeyError:
+            # First time using baseID
+            self.lock_manager.current_locks[rid] = 1
+        print("Thread {} finished incrementing RID={}\n".format(thread_nickname, rid))
+        
+
+    """
+    # Release all acquired Shared Locks acquired for given RIDs
+    """
+    def free_shared_locks(self, rids_accessed, thread_nickname):
+        # Print stmts just for debugging purposes for now
+        for rid_used in rids_accessed:
+            print("= = = = = " * 10)
+            init_sharers = deepcopy(self.lock_manager.current_locks[rid_used])
+            self.lock_manager.current_locks[rid_used] -= 1
+            print("Thread {} will decrement for RID={}. \
+                    BEFORE num sharers: {} vs AFTER num sharers: {}".format( \
+                    thread_nickname, rid_used, init_sharers, self.lock_manager.current_locks[rid_used]))
+            print("= = = = = " * 10)
+        print("-------One Read Operation completed-------------")
+
+
+    """
     # Reads record(s) with matching key value and indexing column
     """
     def read_records(self, key, column, query_columns, max_key=None):
@@ -366,35 +419,12 @@ class Table:
         self.memory_manager.lock.release()
 
         curr_threadID = threading.get_ident()
-        # NOTE: DEBUGGING PURPOSES EASIER TO FOLLOW BEHAVIOR OF THREADS
-        try:
-            self.all_threads[curr_threadID]
-        except KeyError:
-            self.all_threads[curr_threadID] = chr(ord(self.thread_nickname) + self.thread_count)
-            self.thread_count += 1 # To generate new nickname in advance
+        thread_nickname = self.gen_thread_nickname(curr_threadID)
 
-        # Alias (debugging purposes)
-        thread_nickname = self.all_threads[curr_threadID]
-
-        # TODO: Maybe make a Table Method to handle abort()? 
         # Check if all baseIDs are available for reading
         latch.acquire()
         for baseID in baseIDs:
-            try:
-                # See if baseID exists and has no outstanding writers
-                if self.lock_manager.current_locks[baseID] == EXCLUSIVE_LOCK:
-                    tids_made = self.lock_manager.threadID_to_tids[curr_threadID]
-                    if len(tids_made):
-                        # Current thread created at least one Tail record
-                        self.invalid_rids += tids_made
-                    latch.release()
-                    return False # Signal Transaction to abort()
-                else:
-                    self.lock_manager.current_locks[baseID] += 1
-            except KeyError:
-                # First time using baseID
-                self.lock_manager.current_locks[baseID] = 1
-            print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
+            self.get_shared_lock(baseID, curr_threadID, latch) # Pass latch in case of Txn failure
         # Default behavior if no abort
         latch.release()
 
@@ -413,19 +443,7 @@ class Table:
 
             # Check if all rids (previous and latest ones) are available for reading
             latch.acquire()
-            try:
-                if self.lock_manager.current_locks[rid] == EXCLUSIVE_LOCK:
-                    tids_made = self.lock_manager.threadID_to_tids[curr_threadID]
-                    if len(tids_made):
-                        # Current thread created at least one Tail record
-                        self.invalid_rids += tids_made
-                    latch.release()
-                    return False # Signal Transaction to abort()
-                elif rid >= self.TID_counter: # Already incremented baseIDs
-                    self.lock_manager.current_locks[rid] += 1
-                    print("Thread {} finished incrementing RID={}\n".format(thread_nickname, rid))  # Only print for tailIDs in loop
-            except KeyError: # First time using (latest/previous) rid
-                self.lock_manager.current_locks[rid] = 1
+            self.get_shared_lock(rid, curr_threadID, latch, is_baseID=False) # Pass latch in case of Txn failure
             # Default behavior if no abort
             latch.release()
 
@@ -532,17 +550,9 @@ class Table:
             output.append(record)
 
         ### End of outer for loop ###
-        # Release all Shared Locks for all RIDs accessed
+        # Release all Shared Locks for all RIDs accessed during query
         latch.acquire()
-        for rid_used in rids_accessed:
-            print("= = = = = " * 10)
-            init_sharers = deepcopy(self.lock_manager.current_locks[rid_used])
-            self.lock_manager.current_locks[rid_used] -= 1
-            print("Thread {} will decrement for RID={}. \
-                    BEFORE num sharers: {} vs AFTER num sharers: {}".format( \
-                    thread_nickname, rid_used, init_sharers, self.lock_manager.current_locks[rid_used]))
-            print("= = = = = " * 10)
-        print("-------One Read Operation completed-------------")
+        self.free_shared_locks(rids_accessed, thread_nickname)
         latch.release()
 
         return output
