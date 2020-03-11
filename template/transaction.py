@@ -38,9 +38,10 @@ class Transaction:
             # This condition is tailored to txn_reads_only.py (selecting by primary key --> list of one record returned)
             if result[0].columns != self.expected_results[count]:
                 print("Select error. Query returned: ", result[0].columns, " but Expected: ", self.expected_results[count], "\n")
+                #return
             else:
                 print('Pass\n')
-        return self.commit()
+        return self.commit() # Commit iff all queries within Transaction succeed
 
 
     def abort(self):
