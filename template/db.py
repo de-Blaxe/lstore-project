@@ -42,6 +42,9 @@ class MemoryManager():
         # Each latch protects a LockManager
         self.latches = dict()
 
+    """
+    # Creates a latch for each Table's Lock Manager.
+    """
     def create_latch(self, table_name):
         self.latches[table_name] = threading.Lock()
 
