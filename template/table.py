@@ -359,7 +359,7 @@ class Table:
 
 
     """
-    # Attempt to grab a Shared Lock for given RID and latch availability
+    # Attempt to grab a Shared Lock for given RID
     """
     def get_shared_lock(self, rid, curr_threadID, latch, is_baseID=True):
         # Alias for threadID
