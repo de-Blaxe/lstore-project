@@ -21,7 +21,7 @@ num_threads = 8
 seed(8739878934)
 
 # Generate random records
-for i in range(0, 10): # Changed from 100 to 10
+for i in range(0, 30): # Changed from 100 Base Records to 10: Force duplicate readers
     key = 92106429 + i
     keys.append(key)
     records[key] = [key, randint(0,20), randint(0,20), randint(0,20), randint(0,20)] # Init with random col values
@@ -49,7 +49,7 @@ for transaction_worker in transaction_workers:
 
 
 for i, thread in enumerate(threads):
-    print('Thread', i, 'started')
+    print('Thread', i, 'started.')
     thread.start()
 
 

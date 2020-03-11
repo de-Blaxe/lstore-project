@@ -116,15 +116,6 @@ class Table:
     # Creates & inserts new base record into Table
     """
     def insert_baseRecord(self, record, schema_encoding):
-        """
-        # TESTING TO SEE IF WE CAN ACCESS TABLE'S LOCK MANAGER'S LATCH via MEMORY MANAGER
-        my_latch = self.memory_manager.latches[self.name]
-        my_latch.acquire()
-        # Fake critical section
-        print("latching test!")
-        my_latch.release()
-        """
-
         # Base case: Check if record's RID is unique
         if record.rid in self.page_directory:
             print("Error: Record RID is not unique.\n")
@@ -271,6 +262,7 @@ class Table:
             cur_tail_pages[BASE_RID_COLUMN].write(baseID)
             cur_tail_pages[TIMESTAMP_COLUMN].write(int(time()))
             self.memory_manager.lock.release()
+
             # Increment number of updates and update page directory
             page_range.num_updates += 1
             self.update_to_pg_range[page_range_index] = page_range.num_updates
@@ -386,7 +378,7 @@ class Table:
             except KeyError:
                 # First time using baseID
                 self.lock_manager.current_locks[baseID] = 1
-                print("ThreadID is now:", curr_threadID, " and will update RID=", baseID, "with value=", self.lock_manager.current_locks[baseID], "\n")
+                print("ThreadID is now:", curr_threadID, " and create new entry for RID=", baseID, "\n")
         # Default behavior if no abort            
         latch.release()
 
@@ -530,11 +522,11 @@ class Table:
         # Release all Shared Locks for all RIDs accessed
         latch.acquire()
         for rid_used in rids_accessed:
-            #print("BEFORE for rid=", rid_used, " num sharers: ", self.lock_manager.current_locks[rid_used])
+            print("BEFORE for rid=", rid_used, " num sharers: ", self.lock_manager.current_locks[rid_used])
             print("ThreadID is now: ", curr_threadID, " will now decrement for RID=", rid_used, "\n")
             self.lock_manager.current_locks[rid_used] -= 1
-            #print("AFTER for rid=", rid_used, " num sharers: ", self.lock_manager.current_locks[rid_used])
-        print("------------------------------")
+            print("AFTER for rid=", rid_used, " num sharers: ", self.lock_manager.current_locks[rid_used])
+        print("-------One Read Operation completed-------------")
         latch.release()
 
         return output
