@@ -40,7 +40,7 @@ class Transaction:
                 print("Select error. Query returned: ", result[0].columns, " but Expected: ", self.expected_results[count], "\n")
                 #return
             else:
-                print('Pass\n')
+                print('Pass\n') # This is not an official tester!
         return self.commit() # Commit iff all queries within Transaction succeed
 
 
@@ -52,10 +52,3 @@ class Transaction:
     def commit(self):
         # TODO: LATER commit to database
         return True
-
-"""
-Txn Worker -> Thread
-txns = [Txn1, Txn2, Txn3, ...] Txn 2 fails -> move onto next Txn (Txn3 onwards)???
-
-# Actually don't think so bc of template code (run() returns early if result == False)
-"""
