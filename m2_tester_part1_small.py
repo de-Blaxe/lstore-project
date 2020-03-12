@@ -44,6 +44,7 @@ for _ in range(10):
             for j, column in enumerate(record.columns):
                 if column != records[key][j]:
                     error = True
+            print(grades_table.num_merged)
             if error:
                 print('update error on', original, 'and', updated_columns, ':', record.columns, ', correct:', records[key])
             else:
