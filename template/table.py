@@ -359,27 +359,54 @@ class Table:
 
 
     """
-    # Attempt to grab a Shared Lock for given RID and latch availability
+    # Attempt to grab a Shared Lock for given RID
     """
-    def get_shared_lock(self, rid, curr_threadID, latch, is_baseID=True):
+    def get_shared_lock(self, rid, curr_threadID, latch, init_flag=True):
         # Alias for threadID
         thread_nickname = self.all_threads[curr_threadID]
         try:
+            # Get mapped base ID
+            baseID = rid # Init value, rid may be a TID though
+
+            if rid >= self.TID_counter:
+                [page_range_index, name_index, tail_byte_pos] = self.page_directory[rid]
+                tail_name = self.page_range_collection[page_range_index].tail_set[name_index]
+                mapped_base_page = self.memory_manager.get_pages(tail_name, self=table)[BASE_RID_COLUMN]
+                mapped_baseID = self.convert_data(mapped_base_page, tail_byte_pos)
+                baseID = mapped_baseID
+
+            # Base RID columns are only updated for Tail Records
+            [page_range_index, base_name_index, base_byte_pos] = self.page_directory[baseID]
+  
             # See if baseID exists and has no outstanding writers
-            if self.lock_manager.current_locks[rid] == EXCLUSIVE_LOCK:
+            if self.lock_manager.shared_locks[baseID] == EXCLUSIVE_LOCK:
                 tids_made = self.lock_manager.threadID_to_tids[curr_threadID]
                 if len(tids_made):
                     # Current thread created at least one Tail record
+                    first_tid_made = tids_made[0] # BaseID <-- commitedTID <-- first_tid_made <-- .... 
+                    # Read thread's first tail record's indirection
+                    [_, tail_name_index, prev_byte_pos] = self.page_directory[first_tid_made]
+                    tail_name = self.page_range_collection[page_range_index].tail_set[tail_name_index]
+                    prev_tail_page = self.memory_manager.get_pages(tail_name, table=self)[INDIRECTION_COLUMN]
+                    commited_TID = self.convert_data(prev_tail_page, prev_byte_pos)
+                    # Restore base record's indirection
+                    self.lock_manager.exclusive_locks[baseID].acquire()
+                    base_name = self.page_range_collection[page_range_index].base_set[base_name_index]
+                    base_indir_page = self.memory_manager.get_pages(base_name, table=self)[INDIRECTION_COLUMN]
+                    base_indir_page.write(commited_TID, pos=base_byte_pos)
+                    # Roll back: Invalidate any TIDs made by thread
                     self.invalid_rids += tids_made
+                # Release locks
+                self.lock_manager.exclusive_locks[baseID].release()
                 latch.release()
                 return False # Signal Transaction to abort()
-            elif is_baseID or rid >= self.TID_counter:
+            elif init_flag or rid >= self.TID_counter:
                 # Avoid over-incrementing num_sharers for baseIDs
-                self.lock_manager.current_locks[rid] += 1
+                self.lock_manager.shared_locks[baseID] += 1
         except KeyError:
-            # First time using baseID
-            self.lock_manager.current_locks[rid] = 1
-        print("Thread {} finished incrementing RID={}\n".format(thread_nickname, rid))
+            # First time using RID
+            self.lock_manager.shared_locks[baseID] = 1
+        print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
         
 
     """
@@ -387,14 +414,25 @@ class Table:
     """
     def free_shared_locks(self, rids_accessed, thread_nickname):
         # Print stmts just for debugging purposes for now
-        for rid_used in rids_accessed:
+        for rid in rids_accessed:
             print("= = = = = " * 10)
-            init_sharers = deepcopy(self.lock_manager.current_locks[rid_used])
-            self.lock_manager.current_locks[rid_used] -= 1
+            
+            baseID_used = rid # Init Value
+            if rid >= self.TID_counter:
+                # Get mapped base record ID
+                [page_range_index, tail_name_index, tail_byte_pos] = self.page_directory[rid]
+                tail_name = self.page_range_collection[page_range_index].tail_set[tail_name_index]
+                mapped_base_page = self.memory_manager.get_pages(tail_name, table=self)[BASE_RID_COLUMN]
+                baseID_used = self.convert_data(mapped_base_page, tail_byte_pos)                
+
+            init_sharers = deepcopy(self.lock_manager.shared_locks[baseID_used])
+            self.lock_manager.shared_locks[baseID_used] -= 1
+
             print("Thread {} will decrement for RID={}. \
                     BEFORE num sharers: {} vs AFTER num sharers: {}".format( \
-                    thread_nickname, rid_used, init_sharers, self.lock_manager.current_locks[rid_used]))
+                    thread_nickname, baseID_used, init_sharers, self.lock_manager.shared_locks[baseID_used]))
             print("= = = = = " * 10)
+
         print("-------One Read Operation completed-------------")
 
 
@@ -402,9 +440,6 @@ class Table:
     # Reads record(s) with matching key value and indexing column
     """
     def read_records(self, key, column, query_columns, max_key=None):
-        """
-        # NOTE: Please see template/concurrency_notes on git
-        """ 
         baseIDs = 0      
         if max_key == None:
             result = self.index.locate(key, column)
@@ -443,7 +478,8 @@ class Table:
 
             # Check if all rids (previous and latest ones) are available for reading
             latch.acquire()
-            self.get_shared_lock(rid, curr_threadID, latch, is_baseID=False) # Pass latch in case of Txn failure
+            # Avoid incrementing twice if rid == baseID, so init_flag=False
+            self.get_shared_lock(rid, curr_threadID, latch, init_flag=False) # Pass latch in case of Txn failure
             # Default behavior if no abort
             latch.release()
 

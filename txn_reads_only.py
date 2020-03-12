@@ -73,5 +73,5 @@ else:
 """
 # Modified above because we're only testing concurrent reads (no writing, no aborts are possible)
 
-print("Sum should be zero:", sum(list(grades_table.lock_manager.current_locks.values())))
-print("Entire current locks dictionary:", grades_table.lock_manager.current_locks)
+print("Sum should be zero:", sum(list(grades_table.lock_manager.shared_locks.values())))
+print("Entire current locks dictionary:", grades_table.lock_manager.shared_locks)

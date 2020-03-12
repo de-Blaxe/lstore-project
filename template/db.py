@@ -13,9 +13,10 @@ class LockManager:
     def __init__(self):
         # Maps ThreadIDs to TailIDs created during threading (in case of Rollback -> mark those TIDs as invalid)
         self.threadID_to_tids = defaultdict(list)
-        #self.latch = threading.Lock() # NOTE: DOES NOT COMPILE , PICKLE ERROR?
-        # Maps RIDS to number of Shared Locks (0+: Available [read], -1: Exclusive Lock [write])
-        self.current_locks = dict()
+        # Maps BaseIDS to number of Shared Locks (0+: Available [read], -1: Exclusive Lock [write])
+        self.shared_locks = dict()
+        # Maps BaseIDs to actual RLock
+        self.exclusive_locks = dict()
 
 class MemoryManager():
 
