@@ -366,7 +366,7 @@ class Table:
             if rid >= self.TID_counter:
                 [page_range_index, name_index, tail_byte_pos] = self.page_directory[rid]
                 tail_name = self.page_range_collection[page_range_index].tail_set[name_index]
-                mapped_base_page = self.memory_manager.get_pages(tail_name, self=table)[BASE_RID_COLUMN]
+                mapped_base_page = self.memory_manager.get_pages(tail_name, table=self)[BASE_RID_COLUMN]
                 # Update bookkeeping
                 self.memory_manager.lock.acquire()
                 self.memory_manager.pinScore[tail_name] -= 1
