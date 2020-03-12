@@ -1,3 +1,4 @@
+# NOTE: Just experimenting with thread behavior and R Locks
 import threading
 
 # Check if RLock is already acquired by another thread
