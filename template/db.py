@@ -29,25 +29,27 @@ class MemoryManager():
         self.isDirty = dict()
         # Map pageSetName to pins
         self.pinScore = dict()
-        # Index -> PageSetName. Index represents evictionScore -> LRU policy
-        # Newly created PageSets placed at front (lower eviction score)
-        self.evictionScore = []
-        # LeastUsedPage is a pageSetName
-        self.leastUsedPageSet = ""
-        # Lock shared MemoryManager resources
-        self.lock = threading.Lock()
         # Counter, incremented by _evict()
         self.num_evicted = 0
-
+        # Index -> PageSetName. Index represents evictionScore -> LRU policy
+        # Newly created PageSets put at front (lower eviction score)
+        self.evictionQueue = []
+        # LeastUsedPage is a pageSetName
+        self.leastUsedPageSet = ""
+        self.maxSets = 10
+        # Protect MemoryManager bookkeeping
+        self.exclusiveLocks = dict()
+        self.evictionLock = threading.RLock()
         # Create a unique latch for each Table's LockManager
         # Each latch protects a LockManager
         self.latches = dict()
+
 
     """
     # Creates a latch for each Table's Lock Manager.
     """
     def create_latch(self, table_name):
-        self.latches[table_name] = threading.Lock() # Use RLock instead for latch?
+        self.latches[table_name] = threading.RLock() # Use RLock instead of Lock?
 
 
     """
@@ -65,9 +67,9 @@ class MemoryManager():
     """
     def get_pages(self, page_set_name, table, merging=False, read_only=True):
         if merging:
-            if page_set_name in self.bufferPool:
-                page_set = self.bufferPool[page_set_name]
-            else: # Read from disk
+            try:
+                page_set = deepcopy(self.bufferPool[page_set_name])
+            except KeyError:
                 with open(os.path.join(self.db_path, table.name, page_set_name), 'rb') as file:
                     # Overhead is 16 bytes
                     page_set = []
@@ -76,16 +78,21 @@ class MemoryManager():
                         unpacked_first_unused_byte = int.from_bytes(file.read(8), 'little')
                         unpacked_data = bytearray(file.read(PAGE_SIZE))
                         page_set.append(Page(unpacked_num_records, unpacked_first_unused_byte, unpacked_data))
-            # Return a Copy of Page Set, if Merging
-            return deepcopy(page_set)
-
-        # Otherwise, return actual pointer to Page Set
-        self.pinScore[page_set_name] = self.pinScore.get(page_set_name, 0) + 1
+            return page_set
+        # Do not evict
+        self.evictionLock.acquire()
+        self.exclusiveLocks[page_set_name] = self.exclusiveLocks.get(page_set_name, threading.RLock())
+        self.exclusiveLocks[page_set_name].acquire()
+        self.pinPages(page_set_name)
         if page_set_name not in self.bufferPool:
             self._replace_pages(page_set_name, table)
         self._increment_scores(retrieved_page_set_name=page_set_name)
-        if len(self.bufferPool) > BUFFER_SIZE:
-            raise Exception
+        try:
+            self.exclusiveLocks[page_set_name].release()
+        except KeyError:
+            # This should raise a keyerror if the page_set was evicted because it gets removed from the dict
+            pass
+        self.evictionLock.release()
         return self.bufferPool[page_set_name]
 
 
@@ -93,18 +100,60 @@ class MemoryManager():
     # Creates a Page Set & inserts it into BufferPool.
     """
     def create_page_set(self, page_set_name, table):
-        self._evict(table)
-        cur_set = [] # List of Pages (one per column)
-        for _ in range(INIT_COLS + table.num_columns):
-            cur_set.append(Page())
+        self.exclusiveLocks[page_set_name] = self.exclusiveLocks.get(page_set_name, threading.RLock())
+        self.exclusiveLocks[page_set_name].acquire()
+        if page_set_name not in self.bufferPool and not os.path.exists(os.path.join(self.db_path, table.name, page_set_name)):
+            self._evict(table)
+            cur_set = [] # List of Pages (one per column)
+            for _ in range(INIT_COLS + table.num_columns):
+                cur_set.append(Page())
+            self.bufferPool[page_set_name] = cur_set
+            self.isDirty[page_set_name] = True
+            self.pinScore[page_set_name] = self.pinScore.get(page_set_name, 0)
+            self.evictionLock.acquire()
+            # Place recently created page sets at the front of list
+            self.evictionQueue.insert(0, page_set_name)
+            self.evictionLock.release()
+        self.exclusiveLocks[page_set_name].release()
+
+
+    """
+    # Pin specified pageSet
+    """
+    def pinPages(self, page_set_name):
+        self.exclusiveLocks[page_set_name].acquire()
         self.pinScore[page_set_name] = self.pinScore.get(page_set_name, 0) + 1
-        self.bufferPool[page_set_name] = cur_set
-        self.isDirty[page_set_name] = True
-        # Place recently created page sets at the front of list
-        self.evictionScore.insert(0, page_set_name)
+        self.exclusiveLocks[page_set_name].release()
+
+
+    """
+    # Unpin specified pageSet
+    """
+    def unpinPages(self, page_set_name):
+        self.exclusiveLocks[page_set_name].acquire()
         self.pinScore[page_set_name] -= 1
-        if len(self.bufferPool) > BUFFER_SIZE:
-            raise Exception
+        self.exclusiveLocks[page_set_name].release()
+
+
+    """
+    # Set Dirty bit for pageSet
+    """
+    def setDirty(self, page_set_name):
+        self.exclusiveLocks[page_set_name].acquire()
+        self.isDirty[page_set_name] = True
+        self.exclusiveLocks[page_set_name].release()
+
+    """
+    # Acquire Exclusive Lock for pageSet
+    """
+    def lockPages(self, page_set_name):
+        self.exclusiveLocks[page_set_name].acquire()
+
+    """
+    # Release Exclusive Lock for pageSet
+    """
+    def unlockPages(self, page_set_name):
+        self.exclusiveLocks[page_set_name].release()
 
 
     """
@@ -112,7 +161,6 @@ class MemoryManager():
     # Retrieves requested Page Set from Disk & inserts it into BufferPool.
     """
     def _replace_pages(self, page_set_name, table):
-        self._evict(table)
         # Read file
         if type(page_set_name) is not str:
             raise Exception
@@ -124,13 +172,17 @@ class MemoryManager():
                 unpacked_first_unused_byte = int.from_bytes(file.read(8), 'little')
                 unpacked_data = bytearray(file.read(PAGE_SIZE))
                 page_set.append(Page(unpacked_num_records, unpacked_first_unused_byte, unpacked_data))
-        # Insert Page Set
+        self.evictionLock.acquire()
+        self._evict(table)
         self.bufferPool[page_set_name] = page_set
+        self.evictionLock.release()
+        if len(self.bufferPool) > self.maxSets:
+            raise Exception
         self.isDirty[page_set_name] = False
         self.pinScore[page_set_name] = self.pinScore.get(page_set_name, 0)
-        self.evictionScore.insert(0, page_set_name)
-        if len(self.bufferPool) > BUFFER_SIZE:
-            raise Exception
+        self.evictionLock.acquire()
+        self.evictionQueue.insert(0, page_set_name)
+        self.evictionLock.release()
 
 
     """
@@ -143,48 +195,56 @@ class MemoryManager():
                 file.write(cur_page.num_records.to_bytes(8, 'little'))
                 file.write(cur_page.first_unused_byte.to_bytes(8, 'little'))
                 file.write(cur_page.data)
-        if len(self.bufferPool) > BUFFER_SIZE:
-            raise Exception
 
 
     """
     # Maintain bookkeeping for given Page Set (Name)
     """
     def _increment_scores(self, retrieved_page_set_name):
-        max_score = self.evictionScore.index(retrieved_page_set_name)
+        self.evictionLock.acquire()
+        max_score = self.evictionQueue.index(retrieved_page_set_name)
         # Reset retrieved page set's evictionScore to 0
-        self.evictionScore = self.evictionScore[:max_score] + self.evictionScore[max_score + 1:]
-        self.evictionScore.insert(0, retrieved_page_set_name)
-        if len(self.bufferPool) > BUFFER_SIZE:
-            raise Exception
+        self.evictionQueue = self.evictionQueue[:max_score] + self.evictionQueue[max_score + 1:]
+        self.evictionQueue.insert(0, retrieved_page_set_name)
+        self.evictionLock.release()
 
 
     """
     # Evicts LRU Page Set in BufferPool. Writebacks to Disk, if needed.
     """
     def _evict(self, table):
-        if len(self.bufferPool) == BUFFER_SIZE:
-            self.num_evicted += 1
+        self.evictionLock.acquire()
+        if len(self.bufferPool) == self.maxSets:
             # Assuming eviction policy is LRU
             i = -1  # Start at the end of list
             # Find first unpinned Page Set
-            while self.pinScore[self.evictionScore[i]] != 0:
-                i -= 1
-            evicting_page_set = self.evictionScore[i]
+            try:
+                while self.pinScore[self.evictionQueue[i]] != 0:
+                    i -= 1
+            except IndexError:
+                print("bufferPool maxsets is too small to accomodate workload/threads.")
+                print(i)
+                raise IndexError
+            evicting_page_set = self.evictionQueue[i]
+            self.exclusiveLocks[evicting_page_set].acquire()
+            while self.pinScore[evicting_page_set] != 0:
+                pass
             if self.isDirty[evicting_page_set]:
                 self._write_set_to_disk(evicting_page_set, table)
-            self.evictionScore.pop(i)
+            self.evictionQueue.pop(i)
             self.isDirty.pop(evicting_page_set, None)
             self.pinScore.pop(evicting_page_set, None)
             self.bufferPool.pop(evicting_page_set, None)
-        elif len(self.bufferPool) > BUFFER_SIZE:
-            raise Exception
+            # Release lock
+            self.exclusiveLocks.pop(evicting_page_set)
+        self.evictionLock.release()
 
 
 class Database():
 
     def __init__(self):
         self.tables = dict() # Index tables by their unique names
+
 
     """
     # Opens / Creates Disk for Database
@@ -207,13 +267,13 @@ class Database():
     def close(self):
         # NOTE: THIS DOES NOT CONSIDER PINNED PAGES
         # Check if any remaining Dirty Pages in bufferpool
-        self.memory_manager.lock.acquire()
         for page_set_name, dirtyBit in self.memory_manager.isDirty.items():
+            self.memory_manager.exclusiveLocks[page_set_name].acquire()
             if dirtyBit:
                 # Write them back to disk
                 [_, mapped_table_name] = page_set_name.split('_')
                 self.memory_manager._write_set_to_disk(page_set_name, self.tables[mapped_table_name])
-        self.memory_manager.lock.release()
+
         # Need to save the tables dict to a file in order to retrive the table instance in get_table()
         for table in self.tables.values():
             table.memory_manager = None
@@ -252,7 +312,6 @@ class Database():
             os.mkdir(os.path.join(self.db_path, name))
         except:
             pass
-        
         return table
 
 
@@ -284,7 +343,7 @@ class Database():
                 if mapped_table_name == name:
                     mem.bufferpool.pop(encoding, None)
                     mem.isDirty.pop(encoding, None)
-                    mem.evictionScore.remove(encoding)
+                    mem.evictionQueue.remove(encoding)
                     mem.pinScore.pop(encoding, None)
             # Delete from Database
             self.tables.pop(name)
