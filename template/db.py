@@ -3,8 +3,7 @@ import os
 from template.config import *
 from template.page import Page
 from copy import deepcopy
-# Used to save the tables dict
-import pickle
+import pickle # Used to save Table instances
 import threading
 from collections import defaultdict
 
