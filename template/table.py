@@ -370,6 +370,7 @@ class Table:
 
             while len(columns_not_retrieved) > 0:
                 if rid == base_tps:
+                    print('tps skip')
                     break
                 # Locate record within Page Range
                 [page_range_index, name_index, byte_pos] = self.page_directory[rid]

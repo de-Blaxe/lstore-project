@@ -51,6 +51,7 @@ class MemoryManager():
                         page_set.append(Page(unpacked_num_records, unpacked_first_unused_byte, unpacked_data))
             return page_set
         # Do not evict
+        self.evictionLock.acquire()
         self.exclusiveLocks[page_set_name] = self.exclusiveLocks.get(page_set_name, threading.RLock())
         self.exclusiveLocks[page_set_name].acquire()
         self.pinPages(page_set_name)
@@ -62,6 +63,7 @@ class MemoryManager():
         except KeyError:
             # This should raise a keyerror if the page_set was evicted because it gets removed from the dict
             pass
+        self.evictionLock.release()
         return self.bufferPool[page_set_name]
 
 
@@ -168,7 +170,7 @@ class MemoryManager():
             self.pinScore.pop(evicting_page_set, None)
             self.bufferPool.pop(evicting_page_set, None)
             # release lock
-            self.exclusiveLocks[evicting_page_set].release()
+            self.exclusiveLocks.pop(evicting_page_set)
         self.evictionLock.release()
 
 
