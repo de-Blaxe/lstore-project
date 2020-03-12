@@ -10,6 +10,7 @@ from template.transaction_worker import TransactionWorker
 
 import threading
 from random import choice, randint, sample, seed
+from time import process_time
 
 db = Database()
 db.open('~/ECS165') 
@@ -47,7 +48,7 @@ threads = []
 for transaction_worker in transaction_workers:
     threads.append(threading.Thread(target = transaction_worker.run, args = ()))
 
-
+start = process_time()
 for i, thread in enumerate(threads):
     print('Thread', i, 'started.')
     thread.start()
@@ -56,7 +57,9 @@ for i, thread in enumerate(threads):
 for i, thread in enumerate(threads):
     thread.join()
     print('Thread', i, 'finished')
+end = process_time()
 
+print("Reading 1k random records took ", end - start)
 
 num_committed_transactions = sum(t.result for t in transaction_workers)
 print(num_committed_transactions, 'transaction committed.')

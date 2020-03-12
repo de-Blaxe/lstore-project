@@ -8,7 +8,6 @@ import threading
 import math
 import operator
 
-#from time import process_time
 
 class Record:
 
@@ -59,19 +58,17 @@ class Table:
         # https://www.geeksforgeeks.org/ways-increment-character-python/        
         self.all_threads = dict() # Map ThreadIDs to a nickname 
         self.thread_count = 0 # Counter
-        self.thread_nickname = 'A' # Thread nicknames start at 'A'
+        self.thread_nickname = 'A' # Thread nicknames: 'A' thru 'H'
 
         self.merge_flag = False # TODO: Set flag to True in merge()
         self.num_merged = 0 
         self.merge_queue = []
-        """
         # Generate MergeThread in background
         thread = threading.Thread(target=self.__merge, args=[])
         # After some research, reason why we need daemon thread
         # https://www.bogotobogo.com/python/Multithread/python_multithreading_Daemon_join_method_threads.php
         thread.setDaemon(True)
         thread.start()
-        """
 
 
     """
@@ -347,25 +344,36 @@ class Table:
 
             # Locate mapped BaseID
             [page_range_index, base_name_index, base_byte_pos] = self.page_directory[baseID]
+
             # See if baseID exists and has no outstanding writers
-            if self.lock_manager.shared_locks[baseID] == EXCLUSIVE_LOCK:
-                tids_made = self.lock_manager.threadID_to_tids[curr_threadID]
-                if len(tids_made):
+            if not self.lock_manager.exclusive_locks[baseID].acquire(blocking=False):
+                try:
+                    baseIDs_to_tailIDs = self.lock_manager.threadID_to_tids[curr_threadID]
                     # Current thread created at least one Tail record
-                    first_tid_made = tids_made[0] # BaseID <-- commitedTID <-- first_tid_made <-- .... 
-                    # Read thread's first tail record's indirection
-                    commited_TID = self.get_previous(first_tid_made)
-                    # Restore base record's indirection
-                    self.lock_manager.exclusive_locks[baseID].acquire()
-                    base_name = self.page_range_collection[page_range_index].base_set[base_name_index]
-                    base_indir_page = self.memory_manager.get_pages(base_name, table=self)[INDIRECTION_COLUMN]
-                    # Update bookkeeping
-                    self.memory_manager.unpinPages(base_name)
-                    base_indir_page.write(commited_TID, pos=base_byte_pos)
-                    # Roll back: Invalidate any TIDs made by thread
-                    self.invalid_rids += tids_made
-                # Release locks
-                self.lock_manager.exclusive_locks[baseID].release()
+                    # updated BaseID <-- committed TID <-- first TID made <-- ...
+                    for updated_baseID in list(baseIDs_to_tailIDs):
+                        tids_made = baseIDs_to_tailIDs[updated_baseID]
+                        first_tid_made = tids_made[0]
+                        # Read Indirection of base record's first tail record
+                        committed_TID = self.get_previous(first_tid_made)
+                        # Locate updated baseID
+                        [_, base_name_index, base_byte_pos] = self.page_directory[updated_baseID]
+                        base_name = self.page_range_collection[page_range_index].base_set[base_name_index]
+                        # Restore base record's committed indirection
+                        base_indir_page = self.memory_manager.get_pages(base_name, table=self)[INDIRECTION_COLUMN]
+                        base_indir_page.write(committed_TID, pos=base_byte_pos)
+                        # Update bookkeeping
+                        self.lock_manager.exclusive_locks[updated_baseID].acquire()
+                        self.memory_manager.unpinPages(base_name)
+                        self.lock_manager.exclusive_locks[updated_baseID].release()
+                        # Rollback: Invalidate all TIDs made for updated baseID
+                        self.invalid_rids += tids_made
+                        # Release exlusive lock for updated baseID
+                        self.lock_manager.exclusive_locks[updated_baseID].release()
+                except KeyError:
+                    # Current Thread hasn't updated any baseIDs (has only performed reads only)
+                    # Nothing to rollback
+                    pass
                 latch.release()
                 return False # Signal Transaction to abort()
             elif init_flag or rid >= self.TID_counter:
