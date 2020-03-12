@@ -47,7 +47,7 @@ class MemoryManager():
     # Creates a latch for each Table's Lock Manager.
     """
     def create_latch(self, table_name):
-        self.latches[table_name] = threading.Lock()
+        self.latches[table_name] = threading.Lock() # Use RLock instead for latch?
 
 
     """

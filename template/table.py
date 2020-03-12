@@ -57,8 +57,6 @@ class Table:
         self.memory_manager = mem_manager   # All Tables within Database share same Memory Manager
         self.lock_manager = lock_manager    # Manages concurrent Threads 
 
-        #self.my_latch = self.memory_manager.latches[self.name] # Still Pickle error, can't make an alias
-
         # DEBUGGING PURPOSES: Assuming only 8 Transaction Worker Threads
         # https://www.geeksforgeeks.org/ways-increment-character-python/        
         self.all_threads = dict() # Map ThreadIDs to a nickname 
@@ -349,13 +347,12 @@ class Table:
     # Helper function to generate nicknames for given threadID (can remove later)
     """
     def gen_thread_nickname(self, curr_threadID):
-        # NOTE: FOR DEBUGGING PURPOSES, EASIER TO FOLLOW BEHAVIOR OF THREADS
         try:
             self.all_threads[curr_threadID]
         except KeyError:
             self.all_threads[curr_threadID] = chr(ord(self.thread_nickname) + self.thread_count)
             self.thread_count += 1 # To generate new nickname in advance
-        return self.all_threads[curr_threadID] # Return nickname
+        return self.all_threads[curr_threadID] 
 
 
     """
@@ -365,19 +362,21 @@ class Table:
         # Alias for threadID
         thread_nickname = self.all_threads[curr_threadID]
         try:
-            # Get mapped base ID
             baseID = rid # Init value, rid may be a TID though
-
             if rid >= self.TID_counter:
                 [page_range_index, name_index, tail_byte_pos] = self.page_directory[rid]
                 tail_name = self.page_range_collection[page_range_index].tail_set[name_index]
                 mapped_base_page = self.memory_manager.get_pages(tail_name, self=table)[BASE_RID_COLUMN]
+                # Update bookkeeping
+                self.memory_manager.lock.acquire()
+                self.memory_manager.pinScore[tail_name] -= 1
+                self.memory_manager.lock.release()
+                # Get mapped BaseID
                 mapped_baseID = self.convert_data(mapped_base_page, tail_byte_pos)
                 baseID = mapped_baseID
 
-            # Base RID columns are only updated for Tail Records
+            # Locate mapped BaseID
             [page_range_index, base_name_index, base_byte_pos] = self.page_directory[baseID]
-  
             # See if baseID exists and has no outstanding writers
             if self.lock_manager.shared_locks[baseID] == EXCLUSIVE_LOCK:
                 tids_made = self.lock_manager.threadID_to_tids[curr_threadID]
@@ -385,14 +384,15 @@ class Table:
                     # Current thread created at least one Tail record
                     first_tid_made = tids_made[0] # BaseID <-- commitedTID <-- first_tid_made <-- .... 
                     # Read thread's first tail record's indirection
-                    [_, tail_name_index, prev_byte_pos] = self.page_directory[first_tid_made]
-                    tail_name = self.page_range_collection[page_range_index].tail_set[tail_name_index]
-                    prev_tail_page = self.memory_manager.get_pages(tail_name, table=self)[INDIRECTION_COLUMN]
-                    commited_TID = self.convert_data(prev_tail_page, prev_byte_pos)
+                    commited_TID = self.get_previous(first_tid_made)
                     # Restore base record's indirection
                     self.lock_manager.exclusive_locks[baseID].acquire()
                     base_name = self.page_range_collection[page_range_index].base_set[base_name_index]
                     base_indir_page = self.memory_manager.get_pages(base_name, table=self)[INDIRECTION_COLUMN]
+                    # Update bookkeeping
+                    self.memory_manager.lock.acquire()
+                    self.memory_manager.pinScore[base_name] -= 1
+                    self.memory_manager.lock.release()
                     base_indir_page.write(commited_TID, pos=base_byte_pos)
                     # Roll back: Invalidate any TIDs made by thread
                     self.invalid_rids += tids_made
@@ -416,23 +416,24 @@ class Table:
         # Print stmts just for debugging purposes for now
         for rid in rids_accessed:
             print("= = = = = " * 10)
-            
             baseID_used = rid # Init Value
             if rid >= self.TID_counter:
                 # Get mapped base record ID
                 [page_range_index, tail_name_index, tail_byte_pos] = self.page_directory[rid]
                 tail_name = self.page_range_collection[page_range_index].tail_set[tail_name_index]
                 mapped_base_page = self.memory_manager.get_pages(tail_name, table=self)[BASE_RID_COLUMN]
+                # Update bookkeeping
+                self.memory_manager.lock.acquire()
+                self.memory_manager.pinScore[tail_name] -= 1
+                self.memory_manager.lock.release()
                 baseID_used = self.convert_data(mapped_base_page, tail_byte_pos)                
 
             init_sharers = deepcopy(self.lock_manager.shared_locks[baseID_used])
             self.lock_manager.shared_locks[baseID_used] -= 1
-
             print("Thread {} will decrement for RID={}. \
                     BEFORE num sharers: {} vs AFTER num sharers: {}".format( \
                     thread_nickname, baseID_used, init_sharers, self.lock_manager.shared_locks[baseID_used]))
             print("= = = = = " * 10)
-
         print("-------One Read Operation completed-------------")
 
 
@@ -459,7 +460,7 @@ class Table:
         # Check if all baseIDs are available for reading
         latch.acquire()
         for baseID in baseIDs:
-            self.get_shared_lock(baseID, curr_threadID, latch) # Pass latch in case of Txn failure
+            self.get_shared_lock(baseID, curr_threadID, latch)
         # Default behavior if no abort
         latch.release()
 
@@ -479,7 +480,7 @@ class Table:
             # Check if all rids (previous and latest ones) are available for reading
             latch.acquire()
             # Avoid incrementing twice if rid == baseID, so init_flag=False
-            self.get_shared_lock(rid, curr_threadID, latch, init_flag=False) # Pass latch in case of Txn failure
+            self.get_shared_lock(rid, curr_threadID, latch, init_flag=False)
             # Default behavior if no abort
             latch.release()
 
@@ -499,11 +500,10 @@ class Table:
             if rid >= self.TID_counter:
                 # Find corresponding Base Record for Tail Record
                 tail_set_name = page_range.tail_set[name_index]
-                #self.memory_manager.lock.acquire() --> We want to allow concurrent reads for the same RIDs (within same pageSet)
                 tail_pages = self.memory_manager.get_pages(tail_set_name, self)
                 mapped_baseID_page = tail_pages[BASE_RID_COLUMN]
                 mapped_baseID = self.convert_data(mapped_baseID_page, byte_pos)
-                self.memory_manager.lock.acquire() # NOTE: MOVED HERE
+                self.memory_manager.lock.acquire()
                 self.memory_manager.pinScore[tail_set_name] -= 1
                 self.memory_manager.lock.release()
                 [_, base_name_index, base_byte_pos] = self.page_directory[mapped_baseID]
@@ -513,7 +513,6 @@ class Table:
                 base_set_name = page_range.base_set[base_name_index]
 
             # Read Base Record's TPS
-            # self.memory_manager.lock.acquire()--> We want to allow concurrent reads for the same RIDs (within same pageSet)            
             base_pages = self.memory_manager.get_pages(base_set_name, self)
 
             for i in range(self.num_columns):
@@ -525,7 +524,7 @@ class Table:
             base_indir_page = base_pages[INDIRECTION_COLUMN]
             base_indir_rid = self.convert_data(base_indir_page, base_byte_pos)
             
-            self.memory_manager.lock.acquire() # NOTE: MOVED HERE
+            self.memory_manager.lock.acquire() 
             self.memory_manager.pinScore[base_set_name] -= 1
             self.memory_manager.lock.release()
 
@@ -543,13 +542,12 @@ class Table:
                     page_set = page_range.base_set
 
                 # Read schema data
-                #self.memory_manager.lock.acquire() --> We want to allow concurrent reads for the same RIDs (within same pageSet)
                 buffer_page_set = self.memory_manager.get_pages(page_set[name_index], self)
                 schema_page = buffer_page_set[SCHEMA_ENCODING_COLUMN]
 
                 [schema_str, _] = self.finalize_schema(schema_page, byte_pos)
                 
-                self.memory_manager.lock.acquire() # NOTE: MOVED HERE
+                self.memory_manager.lock.acquire() 
                 self.memory_manager.pinScore[page_set[name_index]] -= 1
                 self.memory_manager.lock.release()
 
@@ -557,7 +555,6 @@ class Table:
                 if len(schema_str) < self.num_columns:
                     diff = self.num_columns - len(schema_str)
                     schema_str = '0' * diff + schema_str
-                # self.memory_manager.lock.acquire()--> We want to allow concurrent reads for the same RIDs (within same pageSet
                 for col, page in enumerate(self.memory_manager.get_pages(page_set[name_index], table=self)[INIT_COLS:]):
                     if col not in columns_not_retrieved:
                         continue
@@ -566,7 +563,7 @@ class Table:
                         data[col] = self.convert_data(page, byte_pos)
                         columns_not_retrieved.discard(col)
 
-                self.memory_manager.lock.acquire() # NOTE: MOVED HERE
+                self.memory_manager.lock.acquire() 
                 self.memory_manager.pinScore[page_set[name_index]] -= 1
                 self.memory_manager.lock.release()
 
