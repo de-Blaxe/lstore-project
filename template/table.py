@@ -344,7 +344,7 @@ class Table:
                 baseID = mapped_baseID
 
             # Locate mapped BaseID
-            [page_range_index, base_name_index, base_byte_pos] = self.page_directory[baseID]
+            #[page_range_index, base_name_index, base_byte_pos] = self.page_directory[baseID] --> do this in loop below
 
             # See if baseID exists and has no outstanding writers
             #if not self.lock_manager.exclusive_locks[baseID].acquire(blocking=False):
@@ -359,19 +359,17 @@ class Table:
                         # Read Indirection of base record's first tail record
                         committed_TID = self.get_previous(first_tid_made)
                         # Locate updated baseID
-                        [_, base_name_index, base_byte_pos] = self.page_directory[updated_baseID]
+                        [page_range_index, base_name_index, base_byte_pos] = self.page_directory[updated_baseID]
                         base_name = self.page_range_collection[page_range_index].base_set[base_name_index]
                         # Restore base record's committed indirection
                         base_indir_page = self.memory_manager.get_pages(base_name, table=self)[INDIRECTION_COLUMN]
+                        self.lock_manager.exclusive_locks[updated_baseID].acquire() # blocking=True by default
                         base_indir_page.write(committed_TID, pos=base_byte_pos)
-                        # Update bookkeeping
-                        self.lock_manager.exclusive_locks[updated_baseID].acquire()
-                        self.memory_manager.unpinPages(base_name)
                         self.lock_manager.exclusive_locks[updated_baseID].release()
+                        # Update bookkeeping
+                        self.memory_manager.unpinPages(updated_baseID)
                         # Rollback: Invalidate all TIDs made for updated baseID
                         self.invalid_rids += tids_made
-                        # Release exlusive lock for updated baseID
-                        self.lock_manager.exclusive_locks[updated_baseID].release()
                 except KeyError:
                     # Current Thread hasn't updated any baseIDs (has only performed reads only)
                     # Nothing to rollback
