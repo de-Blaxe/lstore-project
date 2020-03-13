@@ -54,7 +54,7 @@ class Table:
         self.memory_manager = mem_manager   # All Tables within Database share same Memory Manager
         self.lock_manager = lock_manager    # Manages concurrent Threads 
 
-        # DEBUGGING PURPOSES: Assuming only 8 Transaction Worker Threads
+        # DEBUGGING PURPOSES: Assuming only 8 Transaction Worker Threads (including Main)
         # https://www.geeksforgeeks.org/ways-increment-character-python/        
         self.all_threads = dict() # Map ThreadIDs to a nickname 
         self.thread_count = 0 # Counter
