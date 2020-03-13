@@ -347,7 +347,6 @@ class Table:
             #[page_range_index, base_name_index, base_byte_pos] = self.page_directory[baseID] --> do this in loop below
 
             # See if baseID exists and has no outstanding writers
-            #if not self.lock_manager.exclusive_locks[baseID].acquire(blocking=False):
             if self.lock_manager.shared_locks[baseID] == EXCLUSIVE_LOCK:
                 try:
                     baseIDs_to_tailIDs = self.lock_manager.threadID_to_tids[curr_threadID]
@@ -363,11 +362,11 @@ class Table:
                         base_name = self.page_range_collection[page_range_index].base_set[base_name_index]
                         # Restore base record's committed indirection
                         base_indir_page = self.memory_manager.get_pages(base_name, table=self)[INDIRECTION_COLUMN]
-                        self.lock_manager.exclusive_locks[updated_baseID].acquire() # blocking=True by default
+                        self.lock_manager.exclusive_locks[updated_baseID].acquire() # Think this should be from memory_manager
                         base_indir_page.write(committed_TID, pos=base_byte_pos)
-                        self.lock_manager.exclusive_locks[updated_baseID].release()
+                        self.lock_manager.exclusive_locks[updated_baseID].release() # same
                         # Update bookkeeping
-                        self.memory_manager.unpinPages(updated_baseID)
+                        self.memory_manager.unpinPages(base_name)
                         # Rollback: Invalidate all TIDs made for updated baseID
                         self.invalid_rids |= set(tids_made) # Update the set
                 except KeyError:
