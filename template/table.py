@@ -63,13 +63,14 @@ class Table:
         self.merge_flag = False # TODO: Set flag to True in merge()
         self.num_merged = 0 
         self.merge_queue = []
+        """
         # Generate MergeThread in background
         thread = threading.Thread(target=self.__merge, args=[])
         # After some research, reason why we need daemon thread
         # https://www.bogotobogo.com/python/Multithread/python_multithreading_Daemon_join_method_threads.php
         thread.setDaemon(True)
         thread.start()
-
+        """
 
     """
     # Conditionally writes to meta and user data columns
@@ -346,7 +347,8 @@ class Table:
             [page_range_index, base_name_index, base_byte_pos] = self.page_directory[baseID]
 
             # See if baseID exists and has no outstanding writers
-            if not self.lock_manager.exclusive_locks[baseID].acquire(blocking=False):
+            #if not self.lock_manager.exclusive_locks[baseID].acquire(blocking=False):
+            if self.lock_manager.shared_locks[baseID] == EXCLUSIVE_LOCK:
                 try:
                     baseIDs_to_tailIDs = self.lock_manager.threadID_to_tids[curr_threadID]
                     # Current thread created at least one Tail record
@@ -382,7 +384,7 @@ class Table:
         except KeyError:
             # First time using RID
             self.lock_manager.shared_locks[baseID] = 1
-        #print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
+        print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
         
 
     """
@@ -391,7 +393,7 @@ class Table:
     def free_shared_locks(self, rids_accessed, thread_nickname):
         # Print stmts just for debugging purposes for now
         for rid in rids_accessed:
-            #print("= = = = = " * 10)
+            print("= = = = = " * 10)
             baseID_used = rid # Init Value
             if rid >= self.TID_counter:
                 # Get mapped base record ID
@@ -404,13 +406,11 @@ class Table:
 
             init_sharers = deepcopy(self.lock_manager.shared_locks[baseID_used])
             self.lock_manager.shared_locks[baseID_used] -= 1
-            """
             print("Thread {} will decrement for RID={}. \
                     BEFORE num sharers: {} vs AFTER num sharers: {}".format( \
                     thread_nickname, baseID_used, init_sharers, self.lock_manager.shared_locks[baseID_used]))
             print("= = = = = " * 10)
-            """
-        #print("-------One Read Operation completed-------------")
+        print("-------One Read Operation completed-------------")
 
 
     """
