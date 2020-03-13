@@ -58,7 +58,7 @@ class Table:
         # https://www.geeksforgeeks.org/ways-increment-character-python/        
         self.all_threads = dict() # Map ThreadIDs to a nickname 
         self.thread_count = 0 # Counter
-        self.thread_nickname = 'A' # Thread nicknames: 'A' thru 'H'
+        self.thread_nickname = 'A' # Thread nicknames: 'A' thru 'G'
 
         self.merge_flag = False # TODO: Set flag to True in merge()
         self.num_merged = 0 
@@ -362,9 +362,11 @@ class Table:
                         base_name = self.page_range_collection[page_range_index].base_set[base_name_index]
                         # Restore base record's committed indirection
                         base_indir_page = self.memory_manager.get_pages(base_name, table=self)[INDIRECTION_COLUMN]
-                        self.lock_manager.exclusive_locks[updated_baseID].acquire() # Think this should be from memory_manager
+                        self.lock_manager.exclusive_locks[updated_baseID].acquire()
+                        self.memory_manager.exclusive_locks[base_name].acquire()
                         base_indir_page.write(committed_TID, pos=base_byte_pos)
-                        self.lock_manager.exclusive_locks[updated_baseID].release() # same
+                        self.memory_manager.exclusive_locks[base_name].release()
+                        self.lock_manager.exclusive_locks[updated_baseID].release()
                         # Update bookkeeping
                         self.memory_manager.unpinPages(base_name)
                         # Rollback: Invalidate all TIDs made for updated baseID
@@ -378,11 +380,11 @@ class Table:
             elif init_flag or rid >= self.TID_counter:
                 # Avoid over-incrementing num_sharers for baseIDs
                 self.lock_manager.shared_locks[baseID] += 1
-                #print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
+                print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
         except KeyError:
             # First time using RID
             self.lock_manager.shared_locks[baseID] = 1
-            #print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
+            print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
         # NOTE: Conditionally print out bc we don't always increment in get_shared_lock()
 
     """
@@ -391,7 +393,7 @@ class Table:
     def free_shared_locks(self, rids_accessed, thread_nickname):
         # Print stmts just for debugging purposes for now
         for rid in rids_accessed:
-            #print("= = = = = " * 10)
+            print("= = = = = " * 10)
             baseID_used = rid # Init Value
             if rid >= self.TID_counter:
                 # Get mapped base record ID
@@ -404,11 +406,11 @@ class Table:
 
             init_sharers = deepcopy(self.lock_manager.shared_locks[baseID_used])
             self.lock_manager.shared_locks[baseID_used] -= 1
-            #print("Thread {} will decrement for RID={}. \
-            #        BEFORE num sharers: {} vs AFTER num sharers: {}".format( \
-            #        thread_nickname, baseID_used, init_sharers, self.lock_manager.shared_locks[baseID_used]))
-            #print("= = = = = " * 10)
-        #print("-------One Read Operation completed-------------")
+            print("Thread {} will decrement for RID={}. \
+                    BEFORE num sharers: {} vs AFTER num sharers: {}".format( \
+                    thread_nickname, baseID_used, init_sharers, self.lock_manager.shared_locks[baseID_used]))
+            print("= = = = = " * 10)
+        print("-------One Read Operation completed-------------")
 
 
     """

@@ -22,7 +22,7 @@ num_threads = 8
 seed(8739878934)
 
 # Generate random records
-for i in range(0, 1000): # Changed from 100 Base Records to 10: Force duplicate readers
+for i in range(0, 50): # Changed from 100 Base Records to 10: Force duplicate readers
     # FIXME: ListIndexError when inserting >= 1050 Base Records (i=0 to 1049)
     key = 92106429 + i
     keys.append(key)
