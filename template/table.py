@@ -64,6 +64,7 @@ class Table:
         self.num_merged = 0 
         self.merge_queue = []
         """
+        # Commented this out for now...
         # Generate MergeThread in background
         thread = threading.Thread(target=self.__merge, args=[])
         # After some research, reason why we need daemon thread
