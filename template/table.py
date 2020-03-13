@@ -378,11 +378,12 @@ class Table:
             elif init_flag or rid >= self.TID_counter:
                 # Avoid over-incrementing num_sharers for baseIDs
                 self.lock_manager.shared_locks[baseID] += 1
+                #print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
         except KeyError:
             # First time using RID
             self.lock_manager.shared_locks[baseID] = 1
-        #print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
-        
+            #print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
+        # NOTE: Conditionally print out bc we don't always increment in get_shared_lock()
 
     """
     # Release all acquired Shared Locks acquired for given RIDs
