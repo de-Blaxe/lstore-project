@@ -14,7 +14,7 @@ def get_lock():
             print("Thread {} cannot released unacquired lock.".format(threading.get_ident()))
     else:
         print("Thread {} owns the lock. Releasing it now.".format(threading.get_ident()))
-        shared_lock.release() # Owner can release it
+        shared_lock.release() # Owner can release it, no error
 
 
 threads = []
@@ -27,5 +27,3 @@ for i in range(10):
 
 for i in range(10):
     threads[i].join()
-
-

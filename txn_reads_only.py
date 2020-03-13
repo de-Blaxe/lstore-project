@@ -22,7 +22,8 @@ num_threads = 8
 seed(8739878934)
 
 # Generate random records
-for i in range(0, 30): # Changed from 100 Base Records to 10: Force duplicate readers
+for i in range(0, 1000): # Changed from 100 Base Records to 10: Force duplicate readers
+    # FIXME: ListIndexError when inserting >= 1050 Base Records (i=0 to 1049)
     key = 92106429 + i
     keys.append(key)
     records[key] = [key, randint(0,20), randint(0,20), randint(0,20), randint(0,20)] # Init with random col values
@@ -77,4 +78,4 @@ else:
 # Modified above because we're only testing concurrent reads (no writing, no aborts are possible)
 
 print("Sum should be zero:", sum(list(grades_table.lock_manager.shared_locks.values())))
-print("Entire current locks dictionary:", grades_table.lock_manager.shared_locks)
+#print("Entire current locks dictionary:", grades_table.lock_manager.shared_locks)

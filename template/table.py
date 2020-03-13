@@ -48,7 +48,7 @@ class Table:
 
         self.LID_counter = 0                # Used to increment LIDs
         self.TID_counter = (2 ** 64) - 1    # Used to decrement TIDs
-        self.invalid_rids = []
+        self.invalid_rids = set()           # Determines if we can skip a Record when selecting
 
         self.update_to_pg_range = dict()    # Entries: Number of Tail Records within Page Range
         self.memory_manager = mem_manager   # All Tables within Database share same Memory Manager
@@ -145,8 +145,8 @@ class Table:
             self.memory_manager.unpinPages(base_set[page_range.last_base_name])
             self.memory_manager.exclusiveLocks[base_set[page_range.last_base_name]].release()
             page_range.last_base_name += 1
-            cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], 
-                                                            table=self, read_only=False)
+            # FIXME: We get ListIndexError if we try to insert >= 1050 Base Records?
+            cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self, read_only=False)
             self.memory_manager.exclusiveLocks[base_set[page_range.last_base_name]].acquire()
         # Write to Base Pages within matching Range
         self.write_to_pages(cur_base_pages, record, schema_encoding, page_set_name=base_set[page_range.last_base_name])
@@ -369,7 +369,7 @@ class Table:
                         # Update bookkeeping
                         self.memory_manager.unpinPages(updated_baseID)
                         # Rollback: Invalidate all TIDs made for updated baseID
-                        self.invalid_rids += tids_made
+                        self.invalid_rids |= set(tids_made) # Update the set
                 except KeyError:
                     # Current Thread hasn't updated any baseIDs (has only performed reads only)
                     # Nothing to rollback
@@ -595,11 +595,11 @@ class Table:
 
         # Add either baseID or latest tailID
         representative = next_rid if next_rid != 0 else baseID
-        self.invalid_rids.append(representative)
+        self.invalid_rids.add(representative) #.append(representative)
 
         # Start from most recent tail records to older ones      
         while (next_rid != 0): # At least one tail record exists
-            self.invalid_rids.append(next_rid)
+            self.invalid_rids.add(next_rid) #append(next_rid)
             num_deleted += 1
             next_rid = self.get_previous(next_rid)
 
