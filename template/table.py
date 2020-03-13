@@ -382,7 +382,7 @@ class Table:
         except KeyError:
             # First time using RID
             self.lock_manager.shared_locks[baseID] = 1
-        print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
+        #print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
         
 
     """
@@ -391,7 +391,7 @@ class Table:
     def free_shared_locks(self, rids_accessed, thread_nickname):
         # Print stmts just for debugging purposes for now
         for rid in rids_accessed:
-            print("= = = = = " * 10)
+            #print("= = = = = " * 10)
             baseID_used = rid # Init Value
             if rid >= self.TID_counter:
                 # Get mapped base record ID
@@ -404,11 +404,11 @@ class Table:
 
             init_sharers = deepcopy(self.lock_manager.shared_locks[baseID_used])
             self.lock_manager.shared_locks[baseID_used] -= 1
-            print("Thread {} will decrement for RID={}. \
-                    BEFORE num sharers: {} vs AFTER num sharers: {}".format( \
-                    thread_nickname, baseID_used, init_sharers, self.lock_manager.shared_locks[baseID_used]))
-            print("= = = = = " * 10)
-        print("-------One Read Operation completed-------------")
+            #print("Thread {} will decrement for RID={}. \
+            #        BEFORE num sharers: {} vs AFTER num sharers: {}".format( \
+            #        thread_nickname, baseID_used, init_sharers, self.lock_manager.shared_locks[baseID_used]))
+            #print("= = = = = " * 10)
+        #print("-------One Read Operation completed-------------")
 
 
     """
