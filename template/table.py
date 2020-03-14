@@ -24,8 +24,8 @@ class Page_Range:
         self.last_tail_name = 0
 
         self.base_set = [] # List of Base Page Set Names
+        # Page Set Names Format: 'firstBaseID_TableName'
         for i in range(PAGE_RANGE_FACTOR):
-            # Page Set Names Format: 'firstBaseID_TableName'
             delimiter = '_'
             first_baseID = str(num_page_range*PAGE_CAPACITY*PAGE_RANGE_FACTOR + i*PAGE_CAPACITY)
             encoded_base_set = first_baseID + delimiter + table.name
@@ -54,11 +54,10 @@ class Table:
         self.memory_manager = mem_manager   # All Tables within Database share same Memory Manager
         self.lock_manager = lock_manager    # Manages concurrent Threads 
 
-        # DEBUGGING PURPOSES: Assuming only 8 Transaction Worker Threads (including Main)
-        # https://www.geeksforgeeks.org/ways-increment-character-python/        
-        self.all_threads = dict() # Map ThreadIDs to a nickname 
-        self.thread_count = 0 # Counter
-        self.thread_nickname = 'A' # Thread nicknames: 'A' thru 'G'
+        # Assuming <= 26 Transaction Worker Threads (including Main)
+        self.all_threads = dict()  # Map ThreadIDs to a nickname 
+        self.thread_count = 0    
+        self.thread_nickname = 'A' 
 
         self.merge_flag = False # TODO: Set flag to True in merge()
         self.num_merged = 0 
@@ -72,6 +71,7 @@ class Table:
         thread.setDaemon(True)
         thread.start()
         """
+
 
     """
     # Conditionally writes to meta and user data columns
@@ -127,19 +127,19 @@ class Table:
 
         # Determine if corresponding Page Range exists
         page_range_index = (record.rid - 1)/(PAGE_RANGE_FACTOR * PAGE_CAPACITY)
-        page_range_index = math.floor(page_range_index)
-        
+        page_range_index = math.floor(page_range_index) 
         try:
             page_range = self.page_range_collection[page_range_index]
-        except:
+        except IndexError:
             page_range = Page_Range(len(self.page_range_collection), self)
             self.page_range_collection.append(page_range)
 
         # Make alias
         page_range = self.page_range_collection[page_range_index]
-        base_set = page_range.base_set  # List of Base Set Names
+        base_set = page_range.base_set # List of Base Set Names
         cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self) 
 
+        # Acquire current Page Set's Lock & create new Page Set if needed
         self.memory_manager.exclusiveLocks[base_set[page_range.last_base_name]].acquire()
         cur_base_pages_space = cur_base_pages[INIT_COLS].has_space()
         if not cur_base_pages_space:
@@ -148,16 +148,16 @@ class Table:
             page_range.last_base_name += 1
             cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self, read_only=False)
             self.memory_manager.exclusiveLocks[base_set[page_range.last_base_name]].acquire()
+
         # Write to Base Pages within matching Range
         self.write_to_pages(cur_base_pages, record, schema_encoding, page_set_name=base_set[page_range.last_base_name])
-         
-        # Update Page Directory & Indexer
-        byte_pos = cur_base_pages[INIT_COLS].first_unused_byte - DATA_SIZE
+        # Update Indexer & Release Page Set Lock
         self.memory_manager.setDirty(base_set[page_range.last_base_name])
         self.memory_manager.unpinPages(base_set[page_range.last_base_name])
         self.memory_manager.exclusiveLocks[base_set[page_range.last_base_name]].release()
+        # Update Page Directory
+        byte_pos = cur_base_pages[INIT_COLS].first_unused_byte - DATA_SIZE
         self.page_directory[record.rid] = [page_range_index, page_range.last_base_name, byte_pos]
-        
         # Insert primary key: RID for key_index column
         self.index.insert_primaryKey(record.key, record.rid)
 
@@ -236,25 +236,23 @@ class Table:
     
             # Write to base schema column (cumulative)
             base_schema_page.write(int(latest_schema), base_byte_pos)
-    
             # Write to RID & BaseRID, and timeStamp columns
             cur_tail_pages[RID_COLUMN].write(record.rid)
             cur_tail_pages[BASE_RID_COLUMN].write(baseID)
             cur_tail_pages[TIMESTAMP_COLUMN].write(int(time()))
-            # Increment number of updates and update page directory
+            # Update page directory
             page_range.num_updates += 1
             self.update_to_pg_range[page_range_index] = page_range.num_updates
-
             byte_pos = cur_tail_pages[INIT_COLS].first_unused_byte - DATA_SIZE 
             self.page_directory[record.rid] = [page_range_index, page_range.last_tail_name, byte_pos]
                    
             # Check if primary key is updated -- if it is then replace old key with new key 
             if record.columns[self.key_index] is not None:
                 self.index.update_primaryKey(record.key, record.columns[self.key_index], self.key_index)
-
-            if base_indir_data:  # Point to previous TID
+            # Update Indirection of new Tail Record
+            if base_indir_data: # Point to previous TID
                 cur_tail_pages[INDIRECTION_COLUMN].write(base_indir_data)
-            else:  # Point to baseID
+            else: # Point to baseID
                 cur_tail_pages[INDIRECTION_COLUMN].write(baseID)
             # Base Indirection now points to current TID (replacement)
             base_indir_page.write(record.rid, base_byte_pos)
@@ -320,7 +318,7 @@ class Table:
 
 
     """
-    # Rollback chanages made by to-be-aborted Txn/Thread 
+    # Rollback chanages made by to-be-aborted Txn
     """
     def rollback_txn(self, curr_threadID, latch):
         # Note: Same procedure used for aborting Read/Write operations
@@ -345,7 +343,7 @@ class Table:
                 # Update bookkeeping
                 self.memory_manager.unpinPages(base_name)
                 # Rollback: Invalidate all TIDs made for updated baseID
-                self.invalid_rids.update(tids_made) # Update the set
+                self.invalid_rids.update(tids_made)
         except KeyError: # Current Thread hasn't udpated any Records
             pass # Nothing to rollback
         latch.release()
@@ -369,6 +367,34 @@ class Table:
             # Get mapped BaseID
             mapped_baseID = self.convert_data(mapped_base_page, tail_byte_pos)
             baseID = mapped_baseID
+
+        # Assuming that exlusive_locks defined as dictionary {baseID: ['rLock': threading.RLock(), 'writerID': WriterID]}
+        # Assuming that shared_locks defined as defaultdict(set) {baseID: set(of readers/threadIDs)}
+        # No concurrent writers if 
+        #   a) exlusive_locks[baseID] = DNE or
+        #   b) exists, already initialized but WriterID == 0 (indicator value)
+
+        try: # Check if baseID has any outstanding writers
+            baseID_entry = self.lock_manager.exclusive_locks[baseID]
+            cur_writerID = None if (baseID_entry['writerID'] == 0) else baseID_entry['writerID']
+        except KeyError: # Dictionary entry DNE for baseID
+            cur_writerID = None
+
+        # Check if Transaction must abort            
+        if cur_writerID is not None and curr_threadID != cur_writerID:
+            return self.rollback_txn(curr_threadID, latch)
+        # Else, Thread can obtain shared lock
+        baseID_readers = self.lock_manager.shared_locks[baseID]
+        if init_flag or rid >= self.TID_counter:
+            # Avoid over-incrementing
+            baseID_readers.add(curr_threadID) # Duplicate threadIDs removed in set
+            # NOTE - Will this scenario ever happen?
+            # Thread A increments RID=5, Thread B ... , Thread A increments RID=5 again?
+            # No right? since thread has to execute an operation at a time, Thread A can only resume/decrement RID=5?
+            print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
+
+        """
+        # Previous implementation if shared_locks defined as a dictionary {baseID:counter}
         try: # See if baseID exists and has no outstanding writers:
             if self.lock_manager.shared_locks[baseID] == EXCLUSIVE_LOCK: # TODO: Check if Current Thread =/= Current Writer
                 return self.rollback_txn(curr_threadID, latch)
@@ -376,12 +402,11 @@ class Table:
                 # Avoid over-incrementing num_sharers for baseIDs
                 self.lock_manager.shared_locks[baseID] += 1
                 print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
-        except KeyError:
-            # First time using RID
+        except KeyError: # First time using RID
             self.lock_manager.shared_locks[baseID] = 1
             print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
-        # Conditionally print out bc we don't always increment num sharers
-
+        # Note: Conditionally print out bc we don't always increment num sharers
+        """
 
     """
     # Release all acquired Shared Locks acquired for given RIDs
@@ -398,13 +423,17 @@ class Table:
                 mapped_base_page = self.memory_manager.get_pages(tail_name, table=self)[BASE_RID_COLUMN]
                 # Update bookkeeping
                 self.memory_manager.unpinPages(tail_name)
-                baseID_used = self.convert_data(mapped_base_page, tail_byte_pos)                
-
-            init_sharers = deepcopy(self.lock_manager.shared_locks[baseID_used])
-            self.lock_manager.shared_locks[baseID_used] -= 1
+                baseID_used = self.convert_data(mapped_base_page, tail_byte_pos)     
+           
+            #init_sharers = deepcopy(self.lock_manager.shared_locks[baseID_used])
+            #self.lock_manager.shared_locks[baseID_used] -= 1
+            init_sharers = len(deepcopy(self.lock_manager.shared_locks[baseID_used]))
+            curr_threadID = threading.get_ident()
+            self.lock_manager.shared_locks[baseID_used].discard(curr_threadID)
+            reduced_sharers = len(deepcopy(self.lock_manager.shared_locks[baseID_used]))
             print("Thread {} will decrement for RID={}. \
                     BEFORE num sharers: {} vs AFTER num sharers: {}".format( \
-                    thread_nickname, baseID_used, init_sharers, self.lock_manager.shared_locks[baseID_used]))
+                    thread_nickname, baseID_used, init_sharers, reduced_sharers))
             print("= = = = = " * 10)
         print("-------One Read Operation completed-------------")
 

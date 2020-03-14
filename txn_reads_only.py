@@ -76,5 +76,12 @@ else:
 """
 # Modified above because we're only testing concurrent reads (no writing, no aborts are possible)
 
-print("Sum should be zero:", sum(list(grades_table.lock_manager.shared_locks.values())))
+#print("Sum should be zero:", sum(list(grades_table.lock_manager.shared_locks.values())))
 #print("Entire current locks dictionary:", grades_table.lock_manager.shared_locks)
+
+# Assuming that shared_locks defined as defaultdict(set)
+remaining_readers = 0
+for threadID_set in list(grades_table.lock_manager.shared_locks.values()):
+    remaining_readers += len(threadID_set)
+print("Sum should be zero:", remaining_readers)
+

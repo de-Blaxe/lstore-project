@@ -14,9 +14,9 @@ class LockManager:
         # In case of Rollback -> mark those TIDs as invalid
         self.threadID_to_tids = dict()
         # Maps BaseIDS to number of Shared Locks (0+: Available [read], -1: Exclusive Lock [write])
-        self.shared_locks = dict()
+        self.shared_locks = defaultdict(set) # NOTE Previously, dict()
         # Maps BaseIDs to actual RLock
-        self.exclusive_locks = dict()
+        self.exclusive_locks = dict() # {baseID: {'RLock': threading.RLock(), 'writerID': None}}
 
 class MemoryManager():
 
@@ -49,7 +49,7 @@ class MemoryManager():
     # Creates a latch for each Table's Lock Manager.
     """
     def create_latch(self, table_name):
-        self.latches[table_name] = threading.RLock() # Use RLock instead of Lock?
+        self.latches[table_name] = threading.RLock() 
 
 
     """
