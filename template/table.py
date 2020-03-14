@@ -54,7 +54,7 @@ class Table:
         self.memory_manager = mem_manager   # All Tables within Database share same Memory Manager
         self.lock_manager = lock_manager    # Manages concurrent Threads 
 
-        # DEBUGGING PURPOSES: Assuming only 8 Transaction Worker Threads
+        # DEBUGGING PURPOSES: Assuming only 8 Transaction Worker Threads (including Main)
         # https://www.geeksforgeeks.org/ways-increment-character-python/        
         self.all_threads = dict() # Map ThreadIDs to a nickname 
         self.thread_count = 0 # Counter
@@ -368,7 +368,7 @@ class Table:
                         # Update bookkeeping
                         self.memory_manager.unpinPages(base_name)
                         # Rollback: Invalidate all TIDs made for updated baseID
-                        self.invalid_rids |= set(tids_made) # Update the set
+                        self.invalid_rids.update(tids_made) # Update the set
                 except KeyError:
                     # Current Thread hasn't updated any baseIDs (has only performed reads only)
                     # Nothing to rollback
