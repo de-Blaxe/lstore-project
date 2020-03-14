@@ -146,7 +146,6 @@ class Table:
             self.memory_manager.unpinPages(base_set[page_range.last_base_name])
             self.memory_manager.exclusiveLocks[base_set[page_range.last_base_name]].release()
             page_range.last_base_name += 1
-            # FIXME: We get ListIndexError if we try to insert >= 1050 Base Records?
             cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self, read_only=False)
             self.memory_manager.exclusiveLocks[base_set[page_range.last_base_name]].acquire()
         # Write to Base Pages within matching Range
@@ -267,13 +266,7 @@ class Table:
             self.memory_manager.setDirty(tail_set_name)
             self.memory_manager.unpinPages(base_set_name)
             self.memory_manager.unpinPages(tail_set_name)
-            """
-            # NOTE previously.... (forgot to grab exlusive lock) ???
-            self.memory_manager.isDirty[page_range.base_set[base_name_index]] = True
-            self.memory_manager.isDirty[page_range.tail_set[page_range.last_tail_name]] = True
-            self.memory_manager.pinScore[tail_set[page_range.last_tail_name]] -= 1
-            self.memory_manager.pinScore[page_range.base_set[base_name_index]] -= 1
-            """
+
 
     """
     # Given list of baseIDs, retrieves corresponding latest RIDs
@@ -327,55 +320,59 @@ class Table:
 
 
     """
+    # Rollback chanages made by to-be-aborted Txn/Thread 
+    """
+    def rollback_txn(self, curr_threadID, latch):
+        # Note: Same procedure used for aborting Read/Write operations
+        try: # Check if current Thread updated >= 1 Base Record
+            baseIDs_to_tailIDs = self.lock_manager.threadID_to_tids[curr_threadID]
+            # updated BaseID <-- committed TID <-- first TID made <-- ...
+            for updated_baseID in list(baseIDs_to_tailIDs):
+                tids_made = baseIDs_to_tailIDs[updated_baseID]
+                first_tid_made = tids_made[0]
+                # Read Indirection of base record's first tail record
+                committed_TID = self.get_previous(first_tid_made)
+                # Locate updated baseID
+                [page_range_index, base_name_index, base_byte_pos] = self.page_directory[updated_baseID]
+                base_name = self.page_range_collection[page_range_index].base_set[base_name_index]
+                # Restore base record's committed indirection
+                base_indir_page = self.memory_manager.get_pages(base_name, table=self)[INDIRECTION_COLUMN]
+                self.lock_manager.exclusive_locks[updated_baseID].acquire()
+                self.memory_manager.exclusive_locks[base_name].acquire()
+                base_indir_page.write(committed_TID, pos=base_byte_pos)
+                self.memory_manager.exclusive_locks[base_name].release()
+                self.lock_manager.exclusive_locks[updated_baseID].release()
+                # Update bookkeeping
+                self.memory_manager.unpinPages(base_name)
+                # Rollback: Invalidate all TIDs made for updated baseID
+                self.invalid_rids.update(tids_made) # Update the set
+        except KeyError: # Current Thread hasn't udpated any Records
+            pass # Nothing to rollback
+        latch.release()
+        return False # Sign Transaction to abort()
+
+
+    """
     # Attempt to grab a Shared Lock for given RID
     """
     def get_shared_lock(self, rid, curr_threadID, latch, init_flag=True):
-        # Alias for threadID
+        # Init values
         thread_nickname = self.all_threads[curr_threadID]
-        try:
-            baseID = rid # Init value, rid may be a TID though
-            if rid >= self.TID_counter:
-                [page_range_index, name_index, tail_byte_pos] = self.page_directory[rid]
-                tail_name = self.page_range_collection[page_range_index].tail_set[name_index]
-                mapped_base_page = self.memory_manager.get_pages(tail_name, table=self)[BASE_RID_COLUMN]
-                # Update bookkeeping
-                self.memory_manager.unpinPages(tail_name)
-                # Get mapped BaseID
-                mapped_baseID = self.convert_data(mapped_base_page, tail_byte_pos)
-                baseID = mapped_baseID
-
-            # See if baseID exists and has no outstanding writers
-            if self.lock_manager.shared_locks[baseID] == EXCLUSIVE_LOCK:
-                try:
-                    baseIDs_to_tailIDs = self.lock_manager.threadID_to_tids[curr_threadID]
-                    # Current thread created at least one Tail record
-                    # updated BaseID <-- committed TID <-- first TID made <-- ...
-                    for updated_baseID in list(baseIDs_to_tailIDs):
-                        tids_made = baseIDs_to_tailIDs[updated_baseID]
-                        first_tid_made = tids_made[0]
-                        # Read Indirection of base record's first tail record
-                        committed_TID = self.get_previous(first_tid_made)
-                        # Locate updated baseID
-                        [page_range_index, base_name_index, base_byte_pos] = self.page_directory[updated_baseID]
-                        base_name = self.page_range_collection[page_range_index].base_set[base_name_index]
-                        # Restore base record's committed indirection
-                        base_indir_page = self.memory_manager.get_pages(base_name, table=self)[INDIRECTION_COLUMN]
-                        self.lock_manager.exclusive_locks[updated_baseID].acquire()
-                        self.memory_manager.exclusive_locks[base_name].acquire()
-                        base_indir_page.write(committed_TID, pos=base_byte_pos)
-                        self.memory_manager.exclusive_locks[base_name].release()
-                        self.lock_manager.exclusive_locks[updated_baseID].release()
-                        # Update bookkeeping
-                        self.memory_manager.unpinPages(base_name)
-                        # Rollback: Invalidate all TIDs made for updated baseID
-                        self.invalid_rids.update(tids_made) # Update the set
-                except KeyError:
-                    # Current Thread hasn't updated any baseIDs (has only performed reads only)
-                    # Nothing to rollback
-                    pass
-                latch.release()
-                return False # Signal Transaction to abort()
-            elif init_flag or rid >= self.TID_counter:
+        baseID = rid 
+        # Find corresponding BaseID
+        if rid >= self.TID_counter:
+            [page_range_index, name_index, tail_byte_pos] = self.page_directory[rid]
+            tail_name = self.page_range_collection[page_range_index].tail_set[name_index]
+            mapped_base_page = self.memory_manager.get_pages(tail_name, table=self)[BASE_RID_COLUMN]
+            # Update bookkeeping
+            self.memory_manager.unpinPages(tail_name)
+            # Get mapped BaseID
+            mapped_baseID = self.convert_data(mapped_base_page, tail_byte_pos)
+            baseID = mapped_baseID
+        try: # See if baseID exists and has no outstanding writers:
+            if self.lock_manager.shared_locks[baseID] == EXCLUSIVE_LOCK: # TODO: Check if Current Thread =/= Current Writer
+                return self.rollback_txn(curr_threadID, latch)
+            if init_flag or rid >= self.TID_counter:
                 # Avoid over-incrementing num_sharers for baseIDs
                 self.lock_manager.shared_locks[baseID] += 1
                 print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
@@ -383,7 +380,8 @@ class Table:
             # First time using RID
             self.lock_manager.shared_locks[baseID] = 1
             print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
-        # NOTE: Conditionally print out bc we don't always increment in get_shared_lock()
+        # Conditionally print out bc we don't always increment num sharers
+
 
     """
     # Release all acquired Shared Locks acquired for given RIDs
