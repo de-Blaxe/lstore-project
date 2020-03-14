@@ -344,9 +344,6 @@ class Table:
                 mapped_baseID = self.convert_data(mapped_base_page, tail_byte_pos)
                 baseID = mapped_baseID
 
-            # Locate mapped BaseID
-            #[page_range_index, base_name_index, base_byte_pos] = self.page_directory[baseID] --> do this in loop below
-
             # See if baseID exists and has no outstanding writers
             if self.lock_manager.shared_locks[baseID] == EXCLUSIVE_LOCK:
                 try:
