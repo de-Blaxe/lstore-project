@@ -371,7 +371,7 @@ class Table:
                         # Update bookkeeping
                         self.memory_manager.unpinPages(base_name)
                         # Rollback: Invalidate all TIDs made for updated baseID
-                        self.invalid_rids |= set(tids_made) # Update the set
+                        self.invalid_rids.update(tids_made) # Update the set
                 except KeyError:
                     # Current Thread hasn't updated any baseIDs (has only performed reads only)
                     # Nothing to rollback
