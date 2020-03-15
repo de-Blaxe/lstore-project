@@ -57,10 +57,11 @@ class Table:
         # Assuming <= 26 Transaction Worker Threads
         self.all_threads = dict()  # Map ThreadIDs to a nickname
         self.thread_count = 0    
-        self.thread_nickname = 'A' # Nicknames start from 'A' to 'H' for 8 Threads
+        self.thread_nickname = 'A' # Nicknames start from 'A' to 'I' for 8 Worker + Main Threads
 
         # Avoid data races when updating TID_counter
         self.TID_counter_lock = threading.RLock()
+        self.thread_counter_lock = threading.RLock()
 
         self.merge_flag = False # TODO: Set flag to True in merge()
         self.num_merged = 0 
@@ -180,7 +181,7 @@ class Table:
     """
     def get_exclusive_lock(self, baseID, curr_threadID, latch):
         latch.acquire()
-        thread_nickname = self.all_threads[curr_threadID]
+        thread_nickname = self.gen_thread_nickname(curr_threadID) #self.all_threads[curr_threadID]
         try: # Check if baseID has any outstanding readers
             baseID_readers = self.lock_manager.shared_locks[baseID]
             num_readers = len(baseID_readers)
@@ -449,9 +450,12 @@ class Table:
         try:
             self.all_threads[curr_threadID]
         except KeyError:
-            self.all_threads[curr_threadID] = chr(ord(self.thread_nickname) + self.thread_count)
+            # Prevent data races with updating thread count
+            self.thread_counter_lock.acquire()
+            self.all_threads[curr_threadID] = chr(ord(self.thread_nickname) + deepcopy(self.thread_count))
             self.thread_count += 1 # To generate new nickname in advance
-        return self.all_threads[curr_threadID] 
+            self.thread_counter.lock.release()
+        return self.all_threads[curr_threadID]
 
 
     """
@@ -459,7 +463,7 @@ class Table:
     """
     def get_shared_lock(self, rid, curr_threadID, latch, init_flag=True):
         # Init values
-        thread_nickname = self.all_threads[curr_threadID]
+        thread_nickname = self.gen_thread_nickname(curr_threadID) #self.all_threads[curr_threadID]
         baseID = rid 
         # Find corresponding BaseID
         if rid >= self.TID_counter:
@@ -511,10 +515,10 @@ class Table:
                 [page_range_index, tail_name_index, tail_byte_pos] = self.page_directory[rid]
                 tail_name = self.page_range_collection[page_range_index].tail_set[tail_name_index]
                 mapped_base_page = self.memory_manager.get_pages(tail_name, table=self)[BASE_RID_COLUMN]
+                baseID_used = self.convert_data(mapped_base_page, tail_byte_pos)  
                 # Update bookkeeping
                 self.memory_manager.unpinPages(tail_name)
-                baseID_used = self.convert_data(mapped_base_page, tail_byte_pos)     
-           
+      
             init_sharers = len(deepcopy(self.lock_manager.shared_locks[baseID_used]))
             curr_threadID = threading.get_ident()
             self.lock_manager.shared_locks[baseID_used].discard(curr_threadID)

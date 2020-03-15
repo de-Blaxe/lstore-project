@@ -56,3 +56,19 @@ class Transaction:
     def commit(self):
         # TODO: LATER commit to database
         return True
+
+    def release_locks(self):
+        table = self.queries[0][0].__self__.table
+        curr_threadID = threading.get_ident()
+        latch = table.memory_manager.latches[table.name]
+        latch.acquire()
+        for item in table.lock_manager.threadID_to_locks[curr_threadID]:
+            if type(item) is int:
+                # item is a base_id therefore it is a shared lock
+                table.lock_manager.shared_locks[item].discard(curr_threadID)
+            else:
+                item['RLock'].release()
+                item['writerID'] = 0
+        table.lock_manager.threadID_to_locks[curr_threadID] = []
+        latch.release()
+        return
