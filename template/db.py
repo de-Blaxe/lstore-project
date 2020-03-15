@@ -17,6 +17,7 @@ class LockManager:
         self.shared_locks = defaultdict(set) # NOTE Previously, dict()
         # Maps BaseIDs to actual RLock
         self.exclusive_locks = dict() # {baseID: {'RLock': threading.RLock(), 'writerID': currentThreaID}} # dict(dict)
+        self.threadID_to_locks = defaultdict(list)
 
 class MemoryManager():
 

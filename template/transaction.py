@@ -1,5 +1,6 @@
 from template.table import Table, Record
 from template.index import Index
+import threading
 
 class Transaction:
 
@@ -19,7 +20,7 @@ class Transaction:
     # t = Transaction()
     # t.add_query(q.update, 0, *[None, 1, None, 2, None])
     """
-    def add_query(self, query, *args): 
+    def add_query(self, query, *args):
         self.queries.append((query, args))
 
     def add_expected_results(self, desired_columns):
@@ -49,10 +50,35 @@ class Transaction:
 
     def abort(self):
         #TODO: do roll-back and any other necessary operations
+
         print("abort from transaction class")
+        table = self.queries[0][0].__self__.table
+        curr_threadID = threading.get_ident()
+        latch = table.memory_manager.latches[table.name]
+        table.rollback_txn(curr_threadID, latch)
+        # Release all locks
+        self.release_locks()
         return False
 
 
     def commit(self):
         # TODO: LATER commit to database
+        # Release Locks
+        self.release_locks()
         return True
+
+    def release_locks(self):
+        table = self.queries[0][0].__self__.table
+        curr_threadID = threading.get_ident()
+        latch = table.memory_manager.latches[table.name]
+        latch.acquire()
+        for item in table.lock_manager.threadID_to_locks[curr_threadID]:
+            if type(item) is int:
+                # item is a base_id therefore it is a shared lock
+                table.lock_manager.shared_locks[item].discard(curr_threadID)
+            else:
+                item['RLock'].release()
+                item['writerID'] = 0
+        table.lock_manager.threadID_to_locks[curr_threadID] = []
+        latch.release()
+        return

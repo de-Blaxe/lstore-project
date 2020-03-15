@@ -191,9 +191,10 @@ class Table:
         try: # Check if baseID has any outstanding writers
             baseID_entry = self.lock_manager.exclusive_locks[baseID]
             curr_writerID = None if (baseID_entry['writerID'] == 0) else baseID_entry['writerID']
-            if num_readers > 0 or curr_writerID is not None:
+            if num_readers > 0 or curr_writerID is not None and curr_writerID != curr_threadID:
                 print("Returning False from get_exclusive_lock() bc at least one reader or one writer")
-                return self.rollback_txn(curr_threadID, latch) # Returns False
+                latch.release()
+                return False # Returns False
                 """
                 # What is actually happening
                 self.rollback_txn()
@@ -209,7 +210,8 @@ class Table:
                 print("Thread {} has an exclusive lock. Num sharers should be 0 == {}".format(thread_nickname, num_readers))
             else: # One concurrent writer, so must abort
                 print("Returning False from get_exclusive_lock() bc one concurrent writer")
-                return self.rollback_txn(curr_threadID, latch) # Returns False
+                latch.release()
+                return False # Returns False
                 """
                 # What is actually happening
                 self.rollback_txn()
@@ -221,8 +223,9 @@ class Table:
         record_lock = self.lock_manager.exclusive_locks[baseID]['RLock']
         record_lock.acquire()
         self.lock_manager.exclusive_locks[baseID]['writerID'] = curr_threadID
+        self.lock_manager.threadID_to_locks[curr_threadID].append(self.lock_manager.exclusive_locks[baseID])
         latch.release() # No longer modifying LockManager
-        return record_lock # Allow insert_tail_record() to release it later
+        return True # Allow insert_tail_record() to release it later
 
         """
             Thread A reads baseId=4 [paused, pending]
@@ -257,27 +260,29 @@ class Table:
                 base_name = self.page_range_collection[page_range_index].base_set[base_name_index]
                 # Restore base record's committed indirection
                 base_indir_page = self.memory_manager.get_pages(base_name, table=self)[INDIRECTION_COLUMN]
-
+                latch.acquire()
                 try: # Check if Base Record has been updated before
                     self.lock_manager.exclusive_locks[updated_baseID]
                 except KeyError: # Create new entry
                     # Note: Latch for LockManager already acquired prior to calling rollback_txn()
                     self.lock_manager.exclusive_locks[updated_baseID] = {'RLock': threading.RLock(), 'writerID': curr_threadID}
-
+                latch.release()
                 # Acquire Exclusive Locks
-                record_lock = self.lock_manager.exclusive_locks[updated_baseID]['RLock']
+                # Dont need this because 2PL
+                '''record_lock = self.lock_manager.exclusive_locks[updated_baseID]['RLock']
                 record_lock.acquire()
-                self.memory_manager.exclusive_locks[base_name].acquire()
+                self.memory_manager.exclusive_locks[base_name].acquire()'''
 
                 # Perform Page write
                 base_indir_page.write(committed_TID, pos=base_byte_pos)
 
                 # Release locks, reset writerID
-                self.memory_manager.exclusive_locks[base_name].release()
+                '''self.memory_manager.exclusive_locks[base_name].release()
                 self.lock_manager.exclusive_locks[updated_baseID]['writerID'] = 0
-                record_lock.release()
+                record_lock.release()'''
 
                 # Update bookkeeping & Rollback
+                # Maybe shouldn't be doing this
                 self.memory_manager.unpinPages(base_name)
                 self.memory_manager.setDirty(base_name)
                 self.invalid_rids.update(tids_made)
@@ -287,9 +292,8 @@ class Table:
             pass # Nothing to rollback
 
         # Default actions
-        latch.release()
         print("Returning False from rollback_txn()")
-        return False # Sign Transaction to abort()
+        return False  # Sign Transaction to abort()
 
 
     """
@@ -312,7 +316,7 @@ class Table:
             latch = self.memory_manager.latches[self.name]
             # Latch is to be acquired and released in get_exclusive_lock()
             record_lock = self.get_exclusive_lock(baseID, curr_threadID, latch) 
-            # record_lock value is either False if need to abort, else actual RLock
+            # record_lock value is either False if need to abort, else True
             if not record_lock:
                 return False # Signal Transaction to abort()
 
@@ -398,7 +402,6 @@ class Table:
             # Reset writerID entry for baseID
             latch.acquire()
             self.lock_manager.exclusive_locks[baseID]['writerID'] = 0
-            record_lock.release()
             latch.release()
             return True # Successful write operation
 
@@ -466,11 +469,11 @@ class Table:
             [page_range_index, name_index, tail_byte_pos] = self.page_directory[rid]
             tail_name = self.page_range_collection[page_range_index].tail_set[name_index]
             mapped_base_page = self.memory_manager.get_pages(tail_name, table=self)[BASE_RID_COLUMN]
-            # Update bookkeeping
-            self.memory_manager.unpinPages(tail_name)
             # Get mapped BaseID
             mapped_baseID = self.convert_data(mapped_base_page, tail_byte_pos)
             baseID = mapped_baseID
+            # Update bookkeeping
+            self.memory_manager.unpinPages(tail_name)
 
         # Assuming that exclusive_locks defined as dictionary {baseID: {'RLock': threading.RLock(), 'writerID': WriterID}}
         # Assuming that shared_locks defined as defaultdict(set) {baseID: set(of readers/threadIDs)}
@@ -486,16 +489,20 @@ class Table:
             cur_writerID = None
 
         # Check if Transaction must abort            
-        if cur_writerID is not None: #and curr_threadID != cur_writerID: (Don't think this is possible given tester/context switch)
-            return self.rollback_txn(curr_threadID, latch)
+        if cur_writerID is not None and curr_threadID != cur_writerID:
+            latch.release()
+            return False
         # Else, Thread can obtain shared lock
         baseID_readers = self.lock_manager.shared_locks[baseID]
         if init_flag or rid >= self.TID_counter:
             # Avoid over-incrementing
             baseID_readers.add(curr_threadID) # Duplicate threadIDs removed in set
+            self.lock_manager.threadID_to_locks[curr_threadID].append(baseID)
             print("Thread {} finished incrementing RID={}\n".format(thread_nickname, baseID))
         # Default behavior, release latch
         latch.release()
+        # Signal success
+        return True
 
 
     """
@@ -546,7 +553,8 @@ class Table:
 
         # Check if all baseIDs are available for reading
         for baseID in baseIDs:
-            self.get_shared_lock(baseID, curr_threadID, latch)
+            if not self.get_shared_lock(baseID, curr_threadID, latch):
+                return False
         # Default behavior if no abort
 
         latest_rids = self.get_latest(baseIDs)
@@ -561,13 +569,8 @@ class Table:
                 latch.release()
                 continue # Go to next rid in latest_rids
             latch.release()
-            
-            # Check if all rids (previous and latest ones) are available for reading
-            latch.acquire()
             # Avoid incrementing twice if rid == baseID, so init_flag=False
             self.get_shared_lock(rid, curr_threadID, latch, init_flag=False)
-            # Default behavior if no abort
-            latch.release()
             # Initialize data to base record's data
             data = [None] * self.num_columns
             columns_not_retrieved = set()
@@ -657,9 +660,10 @@ class Table:
 
         ### End of outer for loop ###
         # Release all Shared Locks for all RIDs accessed during query
-        latch.acquire()
+        # Not for 2PL
+        '''latch.acquire()
         self.free_shared_locks(rids_accessed, thread_nickname)
-        latch.release()
+        latch.release()'''
         return output
 
 
