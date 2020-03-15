@@ -63,9 +63,12 @@ class Transaction:
 
     def commit(self):
         # TODO: LATER commit to database
+
+        print("commit from transaction class")
         # Release Locks
         self.release_locks()
         return True
+
 
     def release_locks(self):
         table = self.queries[0][0].__self__.table

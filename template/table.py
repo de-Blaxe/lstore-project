@@ -192,7 +192,7 @@ class Table:
         try: # Check if baseID has any outstanding writers
             baseID_entry = self.lock_manager.exclusive_locks[baseID]
             curr_writerID = None if (baseID_entry['writerID'] == 0) else baseID_entry['writerID']
-            if num_readers > 0 or curr_writerID is not None and curr_writerID != curr_threadID:
+            if num_readers > 0 or (curr_writerID is not None and curr_writerID != curr_threadID):
                 print("Returning False from get_exclusive_lock() bc at least one reader or one writer")
                 latch.release()
                 return False # Returns False
@@ -203,14 +203,12 @@ class Table:
                 return False
                 """
         except KeyError: # Dictionary entry DNE for baseID
-            # Don't think commented parts can occur
-            # Init iff num_readers == 0 or curr_threadID is the only reader)
-            # if num_readers == 0 or (num_readers == 1 and curr_threadID in self.lock_manager.shared_locks[baseID]):
-            if num_readers == 0:
+            #if num_readers == 0: # CHANGED
+            if num_readers == 0 or (num_readers == 1 and curr_threadID in self.lock_manager.shared_locks[baseID]):
                 self.lock_manager.exclusive_locks[baseID] = {'RLock': threading.RLock(), 'writerID': curr_threadID}
-                print("Thread {} has an exclusive lock. Num sharers should be 0 == {}".format(thread_nickname, num_readers))
+                print("Thread {} has an exclusive lock. Num sharers can be 0 or 1: {}".format(thread_nickname, num_readers))
             else: # One concurrent writer, so must abort
-                print("Returning False from get_exclusive_lock() bc one concurrent writer")
+                print("Returning False from get_exclusive_lock(). At least one reader that is not current thread")
                 latch.release()
                 return False # Returns False
                 """
@@ -465,7 +463,7 @@ class Table:
     """
     def get_shared_lock(self, rid, curr_threadID, latch, init_flag=True):
         # Init values
-        thread_nickname = self.all_threads[curr_threadID]
+        thread_nickname = self.gen_thread_nickname(curr_threadID) #self.all_threads[curr_threadID]
         baseID = rid 
         # Find corresponding BaseID
         if rid >= self.TID_counter:
