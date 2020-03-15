@@ -188,10 +188,10 @@ class Table:
         except KeyError:
             # No concurrent readers
             num_readers = 0
-
         try: # Check if baseID has any outstanding writers
             baseID_entry = self.lock_manager.exclusive_locks[baseID]
             curr_writerID = None if (baseID_entry['writerID'] == 0) else baseID_entry['writerID']
+
             if num_readers > 0 or (curr_writerID is not None and curr_writerID != curr_threadID):
                 print("Returning False from get_exclusive_lock() bc at least one reader or one writer")
                 latch.release()
@@ -200,20 +200,22 @@ class Table:
         except KeyError: # Dictionary entry DNE for baseID
             #if num_readers == 0: # CHANGED
             if num_readers == 0 or (num_readers == 1 and curr_threadID in self.lock_manager.shared_locks[baseID]):
-                self.lock_manager.exclusive_locks[baseID] = {'RLock': threading.RLock(), 'writerID': curr_threadID}
+                self.lock_manager.exclusive_locks[baseID] = {'Lock': threading.Lock(), 'writerID': curr_threadID}
                 print("Thread {} has an exclusive lock. Num sharers can be 0 or 1: {}".format(thread_nickname, num_readers))
             else: # One concurrent writer, so must abort
                 print("Returning False from get_exclusive_lock(). At least one reader that is not current thread")
                 latch.release()
                 return False # Returns False
 
-        # If all tests passed, acquire and return the Exclusive Lock
-        record_lock = self.lock_manager.exclusive_locks[baseID]['RLock']
-        record_lock.acquire()
+        # If all tests passed, attempt to acquire and return the Exclusive Lock
+        record_lock = self.lock_manager.exclusive_locks[baseID]['Lock']
+        if not (record_lock.acquire(blocking=False)):
+            print("Should not print: Failed to acquire Exclusive Lock")
+            return False
         self.lock_manager.exclusive_locks[baseID]['writerID'] = curr_threadID
         self.lock_manager.threadID_to_locks[curr_threadID].append(self.lock_manager.exclusive_locks[baseID])
-        latch.release() # No longer modifying LockManager
-        return True # Allow insert_tail_record() to release it later
+        latch.release()  # No longer modifying LockManager
+        return True  # Allow insert_tail_record() to release it later
 
         
     """
@@ -257,9 +259,9 @@ class Table:
                 record_lock.release()'''
 
                 # Update bookkeeping & Rollback
-                # Maybe shouldn't be doing this
+                # NOTE Maybe shouldn't be doing this
                 self.memory_manager.unpinPages(base_name)
-                self.memory_manager.setDirty(base_name)
+                #self.memory_manager.setDirty(base_name)
                 self.invalid_rids.update(tids_made)
 
         # Otherwise, current Thread hasn't updated any Records
@@ -293,7 +295,7 @@ class Table:
             record_lock = self.get_exclusive_lock(baseID, curr_threadID, latch) 
             # record_lock value is either False if need to abort, else True
             if not record_lock:
-                return False # Signal Transaction to abort()
+                return False  # Signal Transaction to abort()
 
             # Otherwise, proceed with updating Base Record
             # Init Values
@@ -315,7 +317,9 @@ class Table:
                     self.merge_queue.append(tail_set[page_range.last_tail_name])
                     self.extend_tailSet(tail_set, first_rid=record.rid)
                     page_range.last_tail_name += 1
-            cur_tail_pages = self.memory_manager.get_pages(tail_set[page_range.last_tail_name], table=self, read_only=False)
+            tail_set_name = deepcopy(tail_set[page_range.last_tail_name])
+            cur_tail_pages = self.memory_manager.get_pages(tail_set_name, table=self, read_only=False)
+            self.memory_manager.exclusiveLocks[tail_set_name].acquire()
             # Write to userdata columns
             self.write_to_pages(cur_tail_pages, record, schema_encoding, page_set_name=tail_set[page_range.last_tail_name], isUpdate=True)
             cur_base_pages = self.memory_manager.get_pages(page_range.base_set[base_name_index], table=self, read_only=False)
@@ -352,7 +356,11 @@ class Table:
             # Update page directory
             page_range.num_updates += 1
             self.update_to_pg_range[page_range_index] = page_range.num_updates
-            byte_pos = cur_tail_pages[INIT_COLS].first_unused_byte - DATA_SIZE 
+            byte_pos = cur_tail_pages[INIT_COLS].first_unused_byte - DATA_SIZE
+
+            if byte_pos >= PAGE_SIZE:
+                print("ERROR: BYTE POS >= 4096")
+
             self.page_directory[record.rid] = [page_range_index, page_range.last_tail_name, byte_pos]
                    
             # Check if primary key is updated -- if it is then replace old key with new key 
@@ -368,16 +376,16 @@ class Table:
 
             # Both Base & Tail Pages modified Indirection and Schema Columns
             base_set_name = page_range.base_set[base_name_index]
-            tail_set_name = page_range.tail_set[page_range.last_tail_name]
             self.memory_manager.setDirty(base_set_name)
             self.memory_manager.setDirty(tail_set_name)
             self.memory_manager.unpinPages(base_set_name)
             self.memory_manager.unpinPages(tail_set_name)
+            self.memory_manager.exclusiveLocks[tail_set_name].release()
 
             # Reset writerID entry for baseID
-            latch.acquire()
+            '''latch.acquire()
             self.lock_manager.exclusive_locks[baseID]['writerID'] = 0
-            latch.release()
+            latch.release()'''
             return True # Successful write operation
 
 
@@ -440,7 +448,11 @@ class Table:
     def get_shared_lock(self, rid, curr_threadID, latch, init_flag=True):
         # Init values
         thread_nickname = self.gen_thread_nickname(curr_threadID) #self.all_threads[curr_threadID]
-        baseID = rid 
+        baseID = rid
+ 
+        if curr_threadID in self.lock_manager.shared_locks[baseID]:
+            return True # Already Acquired Shared Lock
+
         # Find corresponding BaseID
         if rid >= self.TID_counter:
             [page_range_index, name_index, tail_byte_pos] = self.page_directory[rid]
@@ -484,7 +496,7 @@ class Table:
 
     """
     # Release all acquired Shared Locks acquired for given RIDs
-    """
+    # NOTE: We're supposed to free all locks once Txn commits all queries or has to abort
     def free_shared_locks(self, rids_accessed, thread_nickname):
         # Print stmts just for debugging purposes for now
         for rid in rids_accessed:
@@ -508,6 +520,7 @@ class Table:
                     thread_nickname, baseID_used, init_sharers, reduced_sharers))
             print("= = = = = " * 10)
         print("-------One Read Operation completed-------------")
+    """
 
 
     """
@@ -537,7 +550,7 @@ class Table:
         latest_rids = self.get_latest(baseIDs)
         output = [] # A list of Record objects to return
         # Track all RIDs accessed during read_records
-        rids_accessed = latest_rids
+        #rids_accessed = latest_rids
 
         for rid in latest_rids:
             # Validation Stage: Check if rid is invalid
@@ -560,15 +573,18 @@ class Table:
             # Locate record within Page Range
             [page_range_index, name_index, byte_pos] = self.page_directory[rid]
             page_range = self.page_range_collection[page_range_index]
+            
+
             if rid >= self.TID_counter:
                 # Find corresponding Base Record for Tail Record
+                print("TailID {} is in PageRange {}  Name Index {} and TailBytePos: {}".format(rid, page_range_index, name_index, byte_pos))
                 tail_set_name = page_range.tail_set[name_index]
                 tail_pages = self.memory_manager.get_pages(tail_set_name, table=self)
                 mapped_baseID_page = tail_pages[BASE_RID_COLUMN]
-                mapped_baseID = self.convert_data(mapped_baseID_page, byte_pos)
-                self.memory_manager.unpinPages(tail_set_name)
+                mapped_baseID = self.convert_data(mapped_baseID_page, byte_pos) # FIXME
                 [_, base_name_index, base_byte_pos] = self.page_directory[mapped_baseID]
                 base_set_name = page_range.base_set[base_name_index]
+                self.memory_manager.unpinPages(tail_set_name)
             else: # Current rid is a BaseID
                 [_, base_name_index, base_byte_pos] = self.page_directory[rid]
                 base_set_name = page_range.base_set[base_name_index]
@@ -625,7 +641,7 @@ class Table:
                 if prev_rid < self.TID_counter:
                     break # Base record encountered
                 else:   
-                    rids_accessed += [prev_rid]
+                    #rids_accessed += [prev_rid]
                     rid = prev_rid # Follow lineage
 
             ### End of while loop ###
@@ -658,8 +674,14 @@ class Table:
         query_columns[col_index] = 1
 
         records = self.read_records(start_range, col_index, query_columns, end_range)
+        i = 0
         for record in records:
+            if i % 5 == 0:
+                print('======')
+            print(record.columns[col_index])
+            i += 1
             total += record.columns[col_index]
+
         return total
 
 

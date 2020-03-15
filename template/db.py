@@ -37,7 +37,7 @@ class MemoryManager():
         self.evictionQueue = []
         # LeastUsedPage is a pageSetName
         self.leastUsedPageSet = ""
-        self.maxSets = 10
+        self.maxSets = 20
         # Protect MemoryManager bookkeeping
         self.exclusiveLocks = dict()
         self.evictionLock = threading.RLock()
@@ -81,10 +81,10 @@ class MemoryManager():
                         page_set.append(Page(unpacked_num_records, unpacked_first_unused_byte, unpacked_data))
             return page_set
         # Do not evict
-        self.evictionLock.acquire()
+        self.pinPages(page_set_name)
         self.exclusiveLocks[page_set_name] = self.exclusiveLocks.get(page_set_name, threading.RLock())
         self.exclusiveLocks[page_set_name].acquire()
-        self.pinPages(page_set_name)
+        self.evictionLock.acquire()
         if page_set_name not in self.bufferPool:
             self._replace_pages(page_set_name, table)
         self._increment_scores(retrieved_page_set_name=page_set_name)
@@ -122,9 +122,9 @@ class MemoryManager():
     # Pin specified pageSet
     """
     def pinPages(self, page_set_name):
-        self.exclusiveLocks[page_set_name].acquire()
+        #self.exclusiveLocks[page_set_name].acquire()
         self.pinScore[page_set_name] = self.pinScore.get(page_set_name, 0) + 1
-        self.exclusiveLocks[page_set_name].release()
+        #self.exclusiveLocks[page_set_name].release()
 
 
     """
