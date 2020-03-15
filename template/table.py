@@ -117,7 +117,7 @@ class Table:
     def insert_baseRecord(self, record, schema_encoding):
         # Base case: Check if record's RID is unique
         if record.rid in self.page_directory:
-            print("Error: Record RID is not unique.\n")
+            print("Error: Base Record RID is not unique.\n")
             return
 
         # Init Values
@@ -188,6 +188,7 @@ class Table:
             baseID_entry = self.lock_manager.exclusive_locks[baseID]
             curr_writerID = None if (baseID_entry['writerID'] == 0) else baseID_entry['writerID']
             if num_readers > 0 or curr_writerID is not None:
+                print("Returning False from get_exclusive_lock() bc at least one reader or one writer")
                 return self.rollback_txn(curr_threadID, latch) # Returns False
                 """
                 # What is actually happening
@@ -203,6 +204,7 @@ class Table:
                 self.lock_manager.exclusive_locks[baseID] = {'RLock': threading.RLock(), 'writerID': curr_threadID}
                 print("Thread {} has an exclusive lock. Num sharers should be 0 == {}".format(thread_nickname, num_readers))
             else: # One concurrent writer, so must abort
+                print("Returning False from get_exclusive_lock() bc one concurrent writer")
                 return self.rollback_txn(curr_threadID, latch) # Returns False
                 """
                 # What is actually happening
@@ -237,6 +239,7 @@ class Table:
     """
     def rollback_txn(self, curr_threadID, latch):
         # Note: Same procedure used for aborting Read/Write operations
+        print("Thread {} MUST ABORT".format(self.all_threads[curr_threadID]))
         try: # Check if current Thread updated >= 1 Base Record
             baseIDs_to_tailIDs = self.lock_manager.threadID_to_tids[curr_threadID]
             # updated BaseID <-- committed TID <-- first TID made <-- ...
@@ -281,6 +284,7 @@ class Table:
 
         # Default actions
         latch.release()
+        print("Returning False from rollback_txn()")
         return False # Sign Transaction to abort()
 
 
@@ -296,7 +300,7 @@ class Table:
             cur_keys = self.page_directory
             # Base case: Check if record's RID is unique & Page Range exists
             if record.rid in cur_keys or not baseID in cur_keys:
-                print("Error: Record RID is not unique.\n")
+                print("Error: Tail Record RID is not unique.\n")
                 return
     
             # Attempt to get an exclusive lock
@@ -392,6 +396,8 @@ class Table:
             self.lock_manager.exclusive_locks[baseID]['writerID'] = 0
             record_lock.release()
             latch.release()
+            return True
+
 
     """
     # Given list of baseIDs, retrieves corresponding latest RIDs

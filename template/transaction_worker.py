@@ -33,4 +33,5 @@ class TransactionWorker:
             # Each transaction returns True if committed or False if aborted
             self.stats.append(transaction.run())
         # Stores the number of transactions that committed
+        print("STATS: ", self.stats)
         self.result = len(list(filter(lambda x: x, self.stats)))

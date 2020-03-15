@@ -22,7 +22,7 @@ class Query:
     # Return False if record doesn't exist or is locked due to 2PL
     """
     def delete(self, key):
-        self.table.delete_record(key)
+        self.table.delete_record(key) # TODO need to return False or True
         pass
 
 
@@ -66,10 +66,13 @@ class Query:
         schema_encoding = list(map(lambda i: int(not(i is None)), columns))
         # Create a new Record instance
         assert key is not None
-        record = Record(rid=self.table.TID_counter, key=key, columns=columns) 
+        record = Record(rid=self.table.TID_counter, key=key, columns=columns) # FIXME
         # Write tail record to tail page
-        self.table.insert_tailRecord(record, schema_encoding)
-        self.table.TID_counter -= 1
+        update_result = self.table.insert_tailRecord(record, schema_encoding)
+        if update_result:
+            self.table.TID_counter -= 1 # FIXME: Data races can happen here?
+        else: # False
+            return False
 
 
     """
@@ -100,7 +103,6 @@ class Query:
             updated_columns = [None] * self.table.num_columns
             updated_columns[column] = r.columns[column] + 1 # r[column] + 1 # where is __getitem__???
             # TODO: NEED TO RENAME TABLE.KEY_INDEX TO TABLE.KEY 
-            # SHOULD NOT MESS WITH TESTER :     
             u = self.update(key, *updated_columns)
-            return u
+            return u 
         return False
