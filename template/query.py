@@ -77,7 +77,6 @@ class Query:
         return self.table.insert_tailRecord(record, schema_encoding)
 
 
-
     """
     :param start_range: int         # Start of the key range to aggregate 
     :param end_range: int           # Increment start_range by 1 until end_range
