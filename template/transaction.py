@@ -43,12 +43,13 @@ class Transaction:
             """
             #else:
             #    #print('Pass\n') # This is not an official tester!
-        print("Transaction commited!")
+        #print("Transaction commited!")
         return self.commit() # Commit iff all queries within Transaction succeed
 
 
     def abort(self):
         #TODO: do roll-back and any other necessary operations
+        print("abort from transaction class")
         return False
 
 
