@@ -10,6 +10,7 @@ from template.transaction_worker import TransactionWorker
 
 import threading
 from random import choice, randint, sample, seed
+from time import process_time
 
 db = Database()
 db.open('~/ECS165') 
@@ -21,7 +22,7 @@ num_threads = 8
 seed(8739878934)
 
 # Generate random records
-for i in range(0, 30): # Changed from 100 Base Records to 10: Force duplicate readers
+for i in range(0, 50): # Changed from 100 Base Records to 10: Force duplicate readers
     key = 92106429 + i
     keys.append(key)
     records[key] = [key, randint(0,20), randint(0,20), randint(0,20), randint(0,20)] # Init with random col values
@@ -47,7 +48,7 @@ threads = []
 for transaction_worker in transaction_workers:
     threads.append(threading.Thread(target = transaction_worker.run, args = ()))
 
-
+start = process_time()
 for i, thread in enumerate(threads):
     print('Thread', i, 'started.')
     thread.start()
@@ -56,7 +57,9 @@ for i, thread in enumerate(threads):
 for i, thread in enumerate(threads):
     thread.join()
     print('Thread', i, 'finished')
+end = process_time()
 
+print("Reading 1k random records took ", end - start)
 
 num_committed_transactions = sum(t.result for t in transaction_workers)
 print(num_committed_transactions, 'transaction committed.')
@@ -73,5 +76,12 @@ else:
 """
 # Modified above because we're only testing concurrent reads (no writing, no aborts are possible)
 
-print("Sum should be zero:", sum(list(grades_table.lock_manager.shared_locks.values())))
-print("Entire current locks dictionary:", grades_table.lock_manager.shared_locks)
+#print("Sum should be zero:", sum(list(grades_table.lock_manager.shared_locks.values())))
+#print("Entire current locks dictionary:", grades_table.lock_manager.shared_locks)
+
+# Assuming that shared_locks defined as defaultdict(set)
+remaining_readers = 0
+for threadID_set in list(grades_table.lock_manager.shared_locks.values()):
+    remaining_readers += len(threadID_set)
+print("Sum should be zero:", remaining_readers)
+

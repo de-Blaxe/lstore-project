@@ -35,12 +35,15 @@ class Transaction:
             # If the query has failed the transaction should abort
             if result == False:
                 return self.abort()
+            """
             # This condition is tailored to txn_reads_only.py (selecting by primary key --> list of one record returned)
             if result[0].columns != self.expected_results[count]:
                 print("Select error. Query returned: ", result[0].columns, " but Expected: ", self.expected_results[count], "\n")
                 #return
-            else:
-                print('Pass\n')
+            """
+            #else:
+            #    #print('Pass\n') # This is not an official tester!
+        print("Transaction commited!")
         return self.commit() # Commit iff all queries within Transaction succeed
 
 
@@ -52,10 +55,3 @@ class Transaction:
     def commit(self):
         # TODO: LATER commit to database
         return True
-
-"""
-Txn Worker -> Thread
-txns = [Txn1, Txn2, Txn3, ...] Txn 2 fails -> move onto next Txn (Txn3 onwards)???
-
-# Actually don't think so bc of template code (run() returns early if result == False)
-"""

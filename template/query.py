@@ -94,10 +94,13 @@ class Query:
     # Returns False if no record matches key or if target record is locked by 2PL.
     """
     def increment(self, key, column):
-        r = self.select(key, self.table.key, [1] * self.table.num_columns)[0]
+        # originally, r = self.select(key, self.table.key, [1] * self.table.num_columns)[0]
+        r = self.select(key, self.table.key_index, [1] * self.table.num_columns)[0]
         if r is not False:
             updated_columns = [None] * self.table.num_columns
-            updated_columns[column] = r[column] + 1
+            updated_columns[column] = r.columns[column] + 1 # r[column] + 1 # where is __getitem__???
+            # TODO: NEED TO RENAME TABLE.KEY_INDEX TO TABLE.KEY 
+            # SHOULD NOT MESS WITH TESTER :     
             u = self.update(key, *updated_columns)
             return u
         return False
