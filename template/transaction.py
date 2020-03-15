@@ -77,8 +77,8 @@ class Transaction:
                 # item is a base_id therefore it is a shared lock
                 table.lock_manager.shared_locks[item].discard(curr_threadID)
             else:
-                item['RLock'].release()
+                item['Lock'].release()
                 item['writerID'] = 0
-        table.lock_manager.threadID_to_locks[curr_threadID] = []
+        table.lock_manager.threadID_to_locks[curr_threadID] = list()
         latch.release()
         return
