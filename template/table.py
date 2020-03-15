@@ -196,12 +196,7 @@ class Table:
                 print("Returning False from get_exclusive_lock() bc at least one reader or one writer")
                 latch.release()
                 return False # Returns False
-                """
-                # What is actually happening
-                self.rollback_txn()
-                latch.release()
-                return False
-                """
+
         except KeyError: # Dictionary entry DNE for baseID
             #if num_readers == 0: # CHANGED
             if num_readers == 0 or (num_readers == 1 and curr_threadID in self.lock_manager.shared_locks[baseID]):
@@ -211,12 +206,6 @@ class Table:
                 print("Returning False from get_exclusive_lock(). At least one reader that is not current thread")
                 latch.release()
                 return False # Returns False
-                """
-                # What is actually happening
-                self.rollback_txn()
-                latch.release()
-                return False
-                """
 
         # If all tests passed, acquire and return the Exclusive Lock
         record_lock = self.lock_manager.exclusive_locks[baseID]['RLock']
@@ -226,19 +215,6 @@ class Table:
         latch.release() # No longer modifying LockManager
         return True # Allow insert_tail_record() to release it later
 
-        """
-            Thread A reads baseId=4 [paused, pending]
-            Thread B write baseID=4 // upgrade to exclusive
-            Thread A write baseId=4 // can't happen, Thread A must resume reading before performing next query (a write/other read)
-        """
-
-        """
-            Thread A writes to baseID=4 [paused, pending] --> in progress of inserting TID=888888
-            Thread B .....
-            Thread A NEW writes to baseID=4 // can't happen must resume first write --> wants to insert TID=8888887
-            
-        """
-        
         
     """
     # Rollback chanages made by to-be-aborted Txn

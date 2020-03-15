@@ -274,6 +274,55 @@ Thread A finished incrementing RID=715
 Thread A finished incrementing RID=715
 
 Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
+commit from transaction class
+Thread A finished incrementing RID=791
+
+Thread A finished incrementing RID=791
+
+Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread A finished incrementing RID=792
+
+Thread A finished incrementing RID=792
+
+Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread A finished incrementing RID=793
+
+Thread A finished incrementing RID=793
+
+Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread A finished incrementing RID=794
+
+Thread A finished incrementing RID=794
+
+Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread A finished incrementing RID=795
+
+Thread A finished incrementing RID=795
+
+Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
+commit from transaction class
+Thread A finished incrementing RID=521
+
+Thread A finished incrementing RID=521
+
+Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread A finished incrementing RID=522
+
+Thread A finished incrementing RID=522
+
+Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread A finished incrementing RID=523
+
+Thread A finished incrementing RID=523
+
+Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread A finished incrementing RID=524
+
+Thread A finished incrementing RID=524
+
+Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread A finished incrementing RID=525
+
 Thread B finished incrementing RID=622
 
 Thread B finished incrementing RID=622
@@ -534,676 +583,657 @@ Thread B finished incrementing RID=76
 Thread B finished incrementing RID=76
 
 Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
-commit from transaction class
-Thread F finished incrementing RID=732
-
-Thread D finished incrementing RID=782
+Thread C finished incrementing RID=72
 
 Thread E finished incrementing RID=992
 
-Thread A finished incrementing RID=791
+Thread A finished incrementing RID=525
 
-Thread G finished incrementing RID=287
+Thread D finished incrementing RID=782
 
-Thread A finished incrementing RID=791
-
-Thread C finished incrementing RID=72
-
-Thread H finished incrementing RID=482
+Thread F finished incrementing RID=732
 
 Thread B finished incrementing RID=77
 
-Thread E finished incrementing RID=992
-
 Thread F finished incrementing RID=732
 
-Thread G finished incrementing RID=287
-
-Thread C finished incrementing RID=72
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=782
+Thread B finished incrementing RID=77
 
 Thread H finished incrementing RID=482
+
+Thread D finished incrementing RID=782
+
+Thread G finished incrementing RID=287
 
 Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread B finished incrementing RID=77
+Thread E finished incrementing RID=992
 
-Thread G finished incrementing RID=288
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=72
 
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread A finished incrementing RID=792
+Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
+commit from transaction class
+Thread A finished incrementing RID=116
+
+Thread G finished incrementing RID=287
 
 Thread F finished incrementing RID=733
 
 Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E finished incrementing RID=993
+Thread H finished incrementing RID=482
 
-Thread C finished incrementing RID=73
+Thread B finished incrementing RID=78
 
-Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=288
-
-Thread A finished incrementing RID=792
-
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread D finished incrementing RID=783
 
-Thread H finished incrementing RID=483
+Thread A finished incrementing RID=116
+
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=993
 
 Thread F finished incrementing RID=733
 
-Thread B finished incrementing RID=78
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E finished incrementing RID=993
-
 Thread C finished incrementing RID=73
 
-Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=289
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread B finished incrementing RID=78
+
+Thread G finished incrementing RID=288
 
 Thread D finished incrementing RID=783
 
+Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread H finished incrementing RID=483
 
-Thread B finished incrementing RID=78
+Thread E finished incrementing RID=993
 
 Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread A finished incrementing RID=793
+Thread C finished incrementing RID=73
 
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=734
+
+Thread A finished incrementing RID=117
+
+Thread G finished incrementing RID=288
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=483
+
+Thread B finished incrementing RID=79
+
 Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=734
+
+Thread D finished incrementing RID=784
+
+Thread A finished incrementing RID=117
+
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=994
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread B finished incrementing RID=79
+
+Thread C finished incrementing RID=74
+
+Thread G finished incrementing RID=289
+
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D finished incrementing RID=784
+
+Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=484
+
+Thread E finished incrementing RID=994
+
+Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=74
+
+Thread F finished incrementing RID=735
+
+Thread A finished incrementing RID=118
+
 Thread G finished incrementing RID=289
 
 Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F finished incrementing RID=734
-
-Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=74
-
-Thread E finished incrementing RID=994
-
-Thread A finished incrementing RID=793
-
-Thread D finished incrementing RID=784
-
 Thread H finished incrementing RID=484
 
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread B finished incrementing RID=79
+Thread B finished incrementing RID=80
 
-Thread F finished incrementing RID=734
-
-Thread C finished incrementing RID=74
-
-Thread G finished incrementing RID=290
-
-Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E finished incrementing RID=994
-
-Thread D finished incrementing RID=784
-
-Thread H finished incrementing RID=484
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread B finished incrementing RID=79
-
-Thread A finished incrementing RID=794
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=290
-
-Thread C finished incrementing RID=75
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread F finished incrementing RID=735
 
-Thread A finished incrementing RID=794
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread D finished incrementing RID=785
 
-Thread H finished incrementing RID=485
+Thread A finished incrementing RID=118
 
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=995
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread B finished incrementing RID=80
 
 Thread C finished incrementing RID=75
 
-Thread E finished incrementing RID=995
+Thread G finished incrementing RID=290
 
-Thread F finished incrementing RID=735
-
-commit from transaction class
-Thread G finished incrementing RID=521
-
-Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread D finished incrementing RID=785
 
+Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread H finished incrementing RID=485
 
-Thread B finished incrementing RID=80
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread E finished incrementing RID=995
 
-Thread A finished incrementing RID=795
+Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=75
 
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+commit from transaction class
+Thread F finished incrementing RID=626
+
+Thread A finished incrementing RID=119
+
+Thread G finished incrementing RID=290
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=485
+
+commit from transaction class
+Thread B finished incrementing RID=501
+
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=626
+
+commit from transaction class
+Thread D finished incrementing RID=816
+
+Thread A finished incrementing RID=119
+
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+commit from transaction class
+Thread E finished incrementing RID=296
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread B finished incrementing RID=501
+
+commit from transaction class
+Thread C finished incrementing RID=966
+
+commit from transaction class
 Thread G finished incrementing RID=521
 
-commit from transaction class
-Thread C finished incrementing RID=966
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-commit from transaction class
-Thread F finished incrementing RID=626
-
-Thread A finished incrementing RID=795
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-commit from transaction class
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread D finished incrementing RID=816
-
-commit from transaction class
-Thread H finished incrementing RID=906
-
-commit from transaction class
-Thread B finished incrementing RID=501
-
-Thread C finished incrementing RID=966
-
-commit from transaction class
-Thread E finished incrementing RID=296
-
-Thread F finished incrementing RID=626
-
-Thread G finished incrementing RID=522
 
 Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=816
-
+commit from transaction class
 Thread H finished incrementing RID=906
 
-Thread B finished incrementing RID=501
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread E finished incrementing RID=296
 
-commit from transaction class
-Thread A finished incrementing RID=521
+Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=521
 
-Thread G finished incrementing RID=522
+Thread C finished incrementing RID=966
 
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=967
+Thread F finished incrementing RID=627
 
-Thread A finished incrementing RID=521
+Thread A finished incrementing RID=120
 
 Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=907
+Thread H finished incrementing RID=906
 
 Thread B finished incrementing RID=502
-
-Thread F finished incrementing RID=627
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=817
 
 Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=967
-
-Thread H finished incrementing RID=907
-
-Thread A finished incrementing RID=521
-
-Thread B finished incrementing RID=502
-
-Thread G finished incrementing RID=523
-
-Thread A finished incrementing RID=521
-
-Thread D finished incrementing RID=817
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=521
 
 Thread F finished incrementing RID=627
 
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D finished incrementing RID=817
+
+Thread A finished incrementing RID=120
+
 Thread E finished incrementing RID=297
 
 Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread B finished incrementing RID=502
+
+Thread G finished incrementing RID=521
+
+Thread C finished incrementing RID=967
+
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D finished incrementing RID=817
+
+Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=907
+
+Thread E finished incrementing RID=297
+
 Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=523
+Thread C finished incrementing RID=967
+
+Returning False from get_exclusive_lock() bc at least one reader or one writer
+abort from transaction class
+Thread G MUST ABORT
+Returning False from rollback_txn()
+Thread G finished incrementing RID=876
+
+Thread F finished incrementing RID=628
+
+commit from transaction class
+Thread A finished incrementing RID=791
 
 Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=907
+
+Thread B finished incrementing RID=503
+
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread A finished incrementing RID=791
+
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=876
+
+Thread F finished incrementing RID=628
+
+Thread D finished incrementing RID=818
+
+Thread E finished incrementing RID=298
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread B finished incrementing RID=503
+
 Thread C finished incrementing RID=968
 
+Thread A finished incrementing RID=791
+
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D finished incrementing RID=818
+
+Thread H finished incrementing RID=908
+
+Thread E finished incrementing RID=298
+
+Thread A finished incrementing RID=791
+
+Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=968
+
+Thread G finished incrementing RID=877
+
+Thread F finished incrementing RID=629
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=908
+
+Thread B finished incrementing RID=504
+
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
 Returning False from get_exclusive_lock() bc at least one reader or one writer
 abort from transaction class
 Thread A MUST ABORT
 Returning False from rollback_txn()
-Thread A finished incrementing RID=116
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E finished incrementing RID=297
-
-Thread H finished incrementing RID=908
-
-Thread B finished incrementing RID=503
-
-Thread D finished incrementing RID=818
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F finished incrementing RID=628
-
-Thread C finished incrementing RID=968
-
-Thread A finished incrementing RID=116
-
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=908
-
-Thread B finished incrementing RID=503
-
-Thread G finished incrementing RID=524
-
-Thread D finished incrementing RID=818
-
-Thread F finished incrementing RID=628
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E finished incrementing RID=298
-
-Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=524
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=969
-
-Thread A finished incrementing RID=117
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E finished incrementing RID=298
-
-Thread H finished incrementing RID=909
-
-Thread B finished incrementing RID=504
-
-Thread D finished incrementing RID=819
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F finished incrementing RID=629
-
-Thread C finished incrementing RID=969
-
-Thread A finished incrementing RID=117
-
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=909
-
-Thread B finished incrementing RID=504
-
-Thread G finished incrementing RID=525
-
-Thread D finished incrementing RID=819
+STATS:  [True, True, True, True, True, True, True, True, True, True, True, True, False]
+Thread 0 finished
+Thread G finished incrementing RID=877
 
 Thread F finished incrementing RID=629
 
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D finished incrementing RID=819
+
 Thread E finished incrementing RID=299
 
-Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=525
+Thread B finished incrementing RID=504
 
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=970
-
-Thread A finished incrementing RID=118
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E finished incrementing RID=299
-
-Thread H finished incrementing RID=910
-
-Thread B finished incrementing RID=505
-
-Thread D finished incrementing RID=820
+Thread C finished incrementing RID=969
 
 Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D finished incrementing RID=819
+
+Thread H finished incrementing RID=909
+
+Thread E finished incrementing RID=299
+
+Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=969
+
+Thread G finished incrementing RID=878
+
 Thread F finished incrementing RID=630
 
-Thread C finished incrementing RID=970
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=909
 
-Thread A finished incrementing RID=118
+Thread B finished incrementing RID=505
 
 Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=910
-
-Thread B finished incrementing RID=505
-
-commit from transaction class
-Thread G finished incrementing RID=876
-
-Thread D finished incrementing RID=820
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=878
 
 Thread F finished incrementing RID=630
 
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D finished incrementing RID=820
+
 Thread E finished incrementing RID=300
 
-Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=876
+Thread B finished incrementing RID=505
 
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-commit from transaction class
-Thread C finished incrementing RID=151
-
-Thread A finished incrementing RID=119
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E finished incrementing RID=300
-
-commit from transaction class
-Thread H finished incrementing RID=971
-
-commit from transaction class
-Thread B finished incrementing RID=116
-
-commit from transaction class
-Thread D finished incrementing RID=736
+Thread C finished incrementing RID=970
 
 Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=971
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D finished incrementing RID=820
 
-Thread B finished incrementing RID=116
+Thread H finished incrementing RID=910
+
+Thread E finished incrementing RID=300
+
+Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=970
+
+Thread G finished incrementing RID=879
 
 commit from transaction class
 Thread F finished incrementing RID=281
 
-Thread C finished incrementing RID=151
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=910
 
-Thread A finished incrementing RID=119
+commit from transaction class
+Thread B finished incrementing RID=116
 
 Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=877
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread B finished incrementing RID=116
 
-Thread D finished incrementing RID=736
+Thread G finished incrementing RID=879
 
 Thread F finished incrementing RID=281
 
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+commit from transaction class
+Thread D finished incrementing RID=736
+
 commit from transaction class
 Thread E finished incrementing RID=141
 
-Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+commit from transaction class
+Thread C finished incrementing RID=151
+
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D finished incrementing RID=736
+
+commit from transaction class
 Thread H finished incrementing RID=971
 
 Thread B finished incrementing RID=116
 
-Thread G finished incrementing RID=877
+Thread E finished incrementing RID=141
+
+Thread C finished incrementing RID=151
+
+Thread H finished incrementing RID=971
+
+Thread B finished incrementing RID=116
+
+Thread G finished incrementing RID=880
+
+Thread F finished incrementing RID=282
 
 Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=971
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=880
 
-Thread B finished incrementing RID=116
-
-Thread C finished incrementing RID=152
-
-Thread A finished incrementing RID=120
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E finished incrementing RID=141
+Thread F finished incrementing RID=282
 
 Thread D finished incrementing RID=737
 
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F finished incrementing RID=282
-
-Thread C finished incrementing RID=152
-
-Thread A finished incrementing RID=120
-
-Returning False from get_exclusive_lock() bc at least one reader or one writer
-abort from transaction class
-Thread H MUST ABORT
-Returning False from rollback_txn()
-Thread H finished incrementing RID=746
+Thread H finished incrementing RID=971
 
 Returning False from get_exclusive_lock() bc at least one reader or one writer
 abort from transaction class
 Thread B MUST ABORT
 Returning False from rollback_txn()
 STATS:  [True, True, True, True, True, True, True, True, True, True, True, True, False]
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=878
+Thread 1 finished
+Thread E finished incrementing RID=142
 
+Thread C finished incrementing RID=152
+
+Thread H finished incrementing RID=971
+
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread D finished incrementing RID=737
 
 Thread E finished incrementing RID=142
 
-Thread F finished incrementing RID=282
+Thread C finished incrementing RID=152
 
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=746
-
-Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=878
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=153
-
-Thread E finished incrementing RID=142
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
 commit from transaction class
-Thread A finished incrementing RID=791
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=738
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread A finished incrementing RID=992
+Thread G finished incrementing RID=486
 
 Thread F finished incrementing RID=283
-
-Thread C finished incrementing RID=153
-
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=747
-
-Thread G finished incrementing RID=879
-
-Thread D finished incrementing RID=738
-
-Thread E finished incrementing RID=143
-
-Thread F finished incrementing RID=283
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread A finished incrementing RID=791
-
-Thread H finished incrementing RID=747
-
-Thread G finished incrementing RID=879
-
-Thread A finished incrementing RID=992
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=154
-
-Thread E finished incrementing RID=143
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=739
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F finished incrementing RID=284
-
-Thread C finished incrementing RID=154
 
 Returning False from get_exclusive_lock() bc at least one reader or one writer
 abort from transaction class
-Thread A MUST ABORT
+Thread H MUST ABORT
 Returning False from rollback_txn()
-STATS:  [True, True, True, True, True, True, True, True, True, True, False, True, False]
+Thread H finished incrementing RID=746
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread 0 finished
-Thread 1 finished
-Thread H finished incrementing RID=748
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=486
 
-Thread G finished incrementing RID=880
+Thread F finished incrementing RID=283
 
-Thread D finished incrementing RID=739
+Thread D finished incrementing RID=738
 
-Thread E finished incrementing RID=144
+Thread H finished incrementing RID=746
+
+Thread E finished incrementing RID=143
+
+Thread C finished incrementing RID=153
+
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D finished incrementing RID=738
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=143
+
+Thread G finished incrementing RID=487
+
+Thread C finished incrementing RID=153
 
 Thread F finished incrementing RID=284
 
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=748
-
-Thread G finished incrementing RID=880
+Thread H finished incrementing RID=747
 
 Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=155
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=487
+
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=284
+
+Thread D finished incrementing RID=739
+
+Thread H finished incrementing RID=747
 
 Thread E finished incrementing RID=144
 
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=740
+Thread C finished incrementing RID=154
 
 Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D finished incrementing RID=739
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=144
+
+Thread G finished incrementing RID=488
+
+Thread C finished incrementing RID=154
+
 Thread F finished incrementing RID=285
+
+Thread H finished incrementing RID=748
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=488
+
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=285
+
+Thread D finished incrementing RID=740
+
+Thread H finished incrementing RID=748
+
+Thread E finished incrementing RID=145
 
 Thread C finished incrementing RID=155
 
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=749
-
-commit from transaction class
-Thread G finished incrementing RID=486
-
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread D finished incrementing RID=740
 
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread E finished incrementing RID=145
 
-Thread F finished incrementing RID=285
+Thread C finished incrementing RID=155
 
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=489
+
+commit from transaction class
+Thread F finished incrementing RID=806
+
 Thread H finished incrementing RID=749
 
-Thread G finished incrementing RID=486
-
 Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-commit from transaction class
-Thread C finished incrementing RID=396
-
-Thread E finished incrementing RID=145
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-commit from transaction class
-Thread D finished incrementing RID=871
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-commit from transaction class
-Thread F finished incrementing RID=806
-
-Thread C finished incrementing RID=396
-
 Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=750
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=489
 
-Thread G finished incrementing RID=487
+Thread F finished incrementing RID=806
 
+commit from transaction class
 Thread D finished incrementing RID=871
+
+Thread H finished incrementing RID=749
 
 commit from transaction class
 Thread E finished incrementing RID=746
 
-Thread F finished incrementing RID=806
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=750
-
-Thread E finished incrementing RID=746
-
-Thread G finished incrementing RID=487
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=397
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=872
+commit from transaction class
+Thread C finished incrementing RID=396
 
 Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread E finished incrementing RID=746
 
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D finished incrementing RID=871
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=396
+
+Thread G finished incrementing RID=490
+
 Thread F finished incrementing RID=807
 
-Thread C finished incrementing RID=397
+Thread H finished incrementing RID=750
 
-commit from transaction class
-Thread H finished incrementing RID=396
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=746
 
-Thread G finished incrementing RID=488
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=490
 
 Thread E finished incrementing RID=746
 
-Thread D finished incrementing RID=872
-
-Thread H finished incrementing RID=396
-
 Thread F finished incrementing RID=807
 
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=488
+Thread D finished incrementing RID=872
 
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=398
+Thread H finished incrementing RID=750
 
+Thread C finished incrementing RID=397
+
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D finished incrementing RID=872
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
 Returning False from get_exclusive_lock() bc at least one reader or one writer
 abort from transaction class
 Thread E MUST ABORT
 Returning False from rollback_txn()
 Thread E finished incrementing RID=361
 
-Thread H finished incrementing RID=396
+Thread C finished incrementing RID=397
 
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=873
-
-Thread H finished incrementing RID=396
+commit from transaction class
+Thread G finished incrementing RID=516
 
 Thread F finished incrementing RID=808
 
-Thread C finished incrementing RID=398
+commit from transaction class
+Thread H finished incrementing RID=396
 
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread E finished incrementing RID=361
 
-Thread G finished incrementing RID=489
+Thread H finished incrementing RID=396
+
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=516
+
+Thread F finished incrementing RID=808
 
 Thread D finished incrementing RID=873
+
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=398
+
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=396
+
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D finished incrementing RID=873
+
+Thread E finished incrementing RID=362
+
+Thread H finished incrementing RID=396
+
+Thread C finished incrementing RID=398
+
+Thread G finished incrementing RID=517
+
+Thread F finished incrementing RID=809
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=362
+
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=517
 
 Returning False from get_exclusive_lock() bc at least one reader or one writer
 abort from transaction class
@@ -1211,282 +1241,265 @@ Thread H MUST ABORT
 Returning False from rollback_txn()
 Thread H finished incrementing RID=601
 
-Thread F finished incrementing RID=808
+Thread F finished incrementing RID=809
 
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D finished incrementing RID=874
+
 Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=489
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread C finished incrementing RID=399
 
-Thread E finished incrementing RID=362
-
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread H finished incrementing RID=601
 
 Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread D finished incrementing RID=874
 
-Thread F finished incrementing RID=809
+Thread E finished incrementing RID=363
 
 Thread C finished incrementing RID=399
 
-Thread E finished incrementing RID=362
+Thread G finished incrementing RID=518
 
 Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=490
-
-Thread D finished incrementing RID=874
-
-Thread H finished incrementing RID=602
-
-Thread F finished incrementing RID=809
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=490
+Thread F finished incrementing RID=810
 
 Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=400
-
 Thread E finished incrementing RID=363
+
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=518
 
 Thread H finished incrementing RID=602
 
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread D finished incrementing RID=875
 
 Thread F finished incrementing RID=810
 
 Thread C finished incrementing RID=400
 
-Thread E finished incrementing RID=363
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=602
 
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-commit from transaction class
-Thread G finished incrementing RID=516
-
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread D finished incrementing RID=875
 
-Thread H finished incrementing RID=603
-
-Thread F finished incrementing RID=810
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=516
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-commit from transaction class
-Thread C finished incrementing RID=226
-
 Thread E finished incrementing RID=364
 
-Thread H finished incrementing RID=603
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-commit from transaction class
-Thread D finished incrementing RID=651
+Thread C finished incrementing RID=400
 
 commit from transaction class
 Thread F finished incrementing RID=596
 
-Thread C finished incrementing RID=226
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=519
 
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread E finished incrementing RID=364
 
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=517
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=596
+
+Thread H finished incrementing RID=603
+
+commit from transaction class
+Thread D finished incrementing RID=651
+
+commit from transaction class
+Thread C finished incrementing RID=226
+
+Thread G finished incrementing RID=519
+
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=603
+
+Thread E finished incrementing RID=365
 
 Thread D finished incrementing RID=651
 
-Thread H finished incrementing RID=604
-
-Thread F finished incrementing RID=596
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=517
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=227
-
-Thread E finished incrementing RID=365
-
-Thread H finished incrementing RID=604
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=652
+Thread C finished incrementing RID=226
 
 Thread F finished incrementing RID=597
 
-Thread C finished incrementing RID=227
-
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread E finished incrementing RID=365
 
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=518
-
-Thread D finished incrementing RID=652
-
-Thread H finished incrementing RID=605
-
-Thread F finished incrementing RID=597
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=518
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=228
-
-commit from transaction class
-Thread E finished incrementing RID=51
-
-Thread H finished incrementing RID=605
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=653
-
-Thread F finished incrementing RID=598
-
-Thread C finished incrementing RID=228
-
-Thread E finished incrementing RID=51
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=519
-
-Thread D finished incrementing RID=653
-
-commit from transaction class
-Thread H finished incrementing RID=186
-
-Thread F finished incrementing RID=598
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=519
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=229
-
-Thread E finished incrementing RID=52
-
-Thread H finished incrementing RID=186
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=654
-
-Thread F finished incrementing RID=599
-
-Thread C finished incrementing RID=229
-
-Thread E finished incrementing RID=52
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread G finished incrementing RID=520
 
-Thread D finished incrementing RID=654
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=604
 
-Thread H finished incrementing RID=187
+Thread F finished incrementing RID=597
 
-Thread F finished incrementing RID=599
+Thread D finished incrementing RID=652
 
 Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread G finished incrementing RID=520
 
+Thread H finished incrementing RID=604
+
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=227
+
+Thread D finished incrementing RID=652
+
+commit from transaction class
+Thread E finished incrementing RID=51
+
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=598
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=227
+
 Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=230
+Thread E finished incrementing RID=51
+
+commit from transaction class
+Thread G finished incrementing RID=826
+
+Thread H finished incrementing RID=605
+
+Thread F finished incrementing RID=598
+
+Thread D finished incrementing RID=653
+
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=826
+
+Thread H finished incrementing RID=605
+
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=228
+
+Thread D finished incrementing RID=653
+
+Thread E finished incrementing RID=52
+
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=599
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=228
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=52
+
+Thread G finished incrementing RID=827
+
+commit from transaction class
+Thread H finished incrementing RID=186
+
+Thread F finished incrementing RID=599
+
+Thread D finished incrementing RID=654
+
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=827
+
+Thread H finished incrementing RID=186
+
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=229
+
+Thread D finished incrementing RID=654
 
 Thread E finished incrementing RID=53
+
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=600
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=229
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=53
+
+Thread G finished incrementing RID=828
+
+Thread H finished incrementing RID=187
+
+Thread F finished incrementing RID=600
+
+Thread D finished incrementing RID=655
+
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=828
 
 Thread H finished incrementing RID=187
 
 Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=655
-
-Thread F finished incrementing RID=600
-
 Thread C finished incrementing RID=230
 
-Thread E finished incrementing RID=53
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-commit from transaction class
-Thread G finished incrementing RID=826
-
 Thread D finished incrementing RID=655
 
-Thread H finished incrementing RID=188
-
-Thread F finished incrementing RID=600
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=826
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-commit from transaction class
-Thread C finished incrementing RID=556
-
 Thread E finished incrementing RID=54
 
-Thread H finished incrementing RID=188
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
 commit from transaction class
-Thread D finished incrementing RID=991
-
-commit from transaction class
 Thread F finished incrementing RID=616
-
-Thread C finished incrementing RID=556
-
-Thread E finished incrementing RID=54
-
-Thread D finished incrementing RID=991
 
 Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=827
+Thread C finished incrementing RID=230
 
-Thread H finished incrementing RID=189
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=54
+
+Thread G finished incrementing RID=829
+
+Thread H finished incrementing RID=188
 
 Thread F finished incrementing RID=616
 
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=827
-
+commit from transaction class
 Thread D finished incrementing RID=991
 
-Thread C finished incrementing RID=557
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=829
+
+Thread D finished incrementing RID=991
 
 Thread E finished incrementing RID=55
 
-Thread D finished incrementing RID=991
-
-Thread H finished incrementing RID=189
+Thread H finished incrementing RID=188
 
 Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+commit from transaction class
+Thread C finished incrementing RID=556
+
+Thread E finished incrementing RID=55
+
 Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread F finished incrementing RID=617
 
-Thread C finished incrementing RID=557
+Thread D finished incrementing RID=991
 
-Thread E finished incrementing RID=55
+Thread C finished incrementing RID=556
 
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=828
+Thread G finished incrementing RID=830
+
+Thread D finished incrementing RID=991
+
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=189
+
+Thread F finished incrementing RID=617
+
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+commit from transaction class
+Thread E finished incrementing RID=731
+
+Thread G finished incrementing RID=830
+
+Thread H finished incrementing RID=189
 
 Returning False from get_exclusive_lock() bc at least one reader or one writer
 abort from transaction class
@@ -1494,84 +1507,99 @@ Thread D MUST ABORT
 Returning False from rollback_txn()
 Thread D finished incrementing RID=506
 
-Thread H finished incrementing RID=190
+Thread E finished incrementing RID=731
 
-Thread F finished incrementing RID=617
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=557
 
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=828
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=618
 
 Thread D finished incrementing RID=506
 
-Thread C finished incrementing RID=558
+Thread C finished incrementing RID=557
+
+Thread E finished incrementing RID=731
 
 commit from transaction class
-Thread E finished incrementing RID=731
+Thread G finished incrementing RID=576
 
 Thread H finished incrementing RID=190
 
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread E finished incrementing RID=731
 
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread F finished incrementing RID=618
 
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=576
+
+Thread H finished incrementing RID=190
+
+Thread D finished incrementing RID=507
+
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread C finished incrementing RID=558
 
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=829
-
-Thread D finished incrementing RID=507
-
-Thread E finished incrementing RID=731
-
-commit from transaction class
-Thread H finished incrementing RID=11
-
-Thread F finished incrementing RID=618
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E finished incrementing RID=731
-
-Thread G finished incrementing RID=829
-
-Thread D finished incrementing RID=507
-
-Thread H finished incrementing RID=12
-
-Thread C finished incrementing RID=559
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
 Returning False from get_exclusive_lock() bc at least one reader or one writer
 abort from transaction class
 Thread E MUST ABORT
 Returning False from rollback_txn()
 Thread E finished incrementing RID=526
 
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=619
+
+Thread D finished incrementing RID=507
+
+Thread C finished incrementing RID=558
+
+Thread E finished incrementing RID=526
+
+Thread G finished incrementing RID=577
+
+commit from transaction class
 Thread H finished incrementing RID=11
 
 Thread F finished incrementing RID=619
 
-Thread C finished incrementing RID=559
-
-Thread G finished incrementing RID=830
-
-Thread H finished incrementing RID=12
-
-Thread D finished incrementing RID=508
-
-Thread E finished incrementing RID=526
-
-Thread F finished incrementing RID=619
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=11
 
 Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=830
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=577
 
 Thread D finished incrementing RID=508
+
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=559
+
+Thread E finished incrementing RID=527
+
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=11
+
+Thread F finished incrementing RID=620
+
+Thread D finished incrementing RID=508
+
+Thread H finished incrementing RID=11
+
+Thread C finished incrementing RID=559
+
+Thread E finished incrementing RID=527
+
+Thread G finished incrementing RID=578
+
+Thread F finished incrementing RID=620
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=578
 
 Returning False from get_exclusive_lock() bc at least one reader or one writer
 abort from transaction class
@@ -1579,358 +1607,317 @@ Thread H MUST ABORT
 Returning False from rollback_txn()
 Thread H finished incrementing RID=671
 
+Thread D finished incrementing RID=509
+
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread C finished incrementing RID=560
 
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E finished incrementing RID=527
+Thread E finished incrementing RID=528
 
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread H finished incrementing RID=671
 
-Thread F finished incrementing RID=620
+commit from transaction class
+Thread F finished incrementing RID=921
+
+Thread D finished incrementing RID=509
 
 Thread C finished incrementing RID=560
 
-commit from transaction class
-Thread G finished incrementing RID=576
+Thread E finished incrementing RID=528
 
-Thread D finished incrementing RID=509
-
-Thread E finished incrementing RID=527
+Thread G finished incrementing RID=579
 
 Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F finished incrementing RID=620
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=576
-
-Thread D finished incrementing RID=509
-
-Thread H finished incrementing RID=672
-
-commit from transaction class
-Thread C finished incrementing RID=196
-
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=197
-
-Thread E finished incrementing RID=528
+Thread F finished incrementing RID=921
 
 Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=579
+
 Thread H finished incrementing RID=672
 
-commit from transaction class
-Thread F finished incrementing RID=921
-
-Thread G finished incrementing RID=577
-
 Thread D finished incrementing RID=510
+
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+commit from transaction class
+Thread C finished incrementing RID=196
+
+Thread E finished incrementing RID=529
+
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=672
 
 Thread C finished incrementing RID=196
 
-Thread E finished incrementing RID=528
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F finished incrementing RID=921
-
-Thread G finished incrementing RID=577
-
-Thread C finished incrementing RID=197
+Thread F finished incrementing RID=922
 
 Thread D finished incrementing RID=510
+
+Thread E finished incrementing RID=529
+
+Thread G finished incrementing RID=580
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=922
+
+Thread C finished incrementing RID=196
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=580
 
 Thread H finished incrementing RID=673
 
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=196
+
+commit from transaction class
+Thread D finished incrementing RID=746
+
+Thread E finished incrementing RID=530
+
 Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D finished incrementing RID=746
+
 Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=673
+
+Thread E finished incrementing RID=530
+
 Returning False from get_exclusive_lock() bc at least one reader or one writer
 abort from transaction class
 Thread C MUST ABORT
 Returning False from rollback_txn()
 Thread C finished incrementing RID=761
 
-Thread E finished incrementing RID=529
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=673
-
-Thread F finished incrementing RID=922
-
-Thread G finished incrementing RID=578
+Thread F finished incrementing RID=923
 
 commit from transaction class
+Thread G finished incrementing RID=566
+
 Thread D finished incrementing RID=746
 
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread C finished incrementing RID=761
 
-Thread E finished incrementing RID=529
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F finished incrementing RID=922
+Thread F finished incrementing RID=923
 
 Thread D finished incrementing RID=746
 
-Thread G finished incrementing RID=578
+Thread G finished incrementing RID=566
 
 Thread H finished incrementing RID=674
+
+commit from transaction class
+Thread E finished incrementing RID=246
 
 Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=746
-
-Thread C finished incrementing RID=762
-
-Thread E finished incrementing RID=530
-
-Thread H finished incrementing RID=674
-
-Thread F finished incrementing RID=923
-
-Thread D finished incrementing RID=746
-
-Thread G finished incrementing RID=579
-
-Thread C finished incrementing RID=762
-
-Thread E finished incrementing RID=530
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F finished incrementing RID=923
-
-Thread G finished incrementing RID=579
-
 Returning False from get_exclusive_lock() bc at least one reader or one writer
 abort from transaction class
 Thread D MUST ABORT
 Returning False from rollback_txn()
 Thread D finished incrementing RID=481
 
-Thread H finished incrementing RID=675
+Thread H finished incrementing RID=674
 
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=76
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=763
-
-commit from transaction class
 Thread E finished incrementing RID=246
-
-Thread H finished incrementing RID=675
 
 Thread F finished incrementing RID=924
 
-Thread G finished incrementing RID=580
+Thread C finished incrementing RID=762
+
+Thread G finished incrementing RID=567
+
+Thread D finished incrementing RID=286
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=924
+
+Thread G finished incrementing RID=567
+
+Thread C finished incrementing RID=762
+
+Thread E finished incrementing RID=247
 
 Thread D finished incrementing RID=481
 
-Thread C finished incrementing RID=763
+Thread H finished incrementing RID=675
 
-Thread E finished incrementing RID=246
+Thread D finished incrementing RID=286
 
-Thread D finished incrementing RID=76
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F finished incrementing RID=924
-
-Thread G finished incrementing RID=580
-
-commit from transaction class
-Thread H finished incrementing RID=351
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Returning False from get_exclusive_lock() bc at least one reader or one writer
-abort from transaction class
-Thread D MUST ABORT
-Returning False from rollback_txn()
-Thread D finished incrementing RID=381
-
 Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=764
-
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread E finished incrementing RID=247
 
-Thread H finished incrementing RID=351
+Thread H finished incrementing RID=675
 
 Thread F finished incrementing RID=925
-
-commit from transaction class
-Thread G finished incrementing RID=566
-
-Thread D finished incrementing RID=381
-
-Thread C finished incrementing RID=764
-
-Thread E finished incrementing RID=247
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F finished incrementing RID=925
-
-Thread G finished incrementing RID=566
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=352
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=382
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=765
-
-Thread E finished incrementing RID=248
-
-Thread H finished incrementing RID=352
-
-commit from transaction class
-Thread F finished incrementing RID=671
-
-Thread G finished incrementing RID=567
-
-Thread D finished incrementing RID=382
-
-Thread F finished incrementing RID=560
-
-Thread C finished incrementing RID=765
-
-Thread E finished incrementing RID=248
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=567
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=353
-
-Thread F finished incrementing RID=671
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=383
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F finished incrementing RID=560
-
-commit from transaction class
-Thread C finished incrementing RID=436
-
-Thread E finished incrementing RID=249
-
-Thread H finished incrementing RID=353
 
 Thread G finished incrementing RID=568
 
+Thread C finished incrementing RID=763
+
+Returning False from get_exclusive_lock() bc at least one reader or one writer
+abort from transaction class
+Thread D MUST ABORT
+Returning False from rollback_txn()
+Thread D finished incrementing RID=381
+
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=925
+
+Thread G finished incrementing RID=568
+
+Thread C finished incrementing RID=763
+
+Thread E finished incrementing RID=248
+
+Thread D finished incrementing RID=381
+
+commit from transaction class
+Thread H finished incrementing RID=351
+
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=248
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=351
+
+commit from transaction class
+Thread F finished incrementing RID=671
+
+Thread G finished incrementing RID=569
+
+Thread C finished incrementing RID=764
+
+Thread D finished incrementing RID=382
+
+Thread F finished incrementing RID=671
+
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=569
+
+Thread C finished incrementing RID=764
+
+Thread E finished incrementing RID=249
+
+Thread D finished incrementing RID=382
+
+Thread H finished incrementing RID=352
+
+Thread F finished incrementing RID=671
+
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=671
+
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=249
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=352
+
+Thread G finished incrementing RID=570
+
+Thread C finished incrementing RID=765
+
 Thread D finished incrementing RID=383
 
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
 Returning False from get_exclusive_lock() bc at least one reader or one writer
 abort from transaction class
 Thread F MUST ABORT
 Returning False from rollback_txn()
 Thread F finished incrementing RID=261
 
-Thread C finished incrementing RID=436
+Thread G finished incrementing RID=570
 
-Thread E finished incrementing RID=249
+Thread C finished incrementing RID=765
 
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=568
+Thread E finished incrementing RID=250
 
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=354
+Thread D finished incrementing RID=383
+
+Thread H finished incrementing RID=353
 
 Thread F finished incrementing RID=261
 
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=384
-
 Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=437
-
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread E finished incrementing RID=250
 
-Thread H finished incrementing RID=354
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=569
-
-Thread D finished incrementing RID=384
-
-Thread F finished incrementing RID=262
-
-Thread C finished incrementing RID=437
-
-Thread E finished incrementing RID=250
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=569
-
 Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=355
-
-Thread F finished incrementing RID=262
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=385
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=438
-
-commit from transaction class
-Thread E finished incrementing RID=596
-
-Thread H finished incrementing RID=355
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=570
-
-Thread E finished incrementing RID=596
-
-Thread D finished incrementing RID=385
-
-Thread F finished incrementing RID=263
-
-Thread C finished incrementing RID=438
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=570
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E finished incrementing RID=596
-
-commit from transaction class
-Thread H finished incrementing RID=821
-
-Thread F finished incrementing RID=263
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E finished incrementing RID=596
-
-commit from transaction class
-Thread D finished incrementing RID=201
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=439
-
-Thread H finished incrementing RID=821
+Thread H finished incrementing RID=353
 
 Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
 commit from transaction class
 Thread G finished incrementing RID=36
 
-Thread D finished incrementing RID=201
+commit from transaction class
+Thread C finished incrementing RID=436
+
+Thread D finished incrementing RID=384
+
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=262
+
+Thread G finished incrementing RID=36
+
+Thread C finished incrementing RID=436
+
+commit from transaction class
+Thread E finished incrementing RID=596
+
+Thread D finished incrementing RID=384
+
+Thread H finished incrementing RID=354
+
+Thread F finished incrementing RID=262
+
+Thread E finished incrementing RID=596
+
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=354
+
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=437
+
+Thread E finished incrementing RID=596
+
+Thread D finished incrementing RID=385
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=37
+
+Thread F finished incrementing RID=263
+
+Thread C finished incrementing RID=437
+
+Thread E finished incrementing RID=596
+
+Thread H finished incrementing RID=355
+
+Thread D finished incrementing RID=385
+
+Thread G finished incrementing RID=37
+
+Thread F finished incrementing RID=263
+
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=355
 
 Returning False from get_exclusive_lock() bc at least one reader or one writer
 abort from transaction class
@@ -1938,286 +1925,303 @@ Thread E MUST ABORT
 Returning False from rollback_txn()
 Thread E finished incrementing RID=96
 
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=438
+
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+commit from transaction class
+Thread D finished incrementing RID=201
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=38
+
+Thread E finished incrementing RID=96
+
 Thread F finished incrementing RID=264
+
+Thread C finished incrementing RID=438
+
+commit from transaction class
+Thread H finished incrementing RID=821
+
+Thread D finished incrementing RID=201
+
+Thread G finished incrementing RID=38
+
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=264
+
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=821
+
+Thread E finished incrementing RID=97
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=439
+
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread D finished incrementing RID=202
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=39
+
+Thread E finished incrementing RID=97
+
+Thread F finished incrementing RID=265
 
 Thread C finished incrementing RID=439
 
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=36
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E finished incrementing RID=96
-
 Thread H finished incrementing RID=822
-
-Thread F finished incrementing RID=264
-
-Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=202
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=440
-
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=822
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=37
 
 Thread D finished incrementing RID=202
 
-Thread E finished incrementing RID=97
+Thread G finished incrementing RID=39
 
-Thread F finished incrementing RID=265
-
-Thread C finished incrementing RID=440
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=37
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread E finished incrementing RID=97
-
-Thread H finished incrementing RID=823
-
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread F finished incrementing RID=265
 
 Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=203
+Thread H finished incrementing RID=822
 
+Thread E finished incrementing RID=98
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-commit from transaction class
-Thread C finished incrementing RID=506
-
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=823
+Thread C finished incrementing RID=440
 
 Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=38
-
-Thread C finished incrementing RID=506
-
 Thread D finished incrementing RID=203
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=40
 
 Thread E finished incrementing RID=98
 
 commit from transaction class
 Thread F finished incrementing RID=811
 
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=38
+Thread C finished incrementing RID=440
 
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=824
+Thread H finished incrementing RID=823
 
-Thread C finished incrementing RID=506
+Thread D finished incrementing RID=203
 
-Thread E finished incrementing RID=98
+Thread G finished incrementing RID=40
 
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread F finished incrementing RID=811
 
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=823
+
+Thread E finished incrementing RID=99
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+commit from transaction class
 Thread C finished incrementing RID=506
 
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=557
+
 Thread D finished incrementing RID=204
 
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+commit from transaction class
+Thread G finished incrementing RID=656
+
+Thread E finished incrementing RID=99
+
+Thread F finished incrementing RID=812
+
+Thread G finished incrementing RID=656
+
 Thread H finished incrementing RID=824
 
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=39
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread D finished incrementing RID=204
 
-Returning False from get_exclusive_lock() bc at least one reader or one writer
-abort from transaction class
-Thread C MUST ABORT
-Returning False from rollback_txn()
-Thread C finished incrementing RID=991
-
-Thread E finished incrementing RID=99
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F finished incrementing RID=812
-
-Thread C finished incrementing RID=991
-
-Thread G finished incrementing RID=39
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=825
-
-Thread E finished incrementing RID=99
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=506
 
 Thread F finished incrementing RID=812
 
+Thread C finished incrementing RID=557
+
+Thread H finished incrementing RID=824
+
+Thread G finished incrementing RID=656
+
+Thread E finished incrementing RID=100
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=656
+
 Thread D finished incrementing RID=205
 
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=100
+
+Returning False from get_exclusive_lock() bc at least one reader or one writer
+abort from transaction class
+Thread C MUST ABORT
+Returning False from rollback_txn()
+Thread C finished incrementing RID=991
+
+Thread F finished incrementing RID=813
+
 Thread C finished incrementing RID=991
 
 Thread H finished incrementing RID=825
 
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=991
-
-Thread G finished incrementing RID=40
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=205
-
-Thread E finished incrementing RID=100
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F finished incrementing RID=813
-
-Thread G finished incrementing RID=40
-
-Returning False from get_exclusive_lock() bc at least one reader or one writer
-abort from transaction class
-Thread C MUST ABORT
-Returning False from rollback_txn()
-Thread C finished incrementing RID=601
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-commit from transaction class
-Thread H finished incrementing RID=946
-
-Thread E finished incrementing RID=100
-
-Thread C finished incrementing RID=601
-
-Thread F finished incrementing RID=813
-
-commit from transaction class
-Thread D finished incrementing RID=831
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=946
-
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-commit from transaction class
-Thread G finished incrementing RID=656
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=601
-
-Thread D finished incrementing RID=831
-
-commit from transaction class
-Thread E finished incrementing RID=121
-
-Thread G finished incrementing RID=657
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread C finished incrementing RID=601
-
-Thread F finished incrementing RID=814
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=947
-
-Thread E finished incrementing RID=121
-
-Thread G finished incrementing RID=656
-
-Thread F finished incrementing RID=814
-
-Returning False from get_exclusive_lock() bc at least one reader or one writer
-abort from transaction class
-Thread C MUST ABORT
-Returning False from rollback_txn()
-Thread C finished incrementing RID=616
-
-Thread D finished incrementing RID=832
-
-Thread G finished incrementing RID=657
-
-Thread H finished incrementing RID=947
-
-Thread C finished incrementing RID=616
-
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=832
-
-Thread E finished incrementing RID=122
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
 Returning False from get_exclusive_lock() bc at least one reader or one writer
 abort from transaction class
 Thread G MUST ABORT
 Returning False from rollback_txn()
 Thread G finished incrementing RID=531
 
-Thread F finished incrementing RID=815
+Thread D finished incrementing RID=205
 
-Thread C finished incrementing RID=616
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=813
 
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=948
-
-Thread C finished incrementing RID=616
-
-Thread E finished incrementing RID=122
+Thread H finished incrementing RID=825
 
 Thread G finished incrementing RID=531
 
+commit from transaction class
+Thread E finished incrementing RID=121
+
+Thread C finished incrementing RID=991
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=991
+
+commit from transaction class
+Thread D finished incrementing RID=831
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=121
+
+Thread F finished incrementing RID=814
+
+commit from transaction class
+Thread H finished incrementing RID=946
+
+Thread G finished incrementing RID=532
+
+Returning False from get_exclusive_lock() bc at least one reader or one writer
+abort from transaction class
+Thread C MUST ABORT
+Returning False from rollback_txn()
+Thread C finished incrementing RID=601
+
+Thread D finished incrementing RID=831
+
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=814
+
+Thread C finished incrementing RID=874
+
+Thread H finished incrementing RID=946
+
+Thread G finished incrementing RID=532
+
+Thread E finished incrementing RID=122
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=601
+
+Thread D finished incrementing RID=832
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=122
+
 Thread F finished incrementing RID=815
 
+Thread C finished incrementing RID=874
+
+Thread H finished incrementing RID=947
+
+Thread G finished incrementing RID=533
+
+Thread D finished incrementing RID=832
+
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=815
+
+Returning False from get_exclusive_lock() bc at least one reader or one writer
+abort from transaction class
+Thread C MUST ABORT
+Returning False from rollback_txn()
+Thread C finished incrementing RID=616
+
+Thread H finished incrementing RID=947
+
+Thread G finished incrementing RID=533
+
+Thread E finished incrementing RID=123
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=616
+
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread D finished incrementing RID=833
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=123
+
+commit from transaction class
+Thread F finished incrementing RID=226
+
+Thread C finished incrementing RID=616
+
+Thread F finished incrementing RID=365
 
 Thread H finished incrementing RID=948
 
+Thread G finished incrementing RID=534
+
+Thread D finished incrementing RID=833
+
 Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread C finished incrementing RID=616
+
+Thread H finished incrementing RID=948
+
+Thread G finished incrementing RID=534
+
+Thread E finished incrementing RID=124
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=226
+
 Returning False from get_exclusive_lock() bc at least one reader or one writer
 abort from transaction class
 Thread C MUST ABORT
 Returning False from rollback_txn()
 STATS:  [True, True, True, True, True, True, False, True, True, False, False, False, False]
 Thread 2 finished
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=833
-
-Thread E finished incrementing RID=123
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=532
-
-commit from transaction class
-Thread F finished incrementing RID=226
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F finished incrementing RID=364
-
-Thread H finished incrementing RID=949
-
-Thread E finished incrementing RID=123
-
-Thread G finished incrementing RID=532
+Thread F finished incrementing RID=365
 
 Thread D finished incrementing RID=834
 
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=124
+
 Thread H finished incrementing RID=949
 
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F finished incrementing RID=226
+Thread G finished incrementing RID=535
 
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
 Thread D finished incrementing RID=834
-
-Thread F finished incrementing RID=364
-
-Thread E finished incrementing RID=124
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=533
-
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread H finished incrementing RID=950
-
-Thread E finished incrementing RID=124
 
 Returning False from get_exclusive_lock() bc at least one reader or one writer
 abort from transaction class
@@ -2225,57 +2229,69 @@ Thread F MUST ABORT
 Returning False from rollback_txn()
 Thread F finished incrementing RID=916
 
-Thread G finished incrementing RID=533
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=949
+
+Thread G finished incrementing RID=535
+
+Thread E finished incrementing RID=125
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=916
 
 Thread D finished incrementing RID=835
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread E finished incrementing RID=125
+
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread H finished incrementing RID=950
+
+commit from transaction class
+Thread G finished incrementing RID=531
+
+Thread D finished incrementing RID=835
+
+Thread F finished incrementing RID=917
+
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=531
 
 Thread H finished incrementing RID=950
 
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread F finished incrementing RID=916
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=835
-
-Thread E finished incrementing RID=125
-
-Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=534
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
-commit from transaction class
-STATS:  [True, True, False, True, False, True, True, False, True, True, True, True]
-Thread E finished incrementing RID=125
-
-Thread F finished incrementing RID=917
-
-Thread G finished incrementing RID=534
-
-commit from transaction class
-Thread D finished incrementing RID=351
-
-Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=351
-
-Thread F finished incrementing RID=917
-
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
 commit from transaction class
 STATS:  [True, True, True, False, True, True, False, True, True, False, True, True]
-Thread G finished incrementing RID=535
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F finished incrementing RID=917
+
+Thread G finished incrementing RID=531
+
+commit from transaction class
+Thread D finished incrementing RID=351
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread G finished incrementing RID=531
+
+Thread D finished incrementing RID=351
+
+commit from transaction class
+STATS:  [True, True, False, True, False, True, True, False, True, True, True, True]
+Thread F finished incrementing RID=918
+
+Returning False from get_exclusive_lock() bc at least one reader or one writer
+abort from transaction class
+Thread G MUST ABORT
+Returning False from rollback_txn()
+STATS:  [True, False, True, True, True, True, True, True, True, False, True, False]
+Thread D finished incrementing RID=351
+
+Thread F finished incrementing RID=918
+
+Thread D finished incrementing RID=351
 
 Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread D finished incrementing RID=351
-
-Thread D finished incrementing RID=351
-
-Thread F finished incrementing RID=918
-
-Thread G finished incrementing RID=535
-
-Thread F finished incrementing RID=918
-
 Returning False from get_exclusive_lock() bc at least one reader or one writer
 abort from transaction class
 Thread D MUST ABORT
@@ -2283,27 +2299,11 @@ Returning False from rollback_txn()
 STATS:  [True, True, True, True, True, False, True, False, False, True, True, True, False]
 Thread 3 finished
 Thread 4 finished
-Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
-commit from transaction class
-Thread G finished incrementing RID=531
-
-Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Thread G finished incrementing RID=815
+Thread F finished incrementing RID=919
 
 Thread F finished incrementing RID=919
 
-Thread G finished incrementing RID=531
-
-Thread F finished incrementing RID=919
-
-Thread G finished incrementing RID=815
-
 Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
-Returning False from get_exclusive_lock() bc at least one reader or one writer
-abort from transaction class
-Thread G MUST ABORT
-Returning False from rollback_txn()
-STATS:  [True, True, True, True, True, True, True, True, True, False, True, False]
 Thread F finished incrementing RID=920
 
 Thread F finished incrementing RID=920
@@ -4315,6 +4315,8 @@ Thread I finished incrementing RID=999
 
 Thread I finished incrementing RID=1000
 
+Thread I finished incrementing RID=11
+
 Thread I finished incrementing RID=12
 
 Thread I finished incrementing RID=13
@@ -4323,17 +4325,15 @@ Thread I finished incrementing RID=14
 
 Thread I finished incrementing RID=15
 
-Thread I finished incrementing RID=266
+Thread I finished incrementing RID=262
 
-Thread I finished incrementing RID=36
+Thread I finished incrementing RID=263
 
-Thread I finished incrementing RID=37
+Thread I finished incrementing RID=264
 
-Thread I finished incrementing RID=38
+Thread I finished incrementing RID=265
 
-Thread I finished incrementing RID=39
-
-Thread I finished incrementing RID=40
+Thread I finished incrementing RID=811
 
 Thread I finished incrementing RID=51
 
@@ -4345,6 +4345,8 @@ Thread I finished incrementing RID=54
 
 Thread I finished incrementing RID=55
 
+Thread I finished incrementing RID=61
+
 Thread I finished incrementing RID=62
 
 Thread I finished incrementing RID=63
@@ -4353,13 +4355,11 @@ Thread I finished incrementing RID=64
 
 Thread I finished incrementing RID=65
 
-Thread I finished incrementing RID=366
-
-Thread I finished incrementing RID=76
+Thread I finished incrementing RID=71
 
 Thread I finished incrementing RID=72
 
-Thread I finished incrementing RID=993
+Thread I finished incrementing RID=73
 
 Thread I finished incrementing RID=74
 
@@ -4371,19 +4371,21 @@ Thread I finished incrementing RID=77
 
 Thread I finished incrementing RID=78
 
-Thread I finished incrementing RID=994
+Thread I finished incrementing RID=79
 
-Thread I finished incrementing RID=995
+Thread I finished incrementing RID=80
 
-Thread I finished incrementing RID=264
+Thread I finished incrementing RID=96
 
-Thread I finished incrementing RID=265
+Thread I finished incrementing RID=97
 
 Thread I finished incrementing RID=98
 
 Thread I finished incrementing RID=99
 
 Thread I finished incrementing RID=100
+
+Thread I finished incrementing RID=101
 
 Thread I finished incrementing RID=102
 
@@ -4392,8 +4394,6 @@ Thread I finished incrementing RID=103
 Thread I finished incrementing RID=104
 
 Thread I finished incrementing RID=105
-
-Thread I finished incrementing RID=715
 
 Thread I finished incrementing RID=116
 
@@ -4431,11 +4431,11 @@ Thread I finished incrementing RID=142
 
 Thread I finished incrementing RID=143
 
-Thread I finished incrementing RID=144
+Thread I finished incrementing RID=154
 
-Thread I finished incrementing RID=145
+Thread I finished incrementing RID=155
 
-Thread I finished incrementing RID=119
+Thread I finished incrementing RID=151
 
 Thread I finished incrementing RID=152
 
@@ -4455,15 +4455,17 @@ Thread I finished incrementing RID=179
 
 Thread I finished incrementing RID=180
 
-Thread I finished incrementing RID=186
+Thread I finished incrementing RID=654
 
-Thread I finished incrementing RID=187
+Thread I finished incrementing RID=655
 
 Thread I finished incrementing RID=188
 
 Thread I finished incrementing RID=189
 
 Thread I finished incrementing RID=190
+
+Thread I finished incrementing RID=196
 
 Thread I finished incrementing RID=197
 
@@ -4473,19 +4475,15 @@ Thread I finished incrementing RID=199
 
 Thread I finished incrementing RID=200
 
-Thread I finished incrementing RID=61
+Thread I finished incrementing RID=38
 
-Thread I finished incrementing RID=201
+Thread I finished incrementing RID=39
 
-Thread I finished incrementing RID=202
-
-Thread I finished incrementing RID=203
+Thread I finished incrementing RID=40
 
 Thread I finished incrementing RID=204
 
 Thread I finished incrementing RID=205
-
-Thread I finished incrementing RID=364
 
 Thread I finished incrementing RID=365
 
@@ -4495,15 +4493,17 @@ Thread I finished incrementing RID=52
 
 Thread I finished incrementing RID=53
 
-Thread I finished incrementing RID=924
+Thread I finished incrementing RID=230
 
-Thread I finished incrementing RID=925
+Thread I finished incrementing RID=674
 
-Thread I finished incrementing RID=248
+Thread I finished incrementing RID=675
 
-Thread I finished incrementing RID=249
+Thread I finished incrementing RID=351
 
-Thread I finished incrementing RID=250
+Thread I finished incrementing RID=352
+
+Thread I finished incrementing RID=353
 
 Thread I finished incrementing RID=261
 
@@ -4515,6 +4515,8 @@ Thread I finished incrementing RID=264
 
 Thread I finished incrementing RID=265
 
+Thread I finished incrementing RID=266
+
 Thread I finished incrementing RID=267
 
 Thread I finished incrementing RID=268
@@ -4523,9 +4525,9 @@ Thread I finished incrementing RID=269
 
 Thread I finished incrementing RID=270
 
-Thread I finished incrementing RID=656
-
 Thread I finished incrementing RID=281
+
+Thread I finished incrementing RID=282
 
 Thread I finished incrementing RID=746
 
@@ -4533,17 +4535,15 @@ Thread I finished incrementing RID=747
 
 Thread I finished incrementing RID=748
 
-Thread I finished incrementing RID=749
-
 Thread I finished incrementing RID=286
 
-Thread I finished incrementing RID=732
+Thread I finished incrementing RID=482
 
-Thread I finished incrementing RID=288
+Thread I finished incrementing RID=483
 
-Thread I finished incrementing RID=289
+Thread I finished incrementing RID=484
 
-Thread I finished incrementing RID=290
+Thread I finished incrementing RID=485
 
 Thread I finished incrementing RID=296
 
@@ -4555,6 +4555,8 @@ Thread I finished incrementing RID=299
 
 Thread I finished incrementing RID=300
 
+Thread I finished incrementing RID=331
+
 Thread I finished incrementing RID=332
 
 Thread I finished incrementing RID=333
@@ -4562,8 +4564,6 @@ Thread I finished incrementing RID=333
 Thread I finished incrementing RID=334
 
 Thread I finished incrementing RID=335
-
-Thread I finished incrementing RID=101
 
 Thread I finished incrementing RID=346
 
@@ -4605,6 +4605,8 @@ Thread I finished incrementing RID=364
 
 Thread I finished incrementing RID=365
 
+Thread I finished incrementing RID=366
+
 Thread I finished incrementing RID=367
 
 Thread I finished incrementing RID=368
@@ -4613,31 +4615,29 @@ Thread I finished incrementing RID=369
 
 Thread I finished incrementing RID=370
 
-Thread I finished incrementing RID=11
-
 Thread I finished incrementing RID=381
 
 Thread I finished incrementing RID=382
 
 Thread I finished incrementing RID=383
 
-Thread I finished incrementing RID=384
+Thread I finished incrementing RID=262
 
-Thread I finished incrementing RID=385
+Thread I finished incrementing RID=37
 
 Thread I finished incrementing RID=396
 
 Thread I finished incrementing RID=397
 
-Thread I finished incrementing RID=361
+Thread I finished incrementing RID=398
 
-Thread I finished incrementing RID=362
+Thread I finished incrementing RID=399
 
-Thread I finished incrementing RID=363
+Thread I finished incrementing RID=400
 
-Thread I finished incrementing RID=249
+Thread I finished incrementing RID=384
 
-Thread I finished incrementing RID=250
+Thread I finished incrementing RID=437
 
 Thread I finished incrementing RID=438
 
@@ -4645,15 +4645,15 @@ Thread I finished incrementing RID=439
 
 Thread I finished incrementing RID=440
 
-Thread I finished incrementing RID=76
+Thread I finished incrementing RID=286
 
 Thread I finished incrementing RID=482
 
 Thread I finished incrementing RID=483
 
-Thread I finished incrementing RID=79
+Thread I finished incrementing RID=484
 
-Thread I finished incrementing RID=80
+Thread I finished incrementing RID=485
 
 Thread I finished incrementing RID=486
 
@@ -4665,25 +4665,25 @@ Thread I finished incrementing RID=489
 
 Thread I finished incrementing RID=490
 
-Thread I finished incrementing RID=816
+Thread I finished incrementing RID=501
 
-Thread I finished incrementing RID=817
+Thread I finished incrementing RID=502
 
-Thread I finished incrementing RID=818
+Thread I finished incrementing RID=503
 
-Thread I finished incrementing RID=819
+Thread I finished incrementing RID=504
 
-Thread I finished incrementing RID=820
+Thread I finished incrementing RID=505
 
-Thread I finished incrementing RID=506
+Thread I finished incrementing RID=557
 
-Thread I finished incrementing RID=507
+Thread I finished incrementing RID=558
 
-Thread I finished incrementing RID=508
+Thread I finished incrementing RID=559
 
-Thread I finished incrementing RID=509
+Thread I finished incrementing RID=560
 
-Thread I finished incrementing RID=510
+Thread I finished incrementing RID=529
 
 Thread I finished incrementing RID=516
 
@@ -4703,19 +4703,19 @@ Thread I finished incrementing RID=523
 
 Thread I finished incrementing RID=524
 
-Thread I finished incrementing RID=525
+Thread I finished incrementing RID=732
 
-Thread I finished incrementing RID=619
+Thread I finished incrementing RID=526
 
-Thread I finished incrementing RID=620
+Thread I finished incrementing RID=527
 
-Thread I finished incrementing RID=921
+Thread I finished incrementing RID=528
 
-Thread I finished incrementing RID=922
+Thread I finished incrementing RID=529
 
-Thread I finished incrementing RID=923
+Thread I finished incrementing RID=530
 
-Thread I finished incrementing RID=815
+Thread I finished incrementing RID=531
 
 Thread I finished incrementing RID=532
 
@@ -4723,27 +4723,27 @@ Thread I finished incrementing RID=533
 
 Thread I finished incrementing RID=534
 
-Thread I finished incrementing RID=535
+Thread I finished incrementing RID=916
 
-Thread I finished incrementing RID=54
+Thread I finished incrementing RID=556
 
-Thread I finished incrementing RID=55
+Thread I finished incrementing RID=557
 
-Thread I finished incrementing RID=558
+Thread I finished incrementing RID=526
 
-Thread I finished incrementing RID=559
+Thread I finished incrementing RID=527
 
-Thread I finished incrementing RID=560
+Thread I finished incrementing RID=528
 
 Thread I finished incrementing RID=566
 
-Thread I finished incrementing RID=567
+Thread I finished incrementing RID=762
 
-Thread I finished incrementing RID=568
+Thread I finished incrementing RID=763
 
-Thread I finished incrementing RID=569
+Thread I finished incrementing RID=764
 
-Thread I finished incrementing RID=570
+Thread I finished incrementing RID=765
 
 Thread I finished incrementing RID=576
 
@@ -4775,25 +4775,27 @@ Thread I finished incrementing RID=599
 
 Thread I finished incrementing RID=600
 
-Thread I finished incrementing RID=601
+Thread I finished incrementing RID=874
 
-Thread I finished incrementing RID=602
+Thread I finished incrementing RID=875
 
-Thread I finished incrementing RID=603
+Thread I finished incrementing RID=651
 
-Thread I finished incrementing RID=604
+Thread I finished incrementing RID=652
 
-Thread I finished incrementing RID=605
+Thread I finished incrementing RID=653
 
 Thread I finished incrementing RID=616
 
 Thread I finished incrementing RID=617
 
-Thread I finished incrementing RID=829
+Thread I finished incrementing RID=618
 
-Thread I finished incrementing RID=830
+Thread I finished incrementing RID=619
 
-Thread I finished incrementing RID=576
+Thread I finished incrementing RID=620
+
+Thread I finished incrementing RID=621
 
 Thread I finished incrementing RID=622
 
@@ -4803,11 +4805,9 @@ Thread I finished incrementing RID=624
 
 Thread I finished incrementing RID=625
 
-Thread I finished incrementing RID=691
+Thread I finished incrementing RID=119
 
-Thread I finished incrementing RID=816
-
-Thread I finished incrementing RID=627
+Thread I finished incrementing RID=120
 
 Thread I finished incrementing RID=628
 
@@ -4825,6 +4825,8 @@ Thread I finished incrementing RID=654
 
 Thread I finished incrementing RID=655
 
+Thread I finished incrementing RID=656
+
 Thread I finished incrementing RID=657
 
 Thread I finished incrementing RID=658
@@ -4833,17 +4835,17 @@ Thread I finished incrementing RID=659
 
 Thread I finished incrementing RID=660
 
-Thread I finished incrementing RID=331
-
-Thread I finished incrementing RID=560
+Thread I finished incrementing RID=671
 
 Thread I finished incrementing RID=672
 
-Thread I finished incrementing RID=673
+Thread I finished incrementing RID=530
 
 Thread I finished incrementing RID=674
 
 Thread I finished incrementing RID=675
+
+Thread I finished incrementing RID=691
 
 Thread I finished incrementing RID=692
 
@@ -4852,8 +4854,6 @@ Thread I finished incrementing RID=693
 Thread I finished incrementing RID=694
 
 Thread I finished incrementing RID=695
-
-Thread I finished incrementing RID=196
 
 Thread I finished incrementing RID=711
 
@@ -4867,21 +4867,21 @@ Thread I finished incrementing RID=715
 
 Thread I finished incrementing RID=731
 
-Thread I finished incrementing RID=992
+Thread I finished incrementing RID=77
 
-Thread I finished incrementing RID=73
+Thread I finished incrementing RID=116
 
-Thread I finished incrementing RID=734
+Thread I finished incrementing RID=117
 
-Thread I finished incrementing RID=735
+Thread I finished incrementing RID=118
 
-Thread I finished incrementing RID=736
+Thread I finished incrementing RID=141
 
-Thread I finished incrementing RID=737
+Thread I finished incrementing RID=142
 
-Thread I finished incrementing RID=738
+Thread I finished incrementing RID=143
 
-Thread I finished incrementing RID=739
+Thread I finished incrementing RID=144
 
 Thread I finished incrementing RID=740
 
@@ -4893,29 +4893,29 @@ Thread I finished incrementing RID=748
 
 Thread I finished incrementing RID=749
 
-Thread I finished incrementing RID=487
+Thread I finished incrementing RID=750
 
-Thread I finished incrementing RID=922
+Thread I finished incrementing RID=566
 
-Thread I finished incrementing RID=923
+Thread I finished incrementing RID=762
 
-Thread I finished incrementing RID=924
+Thread I finished incrementing RID=381
 
-Thread I finished incrementing RID=925
+Thread I finished incrementing RID=382
 
-Thread I finished incrementing RID=248
+Thread I finished incrementing RID=383
 
 Thread I finished incrementing RID=781
 
-Thread I finished incrementing RID=482
+Thread I finished incrementing RID=72
 
-Thread I finished incrementing RID=483
+Thread I finished incrementing RID=993
 
-Thread I finished incrementing RID=79
+Thread I finished incrementing RID=994
 
-Thread I finished incrementing RID=80
+Thread I finished incrementing RID=995
 
-Thread I finished incrementing RID=992
+Thread I finished incrementing RID=791
 
 Thread I finished incrementing RID=792
 
@@ -4925,9 +4925,9 @@ Thread I finished incrementing RID=794
 
 Thread I finished incrementing RID=795
 
-Thread I finished incrementing RID=750
+Thread I finished incrementing RID=749
 
-Thread I finished incrementing RID=807
+Thread I finished incrementing RID=750
 
 Thread I finished incrementing RID=808
 
@@ -4945,15 +4945,15 @@ Thread I finished incrementing RID=814
 
 Thread I finished incrementing RID=815
 
-Thread I finished incrementing RID=816
+Thread I finished incrementing RID=296
 
-Thread I finished incrementing RID=817
+Thread I finished incrementing RID=297
 
-Thread I finished incrementing RID=818
+Thread I finished incrementing RID=298
 
-Thread I finished incrementing RID=819
+Thread I finished incrementing RID=299
 
-Thread I finished incrementing RID=820
+Thread I finished incrementing RID=300
 
 Thread I finished incrementing RID=821
 
@@ -4963,13 +4963,13 @@ Thread I finished incrementing RID=823
 
 Thread I finished incrementing RID=824
 
-Thread I finished incrementing RID=825
+Thread I finished incrementing RID=531
 
 Thread I finished incrementing RID=826
 
 Thread I finished incrementing RID=827
 
-Thread I finished incrementing RID=506
+Thread I finished incrementing RID=828
 
 Thread I finished incrementing RID=829
 
@@ -4991,29 +4991,29 @@ Thread I finished incrementing RID=872
 
 Thread I finished incrementing RID=873
 
-Thread I finished incrementing RID=874
+Thread I finished incrementing RID=399
 
-Thread I finished incrementing RID=875
+Thread I finished incrementing RID=400
 
-Thread I finished incrementing RID=876
+Thread I finished incrementing RID=628
 
-Thread I finished incrementing RID=877
+Thread I finished incrementing RID=629
 
-Thread I finished incrementing RID=878
+Thread I finished incrementing RID=630
 
-Thread I finished incrementing RID=879
+Thread I finished incrementing RID=281
 
-Thread I finished incrementing RID=880
+Thread I finished incrementing RID=282
 
-Thread I finished incrementing RID=501
+Thread I finished incrementing RID=906
 
-Thread I finished incrementing RID=817
+Thread I finished incrementing RID=907
 
-Thread I finished incrementing RID=818
+Thread I finished incrementing RID=908
 
-Thread I finished incrementing RID=819
+Thread I finished incrementing RID=909
 
-Thread I finished incrementing RID=820
+Thread I finished incrementing RID=910
 
 Thread I finished incrementing RID=916
 
@@ -5025,15 +5025,15 @@ Thread I finished incrementing RID=919
 
 Thread I finished incrementing RID=920
 
-Thread I finished incrementing RID=577
+Thread I finished incrementing RID=921
 
-Thread I finished incrementing RID=578
-
-Thread I finished incrementing RID=579
-
-Thread I finished incrementing RID=580
+Thread I finished incrementing RID=922
 
 Thread I finished incrementing RID=566
+
+Thread I finished incrementing RID=567
+
+Thread I finished incrementing RID=568
 
 Thread I finished incrementing RID=931
 
@@ -5045,25 +5045,25 @@ Thread I finished incrementing RID=934
 
 Thread I finished incrementing RID=935
 
-Thread I finished incrementing RID=946
+Thread I finished incrementing RID=532
 
-Thread I finished incrementing RID=947
+Thread I finished incrementing RID=533
 
-Thread I finished incrementing RID=948
-
-Thread I finished incrementing RID=949
+Thread I finished incrementing RID=534
 
 Thread I finished incrementing RID=916
+
+Thread I finished incrementing RID=917
 
 Thread I finished incrementing RID=966
 
 Thread I finished incrementing RID=967
 
-Thread I finished incrementing RID=116
+Thread I finished incrementing RID=968
 
-Thread I finished incrementing RID=117
+Thread I finished incrementing RID=969
 
-Thread I finished incrementing RID=118
+Thread I finished incrementing RID=970
 
 Thread I finished incrementing RID=971
 
