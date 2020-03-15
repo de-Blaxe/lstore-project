@@ -230,6 +230,58 @@ class Table:
             Thread A NEW writes to baseID=4 // can't happen must resume first write --> wants to insert TID=8888887
             
         """
+        
+        
+    """
+    # Rollback chanages made by to-be-aborted Txn
+    """
+    def rollback_txn(self, curr_threadID, latch):
+        # Note: Same procedure used for aborting Read/Write operations
+        try: # Check if current Thread updated >= 1 Base Record
+            baseIDs_to_tailIDs = self.lock_manager.threadID_to_tids[curr_threadID]
+            # updated BaseID <-- committed TID <-- first TID made <-- ...
+            for updated_baseID in list(baseIDs_to_tailIDs):
+                tids_made = baseIDs_to_tailIDs[updated_baseID]
+                first_tid_made = tids_made[0]
+                # Read Indirection of base record's first tail record
+                committed_TID = self.get_previous(first_tid_made)
+                # Locate updated baseID
+                [page_range_index, base_name_index, base_byte_pos] = self.page_directory[updated_baseID]
+                base_name = self.page_range_collection[page_range_index].base_set[base_name_index]
+                # Restore base record's committed indirection
+                base_indir_page = self.memory_manager.get_pages(base_name, table=self)[INDIRECTION_COLUMN]
+
+                try: # Check if Base Record has been updated before
+                    self.lock_manager.exclusive_locks[updated_baseID]
+                except KeyError: # Create new entry
+                    # Note: Latch for LockManager already acquired prior to calling rollback_txn()
+                    self.lock_manager.exclusive_locks[updated_baseID] = {'RLock': threading.RLock(), 'writerID': curr_threadID}
+
+                # Acquire Exclusive Locks
+                record_lock = self.lock_manager.exclusive_locks[updated_baseID]['RLock']
+                record_lock.acquire()
+                self.memory_manager.exclusive_locks[base_name].acquire()
+
+                # Perform Page write
+                base_indir_page.write(committed_TID, pos=base_byte_pos)
+
+                # Release locks, reset writerID
+                self.memory_manager.exclusive_locks[base_name].release()
+                self.lock_manager.exclusive_locks[updated_baseID]['writerID'] = 0
+                record_lock.release()
+
+                # Update bookkeeping & Rollback
+                self.memory_manager.unpinPages(base_name)
+                self.memory_manager.setDirty(base_name)
+                self.invalid_rids.update(tids_made)
+
+        # Otherwise, current Thread hasn't updated any Records
+        except KeyError: 
+            pass # Nothing to rollback
+
+        # Default actions
+        latch.release()
+        return False # Sign Transaction to abort()
 
 
     """
@@ -390,58 +442,6 @@ class Table:
             self.all_threads[curr_threadID] = chr(ord(self.thread_nickname) + self.thread_count)
             self.thread_count += 1 # To generate new nickname in advance
         return self.all_threads[curr_threadID] 
-
-
-    """
-    # Rollback chanages made by to-be-aborted Txn
-    """
-    def rollback_txn(self, curr_threadID, latch):
-        # Note: Same procedure used for aborting Read/Write operations
-        try: # Check if current Thread updated >= 1 Base Record
-            baseIDs_to_tailIDs = self.lock_manager.threadID_to_tids[curr_threadID]
-            # updated BaseID <-- committed TID <-- first TID made <-- ...
-            for updated_baseID in list(baseIDs_to_tailIDs):
-                tids_made = baseIDs_to_tailIDs[updated_baseID]
-                first_tid_made = tids_made[0]
-                # Read Indirection of base record's first tail record
-                committed_TID = self.get_previous(first_tid_made)
-                # Locate updated baseID
-                [page_range_index, base_name_index, base_byte_pos] = self.page_directory[updated_baseID]
-                base_name = self.page_range_collection[page_range_index].base_set[base_name_index]
-                # Restore base record's committed indirection
-                base_indir_page = self.memory_manager.get_pages(base_name, table=self)[INDIRECTION_COLUMN]
-
-                try: # Check if Base Record has been updated before
-                    self.lock_manager.exclusive_locks[updated_baseID]
-                except KeyError: # Create new entry
-                    # Note: Latch for LockManager already acquired prior to calling rollback_txn()
-                    self.lock_manager.exclusive_locks[updated_baseID] = {'RLock': threading.RLock(), 'writerID': curr_threadID}
-
-                # Acquire Exclusive Locks
-                record_lock = self.lock_manager.exclusive_locks[updated_baseID]['RLock']
-                record_lock.acquire()
-                self.memory_manager.exclusive_locks[base_name].acquire()
-
-                # Perform Page write
-                base_indir_page.write(committed_TID, pos=base_byte_pos)
-
-                # Release locks, reset writerID
-                self.memory_manager.exclusive_locks[base_name].release()
-                self.lock_manager.exclusive_locks[updated_baseID]['writerID'] = 0
-                record_lock.release()
-
-                # Update bookkeeping & Rollback
-                self.memory_manager.unpinPages(base_name)
-                self.memory_manager.setDirty(base_name)
-                self.invalid_rids.update(tids_made)
-
-        # Otherwise, current Thread hasn't updated any Records
-        except KeyError: 
-            pass # Nothing to rollback
-
-        # Default actions
-        latch.release()
-        return False # Sign Transaction to abort()
 
 
     """
