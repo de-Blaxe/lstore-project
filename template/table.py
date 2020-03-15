@@ -59,7 +59,7 @@ class Table:
         self.thread_count = 0    
         self.thread_nickname = 'A' 
 
-        # Avoid data races when updating self.TID_counter
+        # Avoid data races when updating TID_counter
         self.TID_counter_lock = threading.RLock()
 
         self.merge_flag = False # TODO: Set flag to True in merge()
