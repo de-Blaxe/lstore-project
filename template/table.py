@@ -59,6 +59,9 @@ class Table:
         self.thread_count = 0    
         self.thread_nickname = 'A' 
 
+        # Avoid data races when updating self.TID_counter
+        self.TID_counter_lock = threading.RLock()
+
         self.merge_flag = False # TODO: Set flag to True in merge()
         self.num_merged = 0 
         self.merge_queue = []
@@ -118,7 +121,7 @@ class Table:
         # Base case: Check if record's RID is unique
         if record.rid in self.page_directory:
             print("Error: Base Record RID is not unique.\n")
-            return
+            return False
 
         # Init Values
         page_range = None
@@ -159,7 +162,8 @@ class Table:
         self.page_directory[record.rid] = [page_range_index, page_range.last_base_name, byte_pos]
         # Insert primary key: RID for key_index column
         self.index.insert_primaryKey(record.key, record.rid)
-
+        # Main thread always commit Base Records
+        return True
 
     """
     # Creates & appends a List of Tail Page Set Names to current Page Range
@@ -301,7 +305,7 @@ class Table:
             # Base case: Check if record's RID is unique & Page Range exists
             if record.rid in cur_keys or not baseID in cur_keys:
                 print("Error: Tail Record RID is not unique.\n")
-                return
+                return False
     
             # Attempt to get an exclusive lock
             curr_threadID = threading.get_ident()
@@ -396,7 +400,7 @@ class Table:
             self.lock_manager.exclusive_locks[baseID]['writerID'] = 0
             record_lock.release()
             latch.release()
-            return True
+            return True # Successful write operation
 
 
     """

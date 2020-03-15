@@ -2,6 +2,7 @@ from template.table import Table, Record
 from template.index import Index
 from template.config import *
 
+import copy
 
 class Query:
     """
@@ -66,13 +67,15 @@ class Query:
         schema_encoding = list(map(lambda i: int(not(i is None)), columns))
         # Create a new Record instance
         assert key is not None
-        record = Record(rid=self.table.TID_counter, key=key, columns=columns) # FIXME
+        # Atomically update TID counter
+        self.table.TID_counter_lock.acquire()
+        unique_rid = copy.copy(self.table.TID_counter)
+        record = Record(rid=unique_rid, key=key, columns=columns)
+        self.table.TID_counter -= 1
+        self.table.TID_counter_lock.release()
         # Write tail record to tail page
-        update_result = self.table.insert_tailRecord(record, schema_encoding)
-        if update_result:
-            self.table.TID_counter -= 1 # FIXME: Data races can happen here?
-        else: # False
-            return False
+        return self.table.insert_tailRecord(record, schema_encoding)
+
 
 
     """
@@ -101,7 +104,7 @@ class Query:
         r = self.select(key, self.table.key_index, [1] * self.table.num_columns)[0]
         if r is not False:
             updated_columns = [None] * self.table.num_columns
-            updated_columns[column] = r.columns[column] + 1 # r[column] + 1 # where is __getitem__???
+            updated_columns[column] = r.columns[column] + 1 # r[column] + 1 
             # TODO: NEED TO RENAME TABLE.KEY_INDEX TO TABLE.KEY 
             u = self.update(key, *updated_columns)
             return u 
