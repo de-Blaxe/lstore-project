@@ -104,7 +104,7 @@ class Query:
         if r is not False:
             updated_columns = [None] * self.table.num_columns
             updated_columns[column] = r.columns[column] + 1 # r[column] + 1
-            # TODO: NEED TO RENAME TABLE.KEY_INDEX TO TABLE.KEY 
+            # TODO: NEED TO RENAME TABLE.KEY_INDEX TO TABLE.KEY !!!
             u = self.update(key, *updated_columns)
             return u 
         return False

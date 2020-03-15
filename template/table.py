@@ -359,7 +359,7 @@ class Table:
             byte_pos = cur_tail_pages[INIT_COLS].first_unused_byte - DATA_SIZE
 
             if byte_pos >= PAGE_SIZE:
-                print("ERROR: BYTE POS >= 4096")
+                print(" ERROR : BYTE POS >= 4096")
 
             self.page_directory[record.rid] = [page_range_index, page_range.last_tail_name, byte_pos]
                    

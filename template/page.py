@@ -23,6 +23,7 @@ class Page:
     def write(self, value, position=None):
         # Determine if indirection byte replacement needed
         if position == None:
+            # Page Latch to avoid potential data races
             self.page_latch.acquire()
             position = deepcopy(self.first_unused_byte)
             self.num_records += 1
