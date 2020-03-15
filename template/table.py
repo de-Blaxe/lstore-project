@@ -536,7 +536,7 @@ class Table:
             if result != INVALID_RECORD:
                 baseIDs = [result] # Make into a list with one baseID
         else: # Performing multi reads for summation 
-           baseIDs = self.index.locate_range(key, max_key, column)
+           baseIDs = self.index.locate_range(key, max_key, self.key_index)
 
         # Obtain latch for LockManager & current ThreadID
         latch = self.memory_manager.latches[self.name] 
