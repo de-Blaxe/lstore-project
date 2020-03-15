@@ -61,6 +61,7 @@ class Table:
 
         # Avoid data races when updating TID_counter
         self.TID_counter_lock = threading.RLock()
+        self.thread_counter_lock = threading.RLock() 
 
         self.merge_flag = False # TODO: Set flag to True in merge()
         self.num_merged = 0 
@@ -452,8 +453,10 @@ class Table:
         try:
             self.all_threads[curr_threadID]
         except KeyError:
-            self.all_threads[curr_threadID] = chr(ord(self.thread_nickname) + self.thread_count)
+            self.thread_counter_lock.acquire()
+            self.all_threads[curr_threadID] = chr(ord(self.thread_nickname) + deepcopy(self.thread_count))
             self.thread_count += 1 # To generate new nickname in advance
+            self.thread_counter_lock.release()
         return self.all_threads[curr_threadID] 
 
 
