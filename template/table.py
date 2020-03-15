@@ -334,17 +334,35 @@ class Table:
                 base_name = self.page_range_collection[page_range_index].base_set[base_name_index]
                 # Restore base record's committed indirection
                 base_indir_page = self.memory_manager.get_pages(base_name, table=self)[INDIRECTION_COLUMN]
-                self.lock_manager.exclusive_locks[updated_baseID].acquire()
+
+                try: # Check if Base Record has been updated before
+                    self.lock_manager.exclusive_locks[updated_baseID]
+                except KeyError: # Create new entry
+                    # Note: Latch for LockManager already acquired prior to calling rollback_txn()
+                    self.lock_manager.exclusive_locks[updated_baseID] = {'RLock': threading.RLock(), 'writerID': curr_threadID}
+
+                # Acquire Exclusive Locks
+                record_lock = self.lock_manager.exclusive_locks[updated_baseID]['RLock']
+                record_lock.acquire()
                 self.memory_manager.exclusive_locks[base_name].acquire()
+
+                # Perform Page write
                 base_indir_page.write(committed_TID, pos=base_byte_pos)
+
+                # Release locks, reset writerID
                 self.memory_manager.exclusive_locks[base_name].release()
-                self.lock_manager.exclusive_locks[updated_baseID].release()
-                # Update bookkeeping
+                self.lock_manager.exclusive_locks[updated_baseID]['writerID'] = 0
+                record_lock.release()
+
+                # Update bookkeeping & Rollback
                 self.memory_manager.unpinPages(base_name)
-                # Rollback: Invalidate all TIDs made for updated baseID
                 self.invalid_rids.update(tids_made)
-        except KeyError: # Current Thread hasn't udpated any Records
+
+        # Otherwise, current Thread hasn't updated any Records
+        except KeyError: 
             pass # Nothing to rollback
+
+        # Default actions
         latch.release()
         return False # Sign Transaction to abort()
 
@@ -367,10 +385,10 @@ class Table:
             mapped_baseID = self.convert_data(mapped_base_page, tail_byte_pos)
             baseID = mapped_baseID
 
-        # Assuming that exlusive_locks defined as dictionary {baseID: ['rLock': threading.RLock(), 'writerID': WriterID]}
+        # Assuming that exclusive_locks defined as dictionary {baseID: ['rLock': threading.RLock(), 'writerID': WriterID]}
         # Assuming that shared_locks defined as defaultdict(set) {baseID: set(of readers/threadIDs)}
         # No concurrent writers if 
-        #   a) exlusive_locks[baseID] = DNE or
+        #   a) exclusive_locks[baseID] = DNE or
         #   b) exists, already initialized but WriterID == 0 (indicator value)
 
         try: # Check if baseID has any outstanding writers
