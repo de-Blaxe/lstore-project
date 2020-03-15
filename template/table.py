@@ -54,10 +54,10 @@ class Table:
         self.memory_manager = mem_manager   # All Tables within Database share same Memory Manager
         self.lock_manager = lock_manager    # Manages concurrent Threads 
 
-        # Assuming <= 26 Transaction Worker Threads (including Main)
-        self.all_threads = dict()  # Map ThreadIDs to a nickname 
+        # Assuming <= 26 Transaction Worker Threads
+        self.all_threads = dict()  # Map ThreadIDs to a nickname
         self.thread_count = 0    
-        self.thread_nickname = 'A' 
+        self.thread_nickname = 'A' # Nicknames start from 'A' to 'H' for 8 Threads
 
         # Avoid data races when updating TID_counter
         self.TID_counter_lock = threading.RLock()
