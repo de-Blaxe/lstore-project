@@ -1,5 +1,4 @@
 # RECORD: rid, key value, and columns (user data, an array)
-
 # Inside Table.Insert_Tail_Record(self, record, schema_encoding):
 
 1. Given Record, get its key
