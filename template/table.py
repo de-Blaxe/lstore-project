@@ -142,21 +142,23 @@ class Table:
         cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self) 
 
         # Acquire current Page Set's Lock & create new Page Set if needed
-        self.memory_manager.exclusiveLocks[base_set[page_range.last_base_name]].acquire()
+        # self.memory_manager.exclusiveLocks[base_set[page_range.last_base_name]].acquire()
+        self.memory_manager.evictionLock.acquire()
         cur_base_pages_space = cur_base_pages[INIT_COLS].has_space()
         if not cur_base_pages_space:
             self.memory_manager.unpinPages(base_set[page_range.last_base_name])
-            self.memory_manager.exclusiveLocks[base_set[page_range.last_base_name]].release()
+            # self.memory_manager.exclusiveLocks[base_set[page_range.last_base_name]].release()
             page_range.last_base_name += 1
             cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self, read_only=False)
-            self.memory_manager.exclusiveLocks[base_set[page_range.last_base_name]].acquire()
+            # self.memory_manager.exclusiveLocks[base_set[page_range.last_base_name]].acquire()
 
         # Write to Base Pages within matching Range
         self.write_to_pages(cur_base_pages, record, schema_encoding, page_set_name=base_set[page_range.last_base_name])
         # Update Indexer & Release Page Set Lock
         self.memory_manager.setDirty(base_set[page_range.last_base_name])
         self.memory_manager.unpinPages(base_set[page_range.last_base_name])
-        self.memory_manager.exclusiveLocks[base_set[page_range.last_base_name]].release()
+        self.memory_manager.evictionLock.release()
+        # self.memory_manager.exclusiveLocks[base_set[page_range.last_base_name]].release()
         # Update Page Directory
         byte_pos = cur_base_pages[INIT_COLS].first_unused_byte - DATA_SIZE
         self.page_directory[record.rid] = [page_range_index, page_range.last_base_name, byte_pos]
@@ -317,19 +319,22 @@ class Table:
             page_range = self.page_range_collection[page_range_index]
             tail_set = page_range.tail_set
             if len(tail_set) == 0: # Init State
+                self.memory_manager.evictionLock.acquire()
                 self.extend_tailSet(tail_set, first_rid=record.rid)
+                tail_page_name = tail_set[page_range.last_tail_name]
             else:
-                tail_page_space = self.memory_manager.get_pages(tail_set[page_range.last_tail_name], table=self)[
+                tail_page_name = tail_set[page_range.last_tail_name]
+                tail_page_space = self.memory_manager.get_pages(tail_page_name, table=self, lock=True)[
                     INIT_COLS].has_space()
-                self.memory_manager.unpinPages(tail_set[page_range.last_tail_name])
                 if not tail_page_space:
                     # Current Tail Set does not have space
+                    #self.memory_manager.exclusiveLocks[tail_page_name].release()
                     self.merge_queue.append(tail_set[page_range.last_tail_name])
                     self.extend_tailSet(tail_set, first_rid=record.rid)
                     page_range.last_tail_name += 1
+                self.memory_manager.unpinPages(tail_page_name)
             tail_set_name = deepcopy(tail_set[page_range.last_tail_name])
             cur_tail_pages = self.memory_manager.get_pages(tail_set_name, table=self, read_only=False)
-            self.memory_manager.exclusiveLocks[tail_set_name].acquire()
             # Write to userdata columns
             self.write_to_pages(cur_tail_pages, record, schema_encoding, page_set_name=tail_set[page_range.last_tail_name], isUpdate=True)
             cur_base_pages = self.memory_manager.get_pages(page_range.base_set[base_name_index], table=self, read_only=False)
@@ -386,7 +391,7 @@ class Table:
             self.memory_manager.setDirty(tail_set_name)
             self.memory_manager.unpinPages(base_set_name)
             self.memory_manager.unpinPages(tail_set_name)
-            self.memory_manager.exclusiveLocks[tail_set_name].release()
+            self.memory_manager.evictionLock.release()
 
             # Reset writerID entry for baseID
             '''latch.acquire()
@@ -552,7 +557,6 @@ class Table:
         latest_rids = self.get_latest(baseIDs)
         output = [] # A list of Record objects to return
         # Track all RIDs accessed during read_records
-        rids_accessed = latest_rids
 
         for rid in latest_rids:
             # Validation Stage: Check if rid is invalid
@@ -639,8 +643,7 @@ class Table:
                 prev_rid = self.get_previous(rid)
                 if prev_rid < self.TID_counter:
                     break # Base record encountered
-                else:   
-                    rids_accessed += [prev_rid]
+                else:
                     rid = prev_rid # Follow lineage
 
             ### End of while loop ###
@@ -677,9 +680,13 @@ class Table:
         for record in records:
             if i % 5 == 0:
                 print('======')
+                print('total: ', total)
+                print('i: ', i)
+                print('======')
             print(record.columns[col_index])
             i += 1
             total += record.columns[col_index]
+        print('last i was: ', i)
 
         return total
 
@@ -696,11 +703,13 @@ class Table:
         page_range = self.page_range_collection[page_range_index]
         base_set_name = page_range.base_set[name_index]
         base_rid_page = self.memory_manager.get_pages(base_set_name, table=self, read_only=False)[RID_COLUMN]
-        self.memory_manager.exclusiveLocks[base_set_name].acquire()
+        # self.memory_manager.exclusiveLocks[base_set_name].acquire()
+        self.memory_manager.evictionLock.acquire()
         base_rid_page.write(INVALID_RECORD, byte_pos)
         self.memory_manager.isDirty[base_set_name] = True
         self.memory_manager.pinScore[base_set_name] -= 1
-        self.memory_manager.exclusiveLocks[base_set_name].release()
+        self.memory_manager.evictionLock.release()
+        # self.memory_manager.exclusiveLocks[base_set_name].release()
 
         # Invalidate all tail records, if any
         next_rid = self.get_latest([baseID])[0] # get_latest() returns a list
@@ -775,10 +784,12 @@ class Table:
                     batchConsPage[TPS_COLUMN].write(tail_rid, base_byte_pos)
                     # Write consolidated base page
                     self.memory_manager.get_pages(base_name, self)
-                    self.memory_manager.exclusiveLocks[base_name].acquire()
+                    # self.memory_manager.exclusiveLocks[base_name].acquire()
+                    self.memory_manager.evictionLock.acquire()
                     self.memory_manager.bufferPool[base_name][TPS_COLUMN] = batchConsPage[TPS_COLUMN]
                     self.memory_manager.bufferPool[base_name][INIT_COLS:] = batchConsPage[INIT_COLS:]
-                    self.memory_manager.exclusiveLocks[base_name].release()
+                    self.memory_manager.evictionLock.release()
+                    # self.memory_manager.exclusiveLocks[base_name].release()
                     self.memory_manager.unpinPages(base_name)
                     self.num_merged += 1
                 self.memory_manager.unpinPages(batchTailPageName)

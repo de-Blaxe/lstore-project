@@ -34,4 +34,5 @@ class TransactionWorker:
             self.stats.append(transaction.run())
         # Stores the number of transactions that committed
         print("STATS: ", self.stats)
+        table = self.transactions[-1].queries[-1][0].__self__.table
         self.result = len(list(filter(lambda x: x, self.stats)))

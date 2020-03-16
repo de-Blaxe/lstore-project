@@ -30,7 +30,7 @@ for i in range(num_threads):
 
 # generates 10k random transactions
 # each transaction will increment the first column of a record 5 times
-for i in range(100):
+for i in range(1000):
     k = randint(0, 2000 - 1)
     transaction = Transaction()
     for j in range(5):
@@ -43,7 +43,7 @@ for i in range(100):
 
 threads = []
 for transaction_worker in transaction_workers:
-    threads.append(threading.Thread(target=transaction_worker.run, args=()))
+    threads.append(threading.Thread(target = transaction_worker.run, args = ()))
 
 for i, thread in enumerate(threads):
     print('Thread', i, 'started')

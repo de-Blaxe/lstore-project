@@ -64,6 +64,7 @@ class Transaction:
     def commit(self):
         # TODO: LATER commit to database
         # Release Locks
+        table = self.queries[0][0].__self__.table
         self.release_locks()
         return True
 
