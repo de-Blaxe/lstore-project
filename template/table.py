@@ -149,7 +149,11 @@ class Table:
             self.memory_manager.unpinPages(base_set[page_range.last_base_name])
             # self.memory_manager.exclusiveLocks[base_set[page_range.last_base_name]].release()
             page_range.last_base_name += 1
-            cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self, read_only=False)
+            try:
+                cur_base_pages = self.memory_manager.get_pages(base_set[page_range.last_base_name], table=self, read_only=False)
+            except:
+                print('Delete existing data')
+                raise Exception
             # self.memory_manager.exclusiveLocks[base_set[page_range.last_base_name]].acquire()
 
         # Write to Base Pages within matching Range
