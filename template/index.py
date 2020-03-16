@@ -10,7 +10,7 @@ class Index:
 
     def __init__(self, table):
         # One index for each table. All are empty initially.
-        self.primary_index = table.key_index
+        self.primary_index = table.key
         self.num_columns = table.num_columns
         self.table = table
         self.indices = []

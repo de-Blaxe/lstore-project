@@ -37,7 +37,7 @@ class Query:
         schema_encoding = '0' * self.table.num_columns
         self.table.LID_counter += 1 
         baseID = self.table.LID_counter
-        record = Record(rid=baseID, key=columns[self.table.key_index], columns=columns) 
+        record = Record(rid=baseID, key=columns[self.table.key], columns=columns) 
         # Write new record to a base page
         self.table.insert_baseRecord(record, schema_encoding)
 
@@ -101,7 +101,7 @@ class Query:
     """
     def increment(self, key, column):
         # originally, r = self.select(key, self.table.key, [1] * self.table.num_columns)[0]
-        r = self.select(key, self.table.key_index, [1] * self.table.num_columns)[0]
+        r = self.select(key, self.table.key, [1] * self.table.num_columns)[0]
         if r is not False:
             updated_columns = [None] * self.table.num_columns
             updated_columns[column] = r.columns[column] + 1 # r[column] + 1 

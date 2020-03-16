@@ -1,0 +1,19 @@
+Thread 0 started
+Thread 1 started
+Thread 2 started
+Thread 3 started
+Thread 4 started
+Thread 5 started
+Thread 6 started
+Thread 7 started
+Thread 0 finished
+Thread 1 finished
+Thread 2 finished
+Thread 3 finished
+Thread 4 finished
+Thread 5 finished
+Thread 6 finished
+Thread 7 finished
+997 transaction committed.
+Expected sum: 4985 , actual: 4985
+Pass.
