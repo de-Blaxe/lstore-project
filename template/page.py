@@ -35,3 +35,4 @@ class Page:
         # Perform write
         self.data[position:DATA_SIZE + position] = value.to_bytes(DATA_SIZE, 'little') if type(value) == int else value 
         self.page_latch.release()
+

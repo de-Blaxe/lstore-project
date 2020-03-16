@@ -8,7 +8,6 @@ import threading
 import math
 import operator
 
-
 class Record:
 
     def __init__(self, rid, key, columns):
