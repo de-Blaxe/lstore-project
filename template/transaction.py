@@ -77,9 +77,10 @@ class Transaction:
         latch.acquire()
         for item in table.lock_manager.threadID_to_locks[curr_threadID]:
             if type(item) is int:
-                # item is a base_id therefore it is a shared lock
+                # Item is a base_id therefore it is a shared lock
                 table.lock_manager.shared_locks[item].discard(curr_threadID)
-            else:
+            else: 
+                # Item is an exclusive_locks dictionary
                 item['Lock'].release()
                 item['writerID'] = 0
         table.lock_manager.threadID_to_locks[curr_threadID] = list()

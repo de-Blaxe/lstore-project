@@ -1,0 +1,32 @@
+Thread 0 started
+Thread A finished incrementing RID=8591
+
+Thread A has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread 1 started
+Thread B finished incrementing RID=7451
+
+Thread B has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread 2 started
+Thread C finished incrementing RID=4981
+
+Thread C has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread 3 started
+Thread D finished incrementing RID=561
+
+Thread D has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread 4 started
+Thread E finished incrementing RID=9281
+
+Thread E has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread 5 started
+Thread F finished incrementing RID=6246
+
+Thread F has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread 6 started
+Thread G finished incrementing RID=7951
+
+Thread G has an exclusive lock. Num sharers can be 0 or 1: 1
+Thread 7 started
+Thread H finished incrementing RID=5856
+
+Thread H has an exclusive lock. Num sharers can be 0 or 1: 1
